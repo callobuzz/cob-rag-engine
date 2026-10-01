@@ -1,0 +1,454 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>cob-rag-engine Benchmarks</title>
+<meta name="description" content="Reproducible, LLM-free benchmarks of cob-rag-engine on six BEIR datasets, real documents, tenant isolation and operations, with a comparison to RAGFlow, Dify, AnythingLLM and R2R.">
+<link rel="icon" type="image/png" href="assets/logo-32.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,700;12..96,800&family=IBM+Plex+Mono:wght@400;500;600&family=IBM+Plex+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root {
+    color-scheme: dark;
+    --bg: #07111d;
+    --bg-2: #0a1726;
+    --panel: #0e1b2c;
+    --line: #1b2c42;
+    --line-strong: #2a4262;
+    --text: #e7eef8;
+    --text-2: #a2b4ca;
+    --text-3: #6c8099;
+    --accent: #2f8cff;
+    --accent-lift: #3fd8f5;
+    --base: #d9a441;
+    --base-2: #8d7a57;
+    --bad: #f07a86;
+    --good: #4fd6a0;
+    --display: 'Bricolage Grotesque', 'Segoe UI', system-ui, sans-serif;
+    --sans: 'IBM Plex Sans', 'Segoe UI', system-ui, sans-serif;
+    --mono: 'IBM Plex Mono', Consolas, 'Courier New', monospace;
+  }
+  * { box-sizing: border-box; }
+  html { scroll-behavior: smooth; }
+  @media (prefers-reduced-motion: reduce) { html { scroll-behavior: auto; } }
+  body {
+    margin: 0; background: var(--bg); color: var(--text); font: 16px/1.6 var(--sans);
+    -webkit-font-smoothing: antialiased;
+  }
+  a { color: var(--accent-lift); }
+  a:focus-visible, button:focus-visible { outline: 2px solid var(--accent-lift); outline-offset: 2px; }
+  .wrap { max-width: 1080px; margin: 0 auto; padding-inline: 20px; }
+  nav.top { position: sticky; top: env(safe-area-inset-top, 0px); z-index: 10; background: rgba(7,17,29,.86); backdrop-filter: blur(12px); border-bottom: 1px solid var(--line); }
+  nav.top .wrap { display: flex; align-items: center; gap: 22px; height: 58px; }
+  .brand { display: flex; align-items: center; gap: 10px; color: var(--text); text-decoration: none; font: 800 18px var(--display); letter-spacing: -.02em; }
+  .brand img { width: 28px; height: 28px; }
+  nav.top .links { display: flex; gap: 18px; margin-left: auto; font-size: 14px; }
+  nav.top .links a { color: var(--text-2); text-decoration: none; }
+  nav.top .links a:hover { color: var(--text); }
+  @media (max-width: 720px) { nav.top .links { display: none; } }
+
+  h1, h2, h3 { font-family: var(--display); letter-spacing: -.02em; text-wrap: balance; margin: 0; }
+  h1 { font-size: clamp(34px, 6vw, 58px); line-height: 1.02; font-weight: 800; }
+  h2 { font-size: clamp(26px, 3.4vw, 36px); line-height: 1.1; font-weight: 700; }
+  h3 { font-size: 19px; font-weight: 700; }
+  p { margin: 0; }
+  .eyebrow { font: 600 12px var(--mono); letter-spacing: .12em; text-transform: uppercase; color: var(--accent-lift); }
+  .lede { color: var(--text-2); font-size: 18px; max-width: 64ch; }
+  .muted { color: var(--text-3); }
+  .num, td, .mono { font-variant-numeric: tabular-nums; }
+  .hero-grid > *, .two > *, .readings > *, .facts > * { min-width: 0; }
+  code { overflow-wrap: anywhere; }
+  code { font: 14px var(--mono); background: var(--panel); border: 1px solid var(--line); border-radius: 5px; padding: 1px 5px; }
+
+  header.hero { padding-block: 56px 36px; border-bottom: 1px solid var(--line);
+    background: radial-gradient(900px 380px at 85% -10%, rgba(47,140,255,.16), transparent 70%); }
+  .hero-grid { display: grid; grid-template-columns: 1.15fr 1fr; gap: 40px; align-items: end; }
+  @media (max-width: 860px) { .hero-grid { grid-template-columns: 1fr; } }
+  .hero-copy { display: grid; gap: 18px; }
+  .meanchart { display: grid; gap: 12px; background: var(--bg-2); border: 1px solid var(--line); border-radius: 14px; padding: 20px; }
+  .meanchart .cap { font: 500 12px var(--mono); color: var(--text-3); letter-spacing: .06em; text-transform: uppercase; }
+  .bar-row { display: grid; grid-template-columns: 11.5em 1fr 3.4em; gap: 10px; align-items: center; font-size: 14px; }
+  .bar-row .lbl { color: var(--text-2); }
+  .bar-row.me .lbl { color: var(--text); font-weight: 600; }
+  .bar-track { height: 14px; background: var(--panel); border-radius: 3px; overflow: hidden; }
+  .bar-fill { height: 100%; border-radius: 3px; background: var(--base-2); }
+  .bar-row.me .bar-fill { background: linear-gradient(90deg, var(--accent), var(--accent-lift)); }
+  .bar-row.api .bar-fill { background: #56657a; }
+  .bar-row .val { font: 600 14px var(--mono); text-align: right; }
+  @media (max-width: 480px) { .bar-row { grid-template-columns: 8.5em 1fr 3.2em; font-size: 13px; } }
+
+  .facts { display: grid; grid-template-columns: repeat(4, 1fr); gap: 1px; background: var(--line); border: 1px solid var(--line); border-radius: 12px; overflow: hidden; margin-top: 30px; }
+  .fact { background: var(--bg-2); padding: 16px 18px; display: grid; gap: 4px; }
+  .fact b { font: 700 26px var(--display); letter-spacing: -.02em; }
+  .fact span { color: var(--text-2); font-size: 13.5px; line-height: 1.4; }
+  @media (max-width: 760px) { .facts { grid-template-columns: repeat(2, 1fr); } }
+
+  section { padding-block: 56px; border-bottom: 1px solid var(--line); }
+  .sec-head { display: grid; gap: 12px; margin-bottom: 26px; max-width: 72ch; }
+  .sec-head p { color: var(--text-2); }
+
+  .table-scroll { overflow-x: auto; border: 1px solid var(--line); border-radius: 12px; background: var(--bg-2); }
+  table { border-collapse: collapse; width: 100%; font-size: 14.5px; }
+  th, td { padding: 10px 14px; text-align: right; border-bottom: 1px solid var(--line); white-space: nowrap; }
+  th:first-child, td:first-child { text-align: left; white-space: normal; min-width: 12em; }
+  thead th { font: 600 11.5px var(--mono); letter-spacing: .08em; text-transform: uppercase; color: var(--text-3); background: var(--panel); }
+  tbody tr:last-child td { border-bottom: 0; }
+  td { font-family: var(--mono); font-size: 14px; }
+  td:first-child { font-family: var(--sans); font-size: 14.5px; }
+  tr.me td { color: var(--text); background: rgba(47,140,255,.09); }
+  tr.me td:first-child { font-weight: 600; }
+  tr.ref td { color: var(--text-2); }
+  td.best { color: var(--accent-lift); font-weight: 600; }
+  td.worse { color: var(--bad); }
+  .note { color: var(--text-3); font-size: 13.5px; margin-top: 12px; max-width: 90ch; }
+
+  .chart-wrap { background: var(--bg-2); border: 1px solid var(--line); border-radius: 12px; padding: 18px 14px 8px; margin-bottom: 22px; overflow-x: auto; }
+  .legend { display: flex; flex-wrap: wrap; gap: 16px; font-size: 13px; color: var(--text-2); padding: 0 6px 10px; }
+  .legend i { display: inline-block; width: 11px; height: 11px; border-radius: 2px; margin-right: 6px; vertical-align: -1px; }
+  svg text { font-family: var(--mono); }
+
+  .readings { display: grid; grid-template-columns: repeat(2, 1fr); gap: 16px; margin-top: 26px; }
+  @media (max-width: 760px) { .readings { grid-template-columns: 1fr; } }
+  .reading { border-top: 2px solid var(--line-strong); padding-top: 12px; display: grid; gap: 6px; }
+  .reading p { color: var(--text-2); font-size: 15px; }
+
+  .two { display: grid; grid-template-columns: 1fr 1fr; gap: 22px; }
+  @media (max-width: 860px) { .two { grid-template-columns: 1fr; } }
+  .pill { display: inline-block; font: 600 12px var(--mono); padding: 2px 8px; border-radius: 99px; }
+  .pill.ok { color: var(--good); background: rgba(79,214,160,.12); }
+  .pill.no { color: var(--bad); background: rgba(240,122,134,.12); }
+  ul.checks { list-style: none; margin: 0; padding: 0; display: grid; gap: 10px; }
+  ul.checks li { display: grid; grid-template-columns: auto 1fr; gap: 10px; align-items: baseline; color: var(--text-2); font-size: 15px; }
+  pre { margin: 0; background: #050c16; border: 1px solid var(--line); border-radius: 12px; padding: 16px 18px; overflow-x: auto; font: 13.5px/1.6 var(--mono); color: #cfe0f4; }
+  pre .c { color: var(--text-3); }
+  .copy-row { display: flex; justify-content: flex-end; margin-bottom: 8px; }
+  button.copy { font: 600 12px var(--mono); color: var(--text); background: var(--panel); border: 1px solid var(--line-strong); border-radius: 7px; padding: 6px 10px; cursor: pointer; }
+  button.copy:hover { border-color: var(--accent); }
+  footer { padding-block: 34px 50px; color: var(--text-3); font-size: 14px; }
+  footer .wrap { display: flex; flex-wrap: wrap; gap: 14px 26px; }
+</style>
+</head>
+<body>
+<nav class="top" aria-label="Report sections">
+  <div class="wrap">
+    <a class="brand" href="index.html"><img src="assets/logo-64.png" alt="" width="28" height="28">cob-rag-engine</a>
+    <div class="links">
+      <a href="#beir">BEIR</a><a href="#documents">Documents</a><a href="#ops">Security &amp; ops</a><a href="#changed">What changed</a><a href="#compare">Compare</a><a href="#reproduce">Reproduce</a><a href="guide.html">Guide</a>
+    </div>
+  </div>
+</nav>
+
+<header class="hero">
+  <div class="wrap">
+    <div class="hero-grid">
+      <div class="hero-copy">
+        <p class="eyebrow">Benchmark report · September 2026</p>
+        <h1>Same embedding model. Higher on every dataset.</h1>
+        <p class="lede">cob-rag-engine measured on six public BEIR datasets, 272,117 documents and 3,727 judged queries, through its public API with no LLM and no API key. Every number on this page can be re-run from the repository.</p>
+      </div>
+      <figure class="meanchart" aria-label="Mean nDCG@10 across six BEIR datasets">
+        <figcaption class="cap">Mean nDCG@10, six BEIR datasets</figcaption>
+        <div id="meanbars"></div>
+        <p class="note" style="margin:0">Grey bars are hosted embedding APIs used alone (published MTEB scores); amber are the baselines this engine builds on.</p>
+      </figure>
+    </div>
+    <div class="facts">
+      <div class="fact"><b class="num">6 / 6</b><span>datasets where hybrid retrieval beats bge-base-en-v1.5's published score</span></div>
+      <div class="fact"><b class="num">100%</b><span>of 55 questions over real PDFs, scans, DOCX, XLSX and slides answered in the top 5</span></div>
+      <div class="fact"><b class="num">412 / 412</b><span>cross-tenant and account attacks refused</span></div>
+      <div class="fact"><b class="num">2.1 GB</b><span>memory for the whole default stack on CPU, 270k chunks indexed</span></div>
+    </div>
+  </div>
+</header>
+
+<main>
+<section id="beir">
+  <div class="wrap">
+    <div class="sec-head">
+      <p class="eyebrow">Retrieval quality</p>
+      <h2>BEIR: six datasets, official judgements</h2>
+      <p>Science, medicine, finance and argument retrieval; the test split of each. Documents go in through <code>POST /api/v1/ingest/records</code>, queries through <code>POST /api/v1/query/retrieve</code>. Embedding model <code>BAAI/bge-base-en-v1.5</code>, the engine's default. nDCG@10 measures how good the top ten results are.</p>
+    </div>
+    <div class="chart-wrap">
+      <div class="legend">
+        <span><i style="background:var(--base-2)"></i>BM25 (BEIR paper)</span>
+        <span><i style="background:var(--base)"></i>bge-base-en-v1.5, published</span>
+        <span><i style="background:var(--accent)"></i>cob-rag-engine, default hybrid</span>
+      </div>
+      <svg id="beirchart" role="img" aria-label="nDCG@10 per dataset for BM25, the published embedding model and cob-rag-engine"></svg>
+    </div>
+    <div class="table-scroll">
+      <table>
+        <thead><tr><th>nDCG@10</th><th>SciFact</th><th>NFCorpus</th><th>ArguAna</th><th>SCIDOCS</th><th>FiQA</th><th>TREC-COVID</th><th>Mean</th></tr></thead>
+        <tbody>
+          <tr class="ref"><td>BM25 keyword search (BEIR paper)</td><td>0.665</td><td>0.325</td><td>0.315</td><td>0.158</td><td>0.236</td><td>0.656</td><td>0.393</td></tr>
+          <tr class="ref"><td>bge-base-en-v1.5, published (MTEB)</td><td>0.743</td><td>0.374</td><td>0.638</td><td>0.217</td><td>0.406</td><td>0.780</td><td>0.526</td></tr>
+          <tr><td>Engine, dense only</td><td>0.740</td><td>0.374</td><td>0.639</td><td>0.217</td><td>0.405</td><td>0.792</td><td>0.528</td></tr>
+          <tr><td>Engine, hybrid with reciprocal-rank fusion</td><td class="worse">0.736</td><td class="worse">0.365</td><td class="worse">0.560</td><td class="worse">0.198</td><td class="worse">0.370</td><td>0.802</td><td class="worse">0.505</td></tr>
+          <tr class="me"><td>Engine, hybrid (default)</td><td class="best">0.761</td><td class="best">0.382</td><td class="best">0.640</td><td class="best">0.221</td><td>0.417</td><td>0.803</td><td class="best">0.537</td></tr>
+          <tr><td>Engine, hybrid + cross-encoder reranker</td><td>0.755</td><td>0.368</td><td>0.529</td><td>0.201</td><td class="best">0.430</td><td class="best">0.852</td><td>0.523</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="table-scroll" style="margin-top:16px">
+      <table>
+        <thead><tr><th>Recall@100</th><th>SciFact</th><th>NFCorpus</th><th>ArguAna</th><th>SCIDOCS</th><th>FiQA</th><th>TREC-COVID*</th></tr></thead>
+        <tbody>
+          <tr class="ref"><td>BM25 (BEIR paper)</td><td>0.908</td><td>0.250</td><td>0.942</td><td>0.356</td><td>0.539</td><td>0.498</td></tr>
+          <tr class="ref"><td>bge-base-en-v1.5, published</td><td>0.963</td><td>0.337</td><td>0.993</td><td>0.496</td><td>0.742</td><td>n/a</td></tr>
+          <tr><td>Engine, dense only</td><td>0.963</td><td>0.337</td><td>0.993</td><td>0.495</td><td>0.739</td><td>0.590</td></tr>
+          <tr class="me"><td>Engine, hybrid (default)</td><td class="best">0.976</td><td class="best">0.342</td><td>0.992</td><td>0.482</td><td>0.734</td><td class="best">0.610</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <p class="note">* Capped recall, as BEIR reports it for TREC-COVID, whose queries have up to ~500 relevant documents. Sources: BM25 from the <a href="https://arxiv.org/abs/2104.08663">BEIR paper</a>, Tables 2 and 9; bge-base-en-v1.5 from the <a href="https://github.com/embeddings-benchmark/results">MTEB results repository</a> (FiQA from the model authors' own run). Hosted APIs in the hero chart: MTEB published scores for OpenAI text-embedding-3-small and -3-large and Cohere embed-english-v3.0.</p>
+
+    <div class="readings">
+      <div class="reading"><h3>The harness reproduces the published model</h3><p>Dense retrieval lands within 0.003 of bge-base's published nDCG@10 on five datasets and 0.012 above it on TREC-COVID. Chunking, the query instruction and the index lose nothing.</p></div>
+      <div class="reading"><h3>Hybrid wins on all six</h3><p>A BM25 keyword leg with stemming, fused with dense search, beats the model alone everywhere and beats BM25 by a wide margin. No larger model, no LLM, nothing paid.</p></div>
+      <div class="reading"><h3>How you fuse decides whether hybrid helps</h3><p>Reciprocal-rank fusion, the common default, lost to dense-only on five of six datasets. Weighted score fusion (0.75 dense, 0.25 keyword, normalized per query) wins on five and ties the sixth. The weight was chosen on BEIR's dev and train judgements and only then measured on test.</p></div>
+      <div class="reading"><h3>The reranker is a trade, not a free win</h3><p>The cross-encoder lifts the question-answering sets (FiQA +0.013, TREC-COVID +0.048) and hurts the other four, ArguAna by 0.11. It costs about 0.3 s per query on a GPU and 15 s on CPU, so it ships off and is enabled per knowledge base.</p></div>
+    </div>
+  </div>
+</section>
+
+<section id="documents">
+  <div class="wrap">
+    <div class="sec-head">
+      <p class="eyebrow">Real documents</p>
+      <h2>55 questions over the files customers actually upload</h2>
+      <p>Seven files go through the same upload path a customer uses: parse, chunk, embed. Answers sit in prose, in tables, in spreadsheet cells, on slides, and on a scanned page that only OCR can read. A question counts when a chunk from the right file holds every fact of the answer, including both the row label and the value for a table.</p>
+    </div>
+    <div class="two">
+      <div class="table-scroll">
+        <table>
+          <thead><tr><th>Answer lives in</th><th>Questions</th><th>Hit@5</th></tr></thead>
+          <tbody>
+            <tr><td>PDF text, two columns and a running header</td><td>18</td><td>100%</td></tr>
+            <tr><td>PDF table</td><td>3</td><td>100%</td></tr>
+            <tr><td>Scanned PDF, image only (OCR)</td><td>4</td><td>100%</td></tr>
+            <tr><td>DOCX text and table</td><td>8</td><td>100%</td></tr>
+            <tr><td>XLSX spreadsheet, two sheets</td><td>7</td><td>100%</td></tr>
+            <tr><td>PPTX slides</td><td>4</td><td>100%</td></tr>
+            <tr><td>HTML with navigation and footer</td><td>6</td><td>100%</td></tr>
+            <tr><td>Markdown with a table and code</td><td>5</td><td>100%</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <div class="table-scroll" style="align-self:start">
+        <table>
+          <thead><tr><th>Configuration</th><th>Hit@1</th><th>Hit@5</th><th>MRR</th></tr></thead>
+          <tbody>
+            <tr><td>Dense</td><td>87%</td><td>100%</td><td>0.93</td></tr>
+            <tr class="me"><td>Hybrid (default)</td><td>91%</td><td>100%</td><td>0.95</td></tr>
+            <tr><td>Hybrid + reranker</td><td class="best">94%</td><td>100%</td><td class="best">0.97</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+    <p class="note">On this question-and-answer set the reranker helps, as the BEIR results predict for Q&amp;A content. Each answer's section heading reaches the model with the chunk, so "Which release added offline checkout?" is answerable when the version number lives only in the heading.</p>
+  </div>
+</section>
+
+<section id="ops">
+  <div class="wrap">
+    <div class="sec-head">
+      <p class="eyebrow">Security and operations</p>
+      <h2>Built to run one service for many customers</h2>
+      <p>The benchmark creates two tenants with a knowledge base each, then tries every key type against the other tenant's data. Latency and throughput use FiQA's 57,638 documents with the engine's default settings.</p>
+    </div>
+    <div class="two">
+      <ul class="checks">
+        <li><span class="pill ok">412/412</span><span>Cross-tenant reads, writes, deletes, searches, imports, job lookups, settings, conversations, memories, embedding migrations, golden pairs, widget keys, usage queries, past queries, feedback and Content Portal workspaces, staged content, chunks, reviews (finalize included), AI chat and rules refused, also when named from the attacker's own workspace, from tenant keys, knowledge-base keys, an owner's and a member's sign-in, and no key; plus the account attacks (a member on owner-only routes, forged, expired and unsigned tokens, refresh-token reuse, invitation abuse, a removed member, sign-up and reset enumeration, the sign-in lockout) and a suspended tenant's keys stop working</span></li>
+        <li><span class="pill ok">refused</span><span>Website widget key used from another site, with no Origin header, or a secret key presented as a widget key</span></li>
+        <li><span class="pill ok">5 of 8</span><span>Messages allowed when 8 arrive at once against a 5-per-minute widget limit</span></li>
+        <li><span class="pill ok">0</span><span>Default passwords: secrets are generated on install, keys are stored hashed, model keys encrypted</span></li>
+      </ul>
+      <div class="table-scroll">
+        <table>
+          <thead><tr><th></th><th>GPU</th><th>CPU only</th></tr></thead>
+          <tbody>
+            <tr><td>Retrieval p50, one request at a time</td><td>45 ms</td><td>77 ms</td></tr>
+            <tr><td>Retrieval p95</td><td>52 ms</td><td>103 ms</td></tr>
+            <tr><td>With the reranker on, p50</td><td>323 ms</td><td>15.6 s</td></tr>
+            <tr><td>Queries per second, 1 / 4 / 16 clients</td><td>22 / 21 / 15</td><td>14 / 24 / 25</td></tr>
+            <tr><td>Import, embeddings included</td><td>107 docs/s</td><td>~6 passages/s</td></tr>
+            <tr><td>Memory, whole stack</td><td colspan="2" style="text-align:center">2.1 GB default; +2.3 GB with the reranker</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+    <p class="note">Intel i7-14700K, RTX 5060 Ti 16 GB, Docker Desktop limited to 8 CPUs and 9.4 GB. One API process; throughput scales out with <code>RAG_API_WORKERS</code>. On CPU the embedding model sets the import ceiling; use a hosted embedding model or a GPU for large imports.</p>
+  </div>
+</section>
+
+<section id="changed">
+  <div class="wrap">
+    <div class="sec-head">
+      <p class="eyebrow">What the benchmarks changed</p>
+      <h2>Every finding became a fix, then got measured again</h2>
+      <p>Running the engine against public data exposed defects no unit test had caught. Each is fixed in the engine and listed in the changelog.</p>
+    </div>
+    <div class="table-scroll">
+      <table>
+        <thead><tr><th>Finding</th><th>Before</th><th>After</th></tr></thead>
+        <tbody>
+          <tr><td>Retrieval silently capped at what fit an LLM prompt</td><td>Recall@100 0.84</td><td>0.96</td></tr>
+          <tr><td>Keyword search used raw term frequency, no stemming</td><td>FiQA keyword nDCG 0.07</td><td>0.25</td></tr>
+          <tr><td>Reciprocal-rank fusion dragged results down</td><td>mean nDCG 0.505</td><td>0.537</td></tr>
+          <tr><td>Reranker forced on for every knowledge base</td><td>slower and worse on 4 of 6</td><td>opt-in</td></tr>
+          <tr><td>Reranker scored every candidate at full precision</td><td>~6 s per query</td><td>0.45 s</td></tr>
+          <tr><td>Diversity step (MMR) was cubic in candidates</td><td>1,048 ms</td><td>40 ms</td></tr>
+          <tr><td>API keys checked with bcrypt on the event loop</td><td>5 queries/s</td><td>22 queries/s</td></tr>
+          <tr><td>An unknown key was checked against every knowledge base</td><td>one request, N bcrypts</td><td>rejected by prefix</td></tr>
+          <tr><td>Every PDF failed inside the Docker image</td><td>0 PDFs</td><td>typeset and scanned PDFs</td></tr>
+          <tr><td>Embedding migrations dropped search filters</td><td>filters broken</td><td>metadata kept</td></tr>
+          <tr><td>Deleting a large knowledge base could leave it half-deleted</td><td>rows without vectors</td><td>database first</td></tr>
+          <tr><td>Tenant keys could read other tenants' import jobs</td><td>leak</td><td>scoped</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</section>
+
+<section id="compare">
+  <div class="wrap">
+    <div class="sec-head">
+      <p class="eyebrow">Comparison</p>
+      <h2>Against RAGFlow, Dify, AnythingLLM and R2R</h2>
+      <p>From each project's own documentation, release notes and issue tracker, reviewed September 2026. RAGFlow publishes no retrieval-quality benchmark, so the retrieval numbers above have no counterpart to compare with; the rows below compare what each project documents.</p>
+    </div>
+    <div class="table-scroll">
+      <table>
+        <thead><tr><th></th><th>cob-rag-engine</th><th>RAGFlow 0.27</th><th>Dify</th><th>AnythingLLM</th><th>R2R</th></tr></thead>
+        <tbody>
+          <tr><td>License</td><td>AGPL-3.0 + commercial</td><td>Apache-2.0</td><td>Modified Apache-2.0; multi-tenant use needs permission</td><td>MIT</td><td>MIT</td></tr>
+          <tr><td>Tenancy for a multi-customer service</td><td>Tenants → knowledge bases, isolation tested</td><td>One workspace per user</td><td>Workspaces</td><td>One organization</td><td>Users, collections</td></tr>
+          <tr><td>API key scope</td><td>Per tenant and per knowledge base</td><td>Per account, full owner power</td><td>Per knowledge base</td><td>Not reviewed</td><td>Not reviewed</td></tr>
+          <tr><td>Website embed</td><td>Script tag, public key, domain allow-list, rate limits</td><td>iframe, token in page URL</td><td>Script or iframe, public token</td><td>Script, allow-list, limits</td><td>None</td></tr>
+          <tr><td>Usage metering per customer</td><td>Built in</td><td>Cloud only</td><td>Not documented</td><td>Not documented</td><td>Not documented</td></tr>
+          <tr><td>Published retrieval benchmark</td><td>BEIR, six datasets, reproducible</td><td>None found</td><td>None found</td><td>None found</td><td>None found</td></tr>
+          <tr><td>Memory</td><td>2.1 GB measured</td><td>16 GB minimum stated</td><td>Not stated</td><td>Not stated</td><td>Not stated</td></tr>
+          <tr><td>Hybrid keyword + vector search</td><td>Independent legs, weighted fusion</td><td>Vector leg filtered by keyword match</td><td>Yes</td><td>Vector only</td><td>Yes</td></tr>
+          <tr><td>Document understanding</td><td>Docling, table structure, OCR</td><td>DeepDoc, template chunkers (stronger)</td><td>Not reviewed</td><td>Not reviewed</td><td>Not reviewed</td></tr>
+          <tr><td>Graph RAG, agents, connectors</td><td>Agentic mode, web scraper</td><td>GraphRAG, agent canvas, 20+ connectors</td><td>Visual workflows</td><td>Agents</td><td>Knowledge graphs</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="readings">
+      <div class="reading"><h3>Where RAGFlow is ahead</h3><p>Document layout analysis with DeepDoc and template chunkers for papers, laws and slides; GraphRAG and RAPTOR; an agent canvas; more than twenty data connectors. If those matter most, it is an excellent choice.</p></div>
+      <div class="reading"><h3>Where this engine is ahead</h3><p>Running a paid chatbot service for many businesses: scoped keys, metering, a hardened website widget and a small footprint. RAGFlow's share token and API key were mutually derivable before 0.22 (CVE-2025-69286), its documented minimum is 16 GB of RAM, and its vector search is filtered by the keyword match, which returns nothing for Thai queries (issue #17041).</p></div>
+    </div>
+  </div>
+</section>
+
+<section id="reproduce">
+  <div class="wrap">
+    <div class="sec-head">
+      <p class="eyebrow">Reproduce it</p>
+      <h2>Run every number yourself</h2>
+      <p>You need the stack running and Python 3.12 with <code>httpx</code> and <code>pyarrow</code>. The scripts read the admin key from your environment or the repository's <code>.env</code>. Long runs checkpoint: run the same command again to resume.</p>
+    </div>
+    <div class="copy-row"><button class="copy" type="button" id="copybtn">Copy commands</button></div>
+<pre id="cmds"><span class="c"># GPU is optional; this overlay embeds in full precision, as published</span>
+docker compose -f docker-compose.yml -f docker-compose.gpu.yml \
+  -f benchmarks/compose.local-embeddings.yml up -d --build
+
+<span class="c"># BEIR: downloads ~330 MB, imports 272k documents, evaluates</span>
+python benchmarks/beir.py --datasets scifact,nfcorpus,arguana,scidocs,fiqa,trec-covid \
+  --configs dense,hybrid,"hybrid(rrf)",hybrid+rerank --label mine
+python benchmarks/fusion_study.py
+
+<span class="c"># Real documents, security and operations, small policy set</span>
+python benchmarks/documents.py --label mine
+python benchmarks/ops.py --label mine
+python benchmarks/run.py --label mine</pre>
+    <p class="note">Retrieval benchmarks measure whether the right passage is found, not how an LLM words the answer. BEIR is English. Reference numbers for other models are their published results, not re-runs. Method and raw results: <a href="https://github.com/callobuzz/cob-rag-engine/tree/main/benchmarks">benchmarks/</a> in the repository.</p>
+  </div>
+</section>
+</main>
+
+<footer>
+  <div class="wrap">
+    <span>cob-rag-engine · AGPL-3.0 with a commercial license</span>
+    <a href="index.html">Project page</a>
+    <a href="https://github.com/callobuzz/cob-rag-engine">GitHub</a>
+    <a href="https://github.com/callobuzz/cob-rag-engine/blob/main/CHANGELOG.md">Changelog</a>
+  </div>
+</footer>
+
+<script>
+(function () {
+  var NS = "http://www.w3.org/2000/svg";
+  var means = [
+    ["BM25 keyword search", 0.393, "ref"],
+    ["bge-base, published", 0.526, "ref"],
+    ["OpenAI 3-small", 0.518, "api"],
+    ["Cohere v3", 0.527, "api"],
+    ["cob-rag-engine", 0.537, "me"],
+    ["OpenAI 3-large", 0.559, "api"]
+  ];
+  var host = document.getElementById("meanbars");
+  var max = 0.6;
+  means.forEach(function (m) {
+    var row = document.createElement("div");
+    row.className = "bar-row " + m[2];
+    row.innerHTML = '<span class="lbl"></span><span class="bar-track"><span class="bar-fill" style="display:block;width:' +
+      (m[1] / max * 100).toFixed(1) + '%"></span></span><span class="val">' + m[1].toFixed(3) + "</span>";
+    row.querySelector(".lbl").textContent = m[0];
+    host.appendChild(row);
+  });
+
+  var data = [
+    ["SciFact", 0.665, 0.743, 0.761], ["NFCorpus", 0.325, 0.374, 0.382],
+    ["ArguAna", 0.315, 0.638, 0.640], ["SCIDOCS", 0.158, 0.217, 0.221],
+    ["FiQA", 0.236, 0.406, 0.417], ["TREC-COVID", 0.656, 0.780, 0.803]
+  ];
+  var svg = document.getElementById("beirchart");
+  var W = 960, H = 300, L = 40, R = 10, T = 14, B = 44;
+  svg.setAttribute("viewBox", "0 0 " + W + " " + H);
+  svg.style.width = "100%"; svg.style.minWidth = "620px"; svg.style.height = "auto";
+  var ph = H - T - B, pw = W - L - R;
+  function y(v) { return T + ph * (1 - v / 0.9); }
+  function el(name, attrs, text) {
+    var e = document.createElementNS(NS, name);
+    for (var k in attrs) e.setAttribute(k, attrs[k]);
+    if (text != null) e.textContent = text;
+    svg.appendChild(e); return e;
+  }
+  var css = getComputedStyle(document.documentElement);
+  var c = function (n) { return css.getPropertyValue(n).trim(); };
+  [0, 0.2, 0.4, 0.6, 0.8].forEach(function (t) {
+    el("line", { x1: L, x2: W - R, y1: y(t), y2: y(t), stroke: c("--line"), "stroke-width": 1 });
+    el("text", { x: L - 8, y: y(t) + 4, "text-anchor": "end", "font-size": 11, fill: c("--text-3") }, t.toFixed(1));
+  });
+  var group = pw / data.length, bw = Math.min(34, group / 4.2);
+  var colors = [c("--base-2"), c("--base"), c("--accent")];
+  data.forEach(function (d, i) {
+    var cx = L + group * i + group / 2;
+    for (var j = 0; j < 3; j++) {
+      var x = cx + (j - 1.5) * (bw + 4) + 2, v = d[j + 1];
+      el("rect", { x: x, y: y(v), width: bw, height: y(0) - y(v), fill: colors[j], rx: 2 });
+      if (j === 2) el("text", { x: x + bw / 2, y: y(v) - 6, "text-anchor": "middle", "font-size": 11.5, "font-weight": 600, fill: c("--accent-lift") }, v.toFixed(3));
+    }
+    el("text", { x: cx, y: H - B + 20, "text-anchor": "middle", "font-size": 12.5, fill: c("--text-2") }, d[0]);
+  });
+
+  var btn = document.getElementById("copybtn");
+  btn.addEventListener("click", function () {
+    var text = document.getElementById("cmds").innerText;
+    function fallback() {
+      var r = document.createRange(); r.selectNodeContents(document.getElementById("cmds"));
+      var s = window.getSelection(); s.removeAllRanges(); s.addRange(r);
+      btn.textContent = "Selected, press Ctrl+C";
+    }
+    if (navigator.clipboard && navigator.clipboard.writeText) {
+      navigator.clipboard.writeText(text).then(function () { btn.textContent = "Copied"; }, fallback);
+    } else { fallback(); }
+  });
+})();
+</script>
+</body>
+</html>
