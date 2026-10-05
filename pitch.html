@@ -172,6 +172,29 @@ footer .foot-meta a:hover{color: var(--color-ink);}
   .cta .btn{flex: 1 1 100%; white-space: normal; height: auto; min-height: 46px; padding: 12px 16px; text-align: center;}
 }
 
+/* 2026-10-05: icons, the script card and the picked audience (the landing page's visual language) */
+.ico{width: 18px; height: 18px; flex: none; fill: none; stroke: currentColor; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round;}
+.pitch dt{display: flex; align-items: flex-start; gap: 8px;}
+.pitch dt .ico{width: 16px; height: 16px; margin-top: -1px;}
+.earn{display: flex; gap: var(--space-sm); align-items: flex-start; border: 1px solid color-mix(in srgb, var(--color-amber) 40%, var(--color-rule)); border-left: 3px solid var(--color-amber); background: linear-gradient(90deg, color-mix(in oklch, var(--color-amber) 8%, transparent), transparent 70%), var(--color-panel);}
+.earn > .ico{color: var(--color-amber); margin-top: 3px;}
+.four.script-lines{gap: 0; padding: var(--space-lg); border: 1px solid color-mix(in oklch, var(--color-primary) 38%, var(--color-surface)); border-radius: var(--radius-card); background: radial-gradient(70% 120% at 0% 0%, color-mix(in oklch, var(--color-surface) 70%, transparent), transparent 72%), var(--color-panel);}
+.four.script-lines li{counter-increment: none; grid-template-columns: 40px minmax(0, 1fr); padding: var(--space-md) 0; border: 0; border-top: 1px solid color-mix(in oklch, var(--color-ink) 12%, transparent); border-radius: 0; background: transparent; color: var(--color-ink);}
+.four.script-lines li::before{display: none;}
+.four.script-lines li:first-child{border-top: 0; padding-top: 0;}
+.four.script-lines li:last-child{padding-bottom: 0;}
+.script-n{font-family: var(--font-mono); font-size: 13px; font-weight: 600; color: var(--color-primary); padding-top: 3px;}
+.card .who{display: flex; align-items: center; gap: 8px;}
+.card .who .ico{width: 30px; height: 30px; padding: 6px; border-radius: 8px; border: 1px solid var(--color-rule); background: var(--color-paper-2); color: var(--color-primary);}
+.card.is-picked, .s.is-picked .pitch{border-color: var(--color-primary); box-shadow: 0 0 0 1px var(--color-primary);}
+.card.is-picked{background: color-mix(in oklch, var(--color-surface) 38%, var(--color-panel));}
+.picked{display: inline-flex; flex-wrap: wrap; align-items: center; gap: 4px 10px; margin: 0 0 var(--space-md); padding: 6px 12px; border: 1px solid color-mix(in oklch, var(--color-primary) 55%, transparent); border-radius: var(--radius-pill); background: color-mix(in oklch, var(--color-surface) 45%, transparent); font-size: 14px;}
+.picked[hidden]{display: none;}
+.picked-k{font-family: var(--font-mono); font-size: 11.5px; font-weight: 600; letter-spacing: .06em; text-transform: uppercase; color: var(--color-primary);}
+.picked a{color: var(--color-ink); text-decoration: none; font-weight: 600;}
+.foot-brand{font-weight: 600; color: var(--color-ink) !important;}
+@media print{ .picked{display: none !important;} .ico{display: none;} .four.script-lines{padding: 6px 10px;} }
+
 /* On paper: light, one or two A4 pages, no chrome */
 @page{size: A4; margin: 11mm 12mm;}
 @media print{
@@ -212,6 +235,7 @@ footer .foot-meta a:hover{color: var(--color-ink);}
 </style>
 </head>
 <body id="top">
+<svg width="0" height="0" aria-hidden="true" focusable="false" style="position:absolute"><defs><symbol id="i-users" viewBox="0 0 24 24"><circle cx="9" cy="8" r="3.5"/><path d="M2.5 20a6.5 6.5 0 0 1 13 0"/><path d="M16 4.5a3.5 3.5 0 0 1 0 7M18 14.5a6.5 6.5 0 0 1 3.5 5.5"/></symbol><symbol id="i-x" viewBox="0 0 24 24"><path d="M18 6 6 18M6 6l12 12"/></symbol><symbol id="i-bolt" viewBox="0 0 24 24"><path d="M13 2L4 14h7l-1 8 9-12h-7z"/></symbol><symbol id="i-shield" viewBox="0 0 24 24"><path d="M12 3l8 3v6c0 5-3.5 8-8 9-4.5-1-8-4-8-9V6z"/></symbol><symbol id="i-mail" viewBox="0 0 24 24"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="M3 7l9 6 9-6"/></symbol><symbol id="i-coin" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M9 8h6M9 12h6M9 8c4 0 4 4 0 4l5 5"/></symbol><symbol id="i-plug" viewBox="0 0 24 24"><path d="M9 3v5M15 3v5M6 8h12v3a6 6 0 0 1-12 0zM12 17v4"/></symbol><symbol id="i-code" viewBox="0 0 24 24"><path d="M8 8l-5 4 5 4M16 8l5 4-5 4M14 5l-4 14"/></symbol><symbol id="i-chat" viewBox="0 0 24 24"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></symbol></defs></svg>
 <a class="skip" href="#pitch-main">Skip to the pitch</a>
 <nav aria-label="Main">
   <div class="wrap">
@@ -223,13 +247,14 @@ footer .foot-meta a:hover{color: var(--color-ink);}
       <a href="benchmarks.html">Benchmarks</a>
       <a href="pitch.html" aria-current="page">Pitch sheet</a>
     </div>
-    <a class="gh" href="https://github.com/callobuzz/cob-rag-engine">★ GitHub</a>
+    <a class="gh" href="mailto:callobuzz@gmail.com?subject=cob-rag-engine%3A%20talk%20to%20us">Talk to us</a>
   </div>
 </nav>
 <header class="page-head">
   <div class="wrap">
     <span class="kicker">Pitch sheet</span>
     <h1>Sell AI assistants <span class="thin">under your own name.</span></h1>
+    <p class="picked" id="picked" hidden></p>
     <p class="lede">For agencies first, then freelancers, software partners and developers. One engine you run yourself, a private assistant for every client, English, Hindi and Hinglish. Print this page or share it on WhatsApp.</p>
     <div class="cta">
       <a class="btn btn-primary" href="mailto:callobuzz@gmail.com?subject=Try%20cob-rag-engine%20free%20with%20one%20client&amp;body=Hi%20Callobuzz%2C%0A%0AI%20would%20like%20to%20try%20cob-rag-engine%20with%20one%20client%20%28agency%29.%0A%0AMy%20name%3A%0ACompany%20/%20agency%3A%0AWebsite%3A%0AThe%20client%20or%20project%20I%20would%20start%20with%3A%0AWill%20I%20install%20it%20myself%2C%20or%20would%20I%20like%20help%20setting%20it%20up%3F%0A%0AThanks">Try it free with one client</a>
@@ -244,13 +269,13 @@ footer .foot-meta a:hover{color: var(--color-ink);}
   <h2 id="h-30"><span class="n">01</span>The 30-second pitch</h2>
   <p class="sub">For a digital marketing or web agency. Say it in this order.</p>
   <dl class="pitch">
-    <div><dt>Who</dt><dd>Digital marketing and web agencies, and freelancers, whose clients keep asking for an AI chatbot.</dd></div>
-    <div><dt>Problem</dt><dd>Clients want an assistant that answers from their own documents, and you cannot risk one that makes things up. Website projects end, and the income ends with them.</dd></div>
-    <div><dt>What it does</dt><dd>cob-rag-engine is a finished platform you run on your own server: a separate private assistant for every client, a website widget with leads and a WhatsApp hand-off button, English, Hindi and Hinglish, plans and usage counted per client. Your name, logo and colours on the dashboard and e-mails.</dd></div>
-    <div><dt>Proof</dt><dd>412 of 412 isolation attacks refused in the repository's own test. Every price, date and phone number in an answer must appear in the client's documents, or the assistant says it does not know. Search measured on six public datasets (mean nDCG@10 0.537 against 0.526 published for the same embedding model). All numbers are in the benchmark report.</dd></div>
-    <div class="ask"><dt>Ask</dt><dd class="v">Try it free with one client. Write to <a href="mailto:callobuzz@gmail.com?subject=Try%20cob-rag-engine%20free%20with%20one%20client&amp;body=Hi%20Callobuzz%2C%0A%0AI%20would%20like%20to%20try%20cob-rag-engine%20with%20one%20client%20%28agency%29.%0A%0AMy%20name%3A%0ACompany%20/%20agency%3A%0AWebsite%3A%0AThe%20client%20or%20project%20I%20would%20start%20with%3A%0AWill%20I%20install%20it%20myself%2C%20or%20would%20I%20like%20help%20setting%20it%20up%3F%0A%0AThanks">callobuzz@gmail.com</a>, and install it yourself or ask us to help set it up.</dd></div>
+    <div><dt><svg class="ico" aria-hidden="true" focusable="false"><use href="#i-users"/></svg>Who</dt><dd>Digital marketing and web agencies, and freelancers, whose clients keep asking for an AI chatbot.</dd></div>
+    <div><dt><svg class="ico" aria-hidden="true" focusable="false"><use href="#i-x"/></svg>Problem</dt><dd>Clients want an assistant that answers from their own documents, and you cannot risk one that makes things up. Website projects end, and the income ends with them.</dd></div>
+    <div><dt><svg class="ico" aria-hidden="true" focusable="false"><use href="#i-bolt"/></svg>What it does</dt><dd>cob-rag-engine is a finished platform you run on your own server: a separate private assistant for every client, a website widget with leads and a WhatsApp hand-off button, English, Hindi and Hinglish, plans and usage counted per client. Your name, logo and colours on the dashboard and e-mails.</dd></div>
+    <div><dt><svg class="ico" aria-hidden="true" focusable="false"><use href="#i-shield"/></svg>Proof</dt><dd>412 of 412 isolation attacks refused in the repository's own test. Every price, date and phone number in an answer must appear in the client's documents, or the assistant says it does not know. Search measured on six public datasets (mean nDCG@10 0.537 against 0.526 published for the same embedding model, bge-base-en-v1.5, measured before the default became bge-m3). All numbers are in the benchmark report.</dd></div>
+    <div class="ask"><dt><svg class="ico" aria-hidden="true" focusable="false"><use href="#i-mail"/></svg>Ask</dt><dd class="v">Try it free with one client. Write to <a href="mailto:callobuzz@gmail.com?subject=Try%20cob-rag-engine%20free%20with%20one%20client&amp;body=Hi%20Callobuzz%2C%0A%0AI%20would%20like%20to%20try%20cob-rag-engine%20with%20one%20client%20%28agency%29.%0A%0AMy%20name%3A%0ACompany%20/%20agency%3A%0AWebsite%3A%0AThe%20client%20or%20project%20I%20would%20start%20with%3A%0AWill%20I%20install%20it%20myself%2C%20or%20would%20I%20like%20help%20setting%20it%20up%3F%0A%0AThanks">callobuzz@gmail.com</a>, and install it yourself or ask us to help set it up.</dd></div>
   </dl>
-  <p class="earn"><b>How you earn.</b> Charge each client a monthly fee for their assistant. You set the price, in ₹ or $. Plans, caps and usage counted per client keep the bill fair. Your costs are the server and the AI calls (a client can bring their own AI key). What you earn depends on your price and your clients; no income is promised here.</p>
+  <p class="earn"><svg class="ico" aria-hidden="true" focusable="false"><use href="#i-coin"/></svg><span><b>How you earn.</b> Charge each client a monthly fee for their assistant. You set the price, in ₹ or $. Plans, caps and usage counted per client keep the bill fair. Your costs are the server and the AI calls (a client can bring their own AI key). What you earn depends on your price and your clients; no income is promised here.</span></p>
 </section>
 
 <section class="s" id="how" aria-labelledby="h-how">
@@ -312,24 +337,24 @@ footer .foot-meta a:hover{color: var(--color-ink);}
 <section class="s" id="why" aria-labelledby="h-why">
   <h2 id="h-why"><span class="n">03</span>Why not LangChain, LlamaIndex, Dify or an agent SDK?</h2>
   <p class="sub">Say it in four lines.</p>
-  <ol class="four">
-    <li><span>LangChain, LlamaIndex and the agent SDKs give you parts to build with; cob-rag-engine is the finished knowledge platform: customers, keys, documents, fact-checked answers, a website widget and billing, already built and tested.</span></li>
-    <li><span>They are not rivals: your LangChain, LlamaIndex, OpenAI or Claude agent plugs into it over MCP and uses it as its governed knowledge base.</span></li>
-    <li><span>Dify is a full platform too, but it is built for designing apps, and its licence needs written authorization to run it for many customers; cob-rag-engine is built to resell, with plans and billing, Hindi and Hinglish, WhatsApp and DPDP consent, and answers that stay inside the customer's own documents.</span></li>
-    <li><span>So you sell assistants from day one instead of building the platform under them, and if all you need is a one-off prototype, LangChain alone is the right call.</span></li>
+  <ol class="four script-lines">
+    <li><span class="script-n" aria-hidden="true">01</span><span>LangChain, LlamaIndex and the agent SDKs give you parts to build with; cob-rag-engine is the finished knowledge platform: customers, keys, documents, fact-checked answers, a website widget and billing, already built and tested.</span></li>
+    <li><span class="script-n" aria-hidden="true">02</span><span>They are not rivals: your LangChain, LlamaIndex, OpenAI or Claude agent plugs into it over MCP and uses it as its governed knowledge base.</span></li>
+    <li><span class="script-n" aria-hidden="true">03</span><span>Dify is a full platform too, but it is built for designing apps, and its licence needs written authorization to run it for many customers; cob-rag-engine is built to resell, with plans and billing, Hindi and Hinglish, WhatsApp and DPDP consent, and answers that stay inside the customer's own documents.</span></li>
+    <li><span class="script-n" aria-hidden="true">04</span><span>So you sell assistants from day one instead of building the platform under them, and if all you need is a one-off prototype, LangChain alone is the right call.</span></li>
   </ol>
-  <p class="also">The longer comparison is in the <a href="https://github.com/callobuzz/cob-rag-engine#why-cob-rag-engine-if-langchain-llamaindex-dify-and-agent-sdks-exist">README</a>.</p>
+  <p class="also">The longer comparison, with a table and diagrams, is on the <a href="index.html#why">landing page</a>.</p>
 </section>
 
 <section class="s" id="others" aria-labelledby="h-others">
   <h2 id="h-others"><span class="n">04</span>Not an agency?</h2>
   <p class="sub">The same engine, three other ways to use it.</p>
   <div class="cards">
-    <article class="card" id="founders"><span class="who">Freelancers and first-time founders</span><h3>Start your own AI chatbot business this week. Your brand, your prices.</h3>
-      <ul><li>A finished product: customers, documents, fact-checked answers, widget, dashboard.</li><li>Free under AGPL-3.0, including commercial use.</li><li>Prepaid wallets in ₹ or $; price per question, or AI cost plus your markup.</li></ul></article>
-    <article class="card" id="partners"><span class="who">Software partners</span><h3>Add an AI assistant to what you already sell to the same clients.</h3>
+    <article class="card" id="founders"><span class="who"><svg class="ico" aria-hidden="true" focusable="false"><use href="#i-bolt"/></svg>Freelancers and first-time founders</span><h3>Start your own AI chatbot business this week. Your brand, your prices.</h3>
+      <ul><li>A finished product: customers, documents, fact-checked answers, widget, dashboard.</li><li>Yours to resell, on partner terms agreed with us.</li><li>Prepaid wallets in ₹ or $; price per question, or AI cost plus your markup.</li></ul></article>
+    <article class="card" id="partners"><span class="who"><svg class="ico" aria-hidden="true" focusable="false"><use href="#i-plug"/></svg>Software partners</span><h3>Add an AI assistant to what you already sell to the same clients.</h3>
       <ul><li>A separate engine with its own API; nothing changes inside your product.</li><li>Sync a client's catalogue or help centre through the records API.</li><li>Usage counted per client, so the add-on is easy to price.</li></ul></article>
-    <article class="card" id="developers"><span class="who">Developers building agents</span><h3>Plug trustworthy company knowledge into your agents.</h3>
+    <article class="card" id="developers"><span class="who"><svg class="ico" aria-hidden="true" focusable="false"><use href="#i-code"/></svg>Developers building agents</span><h3>Plug trustworthy company knowledge into your agents.</h3>
       <ul><li><code>cob-rag-mcp</code>: 52 tools for any MCP client, plus REST and Python and JavaScript clients.</li><li>A read-only named key per agent.</li><li>Cited answers, or an honest "I don't know".</li></ul></article>
   </div>
 </section>
@@ -338,11 +363,10 @@ footer .foot-meta a:hover{color: var(--color-ink);}
   <div class="contact">
     <div>
       <h2 id="h-contact">Try it free with one client</h2>
-      <p>The engine is free under AGPL-3.0, including commercial use. Need to keep engine changes private, or cannot use AGPL? A commercial license is available. There is no hosted cob-rag-engine: you run it on your server, and we can help you set it up.</p>
+      <p>cob-rag-engine is available to partners while we decide how to release it, and we would like your view: <a href="index.html#start">help us decide</a>. A commercial license is available. There is no hosted cob-rag-engine: you run it on your server, and we can help you set it up.</p>
       <div class="lines">
         <span><b>Callobuzz</b> · <a href="mailto:callobuzz@gmail.com?subject=Try%20cob-rag-engine%20free%20with%20one%20client&amp;body=Hi%20Callobuzz%2C%0A%0AI%20would%20like%20to%20try%20cob-rag-engine%20with%20one%20client%20%28agency%29.%0A%0AMy%20name%3A%0ACompany%20/%20agency%3A%0AWebsite%3A%0AThe%20client%20or%20project%20I%20would%20start%20with%3A%0AWill%20I%20install%20it%20myself%2C%20or%20would%20I%20like%20help%20setting%20it%20up%3F%0A%0AThanks">callobuzz@gmail.com</a></span>
         <span>callobuzz.github.io/cob-rag-engine</span>
-        <span>github.com/callobuzz/cob-rag-engine</span>
       </div>
     </div>
     <a class="btn btn-primary" href="mailto:callobuzz@gmail.com?subject=Try%20cob-rag-engine%20free%20with%20one%20client&amp;body=Hi%20Callobuzz%2C%0A%0AI%20would%20like%20to%20try%20cob-rag-engine%20with%20one%20client%20%28agency%29.%0A%0AMy%20name%3A%0ACompany%20/%20agency%3A%0AWebsite%3A%0AThe%20client%20or%20project%20I%20would%20start%20with%3A%0AWill%20I%20install%20it%20myself%2C%20or%20would%20I%20like%20help%20setting%20it%20up%3F%0A%0AThanks">E-mail us</a>
@@ -355,10 +379,26 @@ footer .foot-meta a:hover{color: var(--color-ink);}
 <footer>
   <div class="wrap">
     <div class="foot-meta">
-      <div><a href="https://callobuzz.github.io/cob-rag-engine">cob-rag-engine by Callobuzz</a> · AGPL-3.0</div>
-      <div><a href="index.html">Home</a> · <a href="guide.html">Guide</a> · <a href="benchmarks.html">Benchmark report</a> · <a href="https://callobuzz.github.io/cob-rag-mcp">cob-rag-mcp</a> · <a href="https://github.com/callobuzz/cob-rag-engine/blob/main/CONTRIBUTING.md">Contributing</a> · <a href="https://github.com/callobuzz/cob-rag-engine/blob/main/SECURITY.md">Security</a></div>
+      <div><a class="foot-brand" href="https://callobuzz.github.io/cob-rag-engine">cob-rag-engine by Callobuzz</a></div>
+      <div><a href="index.html">Home</a> · <a href="guide.html">Guide</a> · <a href="deploy.html">Deploy guide</a> · <a href="benchmarks.html">Benchmark report</a> · <a href="https://callobuzz.github.io/cob-rag-mcp">cob-rag-mcp</a> · <a href="mailto:callobuzz@gmail.com?subject=cob-rag-engine%20security%20report">Report a security issue</a></div>
     </div>
   </div>
 </footer>
+<script>
+/* pitch.html?for=<audience> (from the landing page's pitch modal): the page opens at the top and
+   points to that audience's card; #agencies, #founders… stay plain anchors for sharing. */
+(function () {
+  var names = { agencies: 'Agencies', founders: 'Freelancers and first-time founders', partners: 'Software partners', developers: 'Developers building agents' };
+  var target = { agencies: 'agencies', founders: 'founders', partners: 'partners', developers: 'developers' };
+  var m = /[?&]for=([a-z]+)/.exec(location.search);
+  if (!m || !names[m[1]]) return;
+  var who = m[1], el = document.getElementById(target[who]), note = document.getElementById('picked');
+  if (el) el.classList.add('is-picked');
+  if (note) {
+    note.innerHTML = '<span class="picked-k">Picked for you</span><a href="#' + target[who] + '">' + names[who] + ' \u2193</a>';
+    note.hidden = false;
+  }
+})();
+</script>
 </body>
 </html>

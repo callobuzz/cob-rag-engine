@@ -191,7 +191,7 @@
     <div class="sec-head">
       <p class="eyebrow">Retrieval quality</p>
       <h2>BEIR: six datasets, official judgements</h2>
-      <p>Science, medicine, finance and argument retrieval; the test split of each. Documents go in through <code>POST /api/v1/ingest/records</code>, queries through <code>POST /api/v1/query/retrieve</code>. Embedding model <code>BAAI/bge-base-en-v1.5</code>, the engine's default. nDCG@10 measures how good the top ten results are.</p>
+      <p>Science, medicine, finance and argument retrieval; the test split of each. Documents go in through <code>POST /api/v1/ingest/records</code>, queries through <code>POST /api/v1/query/retrieve</code>. Embedding model <code>BAAI/bge-base-en-v1.5</code>, the default when these were measured; it is now <code>BAAI/bge-m3</code>, and a BGE-M3 re-run is pending. nDCG@10 measures how good the top ten results are.</p>
     </div>
     <div class="chart-wrap">
       <div class="legend">
@@ -473,7 +473,7 @@
       <table>
         <thead><tr><th></th><th>cob-rag-engine</th><th>RAGFlow 0.27</th><th>Dify</th><th>AnythingLLM</th><th>R2R</th></tr></thead>
         <tbody>
-          <tr><td>License</td><td>AGPL-3.0 + commercial</td><td>Apache-2.0</td><td>Modified Apache-2.0; multi-tenant use needs permission</td><td>MIT</td><td>MIT</td></tr>
+          <tr><td>License</td><td>Partner terms; commercial license</td><td>Apache-2.0</td><td>Modified Apache-2.0; multi-tenant use needs permission</td><td>MIT</td><td>MIT</td></tr>
           <tr><td>Tenancy for a multi-customer service</td><td>Tenants → knowledge bases, isolation tested</td><td>One workspace per user</td><td>Workspaces</td><td>One organization</td><td>Users, collections</td></tr>
           <tr><td>API key scope</td><td>Per tenant and per knowledge base</td><td>Per account, full owner power</td><td>Per knowledge base</td><td>Not reviewed</td><td>Not reviewed</td></tr>
           <tr><td>Website embed</td><td>Script tag, public key, domain allow-list, rate limits</td><td>iframe, token in page URL</td><td>Script or iframe, public token</td><td>Script, allow-list, limits</td><td>None</td></tr>
@@ -514,17 +514,17 @@ python benchmarks/fusion_study.py
 python benchmarks/documents.py --label mine
 python benchmarks/ops.py --label mine
 python benchmarks/run.py --label mine</pre>
-    <p class="note">Retrieval benchmarks measure whether the right passage is found, not how an LLM words the answer. BEIR is English. Reference numbers for other models are their published results, not re-runs. Method and raw results: <a href="https://github.com/callobuzz/cob-rag-engine/tree/main/benchmarks">benchmarks/</a> in the repository.</p>
+    <p class="note">Retrieval benchmarks measure whether the right passage is found, not how an LLM words the answer. BEIR is English. Reference numbers for other models are their published results, not re-runs. Method and raw results: the <code>benchmarks/</code> folder in the repository, available to partners.</p>
   </div>
 </section>
 </main>
 
 <footer>
   <div class="wrap">
-    <span>cob-rag-engine · AGPL-3.0 with a commercial license</span>
+    <span><b>cob-rag-engine by Callobuzz</b></span>
     <a href="index.html">Project page</a>
-    <a href="https://github.com/callobuzz/cob-rag-engine">GitHub</a>
-    <a href="https://github.com/callobuzz/cob-rag-engine/blob/main/CHANGELOG.md">Changelog</a>
+    <a href="guide.html">Guide</a>
+    <a href="mailto:callobuzz@gmail.com?subject=cob-rag-engine%3A%20talk%20to%20us">Talk to us</a>
   </div>
 </footer>
 

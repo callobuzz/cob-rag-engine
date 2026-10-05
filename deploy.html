@@ -444,7 +444,7 @@ window.COB_PROVIDERS = [
       <a href="benchmarks.html">Benchmarks</a>
       <a href="https://callobuzz.github.io/cob-rag-mcp">cob-rag-mcp</a>
     </div>
-    <a class="gh" href="https://github.com/callobuzz/cob-rag-engine">★ GitHub</a>
+    <a class="gh" href="mailto:callobuzz@gmail.com?subject=cob-rag-engine%3A%20talk%20to%20us">Talk to us</a>
   </div>
 </nav>
 <header class="page-head">
@@ -452,6 +452,7 @@ window.COB_PROVIDERS = [
     <span class="kicker">Deployment</span>
     <h1>Put it on a server <span class="thin">your customers can reach</span></h1>
     <p class="lede">Run cob-rag-engine on a rented server with a real domain, HTTPS, backups and automatic updates. You have already run it on your own machine with the <a href="guide.html">step-by-step guide</a>; this page is the production version. Every command and setting name was checked against the repository.</p>
+    <div class="callout tip access" role="note"><strong class="cl">Access</strong><div>cob-rag-engine is available to partners: write to us for access at <a href="mailto:callobuzz@gmail.com?subject=cob-rag-engine%3A%20access">callobuzz@gmail.com</a>. The steps below assume you have received the repository; where a command needs its address, it says <code>&lt;the repository URL you receive&gt;</code>.</div></div>
     <div class="cta">
       <a class="btn btn-primary" href="#overview">Start at step 1</a>
       <a class="btn btn-ghost" href="#yoursetup">Choose your setup</a>
@@ -546,14 +547,14 @@ window.COB_PROVIDERS = [
 <tr><td data-label="Size">Recommended, CPU</td><td data-label="CPU / RAM / disk">4 vCPU, 8 GB RAM, 80 GB SSD</td><td data-label="Good for">A real deployment with several customers, a few documents each. Leaves room for a second API worker or a busy import.</td></tr>
 <tr><td data-label="Size">GPU</td><td data-label="CPU / RAM / disk">NVIDIA GPU, 8 vCPU, 16 GB RAM, 100 GB SSD</td><td data-label="Good for">Large imports, the local re-ranker, audio transcription. See VRAM below.</td></tr>
 </tbody></table></div>
-<p>Two of these figures are measured and two are advice. <strong>Measured</strong>: the default stack used about 2.1 GB of RAM on CPU with 270,000 chunks indexed (API 0.5 GB, worker 0.4 GB, embedding container 0.6 GB, Qdrant 0.3 GB, the rest under 0.2 GB each), and the local re-ranker adds about 2.3 GB. <strong>Advice, not measured</strong>: the vCPU and disk columns, and the 2 GB headroom on top. Building the images also needs memory, which is why 4 GB is a minimum and not a comfort.</p>
+<p>Two of these figures are measured and two are advice. <strong>Measured</strong>, with the earlier embedding model <code>BAAI/bge-base-en-v1.5</code>: the default stack used about 2.1 GB of RAM on CPU with 270,000 chunks indexed (API 0.5 GB, worker 0.4 GB, embedding container 0.6 GB, Qdrant 0.3 GB, the rest under 0.2 GB each), and the local re-ranker adds about 2.3 GB. The default is now <code>BAAI/bge-m3</code>, which needs about 2.3 GB for its weights in the embedding container (an estimate; it will be measured in the final test). <strong>Advice, not measured</strong>: the vCPU and disk columns, and the 2 GB headroom on top. Building the images also needs memory, which is why 4 GB is a minimum and not a comfort.</p>
 <div class="callout tip" role="note"><strong class="cl">Tip</strong><div>On CPU, embedding runs at about 6 passages a second on 8 vCPUs, so importing thousands of pages takes hours. For a big first import use a hosted embedding model (<code>RAG_EMBEDDING_PROVIDER=litellm</code>) or a GPU, then go back to the small server.</div></div>
 </div>
 <div class="sub" role="group" aria-labelledby="drivers"><h3 id="drivers"><span class="n">2.2</span>What uses memory<a class="anchor" href="#drivers" aria-label="Link to What uses memory">#</a></h3>
 <ul>
 <li><strong>API workers.</strong> <code>RAG_API_WORKERS</code> (default 1). Each worker is a separate process with its own copy of the models, so memory grows with it. Raise it only with the RAM to match.</li>
 <li><strong>The re-ranker.</strong> About 2.3 GB, and the model file (about the same) is cached in the <code>hf_cache</code> volume. On CPU a re-ranked query took about 15 seconds in our benchmark, so keep it off on a CPU server. It is off by default (<code>RAG_RERANKING_ENABLED=false</code>).</li>
-<li><strong>The embedding container.</strong> <code>tei</code> serves <code>BAAI/bge-base-en-v1.5</code> (<code>RAG_TEI_MODEL_ID</code>). On first start it downloads the model, which takes a few minutes.</li>
+<li><strong>The embedding container.</strong> <code>tei</code> serves <code>BAAI/bge-m3</code> (<code>RAG_TEI_MODEL_ID</code>), about 2.3 GB in memory on CPU (an estimate). On first start it downloads the model, which takes a few minutes.</li>
 <li><strong>Worker concurrency.</strong> <code>RAG_WORKER_CONCURRENCY</code> (default 2) is how many ingest jobs run at once.</li>
 <li><strong>Qdrant</strong> grows with the number of chunks; the numbers above are for 270,000.</li>
 <li><strong>Optional services</strong> (Whisper for audio, Langfuse for traces) add containers we have not measured. Leave them off until you need them.</li>
@@ -618,9 +619,9 @@ rsync --archive --chown=deploy:deploy ~/.ssh /home/deploy</code></pre></div>
 <div data-when="hw:gpu"><p>For a GPU, also install the NVIDIA driver and the <a href="https://docs.nvidia.com/datacenter/cloud-native/container-toolkit/latest/install-guide.html">NVIDIA Container Toolkit</a> so Docker can see the card, then check it with the same command the guide uses:</p>
 <div class="cb"><div class="cb-bar"><span>Terminal (on the server)</span><button type="button" class="copy" aria-label="Copy GPU check">Copy</button></div><pre tabindex="0"><code><span class="k">docker</span> run --rm --gpus all nvidia/cuda:12.4.0-base-ubuntu22.04 nvidia-smi</code></pre></div></div></div>
 <div class="sub" role="group" aria-labelledby="clone"><h3 id="clone"><span class="n">4.5</span>Get the code<a class="anchor" href="#clone" aria-label="Link to Get the code">#</a></h3>
-<div class="cb"><div class="cb-bar"><span>Terminal (on the server)</span><button type="button" class="copy" aria-label="Copy clone commands">Copy</button></div><pre tabindex="0"><code><span class="k">git</span> clone https://github.com/callobuzz/cob-rag-engine
+<div class="cb"><div class="cb-bar"><span>Terminal (on the server)</span><button type="button" class="copy" aria-label="Copy clone commands">Copy</button></div><pre tabindex="0"><code><span class="k">git</span> clone &lt;the repository URL you receive&gt;
 <span class="k">cd</span> cob-rag-engine</code></pre></div>
-<p>If you plan automatic deploys (section 11), clone <strong>your own fork</strong> instead, because the deploy workflow lives in a repository you control. A private fork needs a read-only <a href="https://docs.github.com/en/authentication/connecting-to-github-with-ssh/managing-deploy-keys">deploy key</a> so the server can fetch it.</p></div>
+<p>If you plan automatic deploys (section 11), clone <strong>your own private copy</strong> of the repository instead, because the deploy workflow lives in a repository you control. A private repository needs a read-only <a href="https://docs.github.com/en/authentication/connecting-to-github-with-ssh/managing-deploy-keys">deploy key</a> so the server can fetch it.</p></div>
 <p class="top"><a href="#top">Back to top</a></p></section>
 
 <section class="s" id="sec-configure" aria-labelledby="configure"><h2 id="configure"><span class="n">05</span>Configure for production<a class="anchor" href="#configure" aria-label="Link to section Configure for production">#</a></h2>
@@ -971,7 +972,7 @@ A rebuild drops that knowledge base&rsquo;s collection and writes it again, so i
 <p class="top"><a href="#top">Back to top</a></p></section>
 
 <section class="s" id="sec-cicd" aria-labelledby="cicd"><h2 id="cicd"><span class="n">11</span>Automatic deploys with GitHub Actions<a class="anchor" href="#cicd" aria-label="Link to section Automatic deploys with GitHub Actions">#</a></h2>
-<p>Once updating by hand is routine, you can let GitHub do it: every push to <code>main</code>, or every version tag, runs the tests, then updates the server and checks it is healthy. This page shows the workflow file; it is not part of the repository, and you add it to <strong>your own</strong> fork or private repository.</p>
+<p>Once updating by hand is routine, you can let GitHub do it: every push to <code>main</code>, or every version tag, runs the tests, then updates the server and checks it is healthy. This page shows the workflow file; it is not part of the repository, and you add it to <strong>your own</strong> private copy of the repository.</p>
 <div class="callout tip" role="note"><strong class="cl">Do it by hand first</strong><div>Run sections 5 to 10 by hand at least once. A pipeline automates a procedure you already trust.</div></div>
 <div data-when="ci:none"><p><strong>You chose &ldquo;By hand&rdquo;,</strong> so you can skip to section 12. Switch the choice above, or turn on &ldquo;Show all options&rdquo;, to read this section.</p></div>
 
@@ -1175,7 +1176,7 @@ jobs:
 <div class="sub" role="group" aria-labelledby="ci-sec" data-when="ci:runner|ssh"><h3 id="ci-sec"><span class="n">11.5</span>Security notes<a class="anchor" href="#ci-sec" aria-label="Link to Security notes">#</a></h3>
 <div class="callout danger" role="note"><strong class="cl">A self-hosted runner runs whatever the workflow says, as <code>deploy</code></strong><div>And <code>deploy</code> is in the <code>docker</code> group, which is as good as root on the server. Use a <strong>private repository</strong>. On a public repository, anyone can open a pull request, and a workflow that runs on pull requests would run their code on your server. This workflow only runs on pushes, tags and a manual click, never on <code>pull_request</code>; keep it that way.</div></div>
 <ul>
-<li><strong>Require approval for outside contributors</strong> to run workflows (Settings, Actions, General) if the repository is ever public. Better: keep the deploy repository private and mirror releases from the public one.</li>
+<li><strong>Require approval for outside contributors</strong> to run workflows (Settings, Actions, General) if your deploy repository is ever public. Better: keep it private and copy each new release into it.</li>
 <li><strong>Protect the triggers.</strong> Only people you trust should be able to push to <code>main</code> or create <code>v*</code> tags. Turn on branch protection and tag rules; the <code>production</code> environment&rsquo;s reviewers are the last gate.</li>
 <li><strong>Pin actions.</strong> A version tag such as <code>actions/checkout@v4</code> can be moved by whoever owns it. Replace each with the full commit SHA of the release you reviewed, with the tag in a comment, and update on purpose. See GitHub&rsquo;s <a href="https://docs.github.com/en/actions/security-guides/security-hardening-for-github-actions">security hardening guide</a>.</li>
 <li><strong>Least privilege.</strong> The workflow sets <code>permissions: contents: read</code>. Do not add write permissions you do not use.</li>
@@ -1270,8 +1271,8 @@ jobs:
 <footer>
   <div class="wrap">
     <div class="foot-meta">
-      <div><a href="https://callobuzz.github.io/cob-rag-engine">cob-rag-engine by Callobuzz</a> · AGPL-3.0</div>
-      <div><a href="index.html">Home</a> · <a href="guide.html">Guide</a> · <a href="benchmarks.html">Benchmark report</a> · <a href="https://callobuzz.github.io/cob-rag-mcp">cob-rag-mcp</a> · <a href="https://github.com/callobuzz/cob-rag-engine/blob/main/CONTRIBUTING.md">Contributing</a> · <a href="https://github.com/callobuzz/cob-rag-engine/blob/main/SECURITY.md">Security</a></div>
+      <div><a href="https://callobuzz.github.io/cob-rag-engine">cob-rag-engine by Callobuzz</a></div>
+      <div><a href="index.html">Home</a> · <a href="guide.html">Guide</a> · <a href="benchmarks.html">Benchmark report</a> · <a href="https://callobuzz.github.io/cob-rag-mcp">cob-rag-mcp</a> · <a href="mailto:callobuzz@gmail.com?subject=cob-rag-engine%20security%20report">Report a security issue</a></div>
     </div>
   </div>
 </footer>

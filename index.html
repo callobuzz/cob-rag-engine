@@ -4,9 +4,9 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <title>cob-rag-engine — the self-hosted knowledge layer for AI assistants and agents</title>
-<meta name="description" content="The self-hosted knowledge layer for AI assistants and agents: a private knowledge base per business, bring-your-own-key models, measured retrieval, a domain-locked website widget and per-client usage metering. AGPL-3.0 with a commercial license.">
+<meta name="description" content="The self-hosted knowledge layer for AI assistants and agents: a private knowledge base per business, bring-your-own-key models, measured retrieval, a domain-locked website widget and per-client usage metering, for partner resellers.">
 <meta property="og:title" content="cob-rag-engine — the knowledge layer for AI assistants and agents">
-<meta property="og:description" content="Multi-tenant, bring-your-own-key, measured. A private knowledge base per business for your assistants and agents. Open source, self-hosted, any model.">
+<meta property="og:description" content="Multi-tenant, bring-your-own-key, measured. A private knowledge base per business for your assistants and agents. Self-hosted, any model.">
 <meta property="og:type" content="website">
 <link rel="icon" type="image/png" sizes="32x32" href="assets/logo-32.png">
 <link rel="icon" type="image/png" sizes="64x64" href="assets/logo-64.png">
@@ -143,8 +143,6 @@ nav .links{justify-self: center; display: flex; align-items: center; gap: 2px; p
 nav .links a{color: var(--color-ink-2); text-decoration: none; font-size: 13.5px; font-weight: 500; line-height: 1; white-space: nowrap; padding: 8px 12px; border-radius: var(--radius-pill); transition: color var(--dur-micro) var(--ease-out), background-color var(--dur-micro) var(--ease-out);}
 nav .links a:hover{color: var(--color-ink); background: var(--color-panel-2);}
 nav .links a[aria-current]{color: var(--color-ink); background: color-mix(in oklch, var(--color-surface) 70%, var(--color-panel));}
-@media (min-width: 1101px) and (max-width: 1760px){nav .links a{padding: 8px 6px;}}
-@media (min-width: 1101px) and (max-width: 1260px){nav .links a{padding: 8px 4px; font-size: 12.5px;}}
 .gh{justify-self: end; display: inline-flex; align-items: center; gap: 8px; height: 36px; padding: 0 14px; border-radius: var(--radius-control); background: var(--color-ink); color: var(--color-paper); text-decoration: none; font-size: 14px; font-weight: 600; line-height: 1; white-space: nowrap; transition: background-color var(--dur-micro) var(--ease-out), transform var(--dur-micro) var(--ease-out);}
 .gh:hover{background: var(--color-primary); color: var(--color-primary-ink);}
 .gh:active{transform: translateY(1px);}
@@ -1312,12 +1310,6 @@ to{opacity: 1;transform: none;}
 }
 
 /* ── Responsive ────────────────────────────── */
-@media (max-width: 1100px){
-  html{scroll-padding-top: 124px;}
-  nav[aria-label="Main"] .wrap{display: flex; flex-wrap: wrap; height: auto; padding-top: 10px; row-gap: 0;}
-  nav[aria-label="Main"] .gh{margin-left: auto; height: 34px;}
-  nav .links{order: 3; flex: 0 0 calc(100% + 2 * var(--gutter)); margin: 10px calc(-1 * var(--gutter)) 0; padding: 0 var(--gutter); height: 48px; border: 0; border-top: 1px solid var(--color-rule); border-radius: 0; background: transparent; gap: var(--space-2xs); overflow-x: auto; scrollbar-width: none; -webkit-mask-image: linear-gradient(90deg, transparent 0, var(--color-paper) var(--gutter), var(--color-paper) calc(100% - 32px), transparent); mask-image: linear-gradient(90deg, transparent 0, var(--color-paper) var(--gutter), var(--color-paper) calc(100% - 32px), transparent);}
-  nav .links::-webkit-scrollbar{display: none;}
 }
 @media (max-width: 1024px){
   .how-txt{display: flex; flex-direction: column; gap: var(--space-sm);}
@@ -1452,7 +1444,7 @@ to{opacity: 1;transform: none;}
 }
 /* sticky side panels dock under the two-row nav */
 @media (max-width: 1100px){
-  .ing-side, .ans-side{top: 124px;}
+  .ing-side, .ans-side{top: calc(var(--nav-h) + 16px);}
 }
 
 /* ── Speed: sections below the fold skip layout and paint until they approach the viewport ── */
@@ -1596,8 +1588,6 @@ body > section:not(.hero), footer{content-visibility: auto; contain-intrinsic-si
 /* ── Pitch modal (audience tabs) ─────────────────────── */
 .btn-sell{background: var(--color-amber); color: var(--color-paper); border-color: transparent;}
 .btn-sell:hover{background: var(--color-ink); color: var(--color-paper);}
-nav .links a.nav-sell{color: var(--color-amber); font-weight: 600; box-shadow: inset 0 0 0 1px color-mix(in oklch, var(--color-amber) 55%, transparent);}
-nav .links a.nav-sell:hover{background: color-mix(in oklch, var(--color-amber) 16%, transparent); color: var(--color-ink);}
 .pm-ico{width: 20px; height: 20px; flex: none; fill: none; stroke: currentColor; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round;}
 html.pm-lock, html.pm-lock body{overflow: hidden;}
 .pm{padding: 0; border: 1px solid var(--color-rule-strong); border-radius: 20px; background: var(--color-panel); color: var(--color-ink); width: min(980px, calc(100vw - 32px)); max-width: none; height: min(820px, calc(100dvh - 32px)); max-height: none; margin: auto; overflow: hidden; box-shadow: var(--shadow);}
@@ -1620,6 +1610,7 @@ html.pm-lock, html.pm-lock body{overflow: hidden;}
 .pm-tab[aria-selected="true"]{color: var(--color-ink); border-bottom-color: var(--color-primary);}
 .pm-tab:focus-visible{outline-offset: -3px;}
 .pm-body{flex: 1; min-height: 0; overflow-y: auto; overscroll-behavior: contain; padding: var(--space-lg) var(--space-lg) 0;}
+.pm-panel{padding: 0;}
 .pm-panel[hidden]{display: none;}
 .pm-panel:focus-visible{outline-offset: 2px;}
 .pm-h{margin: 0 0 var(--space-lg); max-width: 30ch; font-family: var(--font-display); font-weight: 500; font-size: clamp(1.5rem, 1.6vw + 1rem, 2.125rem); letter-spacing: -.024em; line-height: 1.1; text-wrap: balance;}
@@ -1649,26 +1640,297 @@ html.pm-lock, html.pm-lock body{overflow: hidden;}
   .pm-cta{margin-left: calc(-1 * var(--gutter)); margin-right: calc(-1 * var(--gutter)); padding: var(--space-sm) var(--gutter) calc(var(--space-sm) + env(safe-area-inset-bottom, 0px));}
   .pm-cta .btn{flex: 1 1 100%; white-space: normal; height: auto; min-height: 46px; padding: 12px 16px; text-align: center;}
 }
+
+
+/* pitch modal, 2026-10-05: segmented tabs, a flow strip per audience, the earn card in amber */
+.pm-tabs{gap: var(--space-2xs); margin: 0 var(--space-lg) var(--space-xs); padding: 4px; border: 1px solid var(--color-rule); border-radius: var(--radius-sm); background: var(--color-paper-2); width: max-content; max-width: calc(100% - 2 * var(--space-lg));}
+.pm-tab{display: inline-flex; align-items: center; gap: 8px; min-height: 40px; padding: 0 14px; border: 0; border-radius: 9px; font-size: 14px;}
+.pm-tab .pm-ico{width: 16px; height: 16px; color: var(--color-ink-3); transition: color var(--dur-micro) var(--ease-out);}
+.pm-tab:hover{background: var(--color-panel-2);}
+.pm-tab[aria-selected="true"]{background: color-mix(in oklch, var(--color-surface) 70%, var(--color-panel)); box-shadow: inset 0 0 0 1px color-mix(in oklch, var(--color-primary) 55%, transparent);}
+.pm-tab[aria-selected="true"] .pm-ico{color: var(--color-primary);}
+.pm-flow{list-style: none; margin: 0 0 var(--space-lg); padding: 0; display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 28px;}
+.pm-step{position: relative; display: flex; align-items: center; gap: 10px; min-width: 0; padding: 10px 12px; border: 1px solid var(--color-rule); border-radius: var(--radius-sm); background: var(--color-paper-2); font-size: 13.5px; font-weight: 500; color: var(--color-ink); line-height: 1.3;}
+.pm-step .pm-ico{width: 30px; height: 30px; padding: 6px; border-radius: 8px; background: var(--color-panel-2); color: var(--color-ink-2);}
+.pm-step + .pm-step::before{content: ""; position: absolute; left: -24px; top: 50%; width: 20px; border-top: 1.5px dashed var(--color-primary); opacity: .8;}
+.pm-step + .pm-step::after{content: ""; position: absolute; left: -9px; top: calc(50% - 4px); border: 4px solid transparent; border-left: 6px solid var(--color-primary); border-right: 0;}
+.pm-step.is-engine{border-color: color-mix(in oklch, var(--color-signal) 60%, var(--color-rule)); background: color-mix(in oklch, var(--color-signal) 10%, var(--color-paper-2));}
+.pm-step.is-engine .pm-ico{color: var(--color-signal-2);}
+.pm-step.is-money{border-color: color-mix(in srgb, var(--color-amber) 55%, var(--color-rule)); background: color-mix(in oklch, var(--color-amber) 9%, var(--color-paper-2));}
+.pm-step.is-money .pm-ico{color: var(--color-amber);}
+.pm-earn{border-color: color-mix(in srgb, var(--color-amber) 40%, var(--color-rule)); background: linear-gradient(180deg, color-mix(in oklch, var(--color-amber) 7%, transparent), transparent 60%), var(--color-panel-2);}
+.pm-card.pm-earn h4{display: flex; align-items: center; gap: 8px; color: var(--color-amber);}
+.pm-earn h4 .pm-ico{width: 18px; height: 18px;}
+.pm-card.pm-wide{background: transparent; border-style: dashed;}
+.pm-cta .btn-sell .pm-ico{color: currentColor;}
+@media (max-width: 760px){
+  .pm-tabs{margin: 0 var(--gutter) var(--space-xs); max-width: calc(100% - 2 * var(--gutter)); width: auto;}
+  .pm-flow{grid-template-columns: repeat(2, minmax(0, 1fr)); gap: var(--space-sm) 28px;}
+  .pm-step:nth-child(3)::before, .pm-step:nth-child(3)::after{display: none;}
+}
+
+/* ── Nav · Product ▾ · Why us · Docs ▾ | Sell AI · Talk to us · Get started; a menu at ≤1100px ── */
+nav[aria-label="Main"] .wrap{display: flex; align-items: center; gap: var(--space-lg); height: var(--nav-h);}
+.nav-menu{flex: 1; display: flex; align-items: center; gap: var(--space-lg); min-width: 0;}
+.nav-groups{list-style: none; margin: 0 auto; padding: 4px; display: flex; align-items: center; gap: 2px; border: 1px solid var(--color-rule); border-radius: var(--radius-pill); background: color-mix(in oklch, var(--color-panel) 70%, transparent);}
+.nav-groups > li{position: relative;}
+.nav-dd-btn, .nav-link{display: inline-flex; align-items: center; gap: 6px; height: 32px; padding: 0 14px; border: 0; border-radius: var(--radius-pill); background: transparent; color: var(--color-ink-2); font: 500 14px/1 var(--font-body); text-decoration: none; white-space: nowrap; cursor: pointer; transition: color var(--dur-micro) var(--ease-out), background-color var(--dur-micro) var(--ease-out);}
+.nav-dd-btn:hover, .nav-link:hover, .nav-dd-btn[aria-expanded="true"]{color: var(--color-ink); background: var(--color-panel-2);}
+.nav-dd-btn.is-current, .nav-link[aria-current]{color: var(--color-ink); background: color-mix(in oklch, var(--color-surface) 70%, var(--color-panel));}
+.nav-chev{width: 12px; height: 12px; fill: none; stroke: currentColor; stroke-width: 1.6; stroke-linecap: round; stroke-linejoin: round; transition: transform var(--dur-short) var(--ease-out);}
+.nav-dd-btn[aria-expanded="true"] .nav-chev{transform: rotate(180deg);}
+.nav-dd-panel{position: absolute; top: calc(100% + 12px); left: 50%; width: 320px; padding: var(--space-xs); display: grid; gap: 2px; border: 1px solid var(--color-rule-strong); border-radius: var(--radius-card); background: var(--color-panel); box-shadow: 0 24px 48px -20px var(--color-shadow); opacity: 0; visibility: hidden; transform: translate(-50%, -4px); transition: opacity var(--dur-short) var(--ease-out), transform var(--dur-short) var(--ease-out), visibility 0s linear var(--dur-short);}
+.nav-dd-panel::before{content: ""; position: absolute; inset: -14px 0 auto; height: 14px;}
+.nav-dd.is-open .nav-dd-panel{opacity: 1; visibility: visible; transform: translate(-50%, 0); transition: opacity var(--dur-short) var(--ease-out), transform var(--dur-short) var(--ease-out), visibility 0s;}
+.nav-dd-label{display: none;}
+.nav-dd-panel a{display: grid; grid-template-columns: 36px minmax(0, 1fr); gap: var(--space-sm); align-items: center; padding: 10px 12px; border-radius: var(--radius-sm); color: var(--color-ink); text-decoration: none; transition: background-color var(--dur-micro) var(--ease-out);}
+.nav-dd-panel a .pm-ico{width: 36px; height: 36px; padding: 8px; border-radius: 10px; border: 1px solid var(--color-rule); background: var(--color-paper-2); color: var(--color-primary); stroke-width: 1.8;}
+.nav-dd-panel a b{display: block; font-size: 14.5px; font-weight: 600; line-height: 1.3;}
+.nav-dd-panel a small{display: block; font-size: 13px; color: var(--color-ink-3); line-height: 1.35; margin-top: 2px;}
+.nav-dd-panel a:hover, .nav-dd-panel a:focus-visible{background: var(--color-panel-2); color: var(--color-ink);}
+.nav-dd-panel a[aria-current]{background: color-mix(in oklch, var(--color-surface) 55%, transparent);}
+.nav-dd-panel a[aria-current] .pm-ico{border-color: color-mix(in oklch, var(--color-primary) 55%, transparent);}
+.nav-dd-panel a:focus-visible{outline-offset: -2px;}
+.nav-cta{display: flex; align-items: center; gap: var(--space-xs); flex: none;}
+.nav-btn{display: inline-flex; align-items: center; justify-content: center; height: 36px; padding: 0 14px; border-radius: var(--radius-control); border: 1px solid transparent; font: 600 14px/1 var(--font-body); white-space: nowrap; text-decoration: none; transition: background-color var(--dur-micro) var(--ease-out), border-color var(--dur-micro) var(--ease-out), color var(--dur-micro) var(--ease-out), transform var(--dur-micro) var(--ease-out);}
+.nav-btn:active{transform: translateY(1px);}
+.nav-btn.is-sell{background: var(--color-amber); color: var(--color-paper);}
+.nav-btn.is-sell:hover{background: var(--color-ink); color: var(--color-paper);}
+.nav-btn.is-ghost{border-color: var(--color-rule-strong); color: var(--color-ink);}
+.nav-btn.is-ghost:hover{border-color: var(--color-primary); background: color-mix(in oklch, var(--color-surface) 40%, transparent); color: var(--color-ink);}
+.nav-btn.is-primary{background: var(--color-primary); color: var(--color-primary-ink);}
+.nav-btn.is-primary:hover{background: var(--color-ink); color: var(--color-paper);}
+.nav-toggle{display: none; margin-left: auto; align-items: center; gap: 8px; height: 40px; padding: 0 14px; border: 1px solid var(--color-rule-strong); border-radius: var(--radius-control); background: transparent; color: var(--color-ink); font: 600 14px/1 var(--font-body); cursor: pointer;}
+.nav-toggle .pm-ico{width: 18px; height: 18px;}
+.nav-toggle[aria-expanded="true"]{border-color: var(--color-primary); background: color-mix(in oklch, var(--color-surface) 45%, transparent);}
+.foot-brand{font-weight: 600; color: var(--color-ink) !important;}
+@media (max-width: 1100px){
+  html{scroll-padding-top: calc(var(--nav-h) + 16px);}
+  .nav-toggle{display: inline-flex;}
+  .nav-menu{position: absolute; top: 100%; left: 0; right: 0; display: none; flex-direction: column; align-items: stretch; gap: var(--space-lg); max-height: calc(100dvh - var(--nav-h)); overflow-y: auto; overscroll-behavior: contain; padding: var(--space-lg) var(--gutter) var(--space-xl); border-bottom: 1px solid var(--color-rule); background: var(--color-paper); box-shadow: 0 24px 48px -12px var(--color-shadow);}
+  nav.is-menu-open .nav-menu{display: flex;}
+  .nav-groups{margin: 0; padding: 0; border: 0; border-radius: 0; background: transparent; flex-direction: column; align-items: stretch; gap: var(--space-lg);}
+  .nav-dd-btn{display: none;}
+  .nav-dd-panel{position: static; width: auto; padding: 0; border: 0; border-radius: 0; background: transparent; -webkit-backdrop-filter: none; backdrop-filter: none; box-shadow: none; opacity: 1; visibility: visible; transform: none; transition: none; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: var(--space-2xs) var(--space-sm);}
+  .nav-dd-panel::before{display: none;}
+  .nav-dd-label{display: block; grid-column: 1 / -1; margin-bottom: var(--space-2xs); font-family: var(--font-mono); font-size: 11.5px; font-weight: 600; letter-spacing: .06em; text-transform: uppercase; color: var(--color-ink-3);}
+  .nav-solo{padding-top: var(--space-md); border-top: 1px solid var(--color-rule);}
+  .nav-solo + .nav-dd{padding-top: var(--space-md); border-top: 1px solid var(--color-rule);}
+  .nav-link{height: 44px; padding: 0 12px; font-size: 15.5px; font-weight: 600; color: var(--color-ink);}
+  .nav-cta{display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: var(--space-xs);}
+  .nav-btn{height: 46px; font-size: 15px;}
+}
+@media (max-width: 640px){
+  .nav-dd-panel{grid-template-columns: minmax(0, 1fr);}
+  .nav-cta{grid-template-columns: minmax(0, 1fr);}
+  .nav-toggle-t{display: none;}
+}
+@media (prefers-reduced-motion: reduce){ .nav-dd-panel, .nav-chev{transition: none !important;} }
+
+/* ── Early access · the release decision (#start) ── */
+.decide-grid{display: grid; grid-template-columns: minmax(0, 1.1fr) minmax(0, .9fr); gap: var(--space-2xl); align-items: start;}
+.decide-lede{font-size: 16.5px; line-height: 1.7; color: var(--color-ink-2); max-width: 60ch;}
+.decide-lede + .decide-lede{margin-top: var(--space-sm); color: var(--color-ink);}
+.decide-choices{margin-top: var(--space-xl); display: grid; gap: var(--space-sm);}
+.choice{display: grid; grid-template-columns: 44px minmax(0, 1fr) 24px; gap: var(--space-md); align-items: center; padding: var(--space-md) var(--space-lg) var(--space-md) var(--space-md); border: 1px solid var(--color-rule); border-radius: var(--radius-card); background: var(--color-panel); color: var(--color-ink); text-decoration: none; transition: border-color var(--dur-short) var(--ease-out), background-color var(--dur-short) var(--ease-out), transform var(--dur-short) var(--ease-out);}
+.choice .pm-ico{width: 44px; height: 44px; padding: 11px; border-radius: 12px; border: 1px solid currentColor; color: var(--color-ink-2); background: color-mix(in oklch, currentColor 10%, transparent);}
+.choice-t b{display: block; font-size: 16.5px; font-weight: 600; letter-spacing: -.01em; line-height: 1.3;}
+.choice-t span{display: block; margin-top: 2px; font-size: 14px; color: var(--color-ink-2); line-height: 1.45;}
+.choice-go{font-size: 18px; color: var(--color-ink-3); transition: transform var(--dur-short) var(--ease-out), color var(--dur-short) var(--ease-out);}
+.choice:hover{border-color: var(--color-rule-strong); background: var(--color-panel-2); color: var(--color-ink);}
+.choice:hover .choice-go{transform: translateX(3px); color: var(--color-ink);}
+.choice:active{transform: translateY(1px);}
+.choice.is-partner{border-color: color-mix(in srgb, var(--color-amber) 45%, var(--color-rule)); background: linear-gradient(90deg, color-mix(in oklch, var(--color-amber) 9%, transparent), transparent 70%), var(--color-panel);}
+.choice.is-partner .pm-ico{color: var(--color-amber);}
+.choice.is-partner:hover{border-color: var(--color-amber);}
+.choice.is-open .pm-ico{color: var(--color-primary);}
+.choice.is-open:hover{border-color: var(--color-primary);}
+.decide-note{margin-top: var(--space-md); font-size: var(--fs-micro); color: var(--color-ink-3);}
+.decide-fig .dg-frame{padding: var(--space-lg);}
+.decide-q circle{fill: var(--color-paper); stroke: var(--color-primary); stroke-width: 1.5;}
+.decide-q text{fill: var(--color-primary); font: 600 18px var(--font-mono); text-anchor: middle; dominant-baseline: central;}
+.dg-wire.decide-amber{stroke: var(--color-amber);}
+.decide-ring circle{fill: color-mix(in oklch, var(--color-amber) 70%, transparent);}
+.decide-road{list-style: none; margin: var(--space-2xl) 0 0; padding: 0; display: grid; grid-template-columns: minmax(0, 1.6fr) minmax(0, 1fr) minmax(0, 1fr); column-gap: var(--space-lg);}
+.decide-road li{position: relative; padding: var(--space-lg) var(--space-lg) 0 0; border-top: 1px dashed var(--color-rule-strong); display: grid; gap: 4px;}
+.decide-road li::before{content: ""; position: absolute; top: -6px; left: 0; width: 11px; height: 11px; border-radius: 50%; background: var(--color-paper-2); border: 1.5px solid var(--color-rule-strong);}
+.decide-road li.is-now{border-top: 2px solid var(--color-primary);}
+.decide-road li.is-now::before{top: -7px; background: var(--color-primary); border-color: var(--color-primary);}
+.road-k{font-family: var(--font-mono); font-size: 11.5px; font-weight: 600; letter-spacing: .06em; text-transform: uppercase; color: var(--color-ink-3);}
+.decide-road .is-now .road-k{color: var(--color-primary);}
+.decide-road b{font-size: 16px; font-weight: 600; color: var(--color-ink); line-height: 1.4;}
+@media (max-width: 960px){ .decide-grid{grid-template-columns: minmax(0, 1fr); gap: var(--space-xl);} .decide-fig{max-width: 520px;} }
+@media (max-width: 700px){ .choice{grid-template-columns: 40px minmax(0, 1fr) 16px; gap: var(--space-sm); padding: var(--space-md) var(--space-md) var(--space-md) var(--space-sm);} .choice .pm-ico{width: 40px; height: 40px; padding: 10px;} .decide-road{grid-template-columns: minmax(0, 1fr); row-gap: var(--space-lg);} .decide-fig .dg-frame{padding: var(--space-sm);} }
+@media (hover: hover) and (pointer: fine){ .choice:hover{transform: translateY(-2px);} }
+@media (prefers-reduced-motion: reduce){ .choice, .choice-go{transition: none;} .choice:hover{transform: none;} }
+
+/* ── Why us · toolkits, the landscape, the four lines (one section; #compare is an anchor inside it) ── */
+.why-plain{display: grid; grid-template-columns: minmax(0, 1.25fr) minmax(0, 1fr); gap: var(--space-2xl); align-items: start; margin-top: var(--space-lg);}
+.why-lede{font-size: 16.5px; line-height: 1.75; color: var(--color-ink-2); padding-left: var(--space-lg); border-left: 2px solid var(--color-rule-strong);}
+.why-kinds{list-style: none; margin: 0; padding: 0; display: grid; gap: var(--space-xs);}
+.why-kinds li{display: grid; grid-template-columns: 128px minmax(0, 1fr); column-gap: var(--space-md); row-gap: 2px; align-items: baseline; padding: var(--space-sm) var(--space-md); border: 1px solid var(--color-rule); border-radius: var(--radius-sm); background: var(--color-panel);}
+.why-kinds b{font-size: 15px; color: var(--color-ink);}
+.why-kinds li > span:last-child{grid-column: 2; font-size: 13.5px; color: var(--color-ink-3);}
+.why-kk{grid-row: span 2; font-family: var(--font-mono); font-size: 11.5px; font-weight: 600; letter-spacing: .06em; text-transform: uppercase; display: inline-flex; align-items: center; gap: 8px;}
+.why-kk::before{content: ""; width: 8px; height: 8px; border-radius: 2px; flex: none; background: currentColor;}
+.why-kinds .is-tool .why-kk{color: var(--color-violet);}
+.why-kinds .is-builder .why-kk{color: var(--color-amber);}
+.why-kinds .is-product{background: color-mix(in oklch, var(--color-surface) 38%, var(--color-panel)); border-color: color-mix(in oklch, var(--color-primary) 45%, var(--color-surface));}
+.why-kinds .is-product .why-kk{color: var(--color-primary);}
+.why-kinds .is-product li > span:last-child, .why-kinds .is-product > span:last-child{color: var(--color-ink-on-surface);}
+.why-sub{margin-top: var(--space-2xl); margin-bottom: var(--space-lg);}
+.why-sub h3{font-size: 24px; font-weight: 600; letter-spacing: -.02em; margin: 0;}
+.why-sub > p{color: var(--color-ink-2); font-size: 15px; margin-top: var(--space-xs);}
+.why-fig{margin-top: 0;}
+.why-build{fill: color-mix(in oklch, var(--color-amber) 5%, transparent); stroke: color-mix(in oklch, var(--color-amber) 60%, transparent); stroke-width: 1.5; stroke-dasharray: 6 5;}
+.dg-badge.is-amber circle{stroke: var(--color-amber);}
+.dg-badge.is-amber text{fill: var(--color-amber);}
+.why-rt{font-size: 14.5px;}
+.why-at{font-size: 13.5px; font-weight: 500;}
+.why-pt{font-size: 11px;}
+.why-land h3 .thin{color: var(--color-ink-2);}
+.dg-ok{fill: var(--color-green); font-family: var(--font-mono); font-size: 12.5px;}
+.why-tick{fill: none; stroke: var(--color-green); stroke-width: 2; stroke-linecap: round; stroke-linejoin: round;}
+.why-in{fill: var(--color-panel); stroke: var(--color-rule-strong); stroke-width: 1;}
+.why-grid{margin-top: var(--space-lg); display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 1px; background: var(--color-rule); border: 1px solid var(--color-rule); border-radius: var(--radius-card); overflow: hidden;}
+.why-item{background: var(--color-paper); padding: var(--space-lg); display: flex; flex-direction: column; gap: 6px; min-width: 0;}
+.why-n{font-family: var(--font-mono); font-size: 12px; font-weight: 600; color: var(--color-primary); letter-spacing: .04em;}
+.why-item h4, .qa h4{margin: 0; font-family: var(--font-display); font-size: 16.5px; font-weight: 600; letter-spacing: -.01em; line-height: 1.3; color: var(--color-ink); text-wrap: balance;}
+.why-item p, .qa p{margin: 0; font-size: 14.5px; line-height: 1.6; color: var(--color-ink-2);}
+.why-item code{font-size: 12.5px;}
+/* table markers: built in / partly / you build it / not part of it (icon + words, never colour alone) */
+.mk{position: relative; display: block; padding-left: 28px;}
+.mk::before, .mk::after{content: ""; position: absolute; left: 0; top: 1px; width: 20px; height: 20px; border-radius: 50%;}
+.mk::before{background: color-mix(in oklch, currentColor 14%, transparent);}
+.mk::after{background: currentColor; -webkit-mask: var(--mk) center / 14px 14px no-repeat; mask: var(--mk) center / 14px 14px no-repeat;}
+.mk-yes{--mk: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='black' stroke-width='3' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M5 12.5l4.5 4.5L19 7.5'/%3E%3C/svg%3E");}
+.mk-no{--mk: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='black' stroke-width='3' stroke-linecap='round'%3E%3Cpath d='M7 7l10 10M17 7 7 17'/%3E%3C/svg%3E");}
+.mk-you{--mk: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='black' stroke-width='2.6' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M14.5 6.5a4 4 0 0 0-5 5L4 17l3 3 5.5-5.5a4 4 0 0 0 5-5l-2.4 2.4-2.6-.4-.4-2.6z'/%3E%3C/svg%3E");}
+.mk-part{--mk: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='black' stroke-width='3' stroke-linecap='round'%3E%3Cpath d='M6 12h12'/%3E%3C/svg%3E");}
+td .mk-yes, .why-legend .mk-yes{color: var(--color-green);}
+td .mk-no, .why-legend .mk-no{color: var(--color-rose);}
+td .mk-you, .why-legend .mk-you{color: var(--color-amber);}
+td .mk-part, .why-legend .mk-part{color: var(--color-ink-3);}
+td .mk{color: inherit;}
+td .mk-yes::before, td .mk-yes::after{color: var(--color-green);}
+td .mk-no::before, td .mk-no::after{color: var(--color-rose);}
+td .mk-you::before, td .mk-you::after{color: var(--color-amber);}
+td .mk-part::before, td .mk-part::after{color: var(--color-ink-3);}
+td.us .mk{color: var(--color-ink);}
+.why-legend{display: flex; flex-wrap: wrap; gap: var(--space-xs) var(--space-lg); align-items: center; font-size: 13px; margin: 0;}
+.why-legend .mk{display: inline-block; line-height: 22px;}
+.why-table td{line-height: 1.5;}
+.table-sticky .compare th:first-child, .table-sticky .compare td:first-child{position: sticky; left: 0; z-index: 1; background: var(--color-panel); box-shadow: inset -1px 0 0 var(--color-rule);}
+.table-sticky .compare th:first-child{background: var(--color-paper-2);}
+/* the four lines: a script card */
+.script{margin-top: var(--space-2xl); display: grid; grid-template-columns: minmax(0, .62fr) minmax(0, 2fr); gap: var(--space-xl); padding: var(--space-xl); border: 1px solid color-mix(in oklch, var(--color-primary) 38%, var(--color-surface)); border-radius: var(--radius-card); background: radial-gradient(70% 120% at 0% 0%, color-mix(in oklch, var(--color-surface) 70%, transparent), transparent 72%), var(--color-panel);}
+.script-head .kicker{color: var(--color-primary); margin-bottom: var(--space-sm);}
+.script-head h3{font-size: clamp(24px, 1.4vw + 16px, 30px); font-weight: 500; letter-spacing: -.024em; line-height: 1.1; margin: 0;}
+.script-lines{list-style: none; margin: 0; padding: 0; display: grid;}
+.script-lines li{display: grid; grid-template-columns: 40px minmax(0, 1fr); gap: var(--space-sm); padding: var(--space-md) 0; border-top: 1px solid color-mix(in oklch, var(--color-ink) 12%, transparent);}
+.script-lines li:first-child{border-top: 0; padding-top: 0;}
+.script-lines li:last-child{padding-bottom: 0;}
+.script-n{font-family: var(--font-mono); font-size: 13px; font-weight: 600; color: var(--color-primary); padding-top: 3px;}
+.script-lines p{margin: 0; font-size: 16.5px; line-height: 1.6; color: var(--color-ink);}
+/* the landscape, now inside "Why us" */
+.why-land{margin-top: var(--space-3xl); padding-top: var(--space-xl); border-top: 1px solid var(--color-rule);}
+.why-land .kicker{margin-bottom: var(--space-sm);}
+.why-land h3{font-size: clamp(26px, 1.8vw + 16px, 36px); font-weight: 500; letter-spacing: -.024em; line-height: 1.1;}
+/* questions people ask: a ruled two-column list */
+.faq{display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); border-top: 1px solid var(--color-rule);}
+.qa{padding: var(--space-lg) var(--space-lg) var(--space-lg) 0; border-bottom: 1px solid var(--color-rule); display: grid; gap: 6px; align-content: start;}
+.qa:nth-child(even){padding-left: var(--space-lg); padding-right: 0; border-left: 1px solid var(--color-rule);}
+@media (max-width: 960px){
+  .why-plain{grid-template-columns: minmax(0, 1fr); gap: var(--space-lg);}
+  .why-grid{grid-template-columns: repeat(2, minmax(0, 1fr));}
+  .script{grid-template-columns: minmax(0, 1fr); gap: var(--space-lg);}
+}
+@media (max-width: 700px){
+  .why-grid, .faq{grid-template-columns: minmax(0, 1fr);}
+  .qa, .qa:nth-child(even){padding: var(--space-md) 0; border-left: 0;}
+  .why-item{padding: var(--space-md);}
+  .why-kinds li{grid-template-columns: minmax(0, 1fr);}
+  .why-kinds li > span:last-child{grid-column: 1;}
+  .why-kk{grid-row: auto;}
+  .why-lede{padding-left: var(--space-md);}
+  .script{padding: var(--space-lg) var(--space-md);}
+  .script-lines li{grid-template-columns: 30px minmax(0, 1fr);}
+  .script-lines p{font-size: 15.5px;}
+  .table-sticky .compare td:first-child, .table-sticky .compare th:first-child{min-width: 132px; max-width: 132px;}
+  .why-land{margin-top: var(--space-2xl);}
+}
+
+/* ── Languages, measured · stat panel after "What's in the box" (generated by benchmarks/tables.py) ── */
+#features .card.is-wide{grid-column: 1 / -1;}
+#features .card.is-wide p{max-width: 96ch;}
+.card-more{display: inline-block; margin-top: var(--space-2xs); font-weight: 500; text-decoration: none; white-space: nowrap;}
+.card-more::after{content: " ↓"; color: var(--color-ink-3);}
+.lang{margin-top: var(--space-2xl); padding: var(--space-xl); border: 1px solid color-mix(in oklch, var(--color-surface) 60%, var(--color-rule)); border-radius: var(--radius-card); background: radial-gradient(60% 90% at 0% 0%, color-mix(in oklch, var(--color-surface) 42%, transparent), transparent 70%), var(--color-panel); display: grid; gap: var(--space-lg);}
+.lang-head .kicker{color: var(--color-primary); margin-bottom: var(--space-sm);}
+.lang-head h3{font-size: clamp(22px, 1.2vw + 16px, 28px); font-weight: 600; letter-spacing: -.02em; margin: 0;}
+.lang-head p{color: var(--color-ink-2); font-size: 15px; margin-top: var(--space-xs); max-width: 60ch;}
+.lang-grid{display: grid; grid-template-columns: minmax(0, 1.15fr) minmax(0, 1fr); gap: var(--space-md);}
+.lang-tile{min-width: 0; padding: var(--space-md) var(--space-lg); border: 1px solid var(--color-rule); border-radius: var(--radius-sm); background: color-mix(in oklch, var(--color-paper) 55%, transparent); display: grid; grid-template-columns: minmax(0, auto) minmax(0, 1fr); column-gap: var(--space-md); row-gap: 6px; align-items: baseline;}
+.lang-tile > b{font-family: var(--font-display); font-weight: 500; font-size: 28px; letter-spacing: -.03em; line-height: 1; color: var(--color-ink); font-variant-numeric: tabular-nums; white-space: nowrap;}
+.lang-tile .lang-what{font-size: 14px; color: var(--color-ink-2); line-height: 1.4;}
+.lang-tile > .lang-meter, .lang-tile > .lang-bar{grid-column: 1 / -1;}
+.lang-bar{font-family: var(--font-mono); font-size: 11.5px; color: var(--color-ink-3); letter-spacing: .02em;}
+.lang-tiles{display: grid; gap: var(--space-sm); min-width: 0;}
+.lang-tile.is-main{grid-template-columns: minmax(0, 1fr); align-content: start; padding: var(--space-lg); background: color-mix(in oklch, var(--color-surface) 30%, var(--color-paper));}
+.lang-tile.is-main > .lang-big{font-size: clamp(56px, 5vw, 80px); color: var(--color-primary); letter-spacing: -.045em;}
+.lang-tile.is-main > .lang-what{font-size: 15px; color: var(--color-ink-on-surface);}
+.lang-meter{position: relative; display: block; height: 6px; margin: 4px 0 2px; border-radius: var(--radius-pill); background: var(--color-rule);}
+.lang-meter i{position: absolute; inset: 0 auto 0 0; width: calc(var(--v) * 1%); border-radius: inherit; background: linear-gradient(90deg, color-mix(in oklch, var(--color-green) 55%, var(--color-surface)), var(--color-green));}
+.lang-meter::after{content: ""; position: absolute; top: -4px; bottom: -4px; left: calc(var(--bar) * 1%); width: 2px; border-radius: 1px; background: var(--color-ink);}
+.lang-tile:not(.is-main) .lang-meter i{background: linear-gradient(90deg, color-mix(in oklch, var(--color-primary) 45%, var(--color-surface)), var(--color-primary));}
+.lang-langs{list-style: none; margin: var(--space-sm) 0 0; padding: var(--space-sm) 0 0; border-top: 1px solid var(--color-rule); display: grid; gap: var(--space-xs);}
+.lang-langs li{display: grid; grid-template-columns: 88px 64px minmax(0, 1fr); align-items: center; gap: var(--space-sm); font-size: 14px; color: var(--color-ink-2);}
+.lang-langs b{font-family: var(--font-mono); font-size: 13px; font-weight: 600; color: var(--color-ink); font-variant-numeric: tabular-nums; text-align: right;}
+.lang-langs .lang-meter{margin: 0;}
+.lang-cards{display: grid; grid-template-columns: minmax(0, 1.15fr) minmax(0, 1fr); gap: var(--space-md);}
+.lang-card{min-width: 0; padding: var(--space-md) var(--space-lg); border: 1px solid var(--color-rule); border-radius: var(--radius-sm); background: var(--color-panel-2); display: flex; flex-direction: column; gap: 6px;}
+.lang-k{font-family: var(--font-mono); font-size: 11.5px; font-weight: 600; letter-spacing: .06em; text-transform: uppercase; color: var(--color-ink-3);}
+.lang-name{font-size: 18px; font-weight: 600; letter-spacing: -.012em; color: var(--color-ink);}
+.lang-card code{font-size: 12.5px; color: var(--color-ink-2); overflow-wrap: anywhere;}
+.lang-pass{margin-top: var(--space-xs); font-size: 14.5px; color: var(--color-ink-2);}
+.lang-pass b{color: var(--color-green);}
+.lang-strip{width: 100%; max-width: 420px; height: auto; margin-top: 4px;}
+.lang-strip rect{fill: var(--color-rule-strong); opacity: .7;}
+.lang-strip rect.is-pass{fill: var(--color-green); opacity: 1;}
+.lang-strip rect.is-default{fill: var(--color-primary); opacity: 1;}
+.lang-legend{display: flex; flex-wrap: wrap; gap: 4px var(--space-md); margin-top: 6px; font-family: var(--font-mono); font-size: 11.5px; color: var(--color-ink-3);}
+.lang-legend span{display: inline-flex; align-items: center; gap: 6px;}
+.lang-legend i{width: 10px; height: 10px; border-radius: 3px; background: var(--color-rule-strong);}
+.lang-legend i.is-pass{background: var(--color-green);}
+.lang-legend i.is-default{background: var(--color-primary);}
+.lang-duo{display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: var(--space-md); margin-top: var(--space-xs); padding-top: var(--space-sm); border-top: 1px solid var(--color-rule);}
+.lang-duo b{display: block; font-family: var(--font-display); font-weight: 500; font-size: 32px; letter-spacing: -.03em; line-height: 1.05; color: var(--color-amber); font-variant-numeric: tabular-nums;}
+.lang-duo span{display: block; margin-top: 4px; font-size: 13.5px; color: var(--color-ink-2); line-height: 1.45;}
+.lang-claim{padding-left: var(--space-md); border-left: 2px solid color-mix(in oklch, var(--color-primary) 55%, transparent); font-size: 14px; line-height: 1.65; color: var(--color-ink-2); max-width: 110ch;}
+.lang-claim code{color: var(--color-ink);}
+.lang-src{font-size: var(--fs-micro); color: var(--color-ink-3);}
+@media (min-width: 961px){ .lang-head{display: grid; grid-template-columns: minmax(0, 1.05fr) minmax(0, .95fr); column-gap: var(--space-2xl); align-items: end;} .lang-head p{margin: 0;} }
+@media (max-width: 960px){ .lang-grid, .lang-cards{grid-template-columns: minmax(0, 1fr);} }
+@media (max-width: 700px){ .lang{padding: var(--space-lg) var(--space-md); gap: var(--space-md);} .lang-tile, .lang-tile.is-main, .lang-card{padding: var(--space-md);} .lang-langs li{grid-template-columns: 76px 58px minmax(0, 1fr);} .lang-duo b{font-size: 28px;} }
 </style>
 </head>
 <body>
 <nav aria-label="Main">
   <div class="wrap">
     <a class="brand" href="#top"><img src="assets/logo-64.png" alt="" width="32" height="32">cob-rag-engine</a>
-    <div class="links">
-      <a class="nav-sell" href="pitch.html" data-pitch="agencies">Sell AI</a>
-      <a href="#sell">What to sell</a>
-      <a href="#how">How it works</a>
-      <a href="#ingest">Inside</a>
-      <a href="#why">Why us</a>
-      <a href="#compare">Compare</a>
-      <a href="#agents">For agents</a>
-      <a href="#next">Roadmap</a>
-      <a href="guide.html">Guide</a>
-      <a href="deploy.html">Deploy</a>
-      <a href="#start">Get started</a>
+    <button type="button" class="nav-toggle" aria-expanded="false" aria-controls="nav-menu"><svg class="pm-ico" aria-hidden="true" focusable="false"><use href="#pm-i-menu"/></svg><span class="nav-toggle-t">Menu</span></button>
+    <div class="nav-menu" id="nav-menu">
+      <ul class="nav-groups">
+        <li class="nav-dd" data-group="product"><button type="button" class="nav-dd-btn" id="nav-btn-product" aria-expanded="false" aria-controls="nav-dd-product">Product<svg class="nav-chev" viewBox="0 0 12 12" aria-hidden="true" focusable="false"><path d="M3 4.5 6 7.5 9 4.5"/></svg></button><div class="nav-dd-panel" id="nav-dd-product" role="group" aria-labelledby="nav-btn-product"><span class="nav-dd-label" aria-hidden="true">Product</span><a href="#sell"><svg class="pm-ico" aria-hidden="true" focusable="false"><use href="#pm-i-coin"/></svg><span><b>What to sell</b><small>Six businesses you can run on it</small></span></a><a href="#how"><svg class="pm-ico" aria-hidden="true" focusable="false"><use href="#pm-i-bolt"/></svg><span><b>How it works</b><small>Three steps per client, no code</small></span></a><a href="#ingest"><svg class="pm-ico" aria-hidden="true" focusable="false"><use href="#pm-i-doc"/></svg><span><b>Inside</b><small>From a messy PDF to a cited answer</small></span></a><a href="#agents"><svg class="pm-ico" aria-hidden="true" focusable="false"><use href="#pm-i-plug"/></svg><span><b>For agents</b><small>MCP for any agent, and the shell</small></span></a><a href="#next"><svg class="pm-ico" aria-hidden="true" focusable="false"><use href="#pm-i-route"/></svg><span><b>Roadmap</b><small>What ships next, in the open</small></span></a></div></li>
+        <li class="nav-solo"><a class="nav-link" href="#why">Why us</a></li>
+        <li class="nav-dd" data-group="docs"><button type="button" class="nav-dd-btn" id="nav-btn-docs" aria-expanded="false" aria-controls="nav-dd-docs">Docs<svg class="nav-chev" viewBox="0 0 12 12" aria-hidden="true" focusable="false"><path d="M3 4.5 6 7.5 9 4.5"/></svg></button><div class="nav-dd-panel" id="nav-dd-docs" role="group" aria-labelledby="nav-btn-docs"><span class="nav-dd-label" aria-hidden="true">Docs</span><a href="guide.html"><svg class="pm-ico" aria-hidden="true" focusable="false"><use href="#pm-i-steps"/></svg><span><b>Guide</b><small>Set it up, step by step</small></span></a><a href="deploy.html"><svg class="pm-ico" aria-hidden="true" focusable="false"><use href="#pm-i-server"/></svg><span><b>Deploy guide</b><small>Go live on your own server</small></span></a><a href="benchmarks.html"><svg class="pm-ico" aria-hidden="true" focusable="false"><use href="#pm-i-bars"/></svg><span><b>Benchmarks</b><small>Every number, with the method</small></span></a><a href="pitch.html"><svg class="pm-ico" aria-hidden="true" focusable="false"><use href="#pm-i-tag"/></svg><span><b>Pitch sheet</b><small>One page to share with clients</small></span></a></div></li>
+      </ul>
+      <div class="nav-cta">
+        <a class="nav-btn is-sell" href="pitch.html" data-pitch="agencies">Sell AI</a>
+        <a class="nav-btn is-ghost" href="mailto:callobuzz@gmail.com?subject=cob-rag-engine%3A%20talk%20to%20us">Talk to us</a>
+        <a class="nav-btn is-primary" href="#start">Get started</a>
+      </div>
     </div>
-    <a class="gh" href="https://github.com/callobuzz/cob-rag-engine">★ GitHub</a>
   </div>
 </nav>
 <svg class="lm-defs" width="0" height="0" aria-hidden="true" focusable="false"><defs>
@@ -1792,16 +2054,16 @@ html.pm-lock, html.pm-lock body{overflow: hidden;}
 <section class="hero" id="top">
 <div class="wrap">
 <div>
-<div class="eyebrow">Open source · self-hosted · multi-tenant</div>
+<div class="eyebrow">Self-hosted · multi-tenant · any model</div>
 <h1>The knowledge layer <em>for AI assistants and agents.</em></h1>
 <p class="lede">An AI assistant or agent is only as good as what it knows. cob-rag-engine gives every business you serve its own private knowledge base, with its own keys and model, measured search and a usage count to bill from. Put it on a website, call it from your app, or plug it into any AI agent over <a href="#agents">MCP</a> and script it from the shell. You own the server, the data and the margin.</p>
 <div class="cta">
 <a class="btn btn-sell" aria-label="For agencies: sell AI assistants" href="pitch.html" data-pitch="agencies">For agencies →</a>
-<a class="btn btn-primary" href="#start">Run it in 3 commands →</a>
+<a class="btn btn-primary" href="#start">Get early access →</a>
 <a class="btn btn-ghost" href="#sell">What can I sell?</a>
 </div>
 <div class="chips">
-<span class="chip">AGPL-3.0 + commercial license</span><span class="chip">Bring your own key</span><span class="chip">Any LLM, or none leaving your box</span><span class="chip">~2 GB RAM on CPU</span><span class="chip">Postgres · Qdrant · Redis</span>
+<span class="chip">For partner resellers</span><span class="chip">Bring your own key</span><span class="chip">Any LLM, or none leaving your box</span><span class="chip">~2 GB RAM on CPU</span><span class="chip">Postgres · Qdrant · Redis</span>
 </div>
 </div>
 <figure class="hero-stage" aria-labelledby="hero-cap">
@@ -1908,6 +2170,53 @@ Shree Labs
 </table>
 </div>
 <p class="note note-2col">The raw model cost behind a small-model RAG answer is a fraction of a cent. The gap between that and $0.03–$0.99 per answer is the margin. On cob-rag-engine your platform cost is one server and your model bill; there is no per-bot or branding fee. The conversational-AI market was estimated at $14–17 billion in 2025<sup><a href="#s-gvr">[9]</a></sup>; analysts disagree on the size, not the direction.</p>
+</div>
+</section>
+<section class="act tint decide" id="start" aria-labelledby="decide-h">
+<div class="wrap">
+<header class="sec-head"><div class="sec-head-t"><div class="kicker">Early access</div>
+<h2 id="decide-h">Open source, or a partner circle? <span class="thin">Help us decide.</span></h2></div>
+<p class="sub">We built cob-rag-engine to power AI assistants for businesses. Now we are deciding how to release it: open-source it for everyone, or keep it within a close circle of partner resellers.</p></header>
+<div class="decide-grid">
+<div class="decide-copy">
+<p class="decide-lede">If enough resellers want to work with us personally, it stays inside that circle. It will not be given away for anyone to copy and turn into their own product, so partners keep a real edge.</p>
+<p class="decide-lede">The product is growing fast: an agentic layer and orchestration come next.</p>
+<div class="decide-choices">
+<a class="choice is-partner" href="mailto:callobuzz@gmail.com?subject=cob-rag-engine%3A%20I%27d%20join%20the%20partner%20circle&amp;body=Hi%20Callobuzz%2C%0A%0AI%20would%20join%20the%20partner%20circle.%0A%0AMy%20name%3A%0ACompany%3A%0ACity%3A%0AHow%20many%20clients%20I%20serve%3A%0AMy%20suggestion%3A%0A%0AThanks"><svg class="pm-ico" aria-hidden="true" focusable="false"><use href="#pm-i-users"/></svg><span class="choice-t"><b>I'd join the partner circle</b><span>Work with us directly, and keep the edge.</span></span><span class="choice-go" aria-hidden="true">→</span></a>
+<a class="choice is-open" href="mailto:callobuzz@gmail.com?subject=cob-rag-engine%3A%20I%20think%20it%20should%20be%20open%20source&amp;body=Hi%20Callobuzz%2C%0A%0AI%20think%20cob-rag-engine%20should%20be%20open%20source.%0A%0AMy%20name%3A%0ACompany%3A%0ACity%3A%0AHow%20many%20clients%20I%20serve%3A%0AMy%20suggestion%3A%0A%0AThanks"><svg class="pm-ico" aria-hidden="true" focusable="false"><use href="#pm-i-code"/></svg><span class="choice-t"><b>I think it should be open source</b><span>Tell us why, and how you would use it.</span></span><span class="choice-go" aria-hidden="true">→</span></a>
+<a class="choice is-other" href="mailto:callobuzz@gmail.com?subject=cob-rag-engine%3A%20a%20suggestion&amp;body=Hi%20Callobuzz%2C%0A%0AI%20have%20another%20idea%2C%20or%20a%20question.%0A%0AMy%20name%3A%0ACompany%3A%0ACity%3A%0AHow%20many%20clients%20I%20serve%3A%0AMy%20suggestion%3A%0A%0AThanks"><svg class="pm-ico" aria-hidden="true" focusable="false"><use href="#pm-i-chat"/></svg><span class="choice-t"><b>Something else? Tell us</b><span>Another idea, a question, or a pilot with one client.</span></span><span class="choice-go" aria-hidden="true">→</span></a>
+</div>
+<p class="decide-note">Each choice opens an e-mail to callobuzz@gmail.com that asks for your name, company, city, how many clients you serve and your suggestion.</p>
+</div>
+<figure class="dg dg-auto decide-fig">
+<div class="dg-frame">
+<svg class="dg-svg" viewBox="0 0 440 404" role="img" aria-labelledby="decide-t decide-d">
+<title id="decide-t">Two ways to release cob-rag-engine</title>
+<desc id="decide-d">cob-rag-engine, built, tested and measured, can go one of two ways. A partner circle: a close group of resellers who work with us directly and keep an edge. Or open source: anyone can copy it and sell it as their own. Your answer decides.</desc>
+<g class="dg-node is-engine"><rect x="100" y="16" width="240" height="68" rx="12"/>
+<text class="dg-t" x="120" y="45">cob-rag-engine</text><text class="dg-s" x="120" y="67">built, tested, measured</text></g>
+<path class="dg-wire is-on" d="M220 84V124"/><path class="dg-flow" d="M220 84V124"/>
+<g class="decide-q"><circle cx="220" cy="144" r="20"/><text x="220" y="145">?</text></g>
+<path class="dg-wire is-on decide-amber" d="M204 156C170 190 110 186 110 226"/><path class="dg-flow is-amber" d="M204 156C170 190 110 186 110 226"/>
+<path class="dg-wire is-opt" d="M236 156C270 190 330 186 330 226"/><path class="dg-flow is-slow" d="M236 156C270 190 330 186 330 226"/>
+<g class="dg-node is-client"><rect x="16" y="228" width="190" height="130" rx="12"/>
+<text class="dg-t" x="34" y="256">Partner circle</text>
+<text class="dg-s" x="34" y="279">a close group</text><text class="dg-s" x="34" y="297">of resellers</text>
+<text class="dg-a" x="34" y="320">partners keep an edge</text>
+<g class="decide-ring"><circle cx="40" cy="340" r="5"/><circle cx="56" cy="340" r="5"/><circle cx="72" cy="340" r="5"/><circle cx="88" cy="340" r="5"/><circle cx="104" cy="340" r="5"/></g></g>
+<g class="dg-node dg-opt"><rect x="234" y="228" width="190" height="130" rx="12"/>
+<text class="dg-t" x="252" y="256">Open source</text>
+<text class="dg-s" x="252" y="279">anyone can copy it</text><text class="dg-s" x="252" y="297">and sell it as</text><text class="dg-s" x="252" y="315">their own</text></g>
+<text class="dg-l dg-mid" x="220" y="390">your answer decides</text>
+</svg>
+</div>
+</figure>
+</div>
+<ol class="decide-road" aria-label="Where the product is going">
+<li class="is-now"><span class="road-k">Today</span><b>Knowledge, assistant, widget, leads, billing</b></li>
+<li><span class="road-k">Next</span><b>Agentic layer</b></li>
+<li><span class="road-k">Then</span><b>Orchestration</b></li>
+</ol>
 </div>
 </section>
 <section id="sell">
@@ -3275,11 +3584,11 @@ complexity: <span class="v">complex</span> → 2 parts <span class="c"># 2 to 5 
 <div class="ans-txt">
 <div class="ans-hd"><span class="ans-num">04</span><h3>Make it searchable, two ways</h3><span class="ans-tag on">always</span></div>
 <p>The question becomes a list of numbers that captures its <b>meaning</b>, so "fasting" lands near "empty stomach". Separately, it becomes a short list of its <b>important words</b>, with filler words dropped and endings trimmed, so "fasting" matches "fast".</p>
-<p class="ans-tech">Dense embedding of the question and its rephrasings (with the <code>.env.example</code> setup: <code>bge-base-en-v1.5</code> on TEI, 768 numbers). BM25 sparse vector with stopwords and Snowball stemming, the same analyser used at upload.</p>
+<p class="ans-tech">Dense embedding of the question and its rephrasings (with the <code>.env.example</code> setup: <code>BAAI/bge-m3</code> on TEI, 1024 numbers). BM25 sparse vector with stopwords and Snowball stemming, the same analyser used at upload.</p>
 </div>
 <div class="ans-ex dg-win">
 <div class="dg-win-bar"><i></i><i></i><i></i><span>embedding + keyword terms</span><b>EXAMPLE</b></div>
-<pre class="dg-term">meaning   [ 0.018, -0.041, 0.077, … ]  <span class="c"># 768 numbers, one list per phrasing</span>
+<pre class="dg-term">meaning   [ 0.018, -0.041, 0.077, … ]  <span class="c"># 1024 numbers, one list per phrasing</span>
 key words  <span class="k">need</span> · <span class="k">fast</span> · <span class="k">lipid</span> · <span class="k">profil</span> · <span class="k">test</span>  <span class="c"># "do I … to … a" dropped, endings trimmed</span></pre>
 <div class="ans-plus"><span class="ans-cap">What the two searches receive</span>
 <div class="ans-vec" aria-hidden="true"><i style="--h:0.25"></i><i style="--h:0.88"></i><i style="--h:0.36"></i><i style="--h:0.39"></i><i style="--h:0.33"></i><i style="--h:0.60"></i><i style="--h:0.69"></i><i style="--h:0.68"></i><i style="--h:0.79"></i><i style="--h:0.42"></i><i style="--h:0.39"></i><i style="--h:0.27"></i><i style="--h:0.69"></i><i style="--h:0.32"></i><i style="--h:0.93"></i><i style="--h:0.47"></i><i style="--h:0.62"></i><i style="--h:0.33"></i><i style="--h:0.37"></i><i style="--h:0.60"></i><i style="--h:0.59"></i><i style="--h:0.89"></i><i style="--h:0.43"></i><i style="--h:0.67"></i><i style="--h:0.26"></i><i style="--h:0.43"></i><i style="--h:0.35"></i><i style="--h:0.85"></i><i style="--h:0.57"></i><i style="--h:0.76"></i><i style="--h:0.53"></i><i style="--h:0.33"></i><i style="--h:0.40"></i><i style="--h:0.45"></i><i style="--h:0.86"></i><i style="--h:0.38"></i><i style="--h:0.87"></i><i style="--h:0.28"></i><i style="--h:0.37"></i><i style="--h:0.31"></i><i style="--h:0.67"></i><i style="--h:0.61"></i><i style="--h:0.78"></i><i style="--h:0.71"></i></div>
@@ -3790,7 +4099,7 @@ is free on orders above ₹999 <span class="k">[5]</span>.</pre>
 <div class="dg-frame dg-scroll">
 <svg class="dg-svg" viewBox="0 0 960 704" role="img" aria-labelledby="ten-b-title ten-b-desc">
 <title id="ten-b-title">What runs on your server</title>
-<desc id="ten-b-desc">Outside the server: site visitors using the widget, your apps using the API and SDKs, and you in a browser. Inside one Docker Compose stack: the API (app, port 8000, also serves widget.js), a web scraper (port 8001) that sends pages to the API, a dashboard (nginx, port 8090), a Celery worker and the celery-beat scheduler, and an in-process reranker that is off by default. Models: TEI embeddings on port 8081 with bge-base-en-v1.5, and an answer model of your choice. Data stores: Postgres on 5433, Redis on 6380, Qdrant on 6333 and 6334, MinIO on 9002 and 9003 or any S3 service. Optional profiles, off until switched on: Whisper speech-to-text on 9010 and Langfuse tracing on 3002. A GPU overlay file adds NVIDIA support for app, worker, tei and whisper.</desc>
+<desc id="ten-b-desc">Outside the server: site visitors using the widget, your apps using the API and SDKs, and you in a browser. Inside one Docker Compose stack: the API (app, port 8000, also serves widget.js), a web scraper (port 8001) that sends pages to the API, a dashboard (nginx, port 8090), a Celery worker and the celery-beat scheduler, and an in-process reranker that is off by default. Models: TEI embeddings on port 8081 with bge-m3, and an answer model of your choice. Data stores: Postgres on 5433, Redis on 6380, Qdrant on 6333 and 6334, MinIO on 9002 and 9003 or any S3 service. Optional profiles, off until switched on: Whisper speech-to-text on 9010 and Langfuse tracing on 3002. A GPU overlay file adds NVIDIA support for app, worker, tei and whisper.</desc>
 <defs>
 <marker id="ten-b-arr" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path class="ten-ah-ok" d="M0 1 L9 5 L0 9 Z"/></marker>
 </defs>
@@ -3866,8 +4175,8 @@ is free on orders above ₹999 <span class="k">[5]</span>.</pre>
 <text class="ten-3" x="462" y="355">+2.3 GB when on</text>
 <g class="dg-node is-engine"><rect x="656" y="108" width="244" height="72" rx="12"/></g>
 <text class="dg-t" x="670" y="134">Embeddings</text><text class="ten-port" x="888" y="134">:8081</text>
-<text class="dg-s" x="670" y="154">tei · bge-base-en-v1.5</text>
-<text class="ten-3" x="670" y="171">768-d vectors</text>
+<text class="dg-s" x="670" y="154">tei · bge-m3</text>
+<text class="ten-3" x="670" y="171">1024-d vectors</text>
 <g class="dg-node is-model dg-opt"><rect x="656" y="192" width="244" height="60" rx="12"/></g>
 <text class="dg-t" x="670" y="216">Answer model</text><text class="ten-3 dg-end" x="888" y="216">your pick</text>
 <text class="dg-s" x="670" y="236">any provider, or local</text>
@@ -3916,7 +4225,7 @@ is free on orders above ₹999 <span class="k">[5]</span>.</pre>
 <li style="--k:var(--color-primary-2)">Qdrant 0.3</li>
 <li style="--k:var(--line-strong)">rest &lt; 0.2 each</li>
 </ul>
-<p class="note">Measured with six benchmark knowledge bases indexed, about 270k chunks. The reranker adds about 2.3 GB when a knowledge base turns it on.</p>
+<p class="note">Measured with six benchmark knowledge bases indexed, about 270k chunks, and the earlier embedding model <code>bge-base-en-v1.5</code>; the default <code>bge-m3</code> needs about 2.3 GB for its weights (an estimate, to be measured). The reranker adds about 2.3 GB when a knowledge base turns it on.</p>
 </div>
 <div class="ten-ram-card">
 <div class="ten-ram-h"><b>16 GB</b><span>RAGFlow's stated minimum, for scale</span></div>
@@ -4008,92 +4317,145 @@ is free on orders above ₹999 <span class="k">[5]</span>.</pre>
 <p class="note">Limits, honestly: keys are set per knowledge base, not per tenant, so a tenant with five knowledge bases saves its key five times. The speech-to-text key is engine-wide.</p>
 </div>
 </section>
-<section class="act" id="why">
+<section class="act why" id="why">
 <div class="wrap">
 <header class="sec-head"><div class="sec-head-t"><div class="kicker">Why not just LangChain?</div>
 <h2>Toolkits build AI. <span class="thin">This is the product you sell.</span></h2></div>
 <p class="sub">LangChain and agent SDKs (OpenAI Agents SDK, Claude Agent SDK, LangGraph) are toolkits for building AI. cob-rag-engine is the finished knowledge platform and chatbot business your agents and your customers use: install it and sell AI assistants the same day.</p></header>
-<p class="sub" style="margin-top:var(--space-md)">In plain words: a toolkit is a box of parts, and you still have to build the product around them. LlamaIndex is the same kind of thing, focused on getting your data indexed and retrieved. Dify is different: a platform where you build an AI app in a visual builder. cob-rag-engine is the finished product for one job, running knowledge-based assistants for many businesses from one self-hosted engine, already built, tested and measured. It is not an agent framework and it does not try to replace one. Your agents can use it as their knowledge layer.</p>
-<h3 style="margin:var(--space-2xl) 0 var(--space-xs)">What you would still build on a toolkit</h3>
-<p class="note" style="margin:0 0 var(--space-md)">Start from LangChain, LlamaIndex, LangGraph or an agent SDK and you get a very good way to call models and tools. To reach what cob-rag-engine ships today, you would still have to build and keep working:</p>
-<div class="grid g3">
-<div class="card"><h3>Customers, keys, roles and isolation</h3><p>Tenants (your customers), knowledge bases, five kinds of credential, owner and member roles, plans and caps. The isolation is tested against attack attempts: 412 of 412 refused in the isolation benchmark (every key kind, owner and member sign-ins, forged tokens, refresh reuse, suspended accounts, enumeration, lockout).</p></div>
-<div class="card"><h3>Document ingestion</h3><p>PDF, DOCX, XLSX, PPTX, HTML, Markdown and audio; OCR for scans, including Hindi (<code>RAG_OCR_LANGS=hi,en</code>); page furniture stripped before indexing; near-duplicate review; versioned re-ingestion.</p></div>
-<div class="card"><h3>Search that is measured</h3><p>Hybrid dense and BM25 keyword search with weighted fusion, benchmarked on six public BEIR datasets (mean nDCG@10 0.537 against 0.526 published for the same embedding model) and on real documents.</p></div>
-<div class="card"><h3>Answers that do not make things up</h3><p>A search-confidence gate, and a fact check that makes every price, date, time, number, phone, e-mail, link and name appear in the cited passages, sentence by sentence as the answer streams. When the documents do not say, it says "I don't know" and offers a person.</p></div>
-<div class="card"><h3>A conversation director</h3><p>Greetings, small talk, off-topic and abuse handled before any answer is written; English, Hindi and Hinglish; a model per language; thinking switched off or limited per model; answers started early while the message is still being understood.</p></div>
-<div class="card"><h3>A website widget that sells</h3><p>One script tag, locked to the customer's domains and rate limited; leads with a consent notice that follows the DPDP Act's notice elements; WhatsApp click-to-chat handoff; guided sales replies with one next step.</p></div>
-<div class="card"><h3>Billing and costs</h3><p>Plans, prepaid wallets in rupees or dollars, per-question pricing or the real AI cost plus a markup, and usage counted per customer, knowledge base and widget.</p></div>
-<div class="card"><h3>Dashboard, COB and evaluation</h3><p>An operator and customer dashboard, COB (the built-in assistant), these in-app docs, and a re-runnable retrieval, answer and conversation benchmark suite in the repository.</p></div>
-<div class="card"><h3>MCP and SDKs</h3><p><code>cob-rag-mcp</code> (52 tools) for any MCP client, and Python and JavaScript clients.</p></div>
+<div class="why-plain">
+<p class="why-lede">In plain words: a toolkit is a box of parts, and you still have to build the product around them. LlamaIndex is the same kind of thing, focused on getting your data indexed and retrieved. Dify is different: a platform where you build an AI app in a visual builder. cob-rag-engine is the finished product for one job, running knowledge-based assistants for many businesses from one self-hosted engine, already built, tested and measured. It is not an agent framework and it does not try to replace one. Your agents can use it as their knowledge layer.</p>
+<ul class="why-kinds" aria-label="Three kinds of tool">
+<li class="is-tool"><span class="why-kk">Toolkit</span><b>LangChain, LlamaIndex, agent SDKs</b><span>a box of parts you build with</span></li>
+<li class="is-builder"><span class="why-kk">App builder</span><b>Dify</b><span>build an AI app in a visual builder</span></li>
+<li class="is-product"><span class="why-kk">Finished product</span><b>cob-rag-engine</b><span>one job: assistants for many businesses</span></li>
+</ul>
 </div>
-<h3 style="margin:var(--space-2xl) 0 var(--space-md)">Side by side</h3>
-<div class="table-wrap">
-<table class="compare">
+<div class="sub-head why-sub"><h3>What you would still build on a toolkit</h3><p>Start from LangChain, LlamaIndex, LangGraph or an agent SDK and you get a very good way to call models and tools. To reach what cob-rag-engine ships today, you would still have to build and keep working:</p></div>
+<figure class="dg dg-auto why-fig">
+<div class="dg-frame">
+<svg class="dg-svg dg-h" viewBox="0 0 960 552" role="img" aria-labelledby="why-b-t why-b-d">
+<title id="why-b-t">What you would still build on a toolkit, and what cob-rag-engine ships</title>
+<desc id="why-b-d">On the left, a toolkit such as LangChain, LlamaIndex, LangGraph or an agent SDK gives you model calls, tools and the agent loop; the nine parts under it are yours to build and keep working. On the right, cob-rag-engine ships the same nine parts today: Customers, keys, roles and isolation, Document ingestion, Search that is measured, Answers that do not make things up, A conversation director, A website widget that sells, Billing and costs, Dashboard, COB and evaluation, MCP and SDKs.</desc>
+<text class="dg-l" x="20" y="24">On a toolkit</text>
+<text class="dg-l" x="520" y="24">cob-rag-engine</text>
+<g class="dg-node is-model"><rect x="20" y="40" width="420" height="64" rx="12"/>
+<text class="dg-t" x="40" y="67">LangChain · LlamaIndex · LangGraph · agent SDKs</text>
+<text class="dg-s" x="40" y="90">you get: model calls, tools, the agent loop</text></g>
+<g class="dg-node is-engine"><rect x="520" y="40" width="420" height="64" rx="12"/>
+<text class="dg-t" x="540" y="67">The finished knowledge platform</text>
+<text class="dg-s" x="540" y="90">you get: all nine parts, built, tested and measured</text></g>
+<g class="why-row" style="--d:0.00s"><rect class="why-build" x="20" y="124" width="420" height="40" rx="10"/><g class="dg-badge is-amber"><circle cx="42" cy="144" r="11"/><text x="42" y="144">1</text></g><text class="dg-t why-rt" x="64" y="149">Customers, keys, roles and isolation</text><text class="dg-a dg-end" x="424" y="148">you build</text><path class="dg-wire is-opt" d="M440 144H512"/><path class="dg-flow is-slow" d="M440 144H512"/><path class="dg-arrowhead is-on" d="M506 139 L514 144 L506 149 Z"/><rect class="dg-node is-engine" x="520" y="124" width="420" height="40" rx="10"/><g class="dg-badge"><circle cx="542" cy="144" r="11"/><text x="542" y="144">1</text></g><text class="dg-t why-rt" x="564" y="149">Customers, keys, roles and isolation</text><path class="why-tick" d="M862 144l5 5 9-10"/><text class="dg-ok dg-end" x="924" y="148">ships</text></g><g class="why-row" style="--d:0.12s"><rect class="why-build" x="20" y="170" width="420" height="40" rx="10"/><g class="dg-badge is-amber"><circle cx="42" cy="190" r="11"/><text x="42" y="190">2</text></g><text class="dg-t why-rt" x="64" y="195">Document ingestion</text><text class="dg-a dg-end" x="424" y="194">you build</text><path class="dg-wire is-opt" d="M440 190H512"/><path class="dg-flow is-slow" d="M440 190H512"/><path class="dg-arrowhead is-on" d="M506 185 L514 190 L506 195 Z"/><rect class="dg-node is-engine" x="520" y="170" width="420" height="40" rx="10"/><g class="dg-badge"><circle cx="542" cy="190" r="11"/><text x="542" y="190">2</text></g><text class="dg-t why-rt" x="564" y="195">Document ingestion</text><path class="why-tick" d="M862 190l5 5 9-10"/><text class="dg-ok dg-end" x="924" y="194">ships</text></g><g class="why-row" style="--d:0.24s"><rect class="why-build" x="20" y="216" width="420" height="40" rx="10"/><g class="dg-badge is-amber"><circle cx="42" cy="236" r="11"/><text x="42" y="236">3</text></g><text class="dg-t why-rt" x="64" y="241">Search that is measured</text><text class="dg-a dg-end" x="424" y="240">you build</text><path class="dg-wire is-opt" d="M440 236H512"/><path class="dg-flow is-slow" d="M440 236H512"/><path class="dg-arrowhead is-on" d="M506 231 L514 236 L506 241 Z"/><rect class="dg-node is-engine" x="520" y="216" width="420" height="40" rx="10"/><g class="dg-badge"><circle cx="542" cy="236" r="11"/><text x="542" y="236">3</text></g><text class="dg-t why-rt" x="564" y="241">Search that is measured</text><path class="why-tick" d="M862 236l5 5 9-10"/><text class="dg-ok dg-end" x="924" y="240">ships</text></g><g class="why-row" style="--d:0.36s"><rect class="why-build" x="20" y="262" width="420" height="40" rx="10"/><g class="dg-badge is-amber"><circle cx="42" cy="282" r="11"/><text x="42" y="282">4</text></g><text class="dg-t why-rt" x="64" y="287">Answers that do not make things up</text><text class="dg-a dg-end" x="424" y="286">you build</text><path class="dg-wire is-opt" d="M440 282H512"/><path class="dg-flow is-slow" d="M440 282H512"/><path class="dg-arrowhead is-on" d="M506 277 L514 282 L506 287 Z"/><rect class="dg-node is-engine" x="520" y="262" width="420" height="40" rx="10"/><g class="dg-badge"><circle cx="542" cy="282" r="11"/><text x="542" y="282">4</text></g><text class="dg-t why-rt" x="564" y="287">Answers that do not make things up</text><path class="why-tick" d="M862 282l5 5 9-10"/><text class="dg-ok dg-end" x="924" y="286">ships</text></g><g class="why-row" style="--d:0.48s"><rect class="why-build" x="20" y="308" width="420" height="40" rx="10"/><g class="dg-badge is-amber"><circle cx="42" cy="328" r="11"/><text x="42" y="328">5</text></g><text class="dg-t why-rt" x="64" y="333">A conversation director</text><text class="dg-a dg-end" x="424" y="332">you build</text><path class="dg-wire is-opt" d="M440 328H512"/><path class="dg-flow is-slow" d="M440 328H512"/><path class="dg-arrowhead is-on" d="M506 323 L514 328 L506 333 Z"/><rect class="dg-node is-engine" x="520" y="308" width="420" height="40" rx="10"/><g class="dg-badge"><circle cx="542" cy="328" r="11"/><text x="542" y="328">5</text></g><text class="dg-t why-rt" x="564" y="333">A conversation director</text><path class="why-tick" d="M862 328l5 5 9-10"/><text class="dg-ok dg-end" x="924" y="332">ships</text></g><g class="why-row" style="--d:0.60s"><rect class="why-build" x="20" y="354" width="420" height="40" rx="10"/><g class="dg-badge is-amber"><circle cx="42" cy="374" r="11"/><text x="42" y="374">6</text></g><text class="dg-t why-rt" x="64" y="379">A website widget that sells</text><text class="dg-a dg-end" x="424" y="378">you build</text><path class="dg-wire is-opt" d="M440 374H512"/><path class="dg-flow is-slow" d="M440 374H512"/><path class="dg-arrowhead is-on" d="M506 369 L514 374 L506 379 Z"/><rect class="dg-node is-engine" x="520" y="354" width="420" height="40" rx="10"/><g class="dg-badge"><circle cx="542" cy="374" r="11"/><text x="542" y="374">6</text></g><text class="dg-t why-rt" x="564" y="379">A website widget that sells</text><path class="why-tick" d="M862 374l5 5 9-10"/><text class="dg-ok dg-end" x="924" y="378">ships</text></g><g class="why-row" style="--d:0.72s"><rect class="why-build" x="20" y="400" width="420" height="40" rx="10"/><g class="dg-badge is-amber"><circle cx="42" cy="420" r="11"/><text x="42" y="420">7</text></g><text class="dg-t why-rt" x="64" y="425">Billing and costs</text><text class="dg-a dg-end" x="424" y="424">you build</text><path class="dg-wire is-opt" d="M440 420H512"/><path class="dg-flow is-slow" d="M440 420H512"/><path class="dg-arrowhead is-on" d="M506 415 L514 420 L506 425 Z"/><rect class="dg-node is-engine" x="520" y="400" width="420" height="40" rx="10"/><g class="dg-badge"><circle cx="542" cy="420" r="11"/><text x="542" y="420">7</text></g><text class="dg-t why-rt" x="564" y="425">Billing and costs</text><path class="why-tick" d="M862 420l5 5 9-10"/><text class="dg-ok dg-end" x="924" y="424">ships</text></g><g class="why-row" style="--d:0.84s"><rect class="why-build" x="20" y="446" width="420" height="40" rx="10"/><g class="dg-badge is-amber"><circle cx="42" cy="466" r="11"/><text x="42" y="466">8</text></g><text class="dg-t why-rt" x="64" y="471">Dashboard, COB and evaluation</text><text class="dg-a dg-end" x="424" y="470">you build</text><path class="dg-wire is-opt" d="M440 466H512"/><path class="dg-flow is-slow" d="M440 466H512"/><path class="dg-arrowhead is-on" d="M506 461 L514 466 L506 471 Z"/><rect class="dg-node is-engine" x="520" y="446" width="420" height="40" rx="10"/><g class="dg-badge"><circle cx="542" cy="466" r="11"/><text x="542" y="466">8</text></g><text class="dg-t why-rt" x="564" y="471">Dashboard, COB and evaluation</text><path class="why-tick" d="M862 466l5 5 9-10"/><text class="dg-ok dg-end" x="924" y="470">ships</text></g><g class="why-row" style="--d:0.96s"><rect class="why-build" x="20" y="492" width="420" height="40" rx="10"/><g class="dg-badge is-amber"><circle cx="42" cy="512" r="11"/><text x="42" y="512">9</text></g><text class="dg-t why-rt" x="64" y="517">MCP and SDKs</text><text class="dg-a dg-end" x="424" y="516">you build</text><path class="dg-wire is-opt" d="M440 512H512"/><path class="dg-flow is-slow" d="M440 512H512"/><path class="dg-arrowhead is-on" d="M506 507 L514 512 L506 517 Z"/><rect class="dg-node is-engine" x="520" y="492" width="420" height="40" rx="10"/><g class="dg-badge"><circle cx="542" cy="512" r="11"/><text x="542" y="512">9</text></g><text class="dg-t why-rt" x="564" y="517">MCP and SDKs</text><path class="why-tick" d="M862 512l5 5 9-10"/><text class="dg-ok dg-end" x="924" y="516">ships</text></g>
+</svg>
+<svg class="dg-svg dg-v" viewBox="0 0 360 622" role="img" aria-labelledby="why-bv-t">
+<title id="why-bv-t">Nine parts a toolkit leaves to you, and cob-rag-engine ships: Customers, keys, roles and isolation, Document ingestion, Search that is measured, Answers that do not make things up, A conversation director, A website widget that sells, Billing and costs, Dashboard, COB and evaluation, MCP and SDKs</title>
+<text class="dg-l" x="0" y="22">toolkit vs cob-rag-engine</text>
+<g class="dg-badge"><circle cx="16" cy="64" r="11"/><text x="16" y="64">1</text></g><text class="dg-t why-rt" x="36" y="69">Customers, keys, roles and isolation</text><rect class="why-build" x="36" y="79" width="150" height="26" rx="7"/><text class="dg-a why-pt" x="46" y="96">toolkit: you build</text><rect class="dg-node is-engine" x="194" y="79" width="164" height="26" rx="7"/><text class="dg-ok why-pt" x="204" y="96">cob-rag-engine: ships</text><g class="dg-badge"><circle cx="16" cy="126" r="11"/><text x="16" y="126">2</text></g><text class="dg-t why-rt" x="36" y="131">Document ingestion</text><rect class="why-build" x="36" y="141" width="150" height="26" rx="7"/><text class="dg-a why-pt" x="46" y="158">toolkit: you build</text><rect class="dg-node is-engine" x="194" y="141" width="164" height="26" rx="7"/><text class="dg-ok why-pt" x="204" y="158">cob-rag-engine: ships</text><g class="dg-badge"><circle cx="16" cy="188" r="11"/><text x="16" y="188">3</text></g><text class="dg-t why-rt" x="36" y="193">Search that is measured</text><rect class="why-build" x="36" y="203" width="150" height="26" rx="7"/><text class="dg-a why-pt" x="46" y="220">toolkit: you build</text><rect class="dg-node is-engine" x="194" y="203" width="164" height="26" rx="7"/><text class="dg-ok why-pt" x="204" y="220">cob-rag-engine: ships</text><g class="dg-badge"><circle cx="16" cy="250" r="11"/><text x="16" y="250">4</text></g><text class="dg-t why-rt" x="36" y="255">Answers that do not make things up</text><rect class="why-build" x="36" y="265" width="150" height="26" rx="7"/><text class="dg-a why-pt" x="46" y="282">toolkit: you build</text><rect class="dg-node is-engine" x="194" y="265" width="164" height="26" rx="7"/><text class="dg-ok why-pt" x="204" y="282">cob-rag-engine: ships</text><g class="dg-badge"><circle cx="16" cy="312" r="11"/><text x="16" y="312">5</text></g><text class="dg-t why-rt" x="36" y="317">A conversation director</text><rect class="why-build" x="36" y="327" width="150" height="26" rx="7"/><text class="dg-a why-pt" x="46" y="344">toolkit: you build</text><rect class="dg-node is-engine" x="194" y="327" width="164" height="26" rx="7"/><text class="dg-ok why-pt" x="204" y="344">cob-rag-engine: ships</text><g class="dg-badge"><circle cx="16" cy="374" r="11"/><text x="16" y="374">6</text></g><text class="dg-t why-rt" x="36" y="379">A website widget that sells</text><rect class="why-build" x="36" y="389" width="150" height="26" rx="7"/><text class="dg-a why-pt" x="46" y="406">toolkit: you build</text><rect class="dg-node is-engine" x="194" y="389" width="164" height="26" rx="7"/><text class="dg-ok why-pt" x="204" y="406">cob-rag-engine: ships</text><g class="dg-badge"><circle cx="16" cy="436" r="11"/><text x="16" y="436">7</text></g><text class="dg-t why-rt" x="36" y="441">Billing and costs</text><rect class="why-build" x="36" y="451" width="150" height="26" rx="7"/><text class="dg-a why-pt" x="46" y="468">toolkit: you build</text><rect class="dg-node is-engine" x="194" y="451" width="164" height="26" rx="7"/><text class="dg-ok why-pt" x="204" y="468">cob-rag-engine: ships</text><g class="dg-badge"><circle cx="16" cy="498" r="11"/><text x="16" y="498">8</text></g><text class="dg-t why-rt" x="36" y="503">Dashboard, COB and evaluation</text><rect class="why-build" x="36" y="513" width="150" height="26" rx="7"/><text class="dg-a why-pt" x="46" y="530">toolkit: you build</text><rect class="dg-node is-engine" x="194" y="513" width="164" height="26" rx="7"/><text class="dg-ok why-pt" x="204" y="530">cob-rag-engine: ships</text><g class="dg-badge"><circle cx="16" cy="560" r="11"/><text x="16" y="560">9</text></g><text class="dg-t why-rt" x="36" y="565">MCP and SDKs</text><rect class="why-build" x="36" y="575" width="150" height="26" rx="7"/><text class="dg-a why-pt" x="46" y="592">toolkit: you build</text><rect class="dg-node is-engine" x="194" y="575" width="164" height="26" rx="7"/><text class="dg-ok why-pt" x="204" y="592">cob-rag-engine: ships</text>
+</svg>
+</div>
+<figcaption class="dg-cap"><b>Same nine parts, two starting points.</b> Dashed amber: yours to build and keep working on a toolkit. Blue: shipped in cob-rag-engine today. The detail of each part is below.</figcaption>
+</figure>
+<div class="why-grid">
+<div class="why-item"><span class="why-n">01</span><h4>Customers, keys, roles and isolation</h4><p>Tenants (your customers), knowledge bases, five kinds of credential, owner and member roles, plans and caps. The isolation is tested against attack attempts: 412 of 412 refused in the isolation benchmark (every key kind, owner and member sign-ins, forged tokens, refresh reuse, suspended accounts, enumeration, lockout).</p></div>
+<div class="why-item"><span class="why-n">02</span><h4>Document ingestion</h4><p>PDF, DOCX, XLSX, PPTX, HTML, Markdown and audio; OCR for scans, including Hindi (<code>RAG_OCR_LANGS=hi,en</code>); page furniture stripped before indexing; near-duplicate review; versioned re-ingestion.</p></div>
+<div class="why-item"><span class="why-n">03</span><h4>Search that is measured</h4><p>Hybrid dense and BM25 keyword search with weighted fusion, benchmarked on six public BEIR datasets (mean nDCG@10 0.537 against 0.526 published for the same embedding model, bge-base-en-v1.5, the earlier default; the default is now BGE-M3 and its re-run is pending) and on real documents.</p></div>
+<div class="why-item"><span class="why-n">04</span><h4>Answers that do not make things up</h4><p>A search-confidence gate, and a fact check that makes every price, date, time, number, phone, e-mail, link and name appear in the cited passages, sentence by sentence as the answer streams. When the documents do not say, it says "I don't know" and offers a person.</p></div>
+<div class="why-item"><span class="why-n">05</span><h4>A conversation director</h4><p>Greetings, small talk, off-topic and abuse handled before any answer is written; English, Hindi and Hinglish; a model per language; thinking switched off or limited per model; answers started early while the message is still being understood.</p></div>
+<div class="why-item"><span class="why-n">06</span><h4>A website widget that sells</h4><p>One script tag, locked to the customer's domains and rate limited; leads with a consent notice that follows the DPDP Act's notice elements; WhatsApp click-to-chat handoff; guided sales replies with one next step.</p></div>
+<div class="why-item"><span class="why-n">07</span><h4>Billing and costs</h4><p>Plans, prepaid wallets in rupees or dollars, per-question pricing or the real AI cost plus a markup, and usage counted per customer, knowledge base and widget.</p></div>
+<div class="why-item"><span class="why-n">08</span><h4>Dashboard, COB and evaluation</h4><p>An operator and customer dashboard, COB (the built-in assistant), these in-app docs, and a re-runnable retrieval, answer and conversation benchmark suite in the repository.</p></div>
+<div class="why-item"><span class="why-n">09</span><h4>MCP and SDKs</h4><p><code>cob-rag-mcp</code> (52 tools) for any MCP client, and Python and JavaScript clients.</p></div>
+</div>
+<div class="sub-head why-sub"><h3>Side by side</h3><p class="why-legend"><span class="mk mk-yes">built in</span><span class="mk mk-part">partly, or with conditions</span><span class="mk mk-you">you build it</span><span class="mk mk-no">not part of it</span></p></div>
+<div class="table-wrap table-sticky">
+<table class="compare why-table">
 <thead><tr><th></th><th>LangChain</th><th>LlamaIndex</th><th>Dify</th><th>Agent SDKs</th><th class="us">cob-rag-engine</th></tr></thead>
 <tbody>
-<tr><td>What it is</td><td>An open-source library of parts for AI apps</td><td>A framework for ingesting, indexing and retrieving data (paid hosted LlamaCloud and LlamaParse)</td><td>An open-source platform to build LLM apps visually: workflows, agents, knowledge base</td><td>Libraries that run an agent: model, tools, loop</td><td class="us">A self-hosted knowledge platform and chatbot service</td></tr>
-<tr><td>Time to a working chatbot business</td><td>You build the app, accounts, interface and billing around it</td><td>You build the product around the retrieval</td><td>Quick for your own app in its builder; reselling needs its written authorization</td><td>You build the product around the agent</td><td class="us">Install, create a customer, upload documents, paste one script tag</td></tr>
-<tr><td>Multi-customer platform</td><td>Not part of the library</td><td>Not part of the framework</td><td>Multi-tenant operation needs Dify's written authorization (modified Apache 2.0)</td><td>Not part of the SDKs</td><td class="us">Tenants, per-knowledge-base keys, roles, plans; isolation tested, 412 of 412 attempts refused</td></tr>
-<tr><td>Document pipeline, including Hindi OCR</td><td>Loaders you choose and wire up</td><td>Strong loaders and parsing; Hindi OCR is yours to set up</td><td>Knowledge base and pipelines; scans depend on plugins</td><td>Not what they are for</td><td class="us">Parsing, OCR with Hindi, cleanup, near-duplicate review, versions</td></tr>
-<tr><td>Grounded answers, no made-up facts</td><td>You write the checks</td><td>You write the checks</td><td>Retrieval and citations; checks are built in your workflow</td><td>Guardrail hooks; you write the checks</td><td class="us">Confidence gate and a sentence-by-sentence fact check; says "I don't know"</td></tr>
-<tr><td>Website widget, leads, WhatsApp</td><td>Not part of the library</td><td>Not part of the framework</td><td>Embeddable chat app; leads and handoff are yours to build</td><td>Not part of the SDKs</td><td class="us">Widget, leads with DPDP consent, WhatsApp click-to-chat handoff</td></tr>
-<tr><td>Billing</td><td>Not part of the library</td><td>Not part of the framework</td><td>App logs; not a billing system for your customers</td><td>Not part of the SDKs</td><td class="us">Plans, wallets, per-question or cost-plus pricing, usage per customer</td></tr>
-<tr><td>Dashboard and in-app assistant</td><td>Not part of the library</td><td>Not part of the framework</td><td>Its own studio and console</td><td>Not part of the SDKs</td><td class="us">Dashboard, COB and in-app docs</td></tr>
-<tr><td>Works with agents</td><td>Yes, it is an agent toolkit</td><td>Yes, it has agents too</td><td>Builds agents itself and has APIs</td><td>Yes, it is the agent loop</td><td class="us">Yes: MCP (52 tools), REST, Python and JS SDKs, read-only named keys</td></tr>
+<tr><td>What it is</td><td>A library of parts for AI apps</td><td>A framework for ingesting, indexing and retrieving data (paid hosted LlamaCloud and LlamaParse)</td><td>A platform to build LLM apps visually: workflows, agents, knowledge base</td><td>Libraries that run an agent: model, tools, loop</td><td class="us">A self-hosted knowledge platform and chatbot service</td></tr>
+<tr><td>Time to a working chatbot business</td><td><span class="mk mk-you">You build the app, accounts, interface and billing around it</span></td><td><span class="mk mk-you">You build the product around the retrieval</span></td><td><span class="mk mk-part">Quick for your own app in its builder; reselling needs its written authorization</span></td><td><span class="mk mk-you">You build the product around the agent</span></td><td class="us"><span class="mk mk-yes">Install, create a customer, upload documents, paste one script tag</span></td></tr>
+<tr><td>Multi-customer platform</td><td><span class="mk mk-no">Not part of the library</span></td><td><span class="mk mk-no">Not part of the framework</span></td><td><span class="mk mk-part">Multi-tenant operation needs Dify's written authorization (modified Apache 2.0)</span></td><td><span class="mk mk-no">Not part of the SDKs</span></td><td class="us"><span class="mk mk-yes">Tenants, per-knowledge-base keys, roles, plans; isolation tested, 412 of 412 attempts refused</span></td></tr>
+<tr><td>Document pipeline, including Hindi OCR</td><td><span class="mk mk-you">Loaders you choose and wire up</span></td><td><span class="mk mk-you">Strong loaders and parsing; Hindi OCR is yours to set up</span></td><td><span class="mk mk-part">Knowledge base and pipelines; scans depend on plugins</span></td><td><span class="mk mk-no">Not what they are for</span></td><td class="us"><span class="mk mk-yes">Parsing, OCR with Hindi, cleanup, near-duplicate review, versions</span></td></tr>
+<tr><td>Grounded answers, no made-up facts</td><td><span class="mk mk-you">You write the checks</span></td><td><span class="mk mk-you">You write the checks</span></td><td><span class="mk mk-part">Retrieval and citations; checks are built in your workflow</span></td><td><span class="mk mk-you">Guardrail hooks; you write the checks</span></td><td class="us"><span class="mk mk-yes">Confidence gate and a sentence-by-sentence fact check; says "I don't know"</span></td></tr>
+<tr><td>Website widget, leads, WhatsApp</td><td><span class="mk mk-no">Not part of the library</span></td><td><span class="mk mk-no">Not part of the framework</span></td><td><span class="mk mk-you">Embeddable chat app; leads and handoff are yours to build</span></td><td><span class="mk mk-no">Not part of the SDKs</span></td><td class="us"><span class="mk mk-yes">Widget, leads with DPDP consent, WhatsApp click-to-chat handoff</span></td></tr>
+<tr><td>Billing</td><td><span class="mk mk-no">Not part of the library</span></td><td><span class="mk mk-no">Not part of the framework</span></td><td><span class="mk mk-part">App logs; not a billing system for your customers</span></td><td><span class="mk mk-no">Not part of the SDKs</span></td><td class="us"><span class="mk mk-yes">Plans, wallets, per-question or cost-plus pricing, usage per customer</span></td></tr>
+<tr><td>Dashboard and in-app assistant</td><td><span class="mk mk-no">Not part of the library</span></td><td><span class="mk mk-no">Not part of the framework</span></td><td><span class="mk mk-yes">Its own studio and console</span></td><td><span class="mk mk-no">Not part of the SDKs</span></td><td class="us"><span class="mk mk-yes">Dashboard, COB and in-app docs</span></td></tr>
+<tr><td>Works with agents</td><td><span class="mk mk-yes">Yes, it is an agent toolkit</span></td><td><span class="mk mk-yes">Yes, it has agents too</span></td><td><span class="mk mk-yes">Builds agents itself and has APIs</span></td><td><span class="mk mk-yes">Yes, it is the agent loop</span></td><td class="us"><span class="mk mk-yes">Yes: MCP (52 tools), REST, Python and JS SDKs, read-only named keys</span></td></tr>
 </tbody>
 </table>
 </div>
 <p class="note">Dify's licence is Apache 2.0 with added conditions on multi-tenant use and on removing its branding<sup><a href="#s-dify-lic">[10]</a></sup>. Read the current text before you decide. Where a cell says a thing is not part of a library, we mean the library itself, not the add-ons you can build or buy around it.</p>
-<h3 style="margin:var(--space-2xl) 0 var(--space-md)">How it differs from LlamaIndex and Dify</h3>
+<div class="sub-head why-sub"><h3>How it differs from LlamaIndex and Dify</h3></div>
 <div class="versus">
 <div class="side them"><h3>Where LlamaIndex and Dify are the right pick</h3><ul>
 <li><b>LlamaIndex</b> is a developer framework for data ingestion, indexing and retrieval in LLM apps (LlamaCloud and LlamaParse are its paid hosted services). It is a strong retrieval library. You still build the product around it: tenants, widget, leads, billing and a dashboard.</li>
-<li><b>Dify</b> is an open-source platform for building LLM apps, with a visual workflow and agent builder, a knowledge base, a cloud and self-hosting. It is the better choice when you want to design workflows visually, and it has a large plugin and model ecosystem that cob-rag-engine does not. Its licence is Apache 2.0 with added conditions (checked 5 October 2026): you may not use its source to operate a multi-tenant environment without written authorization, and you may not remove its logo or copyright in the console or apps. Read the current text before you build a business on it.</li>
+<li><b>Dify</b> is a platform for building LLM apps, with public source code, with a visual workflow and agent builder, a knowledge base, a cloud and self-hosting. It is the better choice when you want to design workflows visually, and it has a large plugin and model ecosystem that cob-rag-engine does not. Its licence is Apache 2.0 with added conditions (checked 5 October 2026): you may not use its source to operate a multi-tenant environment without written authorization, and you may not remove its logo or copyright in the console or apps. Read the current text before you build a business on it.</li>
 </ul></div>
 <div class="side ours"><h3>Where cob-rag-engine is built for resale</h3><ul>
 <li><b>What cob-rag-engine has that is built for resale:</b> customers (tenants), plans, wallets and billing, white-label branding and an operator workspace; Hindi and Hinglish handling with a model per language and Hindi OCR, DPDP consent on leads, WhatsApp handoff and rupee pricing; a fact gate and an honest "I don't know"; published benchmarks; COB and these docs inside the app; and an MCP server.</li>
 </ul></div>
 </div>
-<div class="verdict-grid" style="margin-top:var(--block-gap)">
+<div class="sub-head why-sub"><h3>They work together</h3><p>Your agents keep their loop; cob-rag-engine is the knowledge they ask.</p></div>
+<figure class="dg dg-auto why-fig">
+<div class="dg-frame">
+<svg class="dg-svg dg-h" viewBox="0 0 960 400" role="img" aria-labelledby="why-t-t why-t-d">
+<title id="why-t-t">Agents use cob-rag-engine as their knowledge layer</title>
+<desc id="why-t-d">Agents built with LangChain, LlamaIndex, LangGraph, the OpenAI Agents SDK, the Claude Agent SDK, n8n or any MCP client reach cob-rag-engine through MCP (cob-rag-mcp, 52 tools), REST, or the Python and JavaScript SDKs, each with its own read-only named key. cob-rag-engine holds a separate knowledge base per customer and also answers the customers' website widgets.</desc>
+<text class="dg-l" x="20" y="28">Your agents</text>
+<text class="dg-l" x="330" y="28">How they connect</text>
+<text class="dg-l" x="660" y="28">The knowledge layer</text>
+<g class="dg-node is-model"><rect x="20" y="48" width="220" height="34" rx="9"/><text class="dg-t why-at" x="36" y="70">LangChain</text></g><path class="dg-wire" d="M240 65C285 65 285 102 330 102"/><g class="dg-node is-model"><rect x="20" y="90" width="220" height="34" rx="9"/><text class="dg-t why-at" x="36" y="112">LlamaIndex</text></g><path class="dg-wire" d="M240 107C285 107 285 102 330 102"/><g class="dg-node is-model"><rect x="20" y="132" width="220" height="34" rx="9"/><text class="dg-t why-at" x="36" y="154">LangGraph</text></g><path class="dg-wire" d="M240 149C285 149 285 102 330 102"/><g class="dg-node is-model"><rect x="20" y="174" width="220" height="34" rx="9"/><text class="dg-t why-at" x="36" y="196">OpenAI Agents SDK</text></g><path class="dg-wire" d="M240 191C285 191 285 192 330 192"/><g class="dg-node is-model"><rect x="20" y="216" width="220" height="34" rx="9"/><text class="dg-t why-at" x="36" y="238">Claude Agent SDK</text></g><path class="dg-wire" d="M240 233C285 233 285 192 330 192"/><g class="dg-node is-model"><rect x="20" y="258" width="220" height="34" rx="9"/><text class="dg-t why-at" x="36" y="280">n8n</text></g><path class="dg-wire" d="M240 275C285 275 285 282 330 282"/><g class="dg-node is-model"><rect x="20" y="300" width="220" height="34" rx="9"/><text class="dg-t why-at" x="36" y="322">Any MCP client</text></g><path class="dg-wire" d="M240 317C285 317 285 282 330 282"/>
+<g class="dg-node"><rect x="330" y="70" width="250" height="64" rx="12"/><text class="dg-t" x="348" y="97">MCP</text><text class="dg-k" x="348" y="119">cob-rag-mcp · 52 tools</text></g>
+<g class="dg-node"><rect x="330" y="160" width="250" height="64" rx="12"/><text class="dg-t" x="348" y="187">REST</text><text class="dg-s" x="348" y="209">any language, plain HTTP</text></g>
+<g class="dg-node"><rect x="330" y="250" width="250" height="64" rx="12"/><text class="dg-t" x="348" y="277">Python and JavaScript SDKs</text><text class="dg-s" x="348" y="299">two small client libraries</text></g>
+<g class="dg-pill"><rect x="330" y="334" width="250" height="28" rx="14"/><text x="455" y="352">read-only named key per agent</text></g>
+<path class="dg-wire is-on" d="M580 102C620 102 620 150 660 150"/><path class="dg-flow" d="M580 102C620 102 620 150 660 150"/>
+<path class="dg-wire is-on" d="M580 192H660"/><path class="dg-flow" d="M580 192H660"/>
+<path class="dg-wire is-on" d="M580 282C620 282 620 234 660 234"/><path class="dg-flow" d="M580 282C620 282 620 234 660 234"/>
+<g class="dg-node is-engine"><rect x="660" y="48" width="280" height="236" rx="14"/>
+<text class="dg-t" x="680" y="78">cob-rag-engine</text><text class="dg-s" x="680" y="99">governed · multi-customer</text>
+<rect class="why-in" x="680" y="116" width="240" height="34" rx="8"/><text class="dg-s" x="694" y="138">knowledge base · customer A</text>
+<rect class="why-in" x="680" y="158" width="240" height="34" rx="8"/><text class="dg-s" x="694" y="180">knowledge base · customer B</text>
+<rect class="why-in" x="680" y="200" width="240" height="34" rx="8"/><text class="dg-s" x="694" y="222">fact gate · "I don't know"</text>
+<text class="dg-s" x="680" y="266">billing · usage per customer</text></g>
+<path class="dg-wire is-on" d="M800 284V318"/><path class="dg-flow is-amber" d="M800 318V284"/>
+<g class="dg-node is-client"><rect x="660" y="320" width="280" height="60" rx="12"/><text class="dg-t" x="680" y="346">Customers' websites</text><text class="dg-s" x="680" y="367">widget · leads · WhatsApp handoff</text></g>
+</svg>
+<svg class="dg-svg dg-v" viewBox="0 0 360 504" role="img" aria-labelledby="why-tv-t">
+<title id="why-tv-t">Agents (LangChain, LlamaIndex, LangGraph, the OpenAI Agents SDK, the Claude Agent SDK, n8n, any MCP client) reach cob-rag-engine through MCP, REST or the SDKs, each with a read-only named key; cob-rag-engine also answers the customers' websites</title>
+<text class="dg-l" x="0" y="22">Your agents</text>
+<g class="dg-node is-model"><rect x="0" y="40" width="90" height="30" rx="8"/><text class="dg-t why-at" x="8" y="60">LangChain</text></g><g class="dg-node is-model"><rect x="98" y="40" width="98" height="30" rx="8"/><text class="dg-t why-at" x="106" y="60">LlamaIndex</text></g><g class="dg-node is-model"><rect x="204" y="40" width="90" height="30" rx="8"/><text class="dg-t why-at" x="212" y="60">LangGraph</text></g><g class="dg-node is-model"><rect x="0" y="80" width="155" height="30" rx="8"/><text class="dg-t why-at" x="8" y="100">OpenAI Agents SDK</text></g><g class="dg-node is-model"><rect x="163" y="80" width="147" height="30" rx="8"/><text class="dg-t why-at" x="171" y="100">Claude Agent SDK</text></g><g class="dg-node is-model"><rect x="319" y="80" width="41" height="30" rx="8"/><text class="dg-t why-at" x="327" y="100">n8n</text></g><g class="dg-node is-model"><rect x="0" y="120" width="131" height="30" rx="8"/><text class="dg-t why-at" x="8" y="140">Any MCP client</text></g>
+<path class="dg-wire is-on" d="M180 162V180"/><path class="dg-arrowhead is-on" d="M175 174 L180 182 L185 174 Z"/>
+<g class="dg-node"><rect x="0" y="184" width="360" height="74" rx="12"/><text class="dg-t" x="16" y="210">MCP · REST · Python and JS SDKs</text><text class="dg-k" x="16" y="232">cob-rag-mcp · 52 tools</text><text class="dg-s" x="16" y="250">read-only named key per agent</text></g>
+<path class="dg-wire is-on" d="M180 258V276"/><path class="dg-arrowhead is-on" d="M175 270 L180 278 L185 270 Z"/>
+<g class="dg-node is-engine"><rect x="0" y="280" width="360" height="120" rx="14"/><text class="dg-t" x="16" y="308">cob-rag-engine</text><text class="dg-s" x="16" y="330">knowledge base per customer</text><text class="dg-s" x="16" y="350">fact gate · "I don't know"</text><text class="dg-s" x="16" y="370">billing · usage per customer</text></g>
+<path class="dg-wire is-on" d="M180 400V424"/>
+<g class="dg-node is-client"><rect x="0" y="426" width="360" height="62" rx="12"/><text class="dg-t" x="16" y="452">Customers' websites</text><text class="dg-s" x="16" y="474">widget · leads · WhatsApp handoff</text></g>
+</svg>
+</div>
+<figcaption class="dg-cap"><b>Violet: your agents. Blue: your server. Amber: your customers.</b> Cyan dashes show questions and answers moving.</figcaption>
+</figure>
+<div class="verdict-grid" style="margin-top:var(--space-lg)">
 <div class="vcard is-yes"><span class="vtag">They work together</span><h3>Use it as your agents' knowledge layer</h3><p>Agents built with LangChain, LlamaIndex, LangGraph, the OpenAI Agents SDK, the Claude Agent SDK, n8n or any MCP client use cob-rag-engine as their knowledge layer. They reach it through MCP (<code>cob-rag-mcp</code>, 52 tools), REST, or the Python and JavaScript SDKs, each agent with its own read-only named key.</p><p>An agent SDK gives you the loop: the model, the tools, the hand-offs. It does not give you a governed, multi-customer, benchmarked knowledge base, billing, or a chatbot you can sell. That is the part cob-rag-engine adds. You host it yourself; there is no hosted cob-rag-engine.</p></div>
 <div class="vcard"><span class="vtag">Why no LangChain</span><h3>Why the answer pipeline has none</h3><p><b>Speed and control.</b> Every step is visible and tunable: early-start answers, a model per language, thinking control, and the fact gate.</p><p><b>Stability.</b> No framework releases to chase underneath a product you sell.</p><p><b>A smaller surface.</b> No LangChain in the default install: our own core handles ingestion, search and answers. The optional evaluation add-on uses RAGAS, which brings LangChain in as its own dependency, used only for quality scoring.</p><p><b>Our own provider pattern.</b> Models, vector databases, parsers, embeddings and storage each sit behind one small interface and can be swapped.</p></div>
 <div class="vcard"><span class="vtag">Honest</span><h3>When another tool alone is the right choice</h3><p>If you are building a one-off prototype, an unusual pipeline, or an agent for your own use, and you want to hand-build every step, LangChain, LlamaIndex or an agent SDK on its own is the right tool. If you want to design workflows visually, or build internal AI apps for your own company, Dify is a good fit. cob-rag-engine is the right choice when the knowledge belongs to businesses, must stay separate, must be answered honestly, and has to be sold. It has no visual agent builder and no agent loop of its own.</p></div>
 </div>
-<h3 style="margin:var(--space-2xl) 0 var(--space-md)">Say it in four lines</h3>
-<div class="card"><ol style="margin:0;padding-left:22px;display:grid;gap:var(--space-sm);color:var(--color-ink-2)">
-<li>LangChain, LlamaIndex and the agent SDKs give you parts to build with; cob-rag-engine is the finished knowledge platform: customers, keys, documents, fact-checked answers, a website widget and billing, already built and tested.</li>
-<li>They are not rivals: your LangChain, LlamaIndex, OpenAI or Claude agent plugs into it over MCP and uses it as its governed knowledge base.</li>
-<li>Dify is a full platform too, but it is built for designing apps, and its licence needs written authorization to run it for many customers; cob-rag-engine is built to resell, with plans and billing, Hindi and Hinglish, WhatsApp and DPDP consent, and answers that stay inside the customer's own documents.</li>
-<li>So you sell assistants from day one instead of building the platform under them, and if all you need is a one-off prototype, LangChain alone is the right call.</li>
-</ol></div>
-<h3 style="margin:var(--space-2xl) 0 var(--space-md)">Questions people ask</h3>
-<div class="grid g3">
-<div class="card"><h3>LangChain is there and good, so why would anyone use cob-rag-engine?</h3><p>LangChain builds AI; cob-rag-engine is a finished product built for one job: running knowledge-based assistants for many customers from one self-hosted engine. They solve different problems, and they work together.</p></div>
-<div class="card"><h3>What about LlamaIndex?</h3><p>LlamaIndex is a retrieval framework for developers; you still build tenants, the widget, leads, billing and the dashboard around it. cob-rag-engine ships those, and your LlamaIndex agent can call it over MCP.</p></div>
-<div class="card"><h3>Dify is a full platform too, so why cob-rag-engine?</h3><p>Dify is for building apps in a visual workflow builder, and has a bigger plugin ecosystem. cob-rag-engine is for reselling: customers, plans, wallets, white-label, Hindi and Hinglish, DPDP consent, WhatsApp handoff and a fact-checked "I don't know". Dify's licence needs written authorization to run it as a multi-tenant service. If you want to design workflows visually for your own company, Dify is a good fit.</p></div>
-<div class="card"><h3>Is cob-rag-engine a LangChain alternative?</h3><p>Not for building agents. It has no agent framework and no visual builder. It is the knowledge platform an agent, or a customer's website, asks.</p></div>
-<div class="card"><h3>Can I use LangChain, LangGraph, the OpenAI Agents SDK or the Claude Agent SDK with it?</h3><p>Yes. Use MCP (<code>cob-rag-mcp</code>), REST, or the Python and JavaScript SDKs, with a read-only named key for each agent.</p></div>
-<div class="card"><h3>Does it use LangChain inside?</h3><p>Not in the default install: our own core handles ingestion, search and answers. The optional evaluation add-on uses RAGAS, which brings LangChain in as its own dependency, used only for quality scoring.</p></div>
-<div class="card"><h3>Does it make up answers?</h3><p>It is built not to. A search-confidence gate and a fact check stop unsupported facts, and with no documented answer it says so and offers a person or a lead form.</p></div>
-<div class="card"><h3>When should I use LangChain or LlamaIndex alone?</h3><p>For a one-off prototype, an unusual pipeline, or an agent for your own use, where you want to hand-build every step.</p></div>
-<div class="card"><h3>Is there a hosted version?</h3><p>No. You host it yourself on Postgres, Qdrant, Redis and any S3-compatible storage.</p></div>
-</div>
-</div>
-</section>
-<section class="act tint" id="compare">
-<div class="wrap">
-<header class="sec-head"><div class="sec-head-t"><div class="kicker">The landscape</div>
-<h2>Big open-source projects exist. <span class="thin">Few let you resell them.</span></h2></div>
-<p class="sub">We compared the open-source RAG platforms founders actually shortlist, on the things that matter when you run it for paying clients. Facts from each project's own license, docs and repository, checked on 29 September 2026. Where a project wins, the table says so.</p></header>
-<div class="table-wrap">
+<aside class="script" aria-labelledby="script-h">
+<div class="script-head"><span class="kicker">For your next sales call</span><h3 id="script-h">Say it in four lines</h3></div>
+<ol class="script-lines">
+<li><span class="script-n" aria-hidden="true">01</span><p>LangChain, LlamaIndex and the agent SDKs give you parts to build with; cob-rag-engine is the finished knowledge platform: customers, keys, documents, fact-checked answers, a website widget and billing, already built and tested.</p></li>
+<li><span class="script-n" aria-hidden="true">02</span><p>They are not rivals: your LangChain, LlamaIndex, OpenAI or Claude agent plugs into it over MCP and uses it as its governed knowledge base.</p></li>
+<li><span class="script-n" aria-hidden="true">03</span><p>Dify is a full platform too, but it is built for designing apps, and its licence needs written authorization to run it for many customers; cob-rag-engine is built to resell, with plans and billing, Hindi and Hinglish, WhatsApp and DPDP consent, and answers that stay inside the customer's own documents.</p></li>
+<li><span class="script-n" aria-hidden="true">04</span><p>So you sell assistants from day one instead of building the platform under them, and if all you need is a one-off prototype, LangChain alone is the right call.</p></li>
+</ol>
+</aside>
+<div class="sub-head why-sub why-land" id="compare"><div><span class="kicker">The landscape</span><h3>Big RAG platforms exist. <span class="thin">Few let you resell them.</span></h3></div><p>We compared the RAG platforms founders actually shortlist, on the things that matter when you run it for paying clients. Facts from each project's own license, docs and repository, checked on 29 September 2026. Where a project wins, the table says so.</p></div>
+<div class="table-wrap table-sticky">
 <table class="compare">
 <thead><tr>
 <th></th><th class="us">cob-rag-engine</th><th>RAGFlow</th><th>Dify</th><th>AnythingLLM</th><th>Onyx</th><th>FastGPT</th>
 </tr></thead>
 <tbody>
 <tr><td>License lets you host it for many paying clients</td>
-<td class="us"><span class="y">Yes</span> AGPL-3.0; commercial license to keep changes private</td>
+<td class="us"><span class="y">Yes</span> built for it; terms agreed with each partner</td>
 <td><span class="y">Yes</span> Apache-2.0</td>
 <td><span class="n">No</span> multi-tenant use needs written permission; logo must stay<sup><a href="#s-dify-lic">[10]</a></sup></td>
 <td><span class="y">Yes</span> MIT</td>
@@ -4115,7 +4477,7 @@ is free on orders above ₹999 <span class="k">[5]</span>.</pre>
 <td><span class="p">Iframe</span> share link</td></tr>
 <tr><td>Usage counted per client, for billing</td>
 <td class="us"><span class="y">Yes</span> per day × client × widget, via API</td>
-<td><span class="n">No</span> not documented in open source; requested in #11576, #12184</td>
+<td><span class="n">No</span> not documented in the community edition; requested in #11576, #12184</td>
 <td><span class="p">Logs</span> app logs</td>
 <td><span class="n">No</span></td>
 <td><span class="p">EE</span> analytics in paid edition</td>
@@ -4151,8 +4513,6 @@ is free on orders above ₹999 <span class="k">[5]</span>.</pre>
 <tr><td>Published, re-runnable retrieval benchmark</td>
 <td class="us"><span class="y">Yes</span> BEIR + real documents, <a href="benchmarks.html">report</a></td>
 <td><span class="n">No</span></td><td><span class="n">No</span></td><td><span class="n">No</span></td><td><span class="n">No</span></td><td><span class="n">No</span></td></tr>
-<tr><td>GitHub stars</td>
-<td class="us num">new</td><td class="num">91.5k</td><td class="num">157.5k</td><td class="num">66.6k</td><td class="num">32.3k</td><td class="num">29.8k</td></tr>
 <tr><td>Backing</td>
 <td class="us">Independent</td>
 <td>VC-backed (InfiniFlow, Shanghai)</td>
@@ -4164,13 +4524,25 @@ is free on orders above ₹999 <span class="k">[5]</span>.</pre>
 </table>
 </div>
 <p class="note note-2col">Also looked at: <b>Open WebUI</b> (153k stars; its license forbids rebranding above 50 users without an enterprise license, and it has no website widget), <b>LightRAG</b> (graph RAG research library; no widget or tenants), <b>Kotaemon</b> and <b>PrivateGPT</b> (single-organisation document Q&amp;A), <b>MaxKB</b> (GPL-3.0, Chinese-market support bots). Full source list at the bottom of the page.</p>
+<div class="sub-head why-sub"><h3>Questions people ask</h3></div>
+<div class="faq">
+<div class="qa"><h4>LangChain is there and good, so why would anyone use cob-rag-engine?</h4><p>LangChain builds AI; cob-rag-engine is a finished product built for one job: running knowledge-based assistants for many customers from one self-hosted engine. They solve different problems, and they work together.</p></div>
+<div class="qa"><h4>What about LlamaIndex?</h4><p>LlamaIndex is a retrieval framework for developers; you still build tenants, the widget, leads, billing and the dashboard around it. cob-rag-engine ships those, and your LlamaIndex agent can call it over MCP.</p></div>
+<div class="qa"><h4>Dify is a full platform too, so why cob-rag-engine?</h4><p>Dify is for building apps in a visual workflow builder, and has a bigger plugin ecosystem. cob-rag-engine is for reselling: customers, plans, wallets, white-label, Hindi and Hinglish, DPDP consent, WhatsApp handoff and a fact-checked "I don't know". Dify's licence needs written authorization to run it as a multi-tenant service. If you want to design workflows visually for your own company, Dify is a good fit.</p></div>
+<div class="qa"><h4>Is cob-rag-engine a LangChain alternative?</h4><p>Not for building agents. It has no agent framework and no visual builder. It is the knowledge platform an agent, or a customer's website, asks.</p></div>
+<div class="qa"><h4>Can I use LangChain, LangGraph, the OpenAI Agents SDK or the Claude Agent SDK with it?</h4><p>Yes. Use MCP (<code>cob-rag-mcp</code>), REST, or the Python and JavaScript SDKs, with a read-only named key for each agent.</p></div>
+<div class="qa"><h4>Does it use LangChain inside?</h4><p>Not in the default install: our own core handles ingestion, search and answers. The optional evaluation add-on uses RAGAS, which brings LangChain in as its own dependency, used only for quality scoring.</p></div>
+<div class="qa"><h4>Does it make up answers?</h4><p>It is built not to. A search-confidence gate and a fact check stop unsupported facts, and with no documented answer it says so and offers a person or a lead form.</p></div>
+<div class="qa"><h4>When should I use LangChain or LlamaIndex alone?</h4><p>For a one-off prototype, an unusual pipeline, or an agent for your own use, where you want to hand-build every step.</p></div>
+<div class="qa"><h4>Is there a hosted version?</h4><p>No. You host it yourself on Postgres, Qdrant, Redis and any S3-compatible storage.</p></div>
+</div>
 </div>
 </section>
 <section class="tint" id="ragflow">
 <div class="wrap">
 <header class="sec-head"><div class="sec-head-t"><div class="kicker">Head to head</div>
 <h2>RAGFlow is a document platform. <span class="thin">This is a reseller engine.</span></h2></div>
-<p class="sub">RAGFlow is the most capable open-source RAG project and the fairest comparison. It is built for one company understanding its own messy documents. cob-rag-engine is built for one operator serving many companies. Pick by the job.</p></header>
+<p class="sub">RAGFlow is the most capable publicly available RAG project and the fairest comparison. It is built for one company understanding its own messy documents. cob-rag-engine is built for one operator serving many companies. Pick by the job.</p></header>
 <div class="versus">
 <div class="side them">
 <h3>Where RAGFlow is ahead</h3>
@@ -4186,7 +4558,7 @@ is free on orders above ₹999 <span class="k">[5]</span>.</pre>
 <ul>
 <li><b>Built for serving clients.</b> Tenant → knowledge base → key, a key per knowledge base, each client's own model and prompt. In RAGFlow a knowledge base belongs to a user account and API keys are account-wide<sup><a href="#s-rf-15812">[16]</a></sup>.</li>
 <li><b>A widget you can put on a stranger's website.</b> Publishable key, domain lock, per-visitor and daily limits. RAGFlow's embed is an iframe that its maintainers acknowledge exposes the URL and key<sup><a href="#s-rf-2344">[17]</a></sup>.</li>
-<li><b>Billing data.</b> Per-client, per-widget daily usage through an API. RAGFlow has no per-customer metering in open source.</li>
+<li><b>Billing data.</b> Per-client, per-widget daily usage through an API. RAGFlow has no per-customer metering in its community edition.</li>
 <li><b>Light.</b> About 2 GB of RAM on CPU with Postgres, Qdrant and Redis, versus 16 GB and six backing services (Elasticsearch, MySQL, MinIO, NATS, Kvrocks, ClickHouse) on x86 only.</li>
 <li><b>Measured.</b> A public, re-runnable retrieval benchmark and a cross-client isolation test suite.</li>
 </ul>
@@ -4195,7 +4567,7 @@ is free on orders above ₹999 <span class="k">[5]</span>.</pre>
 <aside class="callout" aria-label="Security note">
 <div class="callout-t">
 <h3><span class="callout-ico" aria-hidden="true">!</span>Worth knowing before you put either one on the internet</h3>
-<p>RAGFlow's GitHub lists critical advisories including remote code execution (CVE-2026-45312, CVE-2026-28797, CVE-2026-24770) and a 9.8-severity token prediction flaw, and The Hacker News reported in September 2026 that attackers were exploiting exposed RAGFlow servers to steal LLM API keys<sup><a href="#s-rf-sec">[18]</a><a href="#s-thn">[19]</a></sup>. Version 1.0 (released 29 September 2026) is a rewrite in Go with a one-way database migration<sup><a href="#s-rf-rel">[20]</a></sup>. cob-rag-engine is younger and has had far less outside scrutiny; that cuts both ways, so read <a href="https://github.com/callobuzz/cob-rag-engine/blob/main/SECURITY.md">SECURITY.md</a>.</p>
+<p>RAGFlow's GitHub lists critical advisories including remote code execution (CVE-2026-45312, CVE-2026-28797, CVE-2026-24770) and a 9.8-severity token prediction flaw, and The Hacker News reported in September 2026 that attackers were exploiting exposed RAGFlow servers to steal LLM API keys<sup><a href="#s-rf-sec">[18]</a><a href="#s-thn">[19]</a></sup>. Version 1.0 (released 29 September 2026) is a rewrite in Go with a one-way database migration<sup><a href="#s-rf-rel">[20]</a></sup>. cob-rag-engine is younger and has had far less outside scrutiny; that cuts both ways, so ask for its security policy at <a href="mailto:callobuzz@gmail.com?subject=cob-rag-engine%20security%20policy">callobuzz@gmail.com</a>.</p>
 </div>
 <ul class="callout-facts">
 <li><b>3</b><span>critical remote-code-execution advisories for RAGFlow in 2026</span></li>
@@ -4210,7 +4582,7 @@ is free on orders above ₹999 <span class="k">[5]</span>.</pre>
 <div class="wrap">
 <header class="sec-head"><div class="sec-head-t"><div class="kicker">Indie vs funded</div>
 <h2>Funding buys features. <span class="thin">It also sets priorities.</span></h2></div>
-<p class="sub">A venture-backed open-source project has to become a business, and the business is usually its own cloud or enterprise edition. That is not a criticism; it explains the licenses and the paywalls in the table above. Here is the honest trade.</p></header>
+<p class="sub">A venture-backed project has to become a business, and the business is usually its own cloud or enterprise edition. That is not a criticism; it explains the licenses and the paywalls in the table above. Here is the honest trade.</p></header>
 <div class="versus">
 <div class="side them">
 <h3>What a funded project gives you, and costs you</h3>
@@ -4224,8 +4596,8 @@ is free on orders above ₹999 <span class="k">[5]</span>.</pre>
 <div class="side ours">
 <h3>What this independent project gives you, and costs you</h3>
 <ul>
-<li><b>Gives:</b> the whole product in the repository. There is no <code>ee/</code> folder and nothing held back for a paid tier.</li>
-<li><b>Gives:</b> a license that says yes to reselling. AGPL-3.0 lets you charge clients; a commercial license exists if you need to keep engine changes private.</li>
+<li><b>Gives:</b> the whole product in one piece. There is no separate <code>ee/</code> edition with the reseller features held back.</li>
+<li><b>Gives:</b> terms that say yes to reselling. Selling it to your own clients is the intended use, agreed with us directly.</li>
 <li><b>Gives:</b> one job, done carefully: multi-client RAG with a widget and billing data. Standard parts (Postgres, Qdrant, Redis, FastAPI) you can operate yourself.</li>
 <li><b>Costs:</b> one maintainer, fewer integrations, a small community. If you need a Notion connector tomorrow, you may be the one writing it. Every external dependency sits behind a swappable interface to make that practical.</li>
 </ul>
@@ -4269,7 +4641,7 @@ is free on orders above ₹999 <span class="k">[5]</span>.</pre>
 <div class="wrap">
 <header class="sec-head"><div class="sec-head-t"><div class="kicker">What's in the box</div>
 <h2>Everything between <span class="thin">a document and an answer</span></h2></div>
-<p class="sub">Everything a client-facing assistant needs, in one repository, with nothing held back for a paid edition.</p></header>
+<p class="sub">Everything a client-facing assistant needs, in one platform.</p></header>
 <div class="grid g3">
 <div class="card"><h3>Clients and keys</h3><p>Admin, tenant, knowledge-base and publishable widget keys; secret keys are stored only as hashes. Each client's LLM key encrypted and rotatable. One search collection per client.</p></div>
 <div class="card"><h3>Website widget</h3><p>One script tag, isolated from the host page's styles, streaming answers with sources, brand colour and position, mobile-ready. Domain allow-list and rate limits.</p></div>
@@ -4279,9 +4651,18 @@ is free on orders above ₹999 <span class="k">[5]</span>.</pre>
 <div class="card"><h3>Accounts built in</h3><p>People sign up with an e-mail address and confirm it with a 6-digit code. You choose open sign-up, approval of each one, or closed. Passwords are hashed with argon2id; sign-ins use short-lived tokens that rotate.</p></div>
 <div class="card"><h3>Teams and plans</h3><p>Each client gets a team with owner and member roles, invited by e-mail. Plans cap four things: knowledge bases, questions a month, documents and widget keys. Nothing is capped until you set a plan.</p></div>
 <div class="card"><h3>Your brand, your mail</h3><p>Your product name, logo and colour on the sign-in pages, the dashboard and every e-mail, with a permanent small &ldquo;cob-rag-engine by Callobuzz&rdquo; line. E-mail goes out over your own SMTP server.</p></div>
-<div class="card"><h3>Leads and handoff</h3><p>A website assistant with a name and a voice that answers only from your documents. It captures leads with a consent notice and a withdrawal link (phone first, encrypted), sorts them into qualified, partial and unqualified, e-mails a daily digest, offers WhatsApp, a call or a call-back when a person is needed, and shows you resolution, leads and handoffs. The widget's own text is in English, Hindi and Hinglish; replies in Hindi and Hinglish work. <!-- language-claim:start -->English, Hindi and Hinglish, measured: the default fast model <code>openai/gpt-6-luna</code> labels 266 held-out turns at 98.9% overall (English 98.9%, Hindi 100.0%, Hinglish 97.8%), keeps 98.6% of business questions, replies in the right language 100.0% of the time and falls back on 0.6% of its label calls, with thinking verified off; it passes every bar, as do 5 of the other 14 models tested. Reply quality is measured separately: in the answer benchmark <code>google/gemma-4-31b-it</code>, the Hindi and Hinglish pick, passes 90% of the Hindi and Hinglish items and declines 100% of the unanswerable ones.<!-- language-claim:end --> (See benchmarks/README.md.)</p></div>
 <div class="card"><h3>Operations</h3><p>A dashboard for you and for each client's team, usage API, Python and JavaScript SDKs, tracing with Langfuse, answer evaluation, knowledge-gap reports, zero-downtime embedding model switches.</p></div>
+<div class="card is-wide"><h3>Leads and handoff</h3><p>A website assistant with a name and a voice that answers only from your documents. It captures leads with a consent notice and a withdrawal link (phone first, encrypted), sorts them into qualified, partial and unqualified, e-mails a daily digest, offers WhatsApp, a call or a call-back when a person is needed, and shows you resolution, leads and handoffs. <a class="card-more" href="#lang-h">Measured in three languages</a></p></div>
 </div>
+<!-- language-claim:start -->
+<div class="lang" role="group" aria-labelledby="lang-h">
+<div class="lang-head"><div><span class="kicker">Languages, measured</span><h3 id="lang-h">Measured in English, Hindi and Hinglish</h3></div><p>The widget&#x27;s own text is in English, Hindi and Hinglish; replies in Hindi and Hinglish work.</p></div>
+<div class="lang-grid"><div class="lang-tile is-main"><b class="lang-big">98.9%</b><span class="lang-what">overall, on 266 held-out turns</span><span class="lang-meter" style="--v:98.9;--bar:90.0" aria-hidden="true" title="Overall: 98.9%, bar 90%"><i></i></span><ul class="lang-langs"><li><span>English</span><b>98.9%</b><span class="lang-meter" style="--v:98.9;--bar:85.0" aria-hidden="true" title="English: 98.9%, bar 85%"><i></i></span></li><li><span>Hindi</span><b>100.0%</b><span class="lang-meter" style="--v:100.0;--bar:85.0" aria-hidden="true" title="Hindi: 100.0%, bar 85%"><i></i></span></li><li><span>Hinglish</span><b>97.8%</b><span class="lang-meter" style="--v:97.8;--bar:85.0" aria-hidden="true" title="Hinglish: 97.8%, bar 85%"><i></i></span></li></ul><span class="lang-bar">Bars: 90% overall, 85% each language</span></div><div class="lang-tiles"><div class="lang-tile"><b>98.6%</b><span class="lang-what">business questions kept</span><span class="lang-meter" style="--v:98.6;--bar:97.0" aria-hidden="true" title="business questions kept: 98.6%, bar 97%"><i></i></span><span class="lang-bar">bar 97%</span></div><div class="lang-tile"><b>100.0%</b><span class="lang-what">right reply language</span><span class="lang-meter" style="--v:100.0;--bar:95.0" aria-hidden="true" title="right reply language: 100.0%, bar 95%"><i></i></span><span class="lang-bar">bar 95%</span></div><div class="lang-tile"><b>0.6%</b><span class="lang-what">label calls fell back</span><span class="lang-meter" style="--v:0.6;--bar:5.0" aria-hidden="true" title="label calls fell back: 0.6%, at most 5%"><i></i></span><span class="lang-bar">at most 5%</span></div></div></div>
+<div class="lang-cards"><div class="lang-card"><span class="lang-k">Fast model, default</span><b class="lang-name">GPT-6 Luna</b><code>openai/gpt-6-luna</code><p class="lang-pass"><b>6 of 15</b> models pass every bar</p><svg class="lang-strip" viewBox="0 0 326 28" role="img" aria-label="6 of 15 fast models tested pass every bar"><rect class="is-default" x="0" y="0" width="18" height="28" rx="4"><title>GPT-6 Luna: passes every bar, 98.9% overall</title></rect><rect class="is-pass" x="22" y="0" width="18" height="28" rx="4"><title>Gemma 4 26B: passes every bar, 97.7% overall</title></rect><rect class="is-pass" x="44" y="0" width="18" height="28" rx="4"><title>GPT-4.1 Mini: passes every bar, 97.4% overall</title></rect><rect class="is-pass" x="66" y="0" width="18" height="28" rx="4"><title>Qwen3.8 27B: passes every bar, 97.0% overall</title></rect><rect class="is-pass" x="88" y="0" width="18" height="28" rx="4"><title>gpt-oss-120b: passes every bar, 95.1% overall</title></rect><rect class="is-pass" x="110" y="0" width="18" height="28" rx="4"><title>GPT-4.1 Nano: passes every bar, 94.0% overall</title></rect><rect class="is-miss" x="132" y="0" width="18" height="28" rx="4"><title>Deepseek V4.1 Flash: misses a bar, 98.5% overall</title></rect><rect class="is-miss" x="154" y="0" width="18" height="28" rx="4"><title>Qwen3 Next 80B: misses a bar, 97.0% overall</title></rect><rect class="is-miss" x="176" y="0" width="18" height="28" rx="4"><title>Mistral Small 3.2 24B: misses a bar, 96.6% overall</title></rect><rect class="is-miss" x="198" y="0" width="18" height="28" rx="4"><title>Gemini 2.5 Flash Lite: misses a bar, 95.9% overall</title></rect><rect class="is-miss" x="220" y="0" width="18" height="28" rx="4"><title>Mistral Small 2603: misses a bar, 95.9% overall</title></rect><rect class="is-miss" x="242" y="0" width="18" height="28" rx="4"><title>Gemma 4 31B: misses a bar, 95.9% overall</title></rect><rect class="is-miss" x="264" y="0" width="18" height="28" rx="4"><title>Qwen3 30B 2507: misses a bar, 95.9% overall</title></rect><rect class="is-miss" x="286" y="0" width="18" height="28" rx="4"><title>Llama 3.3 70B: misses a bar, 92.1% overall</title></rect><rect class="is-miss" x="308" y="0" width="18" height="28" rx="4"><title>Llama 3.1 8B: misses a bar, 91.0% overall</title></rect></svg><p class="lang-legend"><span><i class="is-default"></i>default</span><span><i class="is-pass"></i>passes every bar</span><span><i class="is-miss"></i>misses a bar</span></p></div><div class="lang-card"><span class="lang-k">Reply quality, answer benchmark</span><b class="lang-name">Gemma 4 31B</b><code>google/gemma-4-31b-it</code><div class="lang-duo"><div><b>90%</b><span>Hindi and Hinglish items passed</span></div><div><b>100%</b><span>unanswerable questions declined</span></div></div></div></div>
+<p class="lang-claim">English, Hindi and Hinglish, measured: the default fast model <code>openai/gpt-6-luna</code> labels 266 held-out turns at 98.9% overall (English 98.9%, Hindi 100.0%, Hinglish 97.8%), keeps 98.6% of business questions, replies in the right language 100.0% of the time and falls back on 0.6% of its label calls, with thinking verified off; it passes every bar, as do 5 of the other 14 models tested. Reply quality is measured separately: in the answer benchmark <code>google/gemma-4-31b-it</code>, the Hindi and Hinglish pick, passes 90% of the Hindi and Hinglish items and declines 100% of the unanswerable ones.</p>
+<p class="lang-src">See benchmarks/README.md, or the <a href="benchmarks.html">benchmark report</a> for every model and the method.</p>
+</div>
+<!-- language-claim:end -->
 </div>
 </section>
 <section id="gaps">
@@ -4325,23 +4706,23 @@ is free on orders above ₹999 <span class="k">[5]</span>.</pre>
 <h2>Should you build on it?</h2></div>
 <p class="sub">Three honest answers, depending on what you are building and who it is for.</p></header>
 <div class="verdict-grid">
-<div class="vcard is-yes"><span class="vtag">Build on it</span><h3>You want to sell AI assistants to other businesses</h3><p>An agency, a niche chatbot SaaS, private deployments, or AI answers inside your own product. That combination (separate clients, a domain-locked widget, per-client usage, any model, a license that allows it, on a small server) is what the open-source field does not offer in one piece today.</p></div>
+<div class="vcard is-yes"><span class="vtag">Build on it</span><h3>You want to sell AI assistants to other businesses</h3><p>An agency, a niche chatbot SaaS, private deployments, or AI answers inside your own product. That combination (separate clients, a domain-locked widget, per-client usage, any model, terms that allow it, on a small server) is what the RAG platforms we compared do not offer in one piece today.</p></div>
 <div class="vcard"><span class="vtag">Pick RAGFlow or Onyx</span><h3>You are one company with heavy document needs</h3><p>You need dozens of connectors, a no-code agent builder, or the deepest parsing of scanned documents, and you have the 16–24 GB server to run it.</p></div>
 <div class="vcard"><span class="vtag">Pick a hosted tool</span><h3>You need one chatbot, this afternoon</h3><p>One chatbot for one website, and you never want to run a server: a hosted tool like Chatbase is the faster route.</p></div>
 </div>
 </div>
 </section>
-<section class="tint" id="start">
+<section class="tint" id="install">
 <div class="wrap">
-<header class="sec-head"><div class="sec-head-t"><div class="kicker">Get started</div>
+<header class="sec-head"><div class="sec-head-t"><div class="kicker">Once you have access</div>
 <h2>Running in <span class="thin">three commands</span></h2></div>
-<p class="sub">Needs Docker and any Python 3 (no packages; without <code>make</code>, run <code>python scripts/setup.py</code>). Models download on first start and are cached. The dashboard on port 8090 manages clients, sign-ups, plans, keys, uploads and widgets. <a href="guide.html">Full step-by-step guide</a>. Going live on a server? <a href="deploy.html">Deploy guide</a>.</p></header>
+<p class="sub">cob-rag-engine is available to partners: <a href="#start">ask for access</a> and you receive the repository. Then it needs Docker and any Python 3 (no packages; without <code>make</code>, run <code>python scripts/setup.py</code>). Models download on first start and are cached. The dashboard on port 8090 manages clients, sign-ups, plans, keys, uploads and widgets. <a href="guide.html">Full step-by-step guide</a>. Going live on a server? <a href="deploy.html">Deploy guide</a>.</p></header>
 <div class="start-grid">
 <div class="dg-win start-term">
 <div class="dg-win-bar"><i></i><i></i><i></i><span>terminal</span></div>
 <div class="start-lines">
-<div class="start-c"># 1. get the code</div>
-<div class="start-cmd"><code><span class="k">git clone</span> https://github.com/callobuzz/cob-rag-engine</code><button type="button" class="start-copy" data-copy="git clone https://github.com/callobuzz/cob-rag-engine" aria-label="Copy this command">Copy</button></div>
+<div class="start-c"># 1. get the code, from the repository URL you receive</div>
+<div class="start-cmd"><code><span class="k">git clone</span> &lt;the repository URL you receive&gt;</code></div>
 <div class="start-cmd"><code><span class="k">cd</span> cob-rag-engine</code><button type="button" class="start-copy" data-copy="cd cob-rag-engine" aria-label="Copy this command">Copy</button></div>
 <div class="start-c"># 2. answer a few questions; it writes the settings and every secret</div>
 <div class="start-cmd"><code><span class="k">make</span> setup</code><button type="button" class="start-copy" data-copy="make setup" aria-label="Copy this command">Copy</button></div>
@@ -4399,12 +4780,12 @@ is free on orders above ₹999 <span class="k">[5]</span>.</pre>
 <div class="wrap">
 <div class="final">
 <div class="final-copy">
-<div class="kicker">Open source · commercial license available</div>
+<div class="kicker">Early access · for partner resellers</div>
 <h2>Run the engine. <span class="thin">Sell the assistant.</span></h2>
-<p class="sub">Free under AGPL-3.0, including commercial use. Need to keep engine changes private, or can't use AGPL? A commercial license is available: <a href="mailto:callobuzz@gmail.com">callobuzz@gmail.com</a>.</p>
+<p class="sub">cob-rag-engine is available to partners while we decide how to release it. Write to us for access, a pilot with one client, or a commercial license: <a href="mailto:callobuzz@gmail.com">callobuzz@gmail.com</a>.</p>
 <div class="cta">
-<a class="btn btn-primary" href="https://github.com/callobuzz/cob-rag-engine">★ Star on GitHub</a>
-<a class="btn btn-ghost" href="https://github.com/callobuzz/cob-rag-engine#readme">Read the docs</a>
+<a class="btn btn-primary" href="#start">Help us decide</a>
+<a class="btn btn-ghost" href="guide.html">Read the guide</a>
 </div>
 </div>
 <figure class="final-mark lm" aria-hidden="true">
@@ -4482,8 +4863,9 @@ is free on orders above ₹999 <span class="k">[5]</span>.</pre>
 </figure>
 </div>
 <div class="foot-meta">
-    <div>cob-rag-engine · by <a href="https://github.com/callobuzz">Callobuzz</a> · AGPL-3.0</div>
-    <div><a href="pitch.html">Pitch sheet</a> · <a href="benchmarks.html">Benchmark report</a> · <a href="https://callobuzz.github.io/cob-rag-mcp">cob-rag-mcp</a> · <a href="https://github.com/callobuzz/cob-rag-engine/blob/main/CONTRIBUTING.md">Contributing</a> · <a href="https://github.com/callobuzz/cob-rag-engine/blob/main/SECURITY.md">Security</a></div>
+    <div><a class="foot-brand" href="https://callobuzz.github.io/cob-rag-engine">cob-rag-engine by Callobuzz</a></div>
+    <div><a href="pitch.html">Pitch sheet</a> · <a href="guide.html">Guide</a> · <a href="deploy.html">Deploy guide</a> · <a href="benchmarks.html">Benchmark report</a> · <a href="https://callobuzz.github.io/cob-rag-mcp">cob-rag-mcp</a> · <a href="mailto:callobuzz@gmail.com?subject=cob-rag-engine%20security%20report">Report a security issue</a></div>
+</div>
 </div>
 </div>
 </footer>
@@ -5030,20 +5412,86 @@ c.classList.add('is-bump');
 </script>
 <script type="module">
 (function () {
-if (!('IntersectionObserver' in window)) return;
-var links = document.querySelectorAll('nav .links a'), map = {};
-for (var i = 0; i < links.length; i++) map[links[i].getAttribute('href').slice(1)] = links[i];
-var groups = { answer: 'ingest', clients: 'ingest', byok: 'ingest', tour: 'how', market: 'sell' };
-var io = new IntersectionObserver(function (entries) {
-entries.forEach(function (e) {
-if (!e.isIntersecting) return;
-var id = groups[e.target.id] || e.target.id;
-for (var k in map) map[k].removeAttribute('aria-current');
-if (map[id]) map[id].setAttribute('aria-current', 'true');
-});
-}, { rootMargin: '-45% 0px -50% 0px' });
-var secs = document.querySelectorAll('body > section[id]');
-for (var j = 0; j < secs.length; j++) io.observe(secs[j]);
+  /* the main nav: two disclosure menus, a menu button under 1100px, and a scroll spy */
+  var nav = document.querySelector('nav[aria-label="Main"]');
+  if (!nav) return;
+  var dds = [].slice.call(nav.querySelectorAll('.nav-dd'));
+  var toggle = nav.querySelector('.nav-toggle');
+  var narrow = window.matchMedia('(max-width: 1100px)');
+  var finePointer = window.matchMedia('(hover: hover) and (pointer: fine)');
+  function items(dd) { return [].slice.call(dd.querySelectorAll('.nav-dd-panel a')); }
+  function setOpen(dd, on, focusFirst) {
+    var btn = dd.querySelector('.nav-dd-btn');
+    dd.classList.toggle('is-open', on);
+    btn.setAttribute('aria-expanded', on ? 'true' : 'false');
+    if (on) { dds.forEach(function (o) { if (o !== dd) setOpen(o, false); }); if (focusFirst) items(dd)[0].focus(); }
+  }
+  function closeAll() { dds.forEach(function (d) { setOpen(d, false); }); }
+  function setMenu(on) {
+    nav.classList.toggle('is-menu-open', on);
+    toggle.setAttribute('aria-expanded', on ? 'true' : 'false');
+  }
+  dds.forEach(function (dd) {
+    var btn = dd.querySelector('.nav-dd-btn'), timer = null;
+    btn.addEventListener('click', function () { setOpen(dd, !dd.classList.contains('is-open')); });
+    btn.addEventListener('keydown', function (e) {
+      if (e.key === 'ArrowDown') { e.preventDefault(); e.stopPropagation(); setOpen(dd, true, true); }
+      else if (e.key === 'ArrowUp') { e.preventDefault(); e.stopPropagation(); setOpen(dd, true); var l = items(dd); l[l.length - 1].focus(); }
+    });
+    dd.addEventListener('keydown', function (e) {
+      var list = items(dd), i = list.indexOf(document.activeElement);
+      if (e.key === 'Escape' && dd.classList.contains('is-open')) { e.preventDefault(); setOpen(dd, false); btn.focus(); return; }
+      if (i < 0 || narrow.matches) return;
+      var n = null;
+      if (e.key === 'ArrowDown') n = (i + 1) % list.length;
+      else if (e.key === 'ArrowUp') n = (i + list.length - 1) % list.length;
+      else if (e.key === 'Home') n = 0;
+      else if (e.key === 'End') n = list.length - 1;
+      if (n !== null) { e.preventDefault(); list[n].focus(); }
+    });
+    dd.addEventListener('focusout', function (e) { if (!dd.contains(e.relatedTarget) && !narrow.matches) setOpen(dd, false); });
+    dd.addEventListener('mouseenter', function () {
+      if (!finePointer.matches || narrow.matches) return;
+      clearTimeout(timer); timer = setTimeout(function () { setOpen(dd, true); }, 120);
+    });
+    dd.addEventListener('mouseleave', function () {
+      if (!finePointer.matches || narrow.matches) return;
+      clearTimeout(timer); timer = setTimeout(function () { setOpen(dd, false); }, 260);
+    });
+  });
+  toggle.addEventListener('click', function () { setMenu(!nav.classList.contains('is-menu-open')); });
+  document.addEventListener('pointerdown', function (e) {
+    if (!nav.contains(e.target)) { closeAll(); setMenu(false); }
+  });
+  document.addEventListener('keydown', function (e) {
+    if (e.key === 'Escape' && nav.classList.contains('is-menu-open')) { setMenu(false); toggle.focus(); }
+  });
+  [].forEach.call(nav.querySelectorAll('.nav-menu a'), function (a) {
+    a.addEventListener('click', function () { closeAll(); setMenu(false); });
+  });
+  narrow.addEventListener('change', function () { closeAll(); setMenu(false); });
+
+  /* scroll spy: the item for the section in view, and its group */
+  if (!('IntersectionObserver' in window)) return;
+  var links = {};
+  [].forEach.call(nav.querySelectorAll('.nav-menu a[href^="#"]'), function (a) {
+    if (!a.classList.contains('nav-btn')) links[a.getAttribute('href').slice(1)] = a;
+  });
+  var groups = { market: 'sell', tour: 'how', answer: 'ingest', clients: 'ingest', byok: 'ingest', also: 'ingest', features: 'ingest',
+    ragflow: 'why', indie: 'why', proof: 'why', gaps: 'next' };
+  function mark(id) {
+    for (var k in links) links[k].removeAttribute('aria-current');
+    dds.forEach(function (d) { d.querySelector('.nav-dd-btn').classList.remove('is-current'); });
+    var a = links[id];
+    if (!a) return;
+    a.setAttribute('aria-current', 'true');
+    var dd = a.closest('.nav-dd');
+    if (dd) dd.querySelector('.nav-dd-btn').classList.add('is-current');
+  }
+  var io = new IntersectionObserver(function (entries) {
+    entries.forEach(function (e) { if (e.isIntersecting) mark(groups[e.target.id] || e.target.id); });
+  }, { rootMargin: '-45% 0px -50% 0px' });
+  [].forEach.call(document.querySelectorAll('body > section[id]'), function (s) { io.observe(s); });
 })();
 </script>
 <script type="module">
@@ -5068,13 +5516,15 @@ for (var j = 0; j < secs.length; j++) io.observe(secs[j]);
 </script>
 <script type="module">
 (function () {
-  var fig = document.querySelector('#byok .byok-fig');
-  if (!fig || !('IntersectionObserver' in window)) return;
+  /* diagrams that only need their flows to run while on screen: BYOK and every .dg-auto figure */
+  var figs = document.querySelectorAll('#byok .byok-fig, .dg-auto');
+  if (!figs.length || !('IntersectionObserver' in window)) return;
   var reduce = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
   if (reduce) return;
-  new IntersectionObserver(function (entries) {
-    entries.forEach(function (e) { fig.classList.toggle('dg-live', e.isIntersecting); });
-  }, { rootMargin: '0px 0px -10% 0px' }).observe(fig);
+  var io = new IntersectionObserver(function (entries) {
+    entries.forEach(function (e) { e.target.classList.toggle('dg-live', e.isIntersecting); });
+  }, { rootMargin: '0px 0px -10% 0px' });
+  [].forEach.call(figs, function (f) { io.observe(f); });
 })();
 </script>
 <script type="module">
@@ -5131,71 +5581,77 @@ for (var j = 0; j < secs.length; j++) io.observe(secs[j]);
   document.addEventListener('visibilitychange', function () { c.classList.toggle('is-paused', document.hidden); });
 })();
 </script>
-<svg width="0" height="0" aria-hidden="true" focusable="false" style="position:absolute"><defs><symbol id="pm-i-users" viewBox="0 0 24 24"><circle cx="9" cy="8" r="3.5"/><path d="M2.5 20a6.5 6.5 0 0 1 13 0"/><path d="M16 4.5a3.5 3.5 0 0 1 0 7M18 14.5a6.5 6.5 0 0 1 3.5 5.5"/></symbol><symbol id="pm-i-tag" viewBox="0 0 24 24"><path d="M3 12V4h8l10 10-8 8z"/><circle cx="7.5" cy="8.5" r="1.2"/></symbol><symbol id="pm-i-chat" viewBox="0 0 24 24"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></symbol><symbol id="pm-i-bars" viewBox="0 0 24 24"><path d="M4 20V10M10 20V4M16 20v-7M22 20H2"/></symbol><symbol id="pm-i-doc" viewBox="0 0 24 24"><path d="M14 3H7a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V8z"/><path d="M14 3v5h5"/></symbol><symbol id="pm-i-lock" viewBox="0 0 24 24"><rect x="5" y="11" width="14" height="10" rx="2"/><path d="M8 11V8a4 4 0 0 1 8 0v3"/></symbol><symbol id="pm-i-check" viewBox="0 0 24 24"><path d="M5 12.5l4.5 4.5L19 7.5"/></symbol><symbol id="pm-i-code" viewBox="0 0 24 24"><path d="M8 8l-5 4 5 4M16 8l5 4-5 4M14 5l-4 14"/></symbol><symbol id="pm-i-globe" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M3 12h18M12 3a14 14 0 0 1 0 18M12 3a14 14 0 0 0 0 18"/></symbol><symbol id="pm-i-shield" viewBox="0 0 24 24"><path d="M12 3l8 3v6c0 5-3.5 8-8 9-4.5-1-8-4-8-9V6z"/></symbol><symbol id="pm-i-key" viewBox="0 0 24 24"><circle cx="8" cy="15" r="4"/><path d="M11 12l9-9M16 7l3 3"/></symbol><symbol id="pm-i-coin" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M9 8h6M9 12h6M9 8c4 0 4 4 0 4l5 5"/></symbol><symbol id="pm-i-bolt" viewBox="0 0 24 24"><path d="M13 2L4 14h7l-1 8 9-12h-7z"/></symbol><symbol id="pm-i-play" viewBox="0 0 24 24"><path d="M8 5l11 7-11 7z"/></symbol><symbol id="pm-i-mail" viewBox="0 0 24 24"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="M3 7l9 6 9-6"/></symbol><symbol id="pm-i-x" viewBox="0 0 24 24"><path d="M18 6 6 18M6 6l12 12"/></symbol><symbol id="pm-i-plug" viewBox="0 0 24 24"><path d="M9 3v5M15 3v5M6 8h12v3a6 6 0 0 1-12 0zM12 17v4"/></symbol></defs></svg>
+<svg width="0" height="0" aria-hidden="true" focusable="false" style="position:absolute"><defs><symbol id="pm-i-users" viewBox="0 0 24 24"><circle cx="9" cy="8" r="3.5"/><path d="M2.5 20a6.5 6.5 0 0 1 13 0"/><path d="M16 4.5a3.5 3.5 0 0 1 0 7M18 14.5a6.5 6.5 0 0 1 3.5 5.5"/></symbol><symbol id="pm-i-tag" viewBox="0 0 24 24"><path d="M3 12V4h8l10 10-8 8z"/><circle cx="7.5" cy="8.5" r="1.2"/></symbol><symbol id="pm-i-chat" viewBox="0 0 24 24"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></symbol><symbol id="pm-i-bars" viewBox="0 0 24 24"><path d="M4 20V10M10 20V4M16 20v-7M22 20H2"/></symbol><symbol id="pm-i-doc" viewBox="0 0 24 24"><path d="M14 3H7a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V8z"/><path d="M14 3v5h5"/></symbol><symbol id="pm-i-lock" viewBox="0 0 24 24"><rect x="5" y="11" width="14" height="10" rx="2"/><path d="M8 11V8a4 4 0 0 1 8 0v3"/></symbol><symbol id="pm-i-check" viewBox="0 0 24 24"><path d="M5 12.5l4.5 4.5L19 7.5"/></symbol><symbol id="pm-i-code" viewBox="0 0 24 24"><path d="M8 8l-5 4 5 4M16 8l5 4-5 4M14 5l-4 14"/></symbol><symbol id="pm-i-globe" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M3 12h18M12 3a14 14 0 0 1 0 18M12 3a14 14 0 0 0 0 18"/></symbol><symbol id="pm-i-shield" viewBox="0 0 24 24"><path d="M12 3l8 3v6c0 5-3.5 8-8 9-4.5-1-8-4-8-9V6z"/></symbol><symbol id="pm-i-key" viewBox="0 0 24 24"><circle cx="8" cy="15" r="4"/><path d="M11 12l9-9M16 7l3 3"/></symbol><symbol id="pm-i-coin" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M9 8h6M9 12h6M9 8c4 0 4 4 0 4l5 5"/></symbol><symbol id="pm-i-bolt" viewBox="0 0 24 24"><path d="M13 2L4 14h7l-1 8 9-12h-7z"/></symbol><symbol id="pm-i-play" viewBox="0 0 24 24"><path d="M8 5l11 7-11 7z"/></symbol><symbol id="pm-i-mail" viewBox="0 0 24 24"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="M3 7l9 6 9-6"/></symbol><symbol id="pm-i-x" viewBox="0 0 24 24"><path d="M18 6 6 18M6 6l12 12"/></symbol><symbol id="pm-i-plug" viewBox="0 0 24 24"><path d="M9 3v5M15 3v5M6 8h12v3a6 6 0 0 1-12 0zM12 17v4"/></symbol><symbol id="pm-i-route" viewBox="0 0 24 24"><circle cx="6" cy="18" r="2.5"/><circle cx="18" cy="6" r="2.5"/><path d="M8.5 18H15a3 3 0 0 0 0-6H9a3 3 0 0 1 0-6h6.5"/></symbol><symbol id="pm-i-steps" viewBox="0 0 24 24"><path d="M9 6h11M9 12h11M9 18h11"/><path d="M4 6h.01M4 12h.01M4 18h.01"/></symbol><symbol id="pm-i-server" viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="7" rx="2"/><rect x="3" y="13" width="18" height="7" rx="2"/><path d="M7 7.5h.01M7 16.5h.01"/></symbol><symbol id="pm-i-menu" viewBox="0 0 24 24"><path d="M4 7h16M4 12h16M4 17h16"/></symbol></defs></svg>
 <dialog class="pm" id="pitch-modal" aria-labelledby="pm-title" data-video-url="">
 <div class="pm-head">
 <div><div class="kicker">Sell AI assistants</div><h2 id="pm-title">Pick the line that sounds like you</h2></div>
 <button type="button" class="pm-close" aria-label="Close"><svg class="pm-ico" aria-hidden="true" focusable="false"><use href="#pm-i-x"/></svg></button>
 </div>
-<div class="pm-tabs" role="tablist" aria-label="Who is this for"><button type="button" role="tab" class="pm-tab" id="pm-tab-agencies" aria-controls="pm-panel-agencies" aria-selected="true" tabindex="0" data-hash="for-agencies">Agencies</button><button type="button" role="tab" class="pm-tab" id="pm-tab-founders" aria-controls="pm-panel-founders" aria-selected="false" tabindex="-1" data-hash="for-founders">Freelancers &amp; founders</button><button type="button" role="tab" class="pm-tab" id="pm-tab-partners" aria-controls="pm-panel-partners" aria-selected="false" tabindex="-1" data-hash="for-partners">Software partners</button><button type="button" role="tab" class="pm-tab" id="pm-tab-developers" aria-controls="pm-panel-developers" aria-selected="false" tabindex="-1" data-hash="for-developers">Developers</button></div>
+<div class="pm-tabs" role="tablist" aria-label="Who is this for"><button type="button" role="tab" class="pm-tab" id="pm-tab-agencies" aria-controls="pm-panel-agencies" aria-selected="true" tabindex="0" data-hash="for-agencies"><svg class="pm-ico" aria-hidden="true" focusable="false"><use href="#pm-i-tag"/></svg>Agencies</button><button type="button" role="tab" class="pm-tab" id="pm-tab-founders" aria-controls="pm-panel-founders" aria-selected="false" tabindex="-1" data-hash="for-founders"><svg class="pm-ico" aria-hidden="true" focusable="false"><use href="#pm-i-bolt"/></svg>Freelancers &amp; founders</button><button type="button" role="tab" class="pm-tab" id="pm-tab-partners" aria-controls="pm-panel-partners" aria-selected="false" tabindex="-1" data-hash="for-partners"><svg class="pm-ico" aria-hidden="true" focusable="false"><use href="#pm-i-plug"/></svg>Software partners</button><button type="button" role="tab" class="pm-tab" id="pm-tab-developers" aria-controls="pm-panel-developers" aria-selected="false" tabindex="-1" data-hash="for-developers"><svg class="pm-ico" aria-hidden="true" focusable="false"><use href="#pm-i-code"/></svg>Developers</button></div>
 <div class="pm-body">
 <section class="pm-panel" id="pm-panel-agencies" role="tabpanel" aria-labelledby="pm-tab-agencies" tabindex="0">
 <h3 class="pm-h">Your clients are asking for AI. Sell it under your own name and earn every month.</h3>
+<ol class="pm-flow" aria-label="How it fits together"><li class="pm-step"><svg class="pm-ico" aria-hidden="true" focusable="false"><use href="#pm-i-doc"/></svg><span>Client's documents</span></li><li class="pm-step is-engine"><svg class="pm-ico" aria-hidden="true" focusable="false"><use href="#pm-i-server"/></svg><span>Your engine</span></li><li class="pm-step"><svg class="pm-ico" aria-hidden="true" focusable="false"><use href="#pm-i-chat"/></svg><span>Widget on their site</span></li><li class="pm-step is-money"><svg class="pm-ico" aria-hidden="true" focusable="false"><use href="#pm-i-coin"/></svg><span>Monthly fee to you</span></li></ol>
 <div class="pm-grid">
 <div class="pm-col"><div class="pm-card pm-prob"><h4>Your problem</h4><ul class="pm-list"><li><svg class="pm-ico" aria-hidden="true" focusable="false"><use href="#pm-i-x"/></svg><span>Clients ask for “an AI chatbot” and you cannot build one you would trust to answer their customers.</span></li><li><svg class="pm-ico" aria-hidden="true" focusable="false"><use href="#pm-i-x"/></svg><span>Website work is project income: when the project ends, so does the invoice.</span></li></ul></div>
 <div class="pm-card"><h4>What you get</h4><ul class="pm-list pm-get"><li><svg class="pm-ico" aria-hidden="true" focusable="false"><use href="#pm-i-users"/></svg><span><b>A private assistant per client</b> Each client gets their own documents, keys, model and prompt, kept apart from every other client.</span></li><li><svg class="pm-ico" aria-hidden="true" focusable="false"><use href="#pm-i-tag"/></svg><span><b>Your name on it</b> Your name, logo and colours in the dashboard, sign-up pages and e-mails. A small “cob-rag-engine by Callobuzz” line stays.</span></li><li><svg class="pm-ico" aria-hidden="true" focusable="false"><use href="#pm-i-chat"/></svg><span><b>Website widget, leads, WhatsApp</b> One script tag locked to the client&#x27;s domains. Leads come with a consent notice, and a WhatsApp click-to-chat button hands a hot lead to a person.</span></li><li><svg class="pm-ico" aria-hidden="true" focusable="false"><use href="#pm-i-bars"/></svg><span><b>A bill you can explain</b> Plans, caps and usage counted per client, with wallets in ₹ or $.</span></li></ul></div></div>
-<div class="pm-col"><div class="pm-card"><h4>How you earn</h4><p>Charge each client a monthly fee for their assistant. You choose the price, in ₹ or $. The engine counts every client&#x27;s usage so the invoice is easy to justify, and plan caps stop one client from using more than you priced. Your costs are the server and the AI model calls (a client can bring their own key). What you earn depends on your price and your clients; none is promised here.</p></div>
+<div class="pm-col"><div class="pm-card pm-earn"><h4><svg class="pm-ico" aria-hidden="true" focusable="false"><use href="#pm-i-coin"/></svg>How you earn</h4><p>Charge each client a monthly fee for their assistant. You choose the price, in ₹ or $. The engine counts every client&#x27;s usage so the invoice is easy to justify, and plan caps stop one client from using more than you priced. Your costs are the server and the AI model calls (a client can bring their own key). What you earn depends on your price and your clients; none is promised here.</p></div>
 <div class="pm-card"><h4>Start in 3 steps</h4><ol class="pm-steps"><li><span class="pm-n" aria-hidden="true">1</span><span><b>Install it, or ask for help.</b> Run it on your own server with Docker (the guide is step by step), or write to us and we will help you set it up.</span></li><li><span class="pm-n" aria-hidden="true">2</span><span><b>Add a client&#x27;s documents.</b> Upload their PDFs, Word and Excel files or web pages. Scanned Hindi pages are read too.</span></li><li><span class="pm-n" aria-hidden="true">3</span><span><b>Put it on their website.</b> Paste one script tag on their site. Add the WhatsApp number for hand-off.</span></li></ol></div></div>
 <div class="pm-card pm-wide"><h4>Why trust it</h4><ul class="pm-list pm-trust"><li><svg class="pm-ico" aria-hidden="true" focusable="false"><use href="#pm-i-shield"/></svg><span>Every price, date, phone number and name in an answer has to appear in the client&#x27;s own documents. If they do not say, the assistant says it does not know and offers a person.</span></li><li><svg class="pm-ico" aria-hidden="true" focusable="false"><use href="#pm-i-globe"/></svg><span>English, Hindi and Hinglish, measured: 98.9% of 266 held-out turns understood, and replies come in the visitor&#x27;s own language.</span></li><li><svg class="pm-ico" aria-hidden="true" focusable="false"><use href="#pm-i-lock"/></svg><span>412 of 412 isolation attacks refused in the repository&#x27;s own test: every key kind, owner and member sign-ins, forged tokens, other clients&#x27; data.</span></li></ul></div>
 </div>
 <div class="pm-cta">
 <a class="btn btn-primary" href="mailto:callobuzz@gmail.com?subject=Try%20cob-rag-engine%20free%20with%20one%20client&amp;body=Hi%20Callobuzz%2C%0A%0AI%20would%20like%20to%20try%20cob-rag-engine%20with%20one%20client%20%28agency%29.%0A%0AMy%20name%3A%0ACompany%20/%20agency%3A%0AWebsite%3A%0AThe%20client%20or%20project%20I%20would%20start%20with%3A%0AWill%20I%20install%20it%20myself%2C%20or%20would%20I%20like%20help%20setting%20it%20up%3F%0A%0AThanks"><svg class="pm-ico" aria-hidden="true" focusable="false"><use href="#pm-i-mail"/></svg>Try it free with one client</a>
-<a class="btn btn-ghost" href="pitch.html#agencies"><svg class="pm-ico" aria-hidden="true" focusable="false"><use href="#pm-i-doc"/></svg>See the pitch sheet</a>
+<a class="btn btn-sell" href="mailto:callobuzz@gmail.com?subject=cob-rag-engine%3A%20I%20would%20join%20the%20partner%20circle&amp;body=Hi%20Callobuzz%2C%0A%0AI%20would%20join%20the%20partner%20circle.%0A%0AMy%20name%3A%0ACompany%3A%0ACity%3A%0AHow%20many%20clients%20I%20serve%3A%0AMy%20suggestion%3A%0A%0AThanks"><svg class="pm-ico" aria-hidden="true" focusable="false"><use href="#pm-i-users"/></svg>Join the partner circle</a>
+<a class="btn btn-ghost" href="pitch.html?for=agencies"><svg class="pm-ico" aria-hidden="true" focusable="false"><use href="#pm-i-doc"/></svg>See the pitch sheet</a>
 <a class="btn btn-ghost pm-video" href="#" target="_blank" rel="noopener" hidden><svg class="pm-ico" aria-hidden="true" focusable="false"><use href="#pm-i-play"/></svg>Watch the 60-second demo</a>
 </div>
 </section>
 <section class="pm-panel" id="pm-panel-founders" role="tabpanel" aria-labelledby="pm-tab-founders" tabindex="0" hidden>
 <h3 class="pm-h">Start your own AI chatbot business this week. Your brand, your prices.</h3>
+<ol class="pm-flow" aria-label="How it fits together"><li class="pm-step"><svg class="pm-ico" aria-hidden="true" focusable="false"><use href="#pm-i-tag"/></svg><span>Your brand</span></li><li class="pm-step"><svg class="pm-ico" aria-hidden="true" focusable="false"><use href="#pm-i-users"/></svg><span>Customers sign up</span></li><li class="pm-step"><svg class="pm-ico" aria-hidden="true" focusable="false"><use href="#pm-i-bars"/></svg><span>Plans and wallets</span></li><li class="pm-step is-money"><svg class="pm-ico" aria-hidden="true" focusable="false"><use href="#pm-i-coin"/></svg><span>Your margin</span></li></ol>
 <div class="pm-grid">
 <div class="pm-col"><div class="pm-card pm-prob"><h4>Your problem</h4><ul class="pm-list"><li><svg class="pm-ico" aria-hidden="true" focusable="false"><use href="#pm-i-x"/></svg><span>You can sell, but building search, accounts, a widget and billing yourself takes months.</span></li><li><svg class="pm-ico" aria-hidden="true" focusable="false"><use href="#pm-i-x"/></svg><span>Hosted chatbot tools charge per bot and keep the best features in higher plans.</span></li></ul></div>
 <div class="pm-card"><h4>What you get</h4><ul class="pm-list pm-get"><li><svg class="pm-ico" aria-hidden="true" focusable="false"><use href="#pm-i-bolt"/></svg><span><b>A finished product, not parts</b> Customers, documents, fact-checked answers, a website widget and a dashboard are already built and tested.</span></li><li><svg class="pm-ico" aria-hidden="true" focusable="false"><use href="#pm-i-users"/></svg><span><b>Customers sign themselves up</b> E-mail sign-up with open, approval or closed modes, so you decide who gets in.</span></li><li><svg class="pm-ico" aria-hidden="true" focusable="false"><use href="#pm-i-coin"/></svg><span><b>Three ways to price</b> A plan, a price per question, or the real AI cost plus your markup. Prepaid wallets in ₹ or $.</span></li><li><svg class="pm-ico" aria-hidden="true" focusable="false"><use href="#pm-i-key"/></svg><span><b>Any model, any budget</b> Hosted models, or local ones on your own box. Each customer can bring their own AI key.</span></li></ul></div></div>
-<div class="pm-col"><div class="pm-card"><h4>How you earn</h4><p>Pick the model that fits your customers: a flat monthly plan, a price per question, or the AI cost plus a markup. You set every price. The engine is free under AGPL-3.0, including commercial use. Your costs are a server and the AI calls. What you earn depends on your price and how many customers you win; none is promised here.</p></div>
+<div class="pm-col"><div class="pm-card pm-earn"><h4><svg class="pm-ico" aria-hidden="true" focusable="false"><use href="#pm-i-coin"/></svg>How you earn</h4><p>Pick the model that fits your customers: a flat monthly plan, a price per question, or the AI cost plus a markup. You set every price. Partners get the engine on terms agreed with us directly. Your costs are a server and the AI calls. What you earn depends on your price and how many customers you win; none is promised here.</p></div>
 <div class="pm-card"><h4>Start in 3 steps</h4><ol class="pm-steps"><li><span class="pm-n" aria-hidden="true">1</span><span><b>Install it.</b> Docker and one setup command on your own machine or a rented server. The guide shows each step.</span></li><li><span class="pm-n" aria-hidden="true">2</span><span><b>Add your first customer&#x27;s documents.</b> Create the customer, upload their files, and test the answers in the dashboard.</span></li><li><span class="pm-n" aria-hidden="true">3</span><span><b>Give them the script tag.</b> Paste one line on their website. Share a dashboard login if they want to see their questions.</span></li></ol></div></div>
-<div class="pm-card pm-wide"><h4>Why trust it</h4><ul class="pm-list pm-trust"><li><svg class="pm-ico" aria-hidden="true" focusable="false"><use href="#pm-i-shield"/></svg><span>Every price, date, phone number and name in an answer has to appear in the client&#x27;s own documents. If they do not say, the assistant says it does not know and offers a person.</span></li><li><svg class="pm-ico" aria-hidden="true" focusable="false"><use href="#pm-i-code"/></svg><span>Open source under AGPL-3.0. You own the server, the data and the margin.</span></li><li><svg class="pm-ico" aria-hidden="true" focusable="false"><use href="#pm-i-lock"/></svg><span>412 of 412 isolation attacks refused in the repository&#x27;s own test: every key kind, owner and member sign-ins, forged tokens, other clients&#x27; data.</span></li></ul></div>
+<div class="pm-card pm-wide"><h4>Why trust it</h4><ul class="pm-list pm-trust"><li><svg class="pm-ico" aria-hidden="true" focusable="false"><use href="#pm-i-shield"/></svg><span>Every price, date, phone number and name in an answer has to appear in the client&#x27;s own documents. If they do not say, the assistant says it does not know and offers a person.</span></li><li><svg class="pm-ico" aria-hidden="true" focusable="false"><use href="#pm-i-server"/></svg><span>Self-hosted: you own the server, the data and the margin.</span></li><li><svg class="pm-ico" aria-hidden="true" focusable="false"><use href="#pm-i-lock"/></svg><span>412 of 412 isolation attacks refused in the repository&#x27;s own test: every key kind, owner and member sign-ins, forged tokens, other clients&#x27; data.</span></li></ul></div>
 </div>
 <div class="pm-cta">
 <a class="btn btn-primary" href="mailto:callobuzz@gmail.com?subject=Try%20cob-rag-engine%20free%20with%20one%20client&amp;body=Hi%20Callobuzz%2C%0A%0AI%20would%20like%20to%20try%20cob-rag-engine%20with%20one%20client%20%28starting%20my%20own%20AI%20chatbot%20business%29.%0A%0AMy%20name%3A%0ACompany%20/%20agency%3A%0AWebsite%3A%0AThe%20client%20or%20project%20I%20would%20start%20with%3A%0AWill%20I%20install%20it%20myself%2C%20or%20would%20I%20like%20help%20setting%20it%20up%3F%0A%0AThanks"><svg class="pm-ico" aria-hidden="true" focusable="false"><use href="#pm-i-mail"/></svg>Try it free with one client</a>
-<a class="btn btn-ghost" href="pitch.html#founders"><svg class="pm-ico" aria-hidden="true" focusable="false"><use href="#pm-i-doc"/></svg>See the pitch sheet</a>
+<a class="btn btn-sell" href="mailto:callobuzz@gmail.com?subject=cob-rag-engine%3A%20I%20would%20join%20the%20partner%20circle&amp;body=Hi%20Callobuzz%2C%0A%0AI%20would%20join%20the%20partner%20circle.%0A%0AMy%20name%3A%0ACompany%3A%0ACity%3A%0AHow%20many%20clients%20I%20serve%3A%0AMy%20suggestion%3A%0A%0AThanks"><svg class="pm-ico" aria-hidden="true" focusable="false"><use href="#pm-i-users"/></svg>Join the partner circle</a>
+<a class="btn btn-ghost" href="pitch.html?for=founders"><svg class="pm-ico" aria-hidden="true" focusable="false"><use href="#pm-i-doc"/></svg>See the pitch sheet</a>
 <a class="btn btn-ghost pm-video" href="#" target="_blank" rel="noopener" hidden><svg class="pm-ico" aria-hidden="true" focusable="false"><use href="#pm-i-play"/></svg>Watch the 60-second demo</a>
 </div>
 </section>
 <section class="pm-panel" id="pm-panel-partners" role="tabpanel" aria-labelledby="pm-tab-partners" tabindex="0" hidden>
 <h3 class="pm-h">Add an AI assistant to what you already sell to the same clients.</h3>
+<ol class="pm-flow" aria-label="How it fits together"><li class="pm-step"><svg class="pm-ico" aria-hidden="true" focusable="false"><use href="#pm-i-plug"/></svg><span>Your product</span></li><li class="pm-step is-engine"><svg class="pm-ico" aria-hidden="true" focusable="false"><use href="#pm-i-server"/></svg><span>Engine beside it</span></li><li class="pm-step"><svg class="pm-ico" aria-hidden="true" focusable="false"><use href="#pm-i-doc"/></svg><span>Their content</span></li><li class="pm-step is-money"><svg class="pm-ico" aria-hidden="true" focusable="false"><use href="#pm-i-coin"/></svg><span>An add-on line</span></li></ol>
 <div class="pm-grid">
 <div class="pm-col"><div class="pm-card pm-prob"><h4>Your problem</h4><ul class="pm-list"><li><svg class="pm-ico" aria-hidden="true" focusable="false"><use href="#pm-i-x"/></svg><span>Your clients are starting to ask their accounting, ERP, CRM or WhatsApp-tools vendor for “AI”.</span></li><li><svg class="pm-ico" aria-hidden="true" focusable="false"><use href="#pm-i-x"/></svg><span>A new product line should not mean building a new platform.</span></li></ul></div>
 <div class="pm-card"><h4>What you get</h4><ul class="pm-list pm-get"><li><svg class="pm-ico" aria-hidden="true" focusable="false"><use href="#pm-i-plug"/></svg><span><b>Sits beside your product</b> A separate engine with its own API. Nothing has to change inside what you already sell.</span></li><li><svg class="pm-ico" aria-hidden="true" focusable="false"><use href="#pm-i-doc"/></svg><span><b>Feed it their own content</b> Upload files, or sync a catalogue or help centre through the records API; unchanged records are skipped.</span></li><li><svg class="pm-ico" aria-hidden="true" focusable="false"><use href="#pm-i-bars"/></svg><span><b>Price it as an add-on</b> Usage is counted per client, knowledge base and widget, with plans and caps.</span></li><li><svg class="pm-ico" aria-hidden="true" focusable="false"><use href="#pm-i-code"/></svg><span><b>REST and SDKs</b> A REST API, Python and JavaScript clients, and the website widget.</span></li></ul></div></div>
-<div class="pm-col"><div class="pm-card"><h4>How you earn</h4><p>Add it to the invoice you already send: a monthly line per client, at a price you set. Usage is counted per client so the add-on is easy to price. What you earn depends on your price and your client base; none is promised here.</p></div>
+<div class="pm-col"><div class="pm-card pm-earn"><h4><svg class="pm-ico" aria-hidden="true" focusable="false"><use href="#pm-i-coin"/></svg>How you earn</h4><p>Add it to the invoice you already send: a monthly line per client, at a price you set. Usage is counted per client so the add-on is easy to price. What you earn depends on your price and your client base; none is promised here.</p></div>
 <div class="pm-card"><h4>Start in 3 steps</h4><ol class="pm-steps"><li><span class="pm-n" aria-hidden="true">1</span><span><b>Install or ask for help.</b> Run it next to your product with Docker, or write to us for help with the setup.</span></li><li><span class="pm-n" aria-hidden="true">2</span><span><b>Add one client&#x27;s documents.</b> Upload files, or sync their catalogue and help pages through the API.</span></li><li><span class="pm-n" aria-hidden="true">3</span><span><b>Show it where they already look.</b> Paste the widget on their website, or call the API from your own screens.</span></li></ol></div></div>
 <div class="pm-card pm-wide"><h4>Why trust it</h4><ul class="pm-list pm-trust"><li><svg class="pm-ico" aria-hidden="true" focusable="false"><use href="#pm-i-lock"/></svg><span>412 of 412 isolation attacks refused in the repository&#x27;s own test: every key kind, owner and member sign-ins, forged tokens, other clients&#x27; data.</span></li><li><svg class="pm-ico" aria-hidden="true" focusable="false"><use href="#pm-i-shield"/></svg><span>Leads carry a consent notice that follows the DPDP Act&#x27;s notice elements.</span></li><li><svg class="pm-ico" aria-hidden="true" focusable="false"><use href="#pm-i-globe"/></svg><span>English, Hindi and Hinglish, measured: 98.9% of 266 held-out turns understood, and replies come in the visitor&#x27;s own language.</span></li></ul></div>
 </div>
 <div class="pm-cta">
 <a class="btn btn-primary" href="mailto:callobuzz@gmail.com?subject=Try%20cob-rag-engine%20free%20with%20one%20client&amp;body=Hi%20Callobuzz%2C%0A%0AI%20would%20like%20to%20try%20cob-rag-engine%20with%20one%20client%20%28adding%20an%20assistant%20to%20what%20I%20already%20sell%29.%0A%0AMy%20name%3A%0ACompany%20/%20agency%3A%0AWebsite%3A%0AThe%20client%20or%20project%20I%20would%20start%20with%3A%0AWill%20I%20install%20it%20myself%2C%20or%20would%20I%20like%20help%20setting%20it%20up%3F%0A%0AThanks"><svg class="pm-ico" aria-hidden="true" focusable="false"><use href="#pm-i-mail"/></svg>Try it free with one client</a>
-<a class="btn btn-ghost" href="pitch.html#partners"><svg class="pm-ico" aria-hidden="true" focusable="false"><use href="#pm-i-doc"/></svg>See the pitch sheet</a>
+<a class="btn btn-ghost" href="pitch.html?for=partners"><svg class="pm-ico" aria-hidden="true" focusable="false"><use href="#pm-i-doc"/></svg>See the pitch sheet</a>
 <a class="btn btn-ghost pm-video" href="#" target="_blank" rel="noopener" hidden><svg class="pm-ico" aria-hidden="true" focusable="false"><use href="#pm-i-play"/></svg>Watch the 60-second demo</a>
 </div>
 </section>
 <section class="pm-panel" id="pm-panel-developers" role="tabpanel" aria-labelledby="pm-tab-developers" tabindex="0" hidden>
 <h3 class="pm-h">Plug trustworthy company knowledge into your agents.</h3>
+<ol class="pm-flow" aria-label="How it fits together"><li class="pm-step"><svg class="pm-ico" aria-hidden="true" focusable="false"><use href="#pm-i-code"/></svg><span>Your agent</span></li><li class="pm-step"><svg class="pm-ico" aria-hidden="true" focusable="false"><use href="#pm-i-plug"/></svg><span>MCP or REST</span></li><li class="pm-step is-engine"><svg class="pm-ico" aria-hidden="true" focusable="false"><use href="#pm-i-server"/></svg><span>Knowledge base</span></li><li class="pm-step"><svg class="pm-ico" aria-hidden="true" focusable="false"><use href="#pm-i-shield"/></svg><span>Cited answer</span></li></ol>
 <div class="pm-grid">
 <div class="pm-col"><div class="pm-card pm-prob"><h4>Your problem</h4><ul class="pm-list"><li><svg class="pm-ico" aria-hidden="true" focusable="false"><use href="#pm-i-x"/></svg><span>Agents make up company facts when they have no source to read.</span></li><li><svg class="pm-ico" aria-hidden="true" focusable="false"><use href="#pm-i-x"/></svg><span>Multi-customer knowledge, isolation and keys are a lot to build under every agent.</span></li></ul></div>
 <div class="pm-card"><h4>What you get</h4><ul class="pm-list pm-get"><li><svg class="pm-ico" aria-hidden="true" focusable="false"><use href="#pm-i-plug"/></svg><span><b>MCP, 52 tools</b> cob-rag-mcp for Claude, ChatGPT, Cursor, n8n and any MCP client.</span></li><li><svg class="pm-ico" aria-hidden="true" focusable="false"><use href="#pm-i-code"/></svg><span><b>REST, Python and JavaScript</b> The same knowledge over a plain API and two small client libraries.</span></li><li><svg class="pm-ico" aria-hidden="true" focusable="false"><use href="#pm-i-key"/></svg><span><b>A read-only key per agent</b> Named keys, so each agent sees only what you give it.</span></li><li><svg class="pm-ico" aria-hidden="true" focusable="false"><use href="#pm-i-shield"/></svg><span><b>Cited, checked answers</b> A search-confidence gate and a sentence-by-sentence fact check, or an honest “I don&#x27;t know”.</span></li></ul></div></div>
-<div class="pm-col"><div class="pm-card"><h4>How you earn</h4><p>Charge for the agent or app you build. The knowledge layer is the part you do not rebuild, and it is free under AGPL-3.0. If you resell it, usage is counted per key. What you earn depends on your work and your clients; none is promised here.</p></div>
+<div class="pm-col"><div class="pm-card pm-earn"><h4><svg class="pm-ico" aria-hidden="true" focusable="false"><use href="#pm-i-coin"/></svg>How you earn</h4><p>Charge for the agent or app you build. The knowledge layer is the part you do not rebuild. If you resell it, usage is counted per key. What you earn depends on your work and your clients; none is promised here.</p></div>
 <div class="pm-card"><h4>Start in 3 steps</h4><ol class="pm-steps"><li><span class="pm-n" aria-hidden="true">1</span><span><b>Install it.</b> Docker and one setup command; the guide has the steps.</span></li><li><span class="pm-n" aria-hidden="true">2</span><span><b>Add the company&#x27;s documents.</b> Upload them to a knowledge base and test a few questions.</span></li><li><span class="pm-n" aria-hidden="true">3</span><span><b>Connect your agent.</b> Create a read-only named key and point your agent at it over MCP or REST.</span></li></ol></div></div>
-<div class="pm-card pm-wide"><h4>Why trust it</h4><ul class="pm-list pm-trust"><li><svg class="pm-ico" aria-hidden="true" focusable="false"><use href="#pm-i-shield"/></svg><span>Every price, date, phone number and name in an answer has to appear in the client&#x27;s own documents. If they do not say, the assistant says it does not know and offers a person.</span></li><li><svg class="pm-ico" aria-hidden="true" focusable="false"><use href="#pm-i-lock"/></svg><span>412 of 412 isolation attacks refused in the repository&#x27;s own test: every key kind, owner and member sign-ins, forged tokens, other clients&#x27; data.</span></li><li><svg class="pm-ico" aria-hidden="true" focusable="false"><use href="#pm-i-bars"/></svg><span>Search measured on six public BEIR datasets: mean nDCG@10 0.537 against 0.526 published for the same embedding model.</span></li></ul></div>
+<div class="pm-card pm-wide"><h4>Why trust it</h4><ul class="pm-list pm-trust"><li><svg class="pm-ico" aria-hidden="true" focusable="false"><use href="#pm-i-shield"/></svg><span>Every price, date, phone number and name in an answer has to appear in the client&#x27;s own documents. If they do not say, the assistant says it does not know and offers a person.</span></li><li><svg class="pm-ico" aria-hidden="true" focusable="false"><use href="#pm-i-lock"/></svg><span>412 of 412 isolation attacks refused in the repository&#x27;s own test: every key kind, owner and member sign-ins, forged tokens, other clients&#x27; data.</span></li><li><svg class="pm-ico" aria-hidden="true" focusable="false"><use href="#pm-i-bars"/></svg><span>Search measured on six public BEIR datasets: mean nDCG@10 0.537 against 0.526 published for the same embedding model, bge-base-en-v1.5, measured before the default became bge-m3.</span></li></ul></div>
 </div>
 <div class="pm-cta">
 <a class="btn btn-primary" href="mailto:callobuzz@gmail.com?subject=Try%20cob-rag-engine%20free%20with%20one%20client&amp;body=Hi%20Callobuzz%2C%0A%0AI%20would%20like%20to%20try%20cob-rag-engine%20with%20one%20client%20%28a%20developer%20building%20agents%29.%0A%0AMy%20name%3A%0ACompany%20/%20agency%3A%0AWebsite%3A%0AThe%20client%20or%20project%20I%20would%20start%20with%3A%0AWill%20I%20install%20it%20myself%2C%20or%20would%20I%20like%20help%20setting%20it%20up%3F%0A%0AThanks"><svg class="pm-ico" aria-hidden="true" focusable="false"><use href="#pm-i-mail"/></svg>Try it free with one client</a>
-<a class="btn btn-ghost" href="pitch.html#developers"><svg class="pm-ico" aria-hidden="true" focusable="false"><use href="#pm-i-doc"/></svg>See the pitch sheet</a>
+<a class="btn btn-ghost" href="pitch.html?for=developers"><svg class="pm-ico" aria-hidden="true" focusable="false"><use href="#pm-i-doc"/></svg>See the pitch sheet</a>
 <a class="btn btn-ghost pm-video" href="#" target="_blank" rel="noopener" hidden><svg class="pm-ico" aria-hidden="true" focusable="false"><use href="#pm-i-play"/></svg>Watch the 60-second demo</a>
 </div>
 </section>
