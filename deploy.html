@@ -1,0 +1,1442 @@
+<!doctype html>
+<html lang="en" class="no-js">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Production deployment guide · cob-rag-engine</title>
+<meta name="description" content="Run cob-rag-engine in production: server sizing, cloud providers with Indian regions, firewall, HTTPS with Caddy, Nginx or Cloudflare, backups, updates, and automatic deploys with GitHub Actions.">
+<link rel="canonical" href="https://callobuzz.github.io/cob-rag-engine/deploy.html">
+<meta name="theme-color" content="#06060c">
+<meta property="og:title" content="cob-rag-engine: production deployment guide">
+<meta property="og:description" content="Run cob-rag-engine in production: server sizing, cloud providers with Indian regions, firewall, HTTPS with Caddy, Nginx or Cloudflare, backups, updates, and automatic deploys with GitHub Actions.">
+<meta property="og:type" content="article">
+<meta property="og:url" content="https://callobuzz.github.io/cob-rag-engine/deploy.html">
+<meta property="og:site_name" content="cob-rag-engine by Callobuzz">
+<meta property="og:image" content="https://callobuzz.github.io/cob-rag-engine/assets/logo-512.png">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="cob-rag-engine: production deployment guide">
+<meta name="twitter:description" content="Run cob-rag-engine in production: server sizing, cloud providers with Indian regions, firewall, HTTPS with Caddy, Nginx or Cloudflare, backups, updates, and automatic deploys with GitHub Actions.">
+<link rel="icon" type="image/png" sizes="32x32" href="assets/logo-32.png">
+<link rel="icon" type="image/png" sizes="64x64" href="assets/logo-64.png">
+<link rel="apple-touch-icon" href="assets/logo-180.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<script>(function(){var d=document.documentElement;d.className=d.className.replace('no-js','js');})();</script>
+<style>
+/* Same page system as docs/guide.html: tokens, nav, contents rail, code blocks, callouts, setup panel.
+ * Tokens are documented in DESIGN.md at the repo root. */
+:root{
+  --color-paper: oklch(12.6% 0.015 284);
+  --color-surface: oklch(33.5% 0.055 219.5);
+  --color-primary: oklch(71.5% 0.126 215);
+  --color-primary-ink: oklch(12.6% 0.015 284);
+  --color-ink: oklch(98.6% 0.004 215);
+  --color-ink-2: oklch(71.2% 0.013 286);
+  --color-rule: oklch(27.4% 0.005 286);
+  --color-paper-2: oklch(14.6% 0.018 250);
+  --color-panel: oklch(17.2% 0.022 232);
+  --color-panel-2: oklch(20.5% 0.03 226);
+  --color-rule-strong: oklch(37% 0.012 286);
+  --color-ink-3: oklch(64% 0.013 286);
+  --color-ink-on-surface: oklch(84% 0.02 215);
+  --color-term: oklch(10.5% 0.014 262);
+  --color-term-ink: oklch(90% 0.02 240);
+  --color-term-comment: oklch(62% 0.03 250);
+  --color-focus: oklch(78% 0.13 210);
+  --color-amber: oklch(80.8% 0.145 79);
+  --color-rose: oklch(73.7% 0.162 17);
+  --color-green: oklch(80.6% 0.158 160);
+  --color-tip-a: color-mix(in oklch, var(--color-primary) 10%, transparent);
+  --color-warn-a: color-mix(in oklch, var(--color-amber) 9%, transparent);
+  --color-danger-a: color-mix(in oklch, var(--color-rose) 10%, transparent);
+  --font-display: "Inter", "Segoe UI", system-ui, sans-serif;
+  --font-body: "Inter", "Segoe UI", system-ui, sans-serif;
+  --font-mono: "JetBrains Mono", ui-monospace, Consolas, monospace;
+  --space-2xs: 4px; --space-xs: 8px; --space-sm: 12px; --space-md: 16px;
+  --space-lg: 24px; --space-xl: 40px; --space-2xl: 64px; --space-3xl: 80px;
+  --radius-card: 16px; --radius-control: 8px; --radius-pill: 9999px; --radius-sm: 12px;
+  --page-max: 1200px; --gutter: clamp(16px, 4vw, 32px);
+  --measure: 70ch;
+  --ease-out: cubic-bezier(0.16, 1, 0.3, 1);
+  --dur-micro: 120ms;
+  --nav-h: 64px; --sticky-gap: 24px;
+  --z-nav: 300;
+  color-scheme: dark;
+}
+*, *::before, *::after{box-sizing: border-box;}
+html{overflow-x: clip; scroll-behavior: smooth; scroll-padding-top: calc(var(--nav-h) + var(--sticky-gap)); -webkit-text-size-adjust: 100%;}
+body{margin: 0; overflow-x: clip; background: var(--color-paper); color: var(--color-ink); font-family: var(--font-body); font-size: 16px; line-height: 1.6; font-feature-settings: "cv11", "ss01"; -webkit-font-smoothing: antialiased; text-rendering: optimizeLegibility;}
+img, svg{display: block; max-width: 100%;}
+p{margin: 0; text-wrap: pretty;}
+a{color: var(--color-primary); text-underline-offset: 3px; text-decoration-thickness: 1px; transition: color var(--dur-micro) var(--ease-out);}
+a:hover{color: var(--color-ink);}
+:focus-visible{outline: 2px solid var(--color-focus); outline-offset: 3px; border-radius: 6px;}
+code, pre, kbd{font-family: var(--font-mono);}
+b, strong{font-weight: 600; color: var(--color-ink);}
+::selection{background: color-mix(in oklch, var(--color-primary) 38%, transparent); color: var(--color-ink);}
+h1, h2, h3{font-style: normal; overflow-wrap: anywhere; min-width: 0;}
+.wrap{max-width: var(--page-max); margin: 0 auto; padding: 0 var(--gutter);}
+.sr-only{position: absolute; width: 1px; height: 1px; margin: -1px; padding: 0; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; border: 0;}
+.skip{position: absolute; left: var(--space-md); top: -80px; z-index: 400; background: var(--color-ink); color: var(--color-paper); padding: 10px 16px; border-radius: var(--radius-control); font-weight: 600; text-decoration: none;}
+.skip:focus{top: var(--space-md);}
+
+/* nav: same component as index.html (N1b, frosted) */
+nav[aria-label="Main"]{position: sticky; top: 0; z-index: var(--z-nav); background: color-mix(in oklch, var(--color-paper) 78%, transparent); -webkit-backdrop-filter: blur(16px) saturate(140%); backdrop-filter: blur(16px) saturate(140%); border-bottom: 1px solid color-mix(in oklch, var(--color-rule) 70%, transparent);}
+nav[aria-label="Main"] .wrap{display: grid; grid-template-columns: minmax(0, 1fr) auto minmax(0, 1fr); align-items: center; gap: var(--space-lg); height: var(--nav-h);}
+.brand{justify-self: start; display: inline-flex; align-items: center; gap: 10px; color: var(--color-ink); text-decoration: none; font-family: var(--font-display); font-weight: 600; font-size: 17px; letter-spacing: -.01em; line-height: 1; white-space: nowrap;}
+.brand img{width: 28px; height: 28px;}
+.brand:hover{color: var(--color-ink);}
+nav .links{justify-self: center; display: flex; align-items: center; gap: 2px; padding: 4px; border: 1px solid var(--color-rule); border-radius: var(--radius-pill); background: color-mix(in oklch, var(--color-panel) 70%, transparent);}
+nav .links a{color: var(--color-ink-2); text-decoration: none; font-size: 13.5px; font-weight: 500; line-height: 1; white-space: nowrap; padding: 8px 12px; border-radius: var(--radius-pill); transition: color var(--dur-micro) var(--ease-out), background-color var(--dur-micro) var(--ease-out);}
+nav .links a:hover{color: var(--color-ink); background: var(--color-panel-2);}
+nav .links a[aria-current]{color: var(--color-ink); background: color-mix(in oklch, var(--color-surface) 70%, var(--color-panel));}
+.gh{justify-self: end; display: inline-flex; align-items: center; gap: 8px; height: 36px; padding: 0 14px; border-radius: var(--radius-control); background: var(--color-ink); color: var(--color-paper); text-decoration: none; font-size: 14px; font-weight: 600; line-height: 1; white-space: nowrap; transition: background-color var(--dur-micro) var(--ease-out), transform var(--dur-micro) var(--ease-out);}
+.gh:hover{background: var(--color-primary); color: var(--color-primary-ink);}
+.gh:active{transform: translateY(1px);}
+
+/* page head */
+.page-head{position: relative; isolation: isolate; padding: 56px 0 40px; border-bottom: 1px solid var(--color-rule);}
+.page-head::before{content: ""; position: absolute; z-index: -1; inset: -120px 0 auto; height: 420px; pointer-events: none; background: radial-gradient(44% 70% at 18% 0%, color-mix(in oklch, var(--color-surface) 50%, transparent), transparent 72%);}
+.kicker{display: block; font-family: var(--font-mono); font-size: 12px; font-weight: 600; letter-spacing: .06em; text-transform: uppercase; line-height: 1.2; color: var(--color-ink-2);}
+h1{font-family: var(--font-display); font-weight: 500; font-size: clamp(2.25rem, 3vw + 1rem, 3.5rem); line-height: 1.05; letter-spacing: -.028em; margin: var(--space-md) 0 var(--space-md); text-wrap: balance; max-width: 18ch;}
+h1 .thin{color: var(--color-ink-2);}
+.lede{font-size: clamp(17px, 1.3vw, 19px); line-height: 1.6; color: var(--color-ink-2); max-width: 62ch; margin: 0 0 var(--space-lg);}
+.cta{display: flex; gap: var(--space-sm); flex-wrap: wrap; align-items: center;}
+.btn{display: inline-flex; align-items: center; justify-content: center; gap: 8px; height: 46px; padding: 0 20px; border-radius: var(--radius-control); border: 1px solid transparent; font: 600 15px/1 var(--font-body); text-decoration: none; white-space: nowrap; transition: background-color var(--dur-micro) var(--ease-out), border-color var(--dur-micro) var(--ease-out), color var(--dur-micro) var(--ease-out);}
+.btn:active{transform: translateY(1px);}
+.btn-primary{background: var(--color-primary); color: var(--color-primary-ink);}
+.btn-primary:hover{background: var(--color-ink); color: var(--color-paper);}
+.btn-ghost{border-color: var(--color-rule-strong); color: var(--color-ink); background: transparent;}
+.btn-ghost:hover{border-color: var(--color-primary); color: var(--color-ink); background: color-mix(in oklch, var(--color-surface) 40%, transparent);}
+.meta{margin-top: var(--space-lg); font-size: 13px; color: var(--color-ink-3); max-width: 70ch;}
+
+/* two-column document */
+.doc{display: grid; grid-template-columns: 272px minmax(0, 1fr); gap: var(--space-2xl); align-items: start; padding-bottom: var(--space-3xl);}
+.toc{position: sticky; top: calc(var(--nav-h) + var(--sticky-gap)); align-self: start; max-height: calc(100vh - var(--nav-h) - 2 * var(--sticky-gap)); overflow-y: auto; overscroll-behavior: contain; padding: var(--space-xl) 0 var(--space-md); scrollbar-width: thin; scrollbar-color: var(--color-rule-strong) transparent;}
+.toc summary{list-style: none; cursor: pointer; font-family: var(--font-mono); font-size: 12px; font-weight: 600; letter-spacing: .06em; text-transform: uppercase; color: var(--color-ink-2); padding: 0 0 var(--space-sm); display: flex; align-items: center; justify-content: space-between; gap: var(--space-md);}
+.toc summary::-webkit-details-marker{display: none;}
+.toc summary .chev{display: none; width: 10px; height: 10px; border-right: 2px solid currentColor; border-bottom: 2px solid currentColor; transform: rotate(45deg) translateY(-2px);}
+.toc ol, .toc ul{list-style: none; margin: 0; padding: 0;}
+.toc > details > ol{border-left: 1px solid var(--color-rule);}
+.toc li{margin: 0;}
+.toc a{display: flex; gap: 10px; align-items: baseline; padding: 6px 12px; margin-left: -1px; border-left: 2px solid transparent; color: var(--color-ink-2); font-size: 14px; line-height: 1.4; text-decoration: none; transition: color var(--dur-micro) var(--ease-out), background-color var(--dur-micro) var(--ease-out);}
+.toc a:hover{color: var(--color-ink); background: color-mix(in oklch, var(--color-panel-2) 60%, transparent);}
+.toc a .tn{font-family: var(--font-mono); font-size: 11.5px; color: var(--color-ink-3); min-width: 2.2em; flex: none;}
+.toc li > a{font-weight: 500;}
+.toc ul a{font-size: 13.5px; padding-left: 28px; font-weight: 400;}
+.toc ul{display: none;}
+.toc li.is-open > ul{display: block;}
+.toc a[aria-current]{color: var(--color-ink); border-left-color: var(--color-primary); background: color-mix(in oklch, var(--color-surface) 45%, transparent);}
+.toc a[aria-current] .tn{color: var(--color-primary);}
+.no-js .toc ul{display: block;}
+
+.prose{min-width: 0; max-width: 780px; padding-top: var(--space-xl);}
+section.s{padding: var(--space-2xl) 0 var(--space-md); border-top: 1px solid var(--color-rule);}
+section.s:first-child{padding-top: 0; border-top: 0;}
+h2{font-family: var(--font-display); font-weight: 500; font-size: clamp(1.75rem, 1.6vw + 1.2rem, 2.375rem); letter-spacing: -.024em; line-height: 1.1; margin: 0 0 var(--space-md); text-wrap: balance;}
+h2 .n{display: block; font-family: var(--font-mono); font-size: 12px; font-weight: 600; letter-spacing: .06em; color: var(--color-primary); margin-bottom: var(--space-xs);}
+h3{font-family: var(--font-display); font-weight: 600; font-size: 19px; letter-spacing: -.012em; line-height: 1.3; margin: 0 0 var(--space-sm); text-wrap: balance;}
+h3 .n{font-family: var(--font-mono); font-size: 12px; font-weight: 600; color: var(--color-ink-3); margin-right: 10px; letter-spacing: .04em;}
+.sub{margin: var(--space-xl) 0 0;}
+.sub > h3{padding-top: 0;}
+.anchor{margin-left: 10px; color: var(--color-ink-3); text-decoration: none; font-weight: 400; opacity: 0; transition: opacity var(--dur-micro) var(--ease-out), color var(--dur-micro) var(--ease-out);}
+h2:hover .anchor, h3:hover .anchor, .anchor:focus-visible{opacity: 1;}
+.anchor:hover{color: var(--color-primary);}
+@media (hover: none){.anchor{opacity: .7;}}
+.prose p{color: var(--color-ink-2); max-width: var(--measure); margin: 0 0 var(--space-md);}
+.prose li{color: var(--color-ink-2); max-width: var(--measure);}
+.prose ul{margin: 0 0 var(--space-md); padding-left: 20px; display: grid; gap: var(--space-xs);}
+.prose li::marker{color: var(--color-ink-3);}
+.prose a{color: var(--color-primary);}
+.prose a:hover{color: var(--color-ink);}
+.prose em{font-style: normal; color: var(--color-ink);}
+:not(pre) > code{font-size: .88em; background: var(--color-panel-2); border: 1px solid var(--color-rule); border-radius: 6px; padding: 1px 6px; color: var(--color-ink); overflow-wrap: anywhere;}
+.top{margin: var(--space-xl) 0 0 !important; font-size: 13.5px;}
+.top a{color: var(--color-ink-3);}
+.top a:hover{color: var(--color-ink);}
+
+/* ordered steps */
+ol.steps{list-style: none; counter-reset: st; padding: 0; margin: var(--space-md) 0; display: grid; gap: var(--space-md);}
+ol.steps > li{counter-increment: st; position: relative; padding-left: 44px; min-width: 0;}
+ol.steps > li::before{content: counter(st); position: absolute; left: 0; top: 0; width: 28px; height: 28px; border-radius: 50%; border: 1px solid var(--color-rule-strong); background: var(--color-panel); color: var(--color-ink); display: grid; place-items: center; font: 600 12px/1 var(--font-mono);}
+
+/* code blocks */
+.cb{background: var(--color-term); border: 1px solid var(--color-rule); border-radius: var(--radius-card); margin: var(--space-md) 0 var(--space-lg); overflow: hidden; min-width: 0;}
+.cb-bar{display: flex; align-items: center; justify-content: space-between; gap: var(--space-sm); padding: 6px 8px 6px 16px; min-height: 44px; border-bottom: 1px solid var(--color-rule); font-family: var(--font-mono); font-size: 11.5px; font-weight: 600; letter-spacing: .04em; color: var(--color-ink-3);}
+.cb-bar span{overflow: hidden; text-overflow: ellipsis; white-space: nowrap; min-width: 0;}
+.cb pre{margin: 0; padding: var(--space-md) var(--space-md); overflow-x: auto; font-size: 13px; line-height: 1.7; color: var(--color-term-ink); tab-size: 2;}
+.cb pre:focus-visible{outline-offset: -3px;}
+.cb code{font-size: inherit; background: none; border: 0; padding: 0; white-space: pre;}
+.cb .c{color: var(--color-term-comment);}
+.cb .k{color: var(--color-primary);}
+.cb-out pre{color: var(--color-ink-2);}
+.copy{flex: none; height: 32px; padding: 0 12px; font: 600 12px/1 var(--font-mono); color: var(--color-ink); background: var(--color-panel-2); border: 1px solid var(--color-rule-strong); border-radius: var(--radius-control); cursor: pointer; transition: border-color var(--dur-micro) var(--ease-out), color var(--dur-micro) var(--ease-out);}
+.copy:hover{border-color: var(--color-primary);}
+.copy.is-done{color: var(--color-green); border-color: var(--color-green);}
+.copy.is-fail{color: var(--color-rose); border-color: var(--color-rose);}
+
+/* OS tabs */
+.tabs{margin: var(--space-md) 0 var(--space-lg);}
+.tablist{display: flex; flex-wrap: wrap; gap: var(--space-2xs); padding: 4px; width: fit-content; max-width: 100%; border: 1px solid var(--color-rule); border-radius: var(--radius-sm); background: color-mix(in oklch, var(--color-panel) 70%, transparent);}
+.tablist button{appearance: none; font: 500 13.5px/1 var(--font-body); white-space: nowrap; color: var(--color-ink-2); background: transparent; border: 0; border-radius: var(--radius-control); padding: 10px 14px; cursor: pointer; transition: color var(--dur-micro) var(--ease-out), background-color var(--dur-micro) var(--ease-out);}
+.tablist button:hover{color: var(--color-ink); background: var(--color-panel-2);}
+.tablist button[aria-selected="true"]{color: var(--color-ink); background: color-mix(in oklch, var(--color-surface) 70%, var(--color-panel));}
+.tabs [role="tabpanel"] > .cb:first-child{margin-top: var(--space-sm);}
+.tabs [role="tabpanel"] > :last-child{margin-bottom: 0;}
+.js[data-os="git"] [role="tabpanel"]:not([data-os="git"]),
+.js[data-os="ps"] [role="tabpanel"]:not([data-os="ps"]),
+.js[data-os="mac"] [role="tabpanel"]:not([data-os="mac"]){display: none;}
+.no-js .tablist{display: none;}
+.no-js [role="tabpanel"]::before{content: attr(data-label); display: block; margin: var(--space-md) 0 0; font: 600 12px/1.2 var(--font-mono); letter-spacing: .06em; text-transform: uppercase; color: var(--color-ink-2);}
+
+/* callouts */
+.callout{margin: var(--space-md) 0 var(--space-lg); padding: var(--space-md) var(--space-lg); border: 1px solid var(--color-rule); border-left-width: 3px; border-radius: var(--radius-sm); max-width: var(--measure); min-width: 0;}
+.callout .cl{display: block; font-family: var(--font-mono); font-size: 11.5px; font-weight: 600; letter-spacing: .06em; text-transform: uppercase; margin-bottom: var(--space-2xs);}
+.callout p, .callout div{margin: 0; color: var(--color-ink-2); font-size: 15px;}
+.callout.tip{background: var(--color-tip-a); border-left-color: var(--color-primary);}
+.callout.tip .cl{color: var(--color-primary);}
+.callout.warn{background: var(--color-warn-a); border-left-color: var(--color-amber);}
+.callout.warn .cl{color: var(--color-amber);}
+.callout.danger{background: var(--color-danger-a); border-left-color: var(--color-rose);}
+.callout.danger .cl{color: var(--color-rose);}
+
+/* definition list */
+.defs{margin: var(--space-md) 0 var(--space-lg); border-top: 1px solid var(--color-rule); max-width: var(--measure);}
+.defs > div{padding: var(--space-md) 0; border-bottom: 1px solid var(--color-rule);}
+.defs dt{font-weight: 600; color: var(--color-ink); margin-bottom: var(--space-2xs);}
+.defs dd{margin: 0; color: var(--color-ink-2); font-size: 15px;}
+
+/* table */
+.table-wrap{border: 1px solid var(--color-rule); border-radius: var(--radius-card); background: var(--color-panel); margin: var(--space-lg) 0; overflow: hidden;}
+table{width: 100%; border-collapse: collapse; font-size: 14.5px;}
+th, td{text-align: left; padding: 12px 16px; border-bottom: 1px solid var(--color-rule); vertical-align: top; color: var(--color-ink-2);}
+tr:last-child td{border-bottom: 0;}
+th{font-family: var(--font-mono); font-size: 11.5px; font-weight: 600; letter-spacing: .06em; text-transform: uppercase; color: var(--color-ink-3); background: var(--color-paper-2); white-space: nowrap;}
+td:first-child{color: var(--color-ink); font-weight: 500; white-space: nowrap;}
+td code{white-space: nowrap;}
+
+/* troubleshooting items */
+.ts{display: grid; gap: 0; border: 1px solid var(--color-rule); border-radius: var(--radius-card); background: var(--color-panel); overflow: hidden; margin: var(--space-sm) 0 0;}
+.ts-row{padding: var(--space-md) var(--space-lg); border-bottom: 1px solid var(--color-rule); min-width: 0;}
+.ts-row:last-child{border-bottom: 0;}
+.ts-k{display: block; font-family: var(--font-mono); font-size: 11.5px; font-weight: 600; letter-spacing: .06em; text-transform: uppercase; margin-bottom: var(--space-2xs);}
+.ts-s .ts-k{color: var(--color-rose);}
+.ts-w .ts-k{color: var(--color-amber);}
+.ts-f .ts-k{color: var(--color-green);}
+.ts-row > div{color: var(--color-ink-2); font-size: 15px; max-width: 78ch;}
+.ts-row > div > .tabs, .ts-row > div > .cb{max-width: 100%;}
+.ts-row .cb{margin: var(--space-sm) 0;}
+.ts-row .tabs{margin: var(--space-sm) 0;}
+
+/* setup panel + conditional content */
+[data-when][hidden], [data-show][hidden], .g[hidden]{display: none !important;}
+.btn-sm{height: 40px; padding: 0 16px; font-size: 14px;}
+.setup{border: 1px solid var(--color-rule); border-radius: var(--radius-card); background: var(--color-panel); margin: var(--space-lg) 0 var(--space-md); overflow: hidden; max-width: 100%;}
+.setup-bar{display: flex; align-items: center; gap: var(--space-md); padding: var(--space-md) var(--space-md) var(--space-md) var(--space-lg); flex-wrap: wrap;}
+.setup-sum{flex: 1 1 260px; min-width: 0;}
+.setup-sum .kicker{margin-bottom: var(--space-2xs);}
+.prose .sum-line{margin: 0; max-width: none; font-family: var(--font-mono); font-size: 13.5px; line-height: 1.5; color: var(--color-ink); overflow-wrap: anywhere;}
+.setup-body{border-top: 1px solid var(--color-rule); background: color-mix(in oklch, var(--color-paper) 30%, var(--color-panel));}
+.setup-grid{display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: var(--space-lg) var(--space-xl); padding: var(--space-lg);}
+.g{border: 0; padding: 0; margin: 0; min-width: 0;}
+.g legend{float: none; width: 100%; padding: 0; margin: 0 0 var(--space-xs); font-family: var(--font-mono); font-size: 11.5px; font-weight: 600; letter-spacing: .06em; text-transform: uppercase; color: var(--color-ink-3);}
+.g.wide, .setup-sub{grid-column: 1 / -1;}
+.prose .setup-sub{max-width: none; margin: var(--space-xs) 0 calc(-1 * var(--space-md)); padding-top: var(--space-md); border-top: 1px solid var(--color-rule); font-family: var(--font-mono); font-size: 12px; font-weight: 600; letter-spacing: .06em; text-transform: uppercase; color: var(--color-primary);}
+.opts{display: flex; flex-wrap: wrap; gap: var(--space-2xs); padding: 4px; width: fit-content; max-width: 100%; border: 1px solid var(--color-rule); border-radius: var(--radius-sm); background: color-mix(in oklch, var(--color-paper) 55%, transparent);}
+.opt{position: relative; display: block; min-width: 0;}
+.opt input{position: absolute; inset: 0; width: 100%; height: 100%; margin: 0; opacity: 0; cursor: pointer;}
+.opt span{display: flex; align-items: center; min-height: 40px; padding: 0 14px; font: 500 13.5px/1 var(--font-body); white-space: nowrap; color: var(--color-ink-2); border-radius: var(--radius-control); transition: color var(--dur-micro) var(--ease-out), background-color var(--dur-micro) var(--ease-out);}
+.opt:hover span{color: var(--color-ink); background: var(--color-panel-2);}
+.opt input:checked + span{color: var(--color-ink); background: color-mix(in oklch, var(--color-surface) 70%, var(--color-panel)); box-shadow: inset 0 0 0 1px var(--color-primary);}
+.opt input[type="checkbox"]:checked + span::before{content: "\2713"; margin-right: 8px; color: var(--color-primary);}
+.opt input:focus-visible + span{outline: 2px solid var(--color-focus); outline-offset: 2px;}
+.opt input:active + span{transform: translateY(1px);}
+.opt input:disabled{cursor: not-allowed;}
+.opt input:disabled + span{opacity: .4;}
+.opt:has(input:disabled):hover span{color: var(--color-ink-2); background: transparent;}
+.prose .hint{margin: var(--space-xs) 0 0; font-size: 13px; line-height: 1.5; color: var(--color-ink-3); max-width: 46ch;}
+.setup-actions{display: flex; flex-wrap: wrap; align-items: center; gap: var(--space-sm) var(--space-lg); padding: var(--space-md) var(--space-lg); border-top: 1px solid var(--color-rule);}
+.setup-actions .btn{gap: 8px;}
+.sw{position: relative; display: inline-flex; align-items: center; gap: 10px; min-height: 40px; cursor: pointer; font-size: 14px; font-weight: 500; color: var(--color-ink);}
+.sw input{position: absolute; inset: 0; width: 100%; height: 100%; margin: 0; opacity: 0; cursor: pointer;}
+.sw-t{position: relative; flex: none; width: 38px; height: 22px; border-radius: var(--radius-pill); border: 1px solid var(--color-rule-strong); background: var(--color-panel-2); transition: background-color var(--dur-micro) var(--ease-out), border-color var(--dur-micro) var(--ease-out);}
+.sw-t::after{content: ""; position: absolute; top: 2px; left: 2px; width: 16px; height: 16px; border-radius: 50%; background: var(--color-ink-2); transition: transform var(--dur-micro) var(--ease-out), background-color var(--dur-micro) var(--ease-out);}
+.sw input:checked + .sw-t{background: color-mix(in oklch, var(--color-primary) 35%, var(--color-panel-2)); border-color: var(--color-primary);}
+.sw input:checked + .sw-t::after{transform: translateX(16px); background: var(--color-ink);}
+.sw input:focus-visible + .sw-t{outline: 2px solid var(--color-focus); outline-offset: 3px;}
+.setup-nojs{display: none;}
+.no-js .setup-nojs{display: block;}
+.no-js .setup, .no-js .js-only, .no-js .toc-setup{display: none;}
+.toc-setup{margin: 0 0 var(--space-md); padding: var(--space-sm) var(--space-md); border: 1px solid var(--color-rule); border-radius: var(--radius-sm); background: var(--color-panel); font-size: 13px; line-height: 1.5; color: var(--color-ink-2);}
+.toc-setup b{display: block; font-family: var(--font-mono); font-size: 11px; letter-spacing: .06em; text-transform: uppercase; color: var(--color-ink-3); font-weight: 600; margin-bottom: 2px;}
+.toc-setup a{display: inline-block; margin-top: 4px; padding: 0; border: 0; color: var(--color-primary); font-weight: 500; font-size: 13px;}
+.toc-setup a:hover{background: none; color: var(--color-ink);}
+.badge{display: inline-block; margin-left: 10px; padding: 3px 9px; vertical-align: middle; font: 600 11px/1.2 var(--font-mono); letter-spacing: .06em; text-transform: uppercase; color: var(--color-primary); border: 1px solid color-mix(in oklch, var(--color-primary) 55%, transparent); border-radius: var(--radius-pill); background: var(--color-tip-a);}
+.prose .ts-split{margin: var(--space-xl) 0 calc(-1 * var(--space-md)); max-width: none; padding-top: var(--space-md); border-top: 1px solid var(--color-rule); font-family: var(--font-mono); font-size: 12px; font-weight: 600; letter-spacing: .06em; text-transform: uppercase; color: var(--color-ink-2);}
+.prose .ts-split:first-of-type{margin-top: var(--space-lg);}
+/* a block shown in "show all" / no-JS / print mode names the setup it belongs to */
+.no-js [data-when]::before, .js.all [data-when]::before{content: "Applies when: " attr(data-when); display: block; width: fit-content; max-width: 100%; margin: 0 0 var(--space-xs); padding: 3px 10px; font: 600 11px/1.3 var(--font-mono); letter-spacing: .04em; color: var(--color-amber); border: 1px dashed color-mix(in oklch, var(--color-amber) 55%, transparent); border-radius: var(--radius-pill); background: var(--color-warn-a); overflow-wrap: anywhere;}
+.js.all [data-when]::before{content: "Applies when: " attr(data-cond);}
+.no-js span[data-when]::before, .js.all span[data-when]::before{display: inline-block; margin: 0 6px 0 0;}
+.callout[data-when]::before{margin-bottom: var(--space-sm);}
+.gen .cb{margin-top: var(--space-sm);}
+ol.steps > li > .cb{margin: 0;}
+@media (max-width: 960px){
+  .toc-setup{display: none;}
+}
+@media (max-width: 700px){
+  .setup-bar{padding: var(--space-md);}
+  .setup-bar .btn{flex: 1 1 100%;}
+  .setup-grid{grid-template-columns: minmax(0, 1fr); padding: var(--space-md);}
+  .setup-actions{padding: var(--space-md);}
+  .setup-actions .btn{flex: 1 1 100%;}
+  .opt span{padding: 0 12px;}
+}
+@media print{
+  :root{--color-paper: #fff; --color-ink: #111; --color-ink-2: #333; --color-ink-3: #555; --color-rule: #ccc; --color-rule-strong: #999; --color-panel: #f6f6f6; --color-panel-2: #eee; --color-term: #f3f3f3; --color-term-ink: #111; --color-term-comment: #555; --color-primary: #0b6a82; --color-amber: #8a5a00; --color-surface: #ddd; --color-tip-a: #eef6f8; --color-warn-a: #fbf3e0; --color-danger-a: #fbeaea; color-scheme: light;}
+  html, body{background: #fff; color: #111;}
+  nav[aria-label="Main"], .toc, .setup-body, .setup-bar .btn, .skip, .copy, .anchor, .top, .cta, .tablist{display: none !important;}
+  .doc{display: block;}
+  .js [data-when][hidden]{display: revert !important;}
+  .js [data-when]::before{content: "Applies when: " attr(data-cond); display: block; width: fit-content; margin: 0 0 6px; padding: 2px 8px; font: 600 10px/1.3 var(--font-mono); color: var(--color-amber); border: 1px dashed var(--color-amber); border-radius: 9999px;}
+  .js span[data-when]::before{display: inline-block; margin: 0 6px 0 0;}
+  .js .tabs [role="tabpanel"]{display: block !important;}
+  .js .tabs [role="tabpanel"]::before{content: attr(data-label); display: block; margin: 8px 0 0; font: 600 10px/1.2 var(--font-mono); text-transform: uppercase;}
+  section.s{break-inside: auto;}
+  .cb, .callout, .ts{break-inside: avoid;}
+}
+
+/* footer */
+footer{border-top: 1px solid var(--color-rule); padding: var(--space-2xl) 0 var(--space-xl); color: var(--color-ink-3); font-size: 14px; position: relative; isolation: isolate; overflow: hidden;}
+footer::before{content: ""; position: absolute; z-index: -1; inset: 0 0 auto; height: 300px; pointer-events: none; background: radial-gradient(44% 70% at 18% 0%, color-mix(in oklch, var(--color-surface) 45%, transparent), transparent 72%);}
+footer .foot-meta{display: flex; gap: var(--space-md) var(--space-lg); flex-wrap: wrap; justify-content: space-between; align-items: baseline;}
+footer .foot-meta a{color: var(--color-ink-2); white-space: nowrap;}
+footer .foot-meta a:hover{color: var(--color-ink);}
+footer .foot-meta div:first-child a{color: var(--color-ink); font-weight: 600;}
+
+/* responsive */
+@media (max-width: 1100px){
+  html{scroll-padding-top: 124px;}
+  nav[aria-label="Main"] .wrap{display: flex; flex-wrap: wrap; height: auto; padding-top: 10px; row-gap: 0;}
+  nav[aria-label="Main"] .gh{margin-left: auto; height: 34px;}
+  nav .links{order: 3; flex: 0 0 calc(100% + 2 * var(--gutter)); margin: 10px calc(-1 * var(--gutter)) 0; padding: 0 var(--gutter); height: 48px; border: 0; border-top: 1px solid var(--color-rule); border-radius: 0; background: transparent; gap: var(--space-2xs); overflow-x: auto; scrollbar-width: none; -webkit-mask-image: linear-gradient(90deg, transparent 0, var(--color-paper) var(--gutter), var(--color-paper) calc(100% - 32px), transparent); mask-image: linear-gradient(90deg, transparent 0, var(--color-paper) var(--gutter), var(--color-paper) calc(100% - 32px), transparent);}
+  nav .links::-webkit-scrollbar{display: none;}
+  .toc{top: 124px; max-height: calc(100vh - 140px);}
+}
+@media (max-width: 960px){
+  .doc{grid-template-columns: minmax(0, 1fr); gap: 0;}
+  .toc{position: static; max-height: none; overflow: visible; padding: var(--space-lg) 0 0;}
+  .toc > details{border: 1px solid var(--color-rule); border-radius: var(--radius-sm); background: var(--color-panel);}
+  .toc summary{padding: 14px 16px; min-height: 48px; margin: 0; color: var(--color-ink);}
+  .toc summary .chev{display: block;}
+  .toc details[open] summary .chev{transform: rotate(-135deg) translateY(-2px);}
+  .toc details[open] summary{border-bottom: 1px solid var(--color-rule);}
+  .toc > details > ol{border-left: 0; padding: var(--space-xs) 0 var(--space-sm); max-height: 60vh; overflow-y: auto;}
+  .toc a{padding-left: 16px;}
+  .toc ul a{padding-left: 32px;}
+  .prose{padding-top: var(--space-lg);}
+}
+@media (min-width: 961px){
+  .toc summary{pointer-events: none; cursor: default;}
+}
+@media (max-width: 700px){
+  .page-head{padding: 32px 0 28px;}
+  section.s{padding-top: var(--space-xl);}
+  .table-wrap{border: 0; background: transparent; border-radius: 0; overflow: visible;}
+  table, thead, tbody, tr, td{display: block;}
+  thead{position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0);}
+  tr{border: 1px solid var(--color-rule); border-radius: var(--radius-sm); background: var(--color-panel); padding: var(--space-xs) 0; margin-bottom: var(--space-sm);}
+  td, td:first-child{border: 0; padding: 6px 16px; white-space: normal;}
+  td::before{content: attr(data-label); display: block; font-family: var(--font-mono); font-size: 11px; font-weight: 600; letter-spacing: .06em; text-transform: uppercase; color: var(--color-ink-3);}
+  td code{white-space: normal;}
+  .ts-row{padding: var(--space-md);}
+  .callout{padding: var(--space-md);}
+  .cta .btn{flex: 1 1 auto;}
+}
+@media (prefers-reduced-motion: reduce){
+  html{scroll-behavior: auto;}
+  *, *::before, *::after{transition: none !important; animation: none !important;}
+}
+
+/* deploy page additions */
+.prov-links a{display: inline-block; margin-right: var(--space-md); white-space: nowrap;}
+td.prov-name{white-space: nowrap;}
+.prose h3 code{font-size: .85em;}
+.setup-bar .setup-sum{flex: 1 1 260px;}
+@media (max-width: 700px){
+  td.prov-name{white-space: normal;}
+  .prov-links a{margin-right: var(--space-sm);}
+}
+</style>
+</head>
+<body id="top">
+<!-- ======================================================================================
+     PROVIDERS: edit links here. This is the ONE place to change the provider list.
+     Referral links go in the `url` field (the visible "Open" link). Keep `pricing` pointing
+     at the provider's own pricing page: this guide never states prices.
+     Fields: name, kind ("cpu" or "gpu"), url, pricing, regions, india, note.
+     `india` is plain text shown in the table; write "No India region" when that is true.
+     Region lists change. Checked against vendor pages on 2 October 2026; confirm before you buy.
+     ====================================================================================== -->
+<script id="providers-data">
+window.COB_PROVIDERS = [
+  { name: "Hetzner Cloud", kind: "cpu",
+    url: "https://www.hetzner.com/cloud", pricing: "https://www.hetzner.com/cloud",
+    regions: "Falkenstein, Nuremberg, Helsinki, Ashburn, Hillsboro, Singapore",
+    india: "No India region. Singapore is the nearest.",
+    note: "Best value for money in Europe. Slower for users in India." },
+  { name: "DigitalOcean", kind: "cpu",
+    url: "https://www.digitalocean.com/", pricing: "https://www.digitalocean.com/pricing/droplets",
+    regions: "Several, including Bangalore (BLR1)",
+    india: "Bangalore (BLR1)",
+    note: "Simple console. Region list: docs.digitalocean.com/platform/regional-availability" },
+  { name: "Vultr", kind: "cpu",
+    url: "https://www.vultr.com/", pricing: "https://www.vultr.com/pricing/",
+    regions: "Many worldwide",
+    india: "Mumbai, Delhi NCR, Bangalore",
+    note: "The widest choice of Indian cities among the global clouds." },
+  { name: "Linode (Akamai Cloud)", kind: "cpu",
+    url: "https://www.linode.com/", pricing: "https://www.linode.com/pricing/",
+    regions: "Many worldwide",
+    india: "Mumbai, Chennai",
+    note: "Now part of Akamai. Plain virtual machines." },
+  { name: "OVHcloud VPS", kind: "cpu",
+    url: "https://www.ovhcloud.com/en-in/vps/", pricing: "https://www.ovhcloud.com/en-in/vps/",
+    regions: "Europe, North America, Asia-Pacific",
+    india: "Mumbai is listed among its Asia-Pacific VPS locations. Confirm in the order form.",
+    note: "Low prices. Check the plan's RAM and disk type before you order." },
+  { name: "AWS Lightsail", kind: "cpu",
+    url: "https://aws.amazon.com/lightsail/", pricing: "https://aws.amazon.com/lightsail/pricing/",
+    regions: "Many AWS regions",
+    india: "Mumbai (ap-south-1)",
+    note: "Fixed monthly bundles. Good if the rest of your business is already on AWS." },
+  { name: "Hetzner GPU (dedicated)", kind: "gpu",
+    url: "https://www.hetzner.com/dedicated-rootserver/matrix-gpu/", pricing: "https://www.hetzner.com/dedicated-rootserver/matrix-gpu/",
+    regions: "Germany (the GEX44 line: RTX 4000 SFF Ada, 20 GB, 64 GB RAM, at Falkenstein)",
+    india: "No India region",
+    note: "A whole machine rented by the month, not a virtual server. Stock changes." },
+  { name: "RunPod", kind: "gpu",
+    url: "https://www.runpod.io/", pricing: "https://www.runpod.io/pricing",
+    regions: "Listed on their site",
+    india: "Check their list",
+    note: "Billed by the hour. Attach a persistent volume or you lose data when a pod is removed." },
+  { name: "Vast.ai", kind: "gpu",
+    url: "https://vast.ai/", pricing: "https://vast.ai/pricing",
+    regions: "A marketplace of hosts worldwide",
+    india: "Check each listing",
+    note: "Cheapest, but host quality varies. Do not put customer documents on a host you do not trust." },
+  { name: "Lambda", kind: "gpu",
+    url: "https://lambda.ai/", pricing: "https://lambda.ai/pricing",
+    regions: "Listed on their site",
+    india: "Check their list",
+    note: "On-demand GPU cloud. Check availability before you plan around it." }
+];
+</script>
+<a class="skip" href="#guide">Skip to the guide</a>
+<nav aria-label="Main">
+  <div class="wrap">
+    <a class="brand" href="index.html"><img src="assets/logo-64.png" alt="" width="32" height="32">cob-rag-engine</a>
+    <div class="links">
+      <a href="index.html">Home</a>
+      <a href="guide.html">Guide</a>
+      <a href="deploy.html" aria-current="page">Deploy</a>
+      <a href="benchmarks.html">Benchmarks</a>
+      <a href="https://callobuzz.github.io/cob-rag-mcp">cob-rag-mcp</a>
+    </div>
+    <a class="gh" href="https://github.com/callobuzz/cob-rag-engine">★ GitHub</a>
+  </div>
+</nav>
+<header class="page-head">
+  <div class="wrap">
+    <span class="kicker">Deployment</span>
+    <h1>Put it on a server <span class="thin">your customers can reach</span></h1>
+    <p class="lede">Run cob-rag-engine on a rented server with a real domain, HTTPS, backups and automatic updates. You have already run it on your own machine with the <a href="guide.html">step-by-step guide</a>; this page is the production version. Every command and setting name was checked against the repository.</p>
+    <div class="cta">
+      <a class="btn btn-primary" href="#overview">Start at step 1</a>
+      <a class="btn btn-ghost" href="#yoursetup">Choose your setup</a>
+      <a class="btn btn-ghost" href="#troubleshooting">Something broke? Troubleshooting</a>
+    </div>
+    <p class="meta">Checked against the repository on 2 October 2026. Examples use the domain <code>yourbusiness.in</code>; replace it with yours. Tell the page which hardware, proxy and update method you will use and it shows only what applies. Prefer to read everything? Switch on &ldquo;Show all options&rdquo;.</p>
+  </div>
+</header>
+<div class="wrap doc" id="guide">
+  <aside class="toc" aria-label="On this page">
+    <div class="toc-setup js-only"><b>Your setup</b><span id="toc-summary"></span><br><a href="#yoursetup">Edit your setup</a></div>
+    <details open>
+      <summary>On this page<span class="chev" aria-hidden="true"></span></summary>
+      <ol>
+        <li><a href="#overview" data-id="overview"><span class="tn">1</span>The plan</a></li>
+        <li><a href="#yoursetup" data-id="yoursetup"><span class="tn">&middot;</span>Your setup</a></li>
+        <li><a href="#sizing" data-id="sizing"><span class="tn">2</span>Server size</a></li>
+        <li><a href="#providers" data-id="providers"><span class="tn">3</span>Where to rent one</a></li>
+        <li><a href="#server" data-id="server"><span class="tn">4</span>Prepare the server</a></li>
+        <li><a href="#configure" data-id="configure"><span class="tn">5</span>Configure for production</a></li>
+        <li><a href="#start" data-id="start"><span class="tn">6</span>Start the stack</a></li>
+        <li><a href="#https" data-id="https"><span class="tn">7</span>HTTPS and the proxy</a></li>
+        <li><a href="#checklist" data-id="checklist"><span class="tn">8</span>Production checklist</a></li>
+        <li><a href="#backups" data-id="backups"><span class="tn">9</span>Backups</a></li>
+        <li><a href="#updates" data-id="updates"><span class="tn">10</span>Updates and rollback</a></li>
+        <li><a href="#cicd" data-id="cicd"><span class="tn">11</span>Automatic deploys</a></li>
+        <li><a href="#monitoring" data-id="monitoring"><span class="tn">12</span>Monitoring</a></li>
+        <li><a href="#troubleshooting" data-id="troubleshooting"><span class="tn">13</span>Troubleshooting</a></li>
+      </ol>
+    </details>
+  </aside>
+  <main class="prose">
+
+<section class="s" id="sec-overview" aria-labelledby="overview"><h2 id="overview"><span class="n">01</span>The plan<a class="anchor" href="#overview" aria-label="Link to section The plan">#</a></h2>
+<p>In plain words: you rent a small computer in a data centre, point a web address at it, and run the same Docker Compose stack you ran at home. A program called a <em>reverse proxy</em> sits in front, gets a free HTTPS certificate, and passes visitors to the engine. Nothing else is reachable from the internet.</p>
+<ol class="steps">
+<li><strong>Rent a server</strong> big enough for the models (section 2) from a provider near your customers (section 3).</li>
+<li><strong>Point a domain at it</strong>, close every port except 22, 80 and 443, install Docker, clone the repository (section 4).</li>
+<li><strong>Run the setup wizard in production mode</strong>, with real SMTP and real addresses (section 5), then start the stack (section 6).</li>
+<li><strong>Put HTTPS in front</strong> with Caddy, Nginx or Cloudflare (section 7).</li>
+<li><strong>Back up, then automate updates</strong> (sections 9 to 11).</li>
+</ol>
+<p>Three web addresses are used throughout. Use your own names:</p>
+<div class="table-wrap"><table><thead><tr><th>Address</th><th>What it serves</th><th>Inside the server</th></tr></thead><tbody>
+<tr><td data-label="Address"><code>chat.yourbusiness.in</code></td><td data-label="What it serves">The engine API and <code>widget.js</code> (what customers&rsquo; websites call)</td><td data-label="Inside the server"><code>127.0.0.1:8000</code></td></tr>
+<tr><td data-label="Address"><code>app.yourbusiness.in</code></td><td data-label="What it serves">The dashboard (what you and your customers sign in to)</td><td data-label="Inside the server"><code>127.0.0.1:8090</code></td></tr>
+<tr><td data-label="Address"><code>scrape.yourbusiness.in</code></td><td data-label="What it serves">The web scraper, only if you use the dashboard&rsquo;s Scraper page</td><td data-label="Inside the server"><code>127.0.0.1:8001</code></td></tr>
+</tbody></table></div>
+<div class="callout tip" role="note"><strong class="cl">Tip</strong><div>Do a dry run first on a throwaway server for a day. Everything here is repeatable: the whole setup is one <code>.env</code> file plus the Compose stack.</div></div>
+<p class="top"><a href="#top">Back to top</a></p></section>
+
+<section class="s" id="sec-yoursetup" aria-labelledby="yoursetup"><h2 id="yoursetup"><span class="n">Start here</span>Your setup<a class="anchor" href="#yoursetup" aria-label="Link to section Your setup">#</a></h2>
+<p>Three choices change which commands you see. Your answers stay in this browser; nothing is sent anywhere.</p>
+<p class="setup-nojs">JavaScript is off, so every variant is shown and each one is labelled with the choice it applies to.</p>
+<div class="setup" id="setup-card">
+<div class="setup-bar">
+<div class="setup-sum"><span class="kicker">Showing this page for</span><p class="sum-line" id="setup-summary">CPU server &middot; Caddy &middot; self-hosted runner</p></div>
+<button type="button" class="btn btn-ghost btn-sm" id="setup-edit" aria-expanded="true" aria-controls="setup-body">Done</button>
+</div>
+<div class="setup-body" id="setup-body">
+<form class="setup-form" id="setup-form" aria-label="Your setup">
+<div class="setup-grid">
+<fieldset class="g"><legend>Server hardware</legend><div class="opts">
+<label class="opt"><input type="radio" name="hw" value="cpu"><span>CPU only</span></label>
+<label class="opt"><input type="radio" name="hw" value="gpu"><span>NVIDIA GPU</span></label>
+</div><p class="hint">CPU is right for most chatbots. A GPU only makes the local models faster.</p></fieldset>
+<fieldset class="g"><legend>HTTPS in front</legend><div class="opts">
+<label class="opt"><input type="radio" name="proxy" value="caddy"><span>Caddy</span></label>
+<label class="opt"><input type="radio" name="proxy" value="nginx"><span>Nginx</span></label>
+<label class="opt"><input type="radio" name="proxy" value="cf"><span>Cloudflare + Caddy</span></label>
+</div><p class="hint">Caddy is the simplest: it gets and renews certificates by itself.</p></fieldset>
+<fieldset class="g wide"><legend>Automatic deploys</legend><div class="opts">
+<label class="opt"><input type="radio" name="ci" value="runner"><span>GitHub Actions, runner on the server</span></label>
+<label class="opt"><input type="radio" name="ci" value="ssh"><span>GitHub Actions, over SSH</span></label>
+<label class="opt"><input type="radio" name="ci" value="none"><span>By hand</span></label>
+</div><p class="hint">You can start by hand and add this later.</p></fieldset>
+</div>
+<div class="setup-actions">
+<label class="sw"><input type="checkbox" id="showall" role="switch"><span class="sw-t" aria-hidden="true"></span><span>Show all options</span></label>
+<button type="button" class="btn btn-ghost btn-sm" id="setup-reset">Reset</button>
+</div>
+</form>
+</div>
+</div>
+<p class="top"><a href="#top">Back to top</a></p></section>
+
+<section class="s" id="sec-sizing" aria-labelledby="sizing"><h2 id="sizing"><span class="n">02</span>Server size<a class="anchor" href="#sizing" aria-label="Link to section Server size">#</a></h2>
+<p>The engine itself is light. The weight is the AI models it runs for you: one that turns text into numbers (embeddings) and, optionally, one that re-orders search results (the re-ranker). Your answer-writing model runs at your AI provider, not on your server.</p>
+<div class="sub" role="group" aria-labelledby="sizes"><h3 id="sizes"><span class="n">2.1</span>What to rent<a class="anchor" href="#sizes" aria-label="Link to What to rent">#</a></h3>
+<div class="table-wrap"><table><thead><tr><th>Size</th><th>CPU / RAM / disk</th><th>Good for</th></tr></thead><tbody>
+<tr><td data-label="Size">Minimum, CPU</td><td data-label="CPU / RAM / disk">2 vCPU, 4 GB RAM, 40 GB SSD</td><td data-label="Good for">A trial, or one or two small customers. Re-ranker off. Add 2 GB of swap (below).</td></tr>
+<tr><td data-label="Size">Recommended, CPU</td><td data-label="CPU / RAM / disk">4 vCPU, 8 GB RAM, 80 GB SSD</td><td data-label="Good for">A real deployment with several customers, a few documents each. Leaves room for a second API worker or a busy import.</td></tr>
+<tr><td data-label="Size">GPU</td><td data-label="CPU / RAM / disk">NVIDIA GPU, 8 vCPU, 16 GB RAM, 100 GB SSD</td><td data-label="Good for">Large imports, the local re-ranker, audio transcription. See VRAM below.</td></tr>
+</tbody></table></div>
+<p>Two of these figures are measured and two are advice. <strong>Measured</strong>: the default stack used about 2.1 GB of RAM on CPU with 270,000 chunks indexed (API 0.5 GB, worker 0.4 GB, embedding container 0.6 GB, Qdrant 0.3 GB, the rest under 0.2 GB each), and the local re-ranker adds about 2.3 GB. <strong>Advice, not measured</strong>: the vCPU and disk columns, and the 2 GB headroom on top. Building the images also needs memory, which is why 4 GB is a minimum and not a comfort.</p>
+<div class="callout tip" role="note"><strong class="cl">Tip</strong><div>On CPU, embedding runs at about 6 passages a second on 8 vCPUs, so importing thousands of pages takes hours. For a big first import use a hosted embedding model (<code>RAG_EMBEDDING_PROVIDER=litellm</code>) or a GPU, then go back to the small server.</div></div>
+</div>
+<div class="sub" role="group" aria-labelledby="drivers"><h3 id="drivers"><span class="n">2.2</span>What uses memory<a class="anchor" href="#drivers" aria-label="Link to What uses memory">#</a></h3>
+<ul>
+<li><strong>API workers.</strong> <code>RAG_API_WORKERS</code> (default 1). Each worker is a separate process with its own copy of the models, so memory grows with it. Raise it only with the RAM to match.</li>
+<li><strong>The re-ranker.</strong> About 2.3 GB, and the model file (about the same) is cached in the <code>hf_cache</code> volume. On CPU a re-ranked query took about 15 seconds in our benchmark, so keep it off on a CPU server. It is off by default (<code>RAG_RERANKING_ENABLED=false</code>).</li>
+<li><strong>The embedding container.</strong> <code>tei</code> serves <code>BAAI/bge-base-en-v1.5</code> (<code>RAG_TEI_MODEL_ID</code>). On first start it downloads the model, which takes a few minutes.</li>
+<li><strong>Worker concurrency.</strong> <code>RAG_WORKER_CONCURRENCY</code> (default 2) is how many ingest jobs run at once.</li>
+<li><strong>Qdrant</strong> grows with the number of chunks; the numbers above are for 270,000.</li>
+<li><strong>Optional services</strong> (Whisper for audio, Langfuse for traces) add containers we have not measured. Leave them off until you need them.</li>
+</ul>
+<div data-when="hw:gpu"><p><strong>VRAM</strong> (the GPU&rsquo;s own memory): about 3 GB per API worker according to <code>.env.example</code>, plus the re-ranker at about 2.3 GB, plus the embedding model. <code>docker-compose.gpu.yml</code> hands every GPU service the whole card, so they share it. Run <code>nvidia-smi</code> while it is busy before you decide a card is big enough.</p></div>
+<p>Disk fills with Docker images, the model caches (<code>hf_cache</code>, <code>tei_models</code>), the Postgres, Qdrant and MinIO volumes, and your customers&rsquo; uploaded files. Rent a disk you can grow.</p>
+<p>If you must run on 4 GB, add swap before you build the images:</p>
+<div class="cb"><div class="cb-bar"><span>Terminal (on the server)</span><button type="button" class="copy" aria-label="Copy swap commands">Copy</button></div><pre tabindex="0"><code><span class="k">sudo</span> fallocate -l 2G /swapfile
+<span class="k">sudo</span> chmod 600 /swapfile
+<span class="k">sudo</span> mkswap /swapfile
+<span class="k">sudo</span> swapon /swapfile
+<span class="c"># keep it after a reboot:</span>
+<span class="k">echo</span> '/swapfile none swap sw 0 0' | <span class="k">sudo</span> tee -a /etc/fstab</code></pre></div>
+</div>
+<p class="top"><a href="#top">Back to top</a></p></section>
+
+<section class="s" id="sec-providers" aria-labelledby="providers"><h2 id="providers"><span class="n">03</span>Where to rent one<a class="anchor" href="#providers" aria-label="Link to section Where to rent one">#</a></h2>
+<p>Any provider that gives you a Linux server with root access works. Pick a region near your customers&rsquo; visitors: a chat bubble feels slower when every message crosses an ocean. For customers in India, an Indian city is best. Prices change often, so each row links to the provider&rsquo;s own pricing page instead of quoting one.</p>
+<noscript><p>The provider table needs JavaScript. The providers are Hetzner, DigitalOcean, Vultr, Linode (Akamai), OVHcloud and AWS Lightsail for ordinary servers, and Hetzner GPU, RunPod, Vast.ai and Lambda for GPUs; search for each one&rsquo;s pricing page.</p></noscript>
+<div id="prov-cpu"></div>
+<div data-when="hw:gpu"><h3>GPU options</h3><div id="prov-gpu"></div>
+<div class="callout warn" role="note"><strong class="cl">Think before you rent a GPU</strong><div>A GPU server running all month is much dearer than a CPU one, and hourly GPU clouds can remove your machine. For most chatbots a CPU server plus a hosted embedding API is cheaper and simpler. Use a GPU for heavy imports or the local re-ranker.</div></div></div>
+<div class="callout tip" role="note"><strong class="cl">Choose Ubuntu</strong><div>The commands on this page assume <strong>Ubuntu 24.04 LTS</strong> (or Debian). Pick that image when you create the server and add your SSH key there.</div></div>
+<p class="top"><a href="#top">Back to top</a></p></section>
+
+<section class="s" id="sec-server" aria-labelledby="server"><h2 id="server"><span class="n">04</span>Prepare the server<a class="anchor" href="#server" aria-label="Link to section Prepare the server">#</a></h2>
+<div class="sub" role="group" aria-labelledby="dns"><h3 id="dns"><span class="n">4.1</span>Point your domain at it<a class="anchor" href="#dns" aria-label="Link to Point your domain at it">#</a></h3>
+<p>In your domain&rsquo;s DNS settings, add an <strong>A record</strong> for each address, pointing at the server&rsquo;s public IP (and an <strong>AAAA record</strong> if you use its IPv6 address). Use the exact IP your provider shows.</p>
+<div class="cb"><div class="cb-bar"><span>DNS records</span><button type="button" class="copy" aria-label="Copy DNS record list">Copy</button></div><pre tabindex="0"><code>chat    A    203.0.113.10
+app     A    203.0.113.10
+scrape  A    203.0.113.10   <span class="c"># only if you use the Scraper page</span></code></pre></div>
+<p><code>203.0.113.10</code> is a documentation address; use yours. Check it has spread before you go on:</p>
+<div class="cb"><div class="cb-bar"><span>Terminal (your own computer)</span><button type="button" class="copy" aria-label="Copy DNS check">Copy</button></div><pre tabindex="0"><code><span class="k">nslookup</span> chat.yourbusiness.in</code></pre></div>
+<div data-when="proxy:cf" class="callout warn" role="note"><strong class="cl">Cloudflare</strong><div>Add the records in Cloudflare, with the orange cloud (<em>Proxied</em>) <strong>off</strong> for now. Switch it on in section 7 after HTTPS works, or Caddy may not get its certificate.</div></div></div>
+<div class="sub" role="group" aria-labelledby="user"><h3 id="user"><span class="n">4.2</span>Sign in and create a working user<a class="anchor" href="#user" aria-label="Link to Sign in and create a working user">#</a></h3>
+<p>Sign in over SSH as the user your provider gave you (often <code>root</code>), update the system, and make a normal user called <code>deploy</code> so you do not run everything as root.</p>
+<div class="cb"><div class="cb-bar"><span>Terminal (on the server, as root)</span><button type="button" class="copy" aria-label="Copy user setup commands">Copy</button></div><pre tabindex="0"><code>apt update &amp;&amp; apt upgrade -y
+adduser deploy
+usermod -aG sudo deploy
+<span class="c"># let you sign in as deploy with the same SSH key:</span>
+rsync --archive --chown=deploy:deploy ~/.ssh /home/deploy</code></pre></div>
+<p><code>adduser</code> asks you to choose a password for <code>deploy</code>; you need it for <code>sudo</code>. Then sign in again as <code>deploy</code> (<code>ssh deploy@chat.yourbusiness.in</code>) and use that user for everything below.</p></div>
+<div class="sub" role="group" aria-labelledby="firewall"><h3 id="firewall"><span class="n">4.3</span>Close every port except three<a class="anchor" href="#firewall" aria-label="Link to Close every port except three">#</a></h3>
+<p>Allow SSH (22), HTTP (80) and HTTPS (443), and nothing else. Port 80 is needed to get certificates.</p>
+<div class="cb"><div class="cb-bar"><span>Terminal (on the server)</span><button type="button" class="copy" aria-label="Copy firewall commands">Copy</button></div><pre tabindex="0"><code><span class="k">sudo</span> ufw default deny incoming
+<span class="k">sudo</span> ufw default allow outgoing
+<span class="k">sudo</span> ufw allow 22/tcp
+<span class="k">sudo</span> ufw allow 80/tcp
+<span class="k">sudo</span> ufw allow 443/tcp
+<span class="k">sudo</span> ufw enable
+<span class="k">sudo</span> ufw status verbose</code></pre></div>
+<div class="callout danger" role="note"><strong class="cl">Why this is not enough on its own</strong><div>Docker writes its own firewall rules, and they are checked before UFW. A published port such as <code>5433:5432</code> would be open to the world even with UFW on. That is why <code>docker-compose.yml</code> publishes every port on <code>${RAG_BIND_ADDR:-127.0.0.1}</code> and why you must <strong>leave <code>RAG_BIND_ADDR=127.0.0.1</code></strong>. Only the proxy on this machine can reach the engine, the database, Redis and Qdrant.</div></div>
+<p>If you use a provider-level firewall (DigitalOcean, Hetzner and Lightsail all have one), open the same three ports there too.</p></div>
+<div class="sub" role="group" aria-labelledby="docker"><h3 id="docker"><span class="n">4.4</span>Install Docker<a class="anchor" href="#docker" aria-label="Link to Install Docker">#</a></h3>
+<p>You need Docker Engine with the Compose v2 plugin (the <code>docker compose</code> command, two words). The careful way is Docker&rsquo;s own <a href="https://docs.docker.com/engine/install/ubuntu/">install guide for Ubuntu</a>. The quick way is Docker&rsquo;s convenience script:</p>
+<div class="cb"><div class="cb-bar"><span>Terminal (on the server)</span><button type="button" class="copy" aria-label="Copy Docker install commands">Copy</button></div><pre tabindex="0"><code><span class="k">curl</span> -fsSL https://get.docker.com -o get-docker.sh
+<span class="k">sudo</span> sh get-docker.sh
+<span class="k">sudo</span> usermod -aG docker deploy
+<span class="c"># sign out and in again so the group applies, then:</span>
+<span class="k">docker</span> compose version</code></pre></div>
+<div class="callout warn" role="note"><strong class="cl">Warning</strong><div>Anyone in the <code>docker</code> group can become root on the server. Keep that group to people and tools you trust. Section 11 comes back to this.</div></div>
+<div data-when="hw:gpu"><p>For a GPU, also install the NVIDIA driver and the <a href="https://docs.nvidia.com/datacenter/cloud-native/container-toolkit/latest/install-guide.html">NVIDIA Container Toolkit</a> so Docker can see the card, then check it with the same command the guide uses:</p>
+<div class="cb"><div class="cb-bar"><span>Terminal (on the server)</span><button type="button" class="copy" aria-label="Copy GPU check">Copy</button></div><pre tabindex="0"><code><span class="k">docker</span> run --rm --gpus all nvidia/cuda:12.4.0-base-ubuntu22.04 nvidia-smi</code></pre></div></div></div>
+<div class="sub" role="group" aria-labelledby="clone"><h3 id="clone"><span class="n">4.5</span>Get the code<a class="anchor" href="#clone" aria-label="Link to Get the code">#</a></h3>
+<div class="cb"><div class="cb-bar"><span>Terminal (on the server)</span><button type="button" class="copy" aria-label="Copy clone commands">Copy</button></div><pre tabindex="0"><code><span class="k">git</span> clone https://github.com/callobuzz/cob-rag-engine
+<span class="k">cd</span> cob-rag-engine</code></pre></div>
+<p>If you plan automatic deploys (section 11), clone <strong>your own fork</strong> instead, because the deploy workflow lives in a repository you control. A private fork needs a read-only <a href="https://docs.github.com/en/authentication/connecting-to-github-with-ssh/managing-deploy-keys">deploy key</a> so the server can fetch it.</p></div>
+<p class="top"><a href="#top">Back to top</a></p></section>
+
+<section class="s" id="sec-configure" aria-labelledby="configure"><h2 id="configure"><span class="n">05</span>Configure for production<a class="anchor" href="#configure" aria-label="Link to section Configure for production">#</a></h2>
+<p>The setup wizard writes one file, <code>.env</code>, with every secret generated. For a live server run it in <strong>full</strong> mode: only full mode asks &ldquo;Is this a development machine or a live deployment?&rdquo; and for your web addresses.</p>
+<div class="sub" role="group" aria-labelledby="wizard"><h3 id="wizard"><span class="n">5.1</span>Run the wizard<a class="anchor" href="#wizard" aria-label="Link to Run the wizard">#</a></h3>
+<div class="cb" data-when="hw:cpu"><div class="cb-bar"><span>Terminal (in cob-rag-engine)</span><button type="button" class="copy" aria-label="Copy wizard command">Copy</button></div><pre tabindex="0"><code><span class="k">python3</span> scripts/setup.py --full --gpu no</code></pre></div>
+<div class="cb" data-when="hw:gpu"><div class="cb-bar"><span>Terminal (in cob-rag-engine)</span><button type="button" class="copy" aria-label="Copy wizard command for a GPU">Copy</button></div><pre tabindex="0"><code><span class="k">python3</span> scripts/setup.py --full --gpu yes</code></pre></div>
+<p>Use <code>python3</code> on Ubuntu: <code>make setup</code> runs <code>python</code>, which a fresh Ubuntu does not have. The wizard needs Python 3.10 or newer and nothing installed; Ubuntu 24.04 ships 3.12. Answer like this:</p>
+<ul>
+<li><strong>Environment:</strong> Production.</li>
+<li><strong>Super-admin e-mail:</strong> the address you will sign in with.</li>
+<li><strong>AI model key:</strong> your provider and key (they are hidden as you type).</li>
+<li><strong>E-mail:</strong> your SMTP details (section 5.3).</li>
+<li><strong>Web addresses:</strong> the public engine address <code>https://chat.yourbusiness.in</code>, the same for &ldquo;Engine address as the dashboard&rsquo;s browser sees it&rdquo;, your scraper address <code>https://scrape.yourbusiness.in</code> (or leave the default if you will not use it), and the dashboard <code>https://app.yourbusiness.in</code>.</li>
+<li><strong>Interface to publish ports on:</strong> keep <code>127.0.0.1</code>.</li>
+</ul>
+<p>The wizard finishes by printing the exact start command for your choices, and warns you if production is missing SMTP or an <code>https://</code> dashboard address. Running it again later is safe: it backs the old file up first and keeps the values you already have.</p></div>
+<div class="sub" role="group" aria-labelledby="envvals"><h3 id="envvals"><span class="n">5.2</span>Check the values that matter<a class="anchor" href="#envvals" aria-label="Link to Check the values that matter">#</a></h3>
+<p>Open <code>.env</code> and make sure these are set. The wizard handles most; <code>RAG_TRUST_PROXY_HEADERS</code>, <code>RAG_TRUSTED_PROXY_HOPS</code> and the scraper&rsquo;s origins it does not, so add them by hand.</p>
+<div class="cb"><div class="cb-bar"><span>.env (edit with nano .env)</span><button type="button" class="copy" aria-label="Copy production settings">Copy</button></div><pre tabindex="0"><code>RAG_ENV=prod
+RAG_BIND_ADDR=127.0.0.1
+RAG_PUBLIC_URL=https://chat.yourbusiness.in
+RAG_DASHBOARD_URL=https://app.yourbusiness.in
+RAG_DASHBOARD_ENGINE_URL=https://chat.yourbusiness.in
+RAG_DASHBOARD_SCRAPER_URL=https://scrape.yourbusiness.in
+RAG_CORS_ORIGINS=["https://app.yourbusiness.in"]
+SCRAPER_CORS_ORIGINS=["https://app.yourbusiness.in"]
+RAG_TRUST_PROXY_HEADERS=true
+RAG_TRUSTED_PROXY_HOPS=1</code></pre></div>
+<dl class="defs">
+<div><dt><code>RAG_ENV=prod</code></dt><dd>Hides the API docs (<code>/docs</code>), refuses a wildcard CORS list, and refuses the <code>log</code> e-mail provider. The engine will not start with <code>RAG_EMAIL_PROVIDER=log</code> in production.</dd></div>
+<div><dt><code>RAG_BIND_ADDR=127.0.0.1</code></dt><dd>Every published port listens on this machine only. Never set it to <code>0.0.0.0</code>: that exposes Postgres, Redis and Qdrant, and UFW does not stop it.</dd></div>
+<div><dt><code>RAG_PUBLIC_URL</code></dt><dd>Where browsers reach the engine. It goes into the widget embed snippet you give customers.</dd></div>
+<div><dt><code>RAG_DASHBOARD_URL</code></dt><dd>The base of every link in e-mails (sign in, reset, invitation). Must be the dashboard&rsquo;s public <code>https://</code> address.</dd></div>
+<div><dt><code>RAG_DASHBOARD_ENGINE_URL</code>, <code>RAG_DASHBOARD_SCRAPER_URL</code></dt><dd>Where the <em>browser</em> finds the engine and the scraper. Never a Compose service name. The dashboard only allows connections to these two origins.</dd></div>
+<div><dt><code>RAG_CORS_ORIGINS</code></dt><dd>The browser origins allowed to call the engine directly. <strong>The dashboard&rsquo;s origin must be in it</strong>, written exactly (scheme and host, no trailing slash, as a JSON list). Production refuses <code>["*"]</code>. Customers&rsquo; websites do <em>not</em> go here: the widget has its own per-key origin lock.</dd></div>
+<div><dt><code>SCRAPER_CORS_ORIGINS</code></dt><dd>The same, for the scraper. Include the dashboard origin.</dd></div>
+<div><dt><code>RAG_TRUST_PROXY_HEADERS</code>, <code>RAG_TRUSTED_PROXY_HOPS</code></dt><dd>Whose address the engine believes. Read section 7.3 before you leave it on. Only <code>true</code> behind a proxy you control, and <code>RAG_TRUSTED_PROXY_HOPS</code> must be the number of proxies in front of the engine (1 for Caddy or Nginx alone, 2 for Cloudflare in front of Nginx). The old name <code>RAG_WIDGET_TRUST_PROXY_HEADERS</code> still works.</dd></div>
+</dl>
+<div class="callout tip" role="note"><strong class="cl">Tip</strong><div>Uploads are capped at 50 MB by default (<code>RAG_MAX_UPLOAD_BYTES</code>), and a plan can set a lower limit. Nginx has its own, smaller default, covered in section 7.</div></div></div>
+<div class="sub" role="group" aria-labelledby="smtp"><h3 id="smtp"><span class="n">5.3</span>E-mail (SMTP) is required<a class="anchor" href="#smtp" aria-label="Link to E-mail (SMTP) is required">#</a></h3>
+<p>Sign-in codes, sign-up verification, invitations and password resets are sent as e-mail. Production refuses the development shortcut that writes them to a log, so without SMTP e-mail is switched off and sign-up and password reset do not work. Use a sending service, not a mailbox:</p>
+<div class="cb"><div class="cb-bar"><span>.env</span><button type="button" class="copy" aria-label="Copy SMTP settings">Copy</button></div><pre tabindex="0"><code>RAG_SMTP_HOST=email-smtp.ap-south-1.amazonaws.com
+RAG_SMTP_PORT=587
+RAG_SMTP_SECURITY=starttls
+RAG_SMTP_USERNAME=your-smtp-username
+RAG_SMTP_PASSWORD=your-smtp-password
+RAG_SMTP_FROM="Your Product &lt;no-reply@yourbusiness.in&gt;"</code></pre></div>
+<p>That example is Amazon SES in Mumbai (the host pattern is <code>email-smtp.&lt;region&gt;.amazonaws.com</code>, with SMTP credentials from the SES console). Port 587 uses <code>starttls</code>, 465 uses <code>ssl</code>. Whatever service you use, add its SPF and DKIM records to your DNS, or customers&rsquo; mail will land in spam. Gmail works for a trial with a 16-character app password, but it is not meant for production. You test it in section 8.</p></div>
+<p class="top"><a href="#top">Back to top</a></p></section>
+
+<section class="s" id="sec-start" aria-labelledby="start"><h2 id="start"><span class="n">06</span>Start the stack<a class="anchor" href="#start" aria-label="Link to section Start the stack">#</a></h2>
+<div class="cb" data-when="hw:cpu"><div class="cb-bar"><span>Terminal (in cob-rag-engine)</span><button type="button" class="copy" aria-label="Copy start command">Copy</button></div><pre tabindex="0"><code><span class="k">docker</span> compose up -d --build</code></pre></div>
+<div data-when="hw:gpu"><div class="cb"><div class="cb-bar"><span>Terminal (in cob-rag-engine)</span><button type="button" class="copy" aria-label="Copy start command with the GPU overlay">Copy</button></div><pre tabindex="0"><code><span class="k">docker</span> compose -f docker-compose.yml -f docker-compose.gpu.yml up -d --build</code></pre></div>
+<p>The overlay reserves the GPU for the engine, the worker and the embedding container. The embedding container also needs the image tag that matches your card in <code>RAG_TEI_IMAGE</code> (for example <code>ghcr.io/huggingface/text-embeddings-inference:89-1.9</code> for an Ada card, or <code>cuda-1.9</code> to be portable); the wizard sets it for you. Check the embedding log says it is starting on CUDA.</p></div>
+<p>The first start builds three images and downloads the embedding model, which takes several minutes. The app container runs the database migrations itself before it starts serving. Watch it settle:</p>
+<div class="cb"><div class="cb-bar"><span>Terminal</span><button type="button" class="copy" aria-label="Copy status commands">Copy</button></div><pre tabindex="0"><code><span class="k">docker</span> compose ps
+<span class="k">docker</span> compose logs -f --tail=100 app
+<span class="c"># when it is up, from the server:</span>
+<span class="k">curl</span> -fsS http://127.0.0.1:8000/api/v1/health/ready</code></pre></div>
+<p>The engine has two health addresses. <code>/api/v1/health</code> is the detailed one: it answers <code>{"status":"ok","services":{...}}</code>, or <code>"status":"degraded"</code> with the list saying which of <code>postgres</code>, <code>redis</code>, <code>qdrant</code> or <code>minio</code> failed, and it always answers HTTP 200. <code>/api/v1/health/ready</code> is the one for scripts and monitors: it answers HTTP <strong>503</strong> when Postgres, Redis or Qdrant is down (it does not look at object storage at all, so an uptime monitor never costs a storage request), and each check gives up after 3 seconds, so a dead dependency cannot hang the poll. Because of that, <code>curl -f</code> fails exactly when the engine cannot serve. Docker&rsquo;s own container check keeps using the first one, so a brief Redis restart does not mark the engine itself unhealthy.</p>
+<p>From outside the server nothing answers yet, and that is correct: every port is on <code>127.0.0.1</code>. HTTPS comes next.</p>
+<p class="top"><a href="#top">Back to top</a></p></section>
+
+<section class="s" id="sec-https" aria-labelledby="https"><h2 id="https"><span class="n">07</span>HTTPS and the proxy<a class="anchor" href="#https" aria-label="Link to section HTTPS and the proxy">#</a></h2>
+<p>A <em>reverse proxy</em> listens on ports 80 and 443, holds the HTTPS certificates, and forwards each address to the right container port on <code>127.0.0.1</code>. Pick the one you chose above. All three do the same job.</p>
+
+<div class="sub" role="group" aria-labelledby="caddy" data-when="proxy:caddy|cf"><h3 id="caddy"><span class="n">7.1</span>Install Caddy<a class="anchor" href="#caddy" aria-label="Link to Install Caddy">#</a></h3>
+<p>Caddy gets and renews free certificates from Let&rsquo;s Encrypt by itself. Install it from <a href="https://caddyserver.com/docs/install">its official repository</a>:</p>
+<div class="cb"><div class="cb-bar"><span>Terminal (on the server)</span><button type="button" class="copy" aria-label="Copy Caddy install commands">Copy</button></div><pre tabindex="0"><code><span class="k">sudo</span> apt install -y debian-keyring debian-archive-keyring apt-transport-https curl
+<span class="k">curl</span> -1sLf 'https://dl.cloudsmith.io/public/caddy/stable/gpg.key' | <span class="k">sudo</span> gpg --dearmor -o /usr/share/keyrings/caddy-stable-archive-keyring.gpg
+<span class="k">curl</span> -1sLf 'https://dl.cloudsmith.io/public/caddy/stable/debian.deb.txt' | <span class="k">sudo</span> tee /etc/apt/sources.list.d/caddy-stable.list
+<span class="k">sudo</span> apt update
+<span class="k">sudo</span> apt install -y caddy</code></pre></div>
+<div data-when="proxy:caddy"><p>Caddy (recommended) needs one file. Replace the contents of <code>/etc/caddy/Caddyfile</code>:</p>
+<div class="cb"><div class="cb-bar"><span>/etc/caddy/Caddyfile</span><button type="button" class="copy" aria-label="Copy the Caddyfile">Copy</button></div><pre tabindex="0"><code><span class="c"># The engine API and widget.js</span>
+chat.yourbusiness.in {
+	reverse_proxy 127.0.0.1:8000 {
+		<span class="c"># answers stream token by token; do not buffer them</span>
+		flush_interval -1
+		<span class="c"># X-Forwarded-For becomes exactly one entry: the address that connected to Caddy.</span>
+		<span class="c"># With RAG_TRUSTED_PROXY_HOPS=1 the engine reads that one entry.</span>
+		header_up X-Forwarded-For {remote_host}
+	}
+}
+
+<span class="c"># The dashboard</span>
+app.yourbusiness.in {
+	reverse_proxy 127.0.0.1:8090
+}
+
+<span class="c"># The scraper (delete this block if you do not use it)</span>
+scrape.yourbusiness.in {
+	reverse_proxy 127.0.0.1:8001
+}</code></pre></div>
+<div class="cb"><div class="cb-bar"><span>Terminal (on the server)</span><button type="button" class="copy" aria-label="Copy Caddy reload commands">Copy</button></div><pre tabindex="0"><code><span class="k">sudo</span> caddy validate --config /etc/caddy/Caddyfile
+<span class="k">sudo</span> systemctl reload caddy</code></pre></div>
+<p>Caddy has no upload limit of its own, so the engine&rsquo;s own cap applies.</p></div></div>
+
+<div class="sub" role="group" aria-labelledby="nginx" data-when="proxy:nginx"><h3 id="nginx"><span class="n">7.1</span>Nginx<a class="anchor" href="#nginx" aria-label="Link to Nginx">#</a></h3>
+<p>Install Nginx and Certbot, then add one site file. Certbot adds the HTTPS part and renews the certificates.</p>
+<div class="cb"><div class="cb-bar"><span>Terminal (on the server)</span><button type="button" class="copy" aria-label="Copy Nginx install commands">Copy</button></div><pre tabindex="0"><code><span class="k">sudo</span> apt install -y nginx certbot python3-certbot-nginx</code></pre></div>
+<div class="cb"><div class="cb-bar"><span>/etc/nginx/sites-available/cob-rag</span><button type="button" class="copy" aria-label="Copy the Nginx site file">Copy</button></div><pre tabindex="0"><code><span class="c"># The engine API and widget.js</span>
+server {
+	listen 80;
+	server_name chat.yourbusiness.in;
+	<span class="c"># Nginx's default is 1 MB, which breaks document uploads. Match RAG_MAX_UPLOAD_BYTES (50 MB).</span>
+	client_max_body_size 50m;
+
+	location / {
+		proxy_pass http://127.0.0.1:8000;
+		proxy_http_version 1.1;
+		proxy_set_header Host $host;
+		<span class="c"># one entry: the address that connected to Nginx. With RAG_TRUSTED_PROXY_HOPS=1 the</span>
+		<span class="c"># engine reads the last entry. ($proxy_add_x_forwarded_for is also safe with hops=1,</span>
+		<span class="c"># because only the entry Nginx itself appended is read.)</span>
+		proxy_set_header X-Forwarded-For $remote_addr;
+		proxy_set_header X-Forwarded-Proto $scheme;
+		<span class="c"># answers stream token by token</span>
+		proxy_buffering off;
+		proxy_read_timeout 300s;
+	}
+}
+
+<span class="c"># The dashboard</span>
+server {
+	listen 80;
+	server_name app.yourbusiness.in;
+	location / {
+		proxy_pass http://127.0.0.1:8090;
+		proxy_set_header Host $host;
+		proxy_set_header X-Forwarded-Proto $scheme;
+	}
+}
+
+<span class="c"># The scraper (delete this block if you do not use it)</span>
+server {
+	listen 80;
+	server_name scrape.yourbusiness.in;
+	location / {
+		proxy_pass http://127.0.0.1:8001;
+		proxy_set_header Host $host;
+		proxy_set_header X-Forwarded-Proto $scheme;
+	}
+}</code></pre></div>
+<div class="cb"><div class="cb-bar"><span>Terminal (on the server)</span><button type="button" class="copy" aria-label="Copy Nginx enable and certificate commands">Copy</button></div><pre tabindex="0"><code><span class="k">sudo</span> ln -s /etc/nginx/sites-available/cob-rag /etc/nginx/sites-enabled/cob-rag
+<span class="k">sudo</span> nginx -t
+<span class="k">sudo</span> systemctl reload nginx
+<span class="k">sudo</span> certbot --nginx -d chat.yourbusiness.in -d app.yourbusiness.in -d scrape.yourbusiness.in</code></pre></div></div>
+
+<div class="sub" role="group" aria-labelledby="cf" data-when="proxy:cf"><h3 id="cf"><span class="n">7.1</span>Cloudflare in front of Caddy<a class="anchor" href="#cf" aria-label="Link to Cloudflare in front of Caddy">#</a></h3>
+<p>Cloudflare&rsquo;s proxy (the orange cloud) hides your server&rsquo;s address and absorbs floods. Caddy still runs on the server and holds the certificate. Do it in this order:</p>
+<ol class="steps">
+<li>Install Caddy and use the Caddyfile below, with the orange cloud still <strong>off</strong>. Check <code>https://chat.yourbusiness.in/api/v1/health/ready</code> works.</li>
+<li>In Cloudflare, set <strong>SSL/TLS to Full (strict)</strong>, then switch the orange cloud <strong>on</strong> for the three records.</li>
+<li>Lock the server so only Cloudflare can connect (below). Otherwise anyone who learns the server&rsquo;s address can skip Cloudflare and forge headers.</li>
+</ol>
+<p>Install Caddy with the commands in 7.1 above. The Caddyfile has one special line. Behind Cloudflare, the address that connects to Caddy is a Cloudflare server, not the visitor; the visitor&rsquo;s real address is in the <code>CF-Connecting-IP</code> header. The engine itself never reads <code>CF-Connecting-IP</code>, only <code>X-Forwarded-For</code>, so Caddy copies the visitor&rsquo;s address into it.</p>
+<div class="cb"><div class="cb-bar"><span>/etc/caddy/Caddyfile</span><button type="button" class="copy" aria-label="Copy the Cloudflare Caddyfile">Copy</button></div><pre tabindex="0"><code>chat.yourbusiness.in {
+	reverse_proxy 127.0.0.1:8000 {
+		flush_interval -1
+		<span class="c"># Cloudflare puts the real visitor here. X-Forwarded-For becomes that single entry,</span>
+		<span class="c"># so RAG_TRUSTED_PROXY_HOPS stays 1 (Caddy is the only proxy the engine trusts).</span>
+		header_up X-Forwarded-For {http.request.header.CF-Connecting-IP}
+	}
+}
+
+app.yourbusiness.in {
+	reverse_proxy 127.0.0.1:8090
+}
+
+scrape.yourbusiness.in {
+	reverse_proxy 127.0.0.1:8001
+}</code></pre></div>
+<div class="cb"><div class="cb-bar"><span>Terminal (on the server)</span><button type="button" class="copy" aria-label="Copy Caddy reload commands for Cloudflare">Copy</button></div><pre tabindex="0"><code><span class="k">sudo</span> caddy validate --config /etc/caddy/Caddyfile
+<span class="k">sudo</span> systemctl reload caddy</code></pre></div>
+<p>Then allow ports 80 and 443 only from <a href="https://www.cloudflare.com/ips/">Cloudflare&rsquo;s published address ranges</a> instead of from everywhere:</p>
+<div class="cb"><div class="cb-bar"><span>Terminal (on the server)</span><button type="button" class="copy" aria-label="Copy the firewall lock to Cloudflare">Copy</button></div><pre tabindex="0"><code><span class="k">sudo</span> ufw delete allow 80/tcp
+<span class="k">sudo</span> ufw delete allow 443/tcp
+<span class="k">for</span> ip in $(curl -s https://www.cloudflare.com/ips-v4; echo; curl -s https://www.cloudflare.com/ips-v6); do
+  <span class="k">sudo</span> ufw allow from "$ip" to any port 80,443 proto tcp
+<span class="k">done</span>
+<span class="k">sudo</span> ufw status numbered</code></pre></div>
+<div class="callout warn" role="note"><strong class="cl">Keep the list current</strong><div>Cloudflare&rsquo;s ranges change now and then. Re-run the loop every few months, or on a schedule. Cloudflare also cuts a request that sends nothing for 100 seconds with a 524 error; chat answers stream tokens so they are fine.</div></div></div>
+
+<div class="sub" role="group" aria-labelledby="xff"><h3 id="xff"><span class="n">7.3</span>The visitor&rsquo;s address: <code>RAG_TRUST_PROXY_HEADERS</code> and <code>RAG_TRUSTED_PROXY_HOPS</code><a class="anchor" href="#xff" aria-label="Link to The visitor's address">#</a></h3>
+<p>The engine limits how fast one visitor can use a customer&rsquo;s chat widget, and it records the address of every sign-in and audited action. Behind a proxy, every request seems to come from the proxy, so the engine has to be told whose address to believe. Two settings decide it:</p>
+<ul>
+<li><code>RAG_TRUST_PROXY_HEADERS=false</code> (the default): the engine ignores <code>X-Forwarded-For</code> completely and uses the address that connected. Behind a proxy that is the proxy, so every visitor shares one limit. (The old name <code>RAG_WIDGET_TRUST_PROXY_HEADERS</code> still works.)</li>
+<li><code>RAG_TRUST_PROXY_HEADERS=true</code>: the engine reads <code>X-Forwarded-For</code>, a list of addresses in which every proxy <strong>appends</strong> the address it saw connect. The visitor&rsquo;s own entries come first and can be forged, so the engine reads from the <strong>right</strong>: <code>RAG_TRUSTED_PROXY_HOPS</code> entries from the end (1 to 10, default 1). Entries before that are never looked at, so a visitor who sends a fake <code>X-Forwarded-For</code> gains nothing.</li>
+</ul>
+<p><code>RAG_TRUSTED_PROXY_HOPS</code> is the number of proxies you run in front of the engine, counting the one that talks to it. If the header is missing, shorter than that number, or the entry is not an IP address, the engine falls back to the address that connected, so a wrong setting fails safe rather than open.</p>
+<div class="table-wrap"><table><thead><tr><th>In front of the engine</th><th>What the engine receives</th><th><code>RAG_TRUSTED_PROXY_HOPS</code></th></tr></thead><tbody>
+<tr><td>Caddy or Nginx only (the configurations on this page)</td><td>One entry: the visitor&rsquo;s address</td><td><code>1</code></td></tr>
+<tr><td>Cloudflare, then Caddy (the Cloudflare configuration above)</td><td>One entry: Caddy copies <code>CF-Connecting-IP</code> into it</td><td><code>1</code></td></tr>
+<tr><td>Cloudflare, then Nginx that appends (<code>$proxy_add_x_forwarded_for</code>)</td><td>Visitor&rsquo;s address, then Cloudflare&rsquo;s</td><td><code>2</code></td></tr>
+<tr><td>Cloudflare, then Nginx that sets <code>X-Forwarded-For $http_cf_connecting_ip</code></td><td>One entry: the visitor&rsquo;s address</td><td><code>1</code></td></tr>
+</tbody></table></div>
+<p>Check it instead of guessing. Turn the settings on, sign in from your phone on mobile data (not your own Wi-Fi), then open the dashboard&rsquo;s audit log as the operator: the sign-in row must show your phone&rsquo;s public address. If it shows the proxy&rsquo;s or a Cloudflare address, the hop count is too high or the proxy is not setting the header; if it shows an address you did not use, the count is too low. Raise or lower <code>RAG_TRUSTED_PROXY_HOPS</code> by one and recreate the containers.</p>
+<div class="callout warn" role="note"><strong class="cl">Cloudflare and the real visitor</strong><div>The engine does not read <code>CF-Connecting-IP</code>. It is trustworthy only because the firewall in 7.2 lets nothing but Cloudflare reach your proxy. If you skip that lock, anyone can send their own <code>CF-Connecting-IP</code> straight to the server.</div></div>
+<p>The same two settings also decide the address stored in sign-in sessions, the sign-in and sign-up limits and the audit log, so they matter beyond the widget. Set <code>RAG_TRUST_PROXY_HEADERS=true</code> only when a proxy like these is in front. If you ever expose the engine&rsquo;s port directly, set it back to <code>false</code>.</p></div>
+
+<div class="sub" role="group" aria-labelledby="applyenv"><h3 id="applyenv"><span class="n">7.4</span>Apply the settings and test<a class="anchor" href="#applyenv" aria-label="Link to Apply the settings and test">#</a></h3>
+<p>Changing <code>.env</code> needs the containers recreated. Then check from your own computer, not the server:</p>
+<div class="cb"><div class="cb-bar"><span>Terminal (on the server)</span><button type="button" class="copy" aria-label="Copy recreate command">Copy</button></div><pre tabindex="0"><code><span class="k">docker</span> compose up -d --build</code></pre></div>
+<div class="cb"><div class="cb-bar"><span>Terminal (your own computer)</span><button type="button" class="copy" aria-label="Copy the HTTPS checks">Copy</button></div><pre tabindex="0"><code><span class="k">curl</span> -fsS https://chat.yourbusiness.in/api/v1/health/ready
+<span class="k">curl</span> -sI https://app.yourbusiness.in | head -1
+<span class="c"># the docs are hidden in production; this must be 404:</span>
+<span class="k">curl</span> -s -o /dev/null -w "%{http_code}\n" https://chat.yourbusiness.in/docs</code></pre></div>
+<p>Open <code>https://app.yourbusiness.in</code> in a browser. It should show the sign-in page with a padlock. If the page loads but sign-in fails with a CORS error, the dashboard&rsquo;s origin is missing from <code>RAG_CORS_ORIGINS</code> (see troubleshooting).</p></div>
+<p class="top"><a href="#top">Back to top</a></p></section>
+
+<section class="s" id="sec-checklist" aria-labelledby="checklist"><h2 id="checklist"><span class="n">08</span>Production checklist<a class="anchor" href="#checklist" aria-label="Link to section Production checklist">#</a></h2>
+<ol class="steps">
+<li><strong>Secrets stay secret.</strong> Lock the file: <code>chmod 600 .env</code>. Never commit it, paste it into a chat, or e-mail it. The wizard generated the admin key, session secret, database, Redis, Qdrant and storage passwords for you.</li>
+<li><strong>Back up <code>RAG_ENCRYPTION_KEY</code> now.</strong> Copy that one line from <code>.env</code> into your password manager. See the warning below.</li>
+<li><strong>Confirm production mode.</strong> <code>RAG_ENV=prod</code>, and the <code>/docs</code> check in section 7.4 returned 404.</li>
+<li><strong>Test e-mail.</strong> Send a test message with your admin key (paste it where it says; do not save it in a file):
+<div class="cb"><div class="cb-bar"><span>Terminal (your own computer)</span><button type="button" class="copy" aria-label="Copy the SMTP test">Copy</button></div><pre tabindex="0"><code><span class="k">curl</span> -X POST https://chat.yourbusiness.in/api/v1/admin/smtp/test \
+  -H "X-API-Key: PASTE_YOUR_RAG_ADMIN_API_KEY" \
+  -H "Content-Type: application/json" \
+  -d '{"to":"you@yourbusiness.in"}'</code></pre></div>
+It answers <code>{"sent":true,...}</code> when the message was handed to your SMTP server, or the SMTP code and error class when it was not.</li>
+<li><strong>Create the super admin.</strong> The app does it on its first start, using <code>RAG_SUPERADMIN_EMAIL</code>. With SMTP set up, a set-password link arrives by e-mail; it lasts 24 hours. To print it on the console instead, or to get a fresh one:
+<div class="cb"><div class="cb-bar"><span>Terminal (on the server)</span><button type="button" class="copy" aria-label="Copy the bootstrap commands">Copy</button></div><pre tabindex="0"><code><span class="c"># was a link printed at first start?</span>
+<span class="k">docker</span> compose logs app | grep -A6 "ONE-TIME SET-PASSWORD LINK"
+<span class="c"># issue a new one and print it here</span>
+<span class="k">docker</span> compose exec app python -m callobuzz_rag.accounts.bootstrap --resend --print-link</code></pre></div></li>
+<li><strong>Sign in</strong> at <code>https://app.yourbusiness.in</code> and set your password.</li>
+<li><strong>Onboard a first customer.</strong> Follow section 7 of the <a href="guide.html#flow">step-by-step guide</a>: create a customer, a knowledge base, upload a document, ask a question, add the website widget. Test the widget from a real page on that customer&rsquo;s domain.</li>
+<li><strong>Set up backups</strong> (section 9) before the customer adds anything you cannot re-upload.</li>
+</ol>
+<div class="callout danger" role="note"><strong class="cl">Lose this key, lose the keys</strong><div><code>RAG_ENCRYPTION_KEY</code> encrypts each knowledge base&rsquo;s stored AI-provider keys. Without it those keys cannot be read and every customer would have to enter theirs again. A backup of the database does not help: the key is not in it. Keep a copy of <code>.env</code>, or at least this line, somewhere that is not this server. Keep <code>RAG_SESSION_SECRET</code> too, or everyone is signed out.</div></div>
+<p class="top"><a href="#top">Back to top</a></p></section>
+
+<section class="s" id="sec-backups" aria-labelledby="backups"><h2 id="backups"><span class="n">09</span>Backups<a class="anchor" href="#backups" aria-label="Link to section Backups">#</a></h2>
+<p>A server can vanish: a failed disk, a deleted instance, a bad update. A backup you have never restored is a hope, not a backup, so this section ends with a restore drill. Four things hold your data:</p>
+<div class="table-wrap"><table><thead><tr><th>What</th><th>Where it lives</th><th>How it is backed up</th></tr></thead><tbody>
+<tr><td data-label="What">Customers, knowledge bases, document text, chunks, accounts, keys</td><td data-label="Where it lives">Postgres (<code>pgdata</code> volume)</td><td data-label="How it is backed up"><code>pg_dump</code></td></tr>
+<tr><td data-label="What">Search vectors</td><td data-label="Where it lives">Qdrant (<code>qdrant</code> volume)</td><td data-label="How it is backed up">Snapshots through its API. They can also be rebuilt from Postgres, slowly.</td></tr>
+<tr><td data-label="What">The uploaded original files</td><td data-label="Where it lives">MinIO (<code>minio</code> volume), or your own S3 provider</td><td data-label="How it is backed up"><code>mc mirror</code>. With an external S3 provider, use its own versioning or replication.</td></tr>
+<tr><td data-label="What">Configuration and secrets</td><td data-label="Where it lives"><code>.env</code></td><td data-label="How it is backed up">A copy, kept encrypted. Includes <code>RAG_ENCRYPTION_KEY</code>.</td></tr>
+</tbody></table></div>
+<div class="sub" role="group" aria-labelledby="bk-script"><h3 id="bk-script"><span class="n">9.1</span>The backup script<a class="anchor" href="#bk-script" aria-label="Link to The backup script">#</a></h3>
+<p>This script runs on the server as <code>deploy</code>. It needs MinIO&rsquo;s command-line client, <code>mc</code>: install it from <a href="https://min.io/docs/minio/linux/reference/minio-mc.html">MinIO&rsquo;s instructions</a>. It reads the keys it needs from your <code>.env</code> at run time, so nothing is copied into the script.</p>
+<div class="cb"><div class="cb-bar"><span>/home/deploy/backup.sh</span><button type="button" class="copy" aria-label="Copy the backup script">Copy</button></div><pre tabindex="0"><code><span class="c">#!/usr/bin/env bash</span>
+<span class="c"># Daily backup of cob-rag-engine: Postgres, Qdrant, uploaded files and .env</span>
+set -euo pipefail
+
+APP=/home/deploy/cob-rag-engine
+BACKUPS=/home/deploy/backups
+OUT="$BACKUPS/$(date +%F)"
+KEEP_DAYS=14
+
+mkdir -p "$OUT"
+cd "$APP"
+env_value() { grep "^$1=" .env | cut -d= -f2-; }
+
+<span class="c"># 1. Postgres (a compressed dump you can restore with pg_restore)</span>
+docker compose exec -T postgres pg_dump -U rag -d rag_kernel -Fc &gt; "$OUT/postgres.dump"
+
+<span class="c"># 2. Qdrant: one snapshot per collection, downloaded, then deleted from the server</span>
+QKEY=$(env_value RAG_QDRANT_API_KEY)
+QURL=http://127.0.0.1:6333
+for c in $(curl -fsS -H "api-key: $QKEY" "$QURL/collections" | grep -o '"name":"[^"]*"' | cut -d'"' -f4); do
+  snap=$(curl -fsS -X POST -H "api-key: $QKEY" "$QURL/collections/$c/snapshots" | grep -o '"name":"[^"]*"' | head -1 | cut -d'"' -f4)
+  curl -fsS -H "api-key: $QKEY" -o "$OUT/qdrant-$c.snapshot" "$QURL/collections/$c/snapshots/$snap"
+  curl -fsS -X DELETE -H "api-key: $QKEY" "$QURL/collections/$c/snapshots/$snap" &gt; /dev/null
+done
+
+<span class="c"># 3. Uploaded files: a mirror of the bundled MinIO bucket (S3 API on 127.0.0.1:9002)</span>
+BUCKET=$(env_value RAG_S3_BUCKET)
+mc alias set cobbak http://127.0.0.1:9002 "$(env_value RAG_S3_ACCESS_KEY)" "$(env_value RAG_S3_SECRET_KEY)" &gt; /dev/null
+mc mirror --overwrite --remove "cobbak/$BUCKET" "$BACKUPS/files"
+
+<span class="c"># 4. Configuration and secrets</span>
+cp .env "$OUT/env"
+chmod 600 "$OUT/env"
+
+<span class="c"># 5. Keep two weeks of dated backups on this machine</span>
+find "$BACKUPS" -maxdepth 1 -type d -name '20*' -mtime +"$KEEP_DAYS" -exec rm -r {} +
+
+<span class="c"># 6. Copy it OFF this machine. Uncomment one line after you set it up.</span>
+<span class="c"># rclone sync "$BACKUPS" yourremote:cob-rag-backups</span>
+<span class="c"># rsync -a --delete "$BACKUPS/" backup-user@other-server:cob-rag-backups/</span>
+echo "backup done: $OUT"</code></pre></div>
+<div class="cb"><div class="cb-bar"><span>Terminal (on the server)</span><button type="button" class="copy" aria-label="Copy the commands that enable the backup script">Copy</button></div><pre tabindex="0"><code><span class="k">nano</span> /home/deploy/backup.sh     <span class="c"># paste the script</span>
+<span class="k">chmod</span> +x /home/deploy/backup.sh
+/home/deploy/backup.sh               <span class="c"># run it once and read the output</span>
+<span class="k">ls</span> -lh /home/deploy/backups/*/</code></pre></div>
+<div class="callout danger" role="note"><strong class="cl">A backup on the same server is not a backup</strong><div>If the server is deleted, the backups go with it. Step 6 matters: copy to another machine or a storage bucket at another provider. The folder holds <code>.env</code>, so encrypt it on the way out (for example with rclone&rsquo;s <code>crypt</code> remote). Also turn on your provider&rsquo;s own server snapshots as a second layer.</div></div>
+<p>If you use an external S3 provider instead of the bundled MinIO, delete step 3 and rely on that provider&rsquo;s versioning or replication.</p></div>
+<div class="sub" role="group" aria-labelledby="bk-cron"><h3 id="bk-cron"><span class="n">9.2</span>Run it every night<a class="anchor" href="#bk-cron" aria-label="Link to Run it every night">#</a></h3>
+<p>Servers usually keep UTC time. Set India time first, so &ldquo;2:30 in the morning&rdquo; means 2:30 in the morning for you:</p>
+<div class="cb"><div class="cb-bar"><span>Terminal (on the server)</span><button type="button" class="copy" aria-label="Copy the cron setup commands">Copy</button></div><pre tabindex="0"><code><span class="k">sudo</span> timedatectl set-timezone Asia/Kolkata
+<span class="k">crontab</span> -e</code></pre></div>
+<div class="cb"><div class="cb-bar"><span>crontab (as deploy)</span><button type="button" class="copy" aria-label="Copy the cron line">Copy</button></div><pre tabindex="0"><code>30 2 * * * /home/deploy/backup.sh &gt;&gt; /home/deploy/backup.log 2&gt;&amp;1</code></pre></div>
+<p>Check <code>/home/deploy/backup.log</code> the next morning, and set an alert if a backup does not run: a free service such as Healthchecks.io works by having the script call a URL when it succeeds.</p></div>
+<div class="sub" role="group" aria-labelledby="bk-restore"><h3 id="bk-restore"><span class="n">9.3</span>The restore drill<a class="anchor" href="#bk-restore" aria-label="Link to The restore drill">#</a></h3>
+<p>Do this once on a spare server before you need it, and write down how long it took. On the spare: do sections 4 to 6 (so you have Docker, the code and a running stack), then put the backed-up <code>env</code> file in place as <code>.env</code> <em>before</em> starting. A different <code>RAG_ENCRYPTION_KEY</code> would make stored AI keys unreadable.</p>
+<ol class="steps">
+<li><strong>Stop everything that writes</strong>, keeping the datastores running:
+<div class="cb"><div class="cb-bar"><span>Terminal (in cob-rag-engine)</span><button type="button" class="copy" aria-label="Copy the stop command">Copy</button></div><pre tabindex="0"><code><span class="k">docker</span> compose stop app worker mailer celery-beat</code></pre></div></li>
+<li><strong>Restore Postgres.</strong>
+<div class="cb"><div class="cb-bar"><span>Terminal (in cob-rag-engine)</span><button type="button" class="copy" aria-label="Copy the Postgres restore commands">Copy</button></div><pre tabindex="0"><code><span class="k">docker</span> compose cp /home/deploy/backups/2026-10-02/postgres.dump postgres:/tmp/postgres.dump
+<span class="k">docker</span> compose exec -T postgres pg_restore -U rag -d rag_kernel --clean --if-exists --no-owner /tmp/postgres.dump</code></pre></div>
+Use your own backup date in the folder name.</li>
+<li><strong>Restore the files.</strong> Mirror them back into the bucket:
+<div class="cb"><div class="cb-bar"><span>Terminal (in cob-rag-engine)</span><button type="button" class="copy" aria-label="Copy the file restore command">Copy</button></div><pre tabindex="0"><code>mc alias set cobbak http://127.0.0.1:9002 YOUR_RAG_S3_ACCESS_KEY YOUR_RAG_S3_SECRET_KEY
+mc mirror --overwrite /home/deploy/backups/files cobbak/rag-documents</code></pre></div>
+(<code>rag-documents</code> is the default bucket name, <code>RAG_S3_BUCKET</code>.)</li>
+<li><strong>Restore the vectors.</strong> Either upload each snapshot, or rebuild from Postgres once the stack is running (step 5):
+<div class="cb"><div class="cb-bar"><span>Terminal (in cob-rag-engine)</span><button type="button" class="copy" aria-label="Copy the Qdrant restore command">Copy</button></div><pre tabindex="0"><code><span class="c"># upload one snapshot (repeat per collection)</span>
+<span class="k">curl</span> -fsS -X POST -H "api-key: YOUR_RAG_QDRANT_API_KEY" \
+  -F "snapshot=@/home/deploy/backups/2026-10-02/qdrant-COLLECTION.snapshot" \
+  "http://127.0.0.1:6333/collections/COLLECTION/snapshots/upload?priority=snapshot"</code></pre></div>
+<div class="cb"><div class="cb-bar"><span>Terminal (in cob-rag-engine)</span><button type="button" class="copy" aria-label="Copy the vector rebuild command">Copy</button></div><pre tabindex="0"><code><span class="c"># or rebuild a knowledge base's vectors from Postgres (run without --apply first for a dry run)</span>
+<span class="k">docker</span> compose exec app python -m callobuzz_rag.retrieval.reindex --apply --rebuild --corpus KNOWLEDGE_BASE_ID</code></pre></div>
+A rebuild drops that knowledge base&rsquo;s collection and writes it again, so its searches return nothing until it finishes. It cannot restore document metadata for documents ingested by engine versions before 0.2.</li>
+<li><strong>Start and check.</strong> Bring everything up, then ask a real question in the dashboard&rsquo;s playground and open a cited source:
+<div class="cb"><div class="cb-bar"><span>Terminal (in cob-rag-engine)</span><button type="button" class="copy" aria-label="Copy the restart and health commands">Copy</button></div><pre tabindex="0"><code><span class="k">docker</span> compose up -d
+<span class="k">curl</span> -fsS http://127.0.0.1:8000/api/v1/health/ready</code></pre></div></li>
+</ol>
+<p>The Qdrant upload step is Qdrant&rsquo;s own snapshot feature; its <a href="https://qdrant.tech/documentation/concepts/snapshots/">snapshot documentation</a> covers the details and version limits. Qdrant here is <code>v1.13.2</code>; restore into the same version.</p></div>
+<p class="top"><a href="#top">Back to top</a></p></section>
+
+<section class="s" id="sec-updates" aria-labelledby="updates"><h2 id="updates"><span class="n">10</span>Updates and rollback<a class="anchor" href="#updates" aria-label="Link to section Updates and rollback">#</a></h2>
+<p>Updating is: back up, fetch the new code, rebuild. The app container runs <code>alembic upgrade head</code> before it starts serving, so database migrations apply on their own. Read <code>CHANGELOG.md</code> first; an update occasionally changes what Docker creates, and the changelog says so.</p>
+<div class="cb"><div class="cb-bar"><span>Terminal (on the server)</span><button type="button" class="copy" aria-label="Copy the update commands">Copy</button></div><pre tabindex="0"><code><span class="k">cd</span> /home/deploy/cob-rag-engine
+/home/deploy/backup.sh
+<span class="k">git</span> checkout main
+<span class="k">git</span> pull
+<span class="k">docker</span> compose up -d --build
+<span class="c"># confirm the migrations ran (a failure prints "ERROR: Alembic migration failed!")</span>
+<span class="k">docker</span> compose logs app | grep -E "Migrations completed|Alembic migration failed"
+<span class="k">curl</span> -fsS http://127.0.0.1:8000/api/v1/health/ready</code></pre></div>
+<p data-when="hw:gpu">With a GPU, use the same <code>-f docker-compose.yml -f docker-compose.gpu.yml</code> pair on the <code>up</code> command as in section 6.</p>
+<p>COB, the built-in assistant, re-reads its own documentation after every update: the app queues one sync on start, the worker ingests only the pages that changed, and the <strong>COB docs</strong> card on Engine info shows when it is done. If it ever sticks, press <strong>Resync</strong> there.</p>
+<div class="sub" role="group" aria-labelledby="rollback"><h3 id="rollback"><span class="n">10.1</span>Roll back<a class="anchor" href="#rollback" aria-label="Link to Roll back">#</a></h3>
+<p>Releases are tagged. To go back to one, check out its tag and rebuild:</p>
+<div class="cb"><div class="cb-bar"><span>Terminal (on the server)</span><button type="button" class="copy" aria-label="Copy the rollback commands">Copy</button></div><pre tabindex="0"><code><span class="k">cd</span> /home/deploy/cob-rag-engine
+<span class="k">git</span> fetch --tags
+<span class="k">git</span> tag --list
+<span class="k">git</span> checkout v0.1.0
+<span class="k">docker</span> compose up -d --build</code></pre></div>
+<div class="callout warn" role="note"><strong class="cl">Code goes back; the database does not</strong><div>A rollback restores old code, but migrations only move forward. If the newer release changed the database layout, the old code may not run against it. In that case restore the backup you took just before updating (section 9.3). That is the reason the update steps start with <code>backup.sh</code>.</div></div>
+<p>To free disk after updates, remove old images: <code>docker image prune -f</code>.</p></div>
+<p class="top"><a href="#top">Back to top</a></p></section>
+
+<section class="s" id="sec-cicd" aria-labelledby="cicd"><h2 id="cicd"><span class="n">11</span>Automatic deploys with GitHub Actions<a class="anchor" href="#cicd" aria-label="Link to section Automatic deploys with GitHub Actions">#</a></h2>
+<p>Once updating by hand is routine, you can let GitHub do it: every push to <code>main</code>, or every version tag, runs the tests, then updates the server and checks it is healthy. This page shows the workflow file; it is not part of the repository, and you add it to <strong>your own</strong> fork or private repository.</p>
+<div class="callout tip" role="note"><strong class="cl">Do it by hand first</strong><div>Run sections 5 to 10 by hand at least once. A pipeline automates a procedure you already trust.</div></div>
+<div data-when="ci:none"><p><strong>You chose &ldquo;By hand&rdquo;,</strong> so you can skip to section 12. Switch the choice above, or turn on &ldquo;Show all options&rdquo;, to read this section.</p></div>
+
+<div class="sub" role="group" aria-labelledby="ci-how" data-when="ci:runner|ssh"><h3 id="ci-how"><span class="n">11.1</span>How it fits together<a class="anchor" href="#ci-how" aria-label="Link to How it fits together">#</a></h3>
+<ul>
+<li>The <strong>tests</strong> run on a GitHub-hosted machine, so they never touch your server.</li>
+<li>The <strong>deploy</strong> job runs on your server (self-hosted runner) or reaches it over SSH. It uses the clone in <code>/home/deploy/cob-rag-engine</code> and the <code>.env</code> already there, so <strong>your secrets never go into GitHub</strong> on the runner path.</li>
+<li>The job takes a backup, fetches the exact commit that triggered it, runs <code>docker compose up -d --build</code>, checks the migrations reached the latest version, and waits for a healthy answer. If any step fails, the job fails and you are told.</li>
+<li>To <strong>roll back</strong>, run the workflow again from an older tag (Actions, Run workflow, choose the tag).</li>
+</ul></div>
+
+<div class="sub" role="group" aria-labelledby="ci-runner" data-when="ci:runner"><h3 id="ci-runner"><span class="n">11.2</span>Install the runner on the server<a class="anchor" href="#ci-runner" aria-label="Link to Install the runner on the server">#</a></h3>
+<p>A self-hosted runner is a small program on your server that asks GitHub &ldquo;is there a job for me?&rdquo; over an outgoing connection. Nothing needs to be opened in the firewall. GitHub&rsquo;s own <a href="https://docs.github.com/en/actions/hosting-your-own-runners/managing-self-hosted-runners/adding-self-hosted-runners">instructions for adding a runner</a> are the source of truth; the steps are:</p>
+<ol class="steps">
+<li>In your repository on GitHub, open <strong>Settings, Actions, Runners, New self-hosted runner</strong>, choose <strong>Linux</strong> and the architecture of your server. GitHub shows the exact download and unpack commands for the current runner version. Run those on the server <strong>as <code>deploy</code></strong>, in <code>/home/deploy/actions-runner</code>. (The configure step refuses to run as root.)</li>
+<li>Register it with the token that page shows (it expires within the hour). The <code>cob-prod</code> label is what the workflow asks for:
+<div class="cb"><div class="cb-bar"><span>Terminal (on the server, in actions-runner)</span><button type="button" class="copy" aria-label="Copy the runner register command">Copy</button></div><pre tabindex="0"><code>./config.sh --url https://github.com/YOURNAME/cob-rag-engine --token TOKEN_FROM_THE_GITHUB_PAGE --labels cob-prod --name prod-vps</code></pre></div></li>
+<li>Run it as a service so it survives reboots:
+<div class="cb"><div class="cb-bar"><span>Terminal (on the server, in actions-runner)</span><button type="button" class="copy" aria-label="Copy the runner service commands">Copy</button></div><pre tabindex="0"><code><span class="k">sudo</span> ./svc.sh install deploy
+<span class="k">sudo</span> ./svc.sh start
+<span class="k">sudo</span> ./svc.sh status</code></pre></div></li>
+<li>In GitHub, open <strong>Settings, Environments, New environment</strong>, name it <code>production</code>, add yourself under <strong>Required reviewers</strong>, and limit <strong>Deployment branches and tags</strong> to <code>main</code> and <code>v*</code>. Each deploy then waits for your click.</li>
+<li>Create <code>.github/workflows/deploy.yml</code> in your repository with the workflow file in the next step, and push it.</li>
+</ol></div>
+
+<div class="sub" role="group" aria-labelledby="ci-file" data-when="ci:runner"><h3 id="ci-file"><span class="n">11.3</span>The workflow, with a runner on the server<a class="anchor" href="#ci-file" aria-label="Link to The workflow, with a runner on the server">#</a></h3>
+<p>This is a complete file. The GitHub Actions in it are written with version tags, like the repository&rsquo;s own <code>ci.yml</code>; see the notes below about pinning them.</p>
+<div class="cb"><div class="cb-bar"><span>.github/workflows/deploy.yml</span><button type="button" class="copy" aria-label="Copy the deploy workflow">Copy</button></div><pre tabindex="0"><code><span class="c"># Add this to YOUR repository. It is an example, not a file in cob-rag-engine.</span>
+name: Deploy to production
+
+on:
+  push:
+    branches: [main]
+    tags: ["v*"]
+  workflow_dispatch:           <span class="c"># Run workflow button; also how you roll back to a tag</span>
+
+<span class="c"># One deploy at a time, and never cancel one that is half finished.</span>
+concurrency:
+  group: production-deploy
+  cancel-in-progress: false
+
+permissions:
+  contents: read
+
+jobs:
+  test:
+    name: Tests
+    runs-on: ubuntu-latest     <span class="c"># GitHub's machine, not your server</span>
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@v4          <span class="c"># pin to a full commit SHA (see the notes)</span>
+      - uses: actions/setup-python@v5      <span class="c"># pin to a full commit SHA</span>
+        with:
+          python-version: "3.12"
+          cache: pip
+          cache-dependency-path: pyproject.toml
+      - name: Install
+        run: |
+          python -m pip install --upgrade pip
+          pip install -e ".[dev]"
+      - name: Unit tests
+        run: pytest -q
+
+  deploy:
+    name: Deploy
+    needs: test
+    runs-on: [self-hosted, linux, cob-prod]
+    environment: production    <span class="c"># required reviewers apply here</span>
+    timeout-minutes: 45
+    env:
+      APP_DIR: /home/deploy/cob-rag-engine
+      HEALTH_URL: http://127.0.0.1:8000/api/v1/health/ready
+      DEPLOY_SHA: ${{ github.sha }}
+    steps:
+      - name: Back up first
+        run: /home/deploy/backup.sh
+
+      - name: Fetch the exact commit
+        run: |
+          cd "$APP_DIR"
+          git fetch --tags origin
+          git checkout --detach "$DEPLOY_SHA"
+
+      - name: Build and start
+        run: |
+          cd "$APP_DIR"
+          docker compose up -d --build
+          <span class="c"># GPU server: docker compose -f docker-compose.yml -f docker-compose.gpu.yml up -d --build</span>
+
+      - name: Check the migrations reached the latest version
+        run: |
+          cd "$APP_DIR"
+          docker compose exec -T app alembic current | grep "(head)"
+
+      - name: Wait for a healthy engine
+        run: |
+          for i in $(seq 1 60); do
+            if curl -fsS "$HEALTH_URL" &gt; /dev/null; then
+              echo "healthy"
+              exit 0
+            fi
+            echo "waiting ($i/60)"
+            sleep 5
+          done
+          cd "$APP_DIR"
+          docker compose ps
+          docker compose logs --tail=100 app
+          exit 1
+
+      - name: Remove old images
+        run: docker image prune -f</code></pre></div>
+<p>The health step calls <code>/api/v1/health/ready</code>, which answers 503 until Postgres, Redis and Qdrant all respond, so <code>curl -f</code> keeps waiting and the job fails if the engine never becomes ready.</p></div>
+
+<div class="sub" role="group" aria-labelledby="ci-ssh" data-when="ci:ssh"><h3 id="ci-ssh"><span class="n">11.4</span>The alternative: GitHub-hosted runner and SSH<a class="anchor" href="#ci-ssh" aria-label="Link to The alternative: GitHub-hosted runner and SSH">#</a></h3>
+<p>No runner on your server: a GitHub-hosted machine signs in over SSH and runs the same steps. The cost is that SSH (port 22) must be reachable from GitHub&rsquo;s changing address ranges, so allow key logins only and turn off password logins (<code>PasswordAuthentication no</code> in <code>/etc/ssh/sshd_config</code>).</p>
+<ol class="steps">
+<li>On your own computer, make a key used for nothing else, with no passphrase:
+<div class="cb"><div class="cb-bar"><span>Terminal (your own computer)</span><button type="button" class="copy" aria-label="Copy the key generation commands">Copy</button></div><pre tabindex="0"><code><span class="k">ssh-keygen</span> -t ed25519 -f cob-deploy-key -C github-deploy -N ""
+<span class="k">ssh-keyscan</span> -t ed25519 chat.yourbusiness.in</code></pre></div></li>
+<li>Append the contents of <code>cob-deploy-key.pub</code> to <code>/home/deploy/.ssh/authorized_keys</code> on the server.</li>
+<li>In GitHub, <strong>Settings, Environments, New environment</strong>, named <code>production</code>, with required reviewers. Add four <strong>environment secrets</strong>: <code>DEPLOY_HOST</code> (<code>chat.yourbusiness.in</code>), <code>DEPLOY_USER</code> (<code>deploy</code>), <code>DEPLOY_SSH_KEY</code> (the private key file&rsquo;s contents) and <code>DEPLOY_KNOWN_HOSTS</code> (the <code>ssh-keyscan</code> line; compare its fingerprint with the server&rsquo;s first).</li>
+<li>Create <code>.github/workflows/deploy.yml</code> in your repository with this complete file:
+<div class="cb"><div class="cb-bar"><span>.github/workflows/deploy.yml</span><button type="button" class="copy" aria-label="Copy the SSH deploy workflow">Copy</button></div><pre tabindex="0"><code><span class="c"># Add this to YOUR repository. It is an example, not a file in cob-rag-engine.</span>
+name: Deploy to production over SSH
+
+on:
+  push:
+    branches: [main]
+    tags: ["v*"]
+  workflow_dispatch:
+
+concurrency:
+  group: production-deploy
+  cancel-in-progress: false
+
+permissions:
+  contents: read
+
+jobs:
+  test:
+    name: Tests
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@v4          <span class="c"># pin to a full commit SHA (see the notes)</span>
+      - uses: actions/setup-python@v5      <span class="c"># pin to a full commit SHA</span>
+        with:
+          python-version: "3.12"
+          cache: pip
+          cache-dependency-path: pyproject.toml
+      - name: Install
+        run: |
+          python -m pip install --upgrade pip
+          pip install -e ".[dev]"
+      - name: Unit tests
+        run: pytest -q
+
+  deploy:
+    name: Deploy over SSH
+    needs: test
+    runs-on: ubuntu-latest
+    environment: production
+    timeout-minutes: 45
+    steps:
+      - name: Prepare SSH
+        env:
+          SSH_KEY: ${{ secrets.DEPLOY_SSH_KEY }}
+          KNOWN_HOSTS: ${{ secrets.DEPLOY_KNOWN_HOSTS }}
+        run: |
+          install -m 700 -d ~/.ssh
+          printf '%s\n' "$SSH_KEY" &gt; ~/.ssh/deploy_key
+          chmod 600 ~/.ssh/deploy_key
+          printf '%s\n' "$KNOWN_HOSTS" &gt; ~/.ssh/known_hosts
+
+      - name: Deploy
+        env:
+          DEPLOY_SHA: ${{ github.sha }}
+          DEPLOY_TARGET: ${{ secrets.DEPLOY_USER }}@${{ secrets.DEPLOY_HOST }}
+        run: |
+          ssh -i ~/.ssh/deploy_key "$DEPLOY_TARGET" bash -s -- "$DEPLOY_SHA" &lt;&lt;'REMOTE'
+          set -euo pipefail
+          cd /home/deploy/cob-rag-engine
+          /home/deploy/backup.sh
+          git fetch --tags origin
+          git checkout --detach "$1"
+          docker compose up -d --build
+          docker compose exec -T app alembic current | grep "(head)"
+          for i in $(seq 1 60); do
+            if curl -fsS http://127.0.0.1:8000/api/v1/health/ready &gt; /dev/null; then
+              echo "healthy"
+              exit 0
+            fi
+            sleep 5
+          done
+          docker compose ps
+          docker compose logs --tail=100 app
+          exit 1
+          REMOTE</code></pre></div></li>
+</ol></div>
+
+<div class="sub" role="group" aria-labelledby="ci-sec" data-when="ci:runner|ssh"><h3 id="ci-sec"><span class="n">11.5</span>Security notes<a class="anchor" href="#ci-sec" aria-label="Link to Security notes">#</a></h3>
+<div class="callout danger" role="note"><strong class="cl">A self-hosted runner runs whatever the workflow says, as <code>deploy</code></strong><div>And <code>deploy</code> is in the <code>docker</code> group, which is as good as root on the server. Use a <strong>private repository</strong>. On a public repository, anyone can open a pull request, and a workflow that runs on pull requests would run their code on your server. This workflow only runs on pushes, tags and a manual click, never on <code>pull_request</code>; keep it that way.</div></div>
+<ul>
+<li><strong>Require approval for outside contributors</strong> to run workflows (Settings, Actions, General) if the repository is ever public. Better: keep the deploy repository private and mirror releases from the public one.</li>
+<li><strong>Protect the triggers.</strong> Only people you trust should be able to push to <code>main</code> or create <code>v*</code> tags. Turn on branch protection and tag rules; the <code>production</code> environment&rsquo;s reviewers are the last gate.</li>
+<li><strong>Pin actions.</strong> A version tag such as <code>actions/checkout@v4</code> can be moved by whoever owns it. Replace each with the full commit SHA of the release you reviewed, with the tag in a comment, and update on purpose. See GitHub&rsquo;s <a href="https://docs.github.com/en/actions/security-guides/security-hardening-for-github-actions">security hardening guide</a>.</li>
+<li><strong>Least privilege.</strong> The workflow sets <code>permissions: contents: read</code>. Do not add write permissions you do not use.</li>
+<li><strong>Secrets.</strong> On the runner path, the server&rsquo;s <code>.env</code> never leaves the server. On the SSH path, keep the four secrets in the <code>production</code> <em>environment</em>, not repository-wide, so only an approved deploy can read them. Never print them with <code>echo</code>.</li>
+<li><strong>Pass values through <code>env:</code></strong>, as the workflow does, instead of pasting <code>${{ ... }}</code> into a <code>run:</code> script, so a branch or tag name cannot inject commands.</li>
+<li><strong>The runner machine is production.</strong> Do not run other repositories&rsquo; jobs on it.</li>
+</ul></div>
+<p class="top"><a href="#top">Back to top</a></p></section>
+
+<section class="s" id="sec-monitoring" aria-labelledby="monitoring"><h2 id="monitoring"><span class="n">12</span>Monitoring<a class="anchor" href="#monitoring" aria-label="Link to section Monitoring">#</a></h2>
+<p>You need to hear about trouble before a customer tells you. Three habits cover most of it.</p>
+<div class="sub" role="group" aria-labelledby="mon-cmd"><h3 id="mon-cmd"><span class="n">12.1</span>Look at the server<a class="anchor" href="#mon-cmd" aria-label="Link to Look at the server">#</a></h3>
+<div class="cb"><div class="cb-bar"><span>Terminal (on the server, in cob-rag-engine)</span><button type="button" class="copy" aria-label="Copy the monitoring commands">Copy</button></div><pre tabindex="0"><code><span class="c"># which containers run, and are they healthy?</span>
+<span class="k">docker</span> compose ps
+<span class="c"># recent errors from the engine, the ingest worker and the mailer</span>
+<span class="k">docker</span> compose logs --since 1h app worker mailer | grep -i -E "error|traceback"
+<span class="c"># memory and CPU per container</span>
+<span class="k">docker</span> stats --no-stream
+<span class="c"># disk: the machine, then Docker</span>
+<span class="k">df</span> -h /
+<span class="k">docker</span> system df
+<span class="k">free</span> -h</code></pre></div>
+<p>Logs are rotated for you: each container keeps at most three files of 10 MB.</p></div>
+<div class="sub" role="group" aria-labelledby="mon-up"><h3 id="mon-up"><span class="n">12.2</span>Have something watch from outside<a class="anchor" href="#mon-up" aria-label="Link to Have something watch from outside">#</a></h3>
+<p>Point a free uptime monitor (UptimeRobot, Better Stack, Healthchecks.io and others) at <code>https://chat.yourbusiness.in/api/v1/health/ready</code> every minute and alert on anything but HTTP 200: that address answers 503 when Postgres, Redis or Qdrant is down, so a plain status check is enough. Add a second monitor for <code>https://app.yourbusiness.in</code>, and an alert for disk above 80 percent.</p></div>
+<div class="sub" role="group" aria-labelledby="mon-health"><h3 id="mon-health"><span class="n">12.3</span>Read the health answer<a class="anchor" href="#mon-health" aria-label="Link to Read the health answer">#</a></h3>
+<p>The answer lists each service as <code>true</code> or <code>false</code>: <code>api</code>, <code>postgres</code>, <code>redis</code>, <code>qdrant</code> and <code>minio</code> (the last checks that the bucket exists, for any S3 store). The one that is <code>false</code> is where to look: <code>docker compose logs &lt;that service&gt;</code>. <code>/health/ready</code> gives the same list without <code>minio</code>, changes the status code, and calls the overall status <code>ready</code> or <code>not_ready</code>.</p></div>
+<p class="top"><a href="#top">Back to top</a></p></section>
+
+<section class="s" id="sec-troubleshooting" aria-labelledby="troubleshooting"><h2 id="troubleshooting"><span class="n">13</span>Troubleshooting<a class="anchor" href="#troubleshooting" aria-label="Link to section Troubleshooting">#</a></h2>
+<p>Each item reads symptom, why it happens, fix. Start with <code>docker compose ps</code> and <code>docker compose logs &lt;service&gt;</code>; they answer most questions. Problems with the local install itself are in the <a href="guide.html#troubleshooting">guide&rsquo;s troubleshooting</a>.</p>
+
+<div class="sub" role="group" aria-labelledby="t-cert"><h3 id="t-cert"><span class="n">13.1</span>No HTTPS certificate<a class="anchor" href="#t-cert" aria-label="Link to No HTTPS certificate">#</a></h3><div class="ts">
+<div class="ts-row ts-s"><span class="ts-k">Symptom</span><div>The browser says the connection is not private, or Caddy&rsquo;s log shows a failed certificate request.</div></div>
+<div class="ts-row ts-w"><span class="ts-k">Why</span><div>The domain does not point at the server yet, port 80 or 443 is closed, or (with Cloudflare) the orange cloud was switched on before the certificate was issued.</div></div>
+<div class="ts-row ts-f"><span class="ts-k">Fix</span><div>Check DNS with <code>nslookup chat.yourbusiness.in</code>, the firewall with <code>sudo ufw status</code>, and the log with <code>sudo journalctl -u caddy --no-pager -n 50</code> (Nginx: <code>sudo certbot certificates</code>). Wait a few minutes after a DNS change and retry.</div></div></div></div>
+
+<div class="sub" role="group" aria-labelledby="t-cors"><h3 id="t-cors"><span class="n">13.2</span>The dashboard loads but sign-in fails<a class="anchor" href="#t-cors" aria-label="Link to The dashboard loads but sign-in fails">#</a></h3><div class="ts">
+<div class="ts-row ts-s"><span class="ts-k">Symptom</span><div>The browser console says &ldquo;blocked by CORS policy&rdquo;, or the sign-in button spins and then shows a network error.</div></div>
+<div class="ts-row ts-w"><span class="ts-k">Why</span><div>The dashboard&rsquo;s own address is not in <code>RAG_CORS_ORIGINS</code> (written exactly: scheme and host, no trailing slash), or <code>RAG_DASHBOARD_ENGINE_URL</code> points somewhere the browser cannot reach.</div></div>
+<div class="ts-row ts-f"><span class="ts-k">Fix</span><div>Correct both in <code>.env</code> (section 5.2), then <code>docker compose up -d --build</code>. For the Scraper page, <code>SCRAPER_CORS_ORIGINS</code> and <code>RAG_DASHBOARD_SCRAPER_URL</code> work the same way.</div></div></div></div>
+
+<div class="sub" role="group" aria-labelledby="t-502"><h3 id="t-502"><span class="n">13.3</span>502 Bad Gateway<a class="anchor" href="#t-502" aria-label="Link to 502 Bad Gateway">#</a></h3><div class="ts">
+<div class="ts-row ts-s"><span class="ts-k">Symptom</span><div>The address answers with a 502 or 503 from the proxy.</div></div>
+<div class="ts-row ts-w"><span class="ts-k">Why</span><div>The proxy is fine but the container behind it is not up: still starting (the app has a 60-second start period), restarting, or the proxy points at the wrong port.</div></div>
+<div class="ts-row ts-f"><span class="ts-k">Fix</span><div><code>docker compose ps</code>, then <code>docker compose logs --tail=100 app</code>. From the server, <code>curl http://127.0.0.1:8000/api/v1/health/ready</code> must work before the proxy can. Ports: engine 8000, dashboard 8090, scraper 8001.</div></div></div></div>
+
+<div class="sub" role="group" aria-labelledby="t-prod"><h3 id="t-prod"><span class="n">13.4</span>The engine will not start in production<a class="anchor" href="#t-prod" aria-label="Link to The engine will not start in production">#</a></h3><div class="ts">
+<div class="ts-row ts-s"><span class="ts-k">Symptom</span><div>The app restarts again and again; its log says <code>RAG_EMAIL_PROVIDER=log is refused when RAG_ENV=prod</code>.</div></div>
+<div class="ts-row ts-w"><span class="ts-k">Why</span><div>The development e-mail provider writes verification codes into the log, so production refuses it.</div></div>
+<div class="ts-row ts-f"><span class="ts-k">Fix</span><div>Set <code>RAG_SMTP_HOST</code>, <code>RAG_SMTP_FROM</code> and the other SMTP settings (section 5.3) and remove <code>RAG_EMAIL_PROVIDER=log</code>. A wildcard <code>RAG_CORS_ORIGINS</code> is not fatal: production ignores it and allows no browser origin, which breaks the dashboard until you list its origin.</div></div></div></div>
+
+<div class="sub" role="group" aria-labelledby="t-mail"><h3 id="t-mail"><span class="n">13.5</span>E-mails do not arrive<a class="anchor" href="#t-mail" aria-label="Link to E-mails do not arrive">#</a></h3><div class="ts">
+<div class="ts-row ts-s"><span class="ts-k">Symptom</span><div>No sign-in code, invitation or reset message.</div></div>
+<div class="ts-row ts-w"><span class="ts-k">Why</span><div>Wrong SMTP login or port, a sender address the service has not verified, or the message went to spam (missing SPF and DKIM).</div></div>
+<div class="ts-row ts-f"><span class="ts-k">Fix</span><div>Run the SMTP test from section 8 and read its error, then <code>docker compose logs mailer</code>. Transient SMTP errors are retried automatically; permanent ones are logged with the SMTP code only. Verify the sender domain at your mail service and add its DNS records.</div></div></div></div>
+
+<div class="sub" role="group" aria-labelledby="t-413"><h3 id="t-413"><span class="n">13.6</span>Uploads fail with 413<a class="anchor" href="#t-413" aria-label="Link to Uploads fail with 413">#</a></h3><div class="ts">
+<div class="ts-row ts-s"><span class="ts-k">Symptom</span><div>A document upload fails at once with &ldquo;413 Request Entity Too Large&rdquo;.</div></div>
+<div class="ts-row ts-w"><span class="ts-k">Why</span><div>Nginx allows 1 MB by default. The engine itself allows 50 MB (<code>RAG_MAX_UPLOAD_BYTES</code>), and a plan may set less.</div></div>
+<div class="ts-row ts-f"><span class="ts-k">Fix</span><div>Set <code>client_max_body_size 50m;</code> in the <code>chat.yourbusiness.in</code> server block, then <code>sudo nginx -t</code> and <code>sudo systemctl reload nginx</code>.</div></div></div></div>
+
+<div class="sub" role="group" aria-labelledby="t-rate"><h3 id="t-rate"><span class="n">13.7</span>The widget says &ldquo;too many requests&rdquo; for everyone<a class="anchor" href="#t-rate" aria-label="Link to The widget says too many requests for everyone">#</a></h3><div class="ts">
+<div class="ts-row ts-s"><span class="ts-k">Symptom</span><div>One visitor&rsquo;s messages use up the limit for all visitors, or one visitor can send unlimited messages.</div></div>
+<div class="ts-row ts-w"><span class="ts-k">Why</span><div>Behind a proxy with <code>RAG_WIDGET_TRUST_PROXY_HEADERS=false</code> every visitor looks like the proxy. The opposite fault is the setting on with a proxy that appends to <code>X-Forwarded-For</code> instead of replacing it.</div></div>
+<div class="ts-row ts-f"><span class="ts-k">Fix</span><div>Set it to <code>true</code> and use the proxy settings in section 7, which replace the header. Recreate the containers with <code>docker compose up -d</code>.</div></div></div></div>
+
+<div class="sub" role="group" aria-labelledby="t-oom"><h3 id="t-oom"><span class="n">13.8</span>Containers are killed or the server freezes<a class="anchor" href="#t-oom" aria-label="Link to Containers are killed or the server freezes">#</a></h3><div class="ts">
+<div class="ts-row ts-s"><span class="ts-k">Symptom</span><div>Containers restart by themselves, builds die, or SSH stops answering during a build or a big import.</div></div>
+<div class="ts-row ts-w"><span class="ts-k">Why</span><div>Out of memory. Each API worker holds its own models, the re-ranker adds about 2.3 GB, and building the images needs memory too.</div></div>
+<div class="ts-row ts-f"><span class="ts-k">Fix</span><div>Confirm with <code>sudo dmesg | grep -i "out of memory"</code>. Add swap (section 2), keep <code>RAG_API_WORKERS=1</code>, keep the re-ranker off on CPU, lower <code>RAG_WORKER_CONCURRENCY</code>, or rent the next size up.</div></div></div></div>
+
+<div class="sub" role="group" aria-labelledby="t-mig"><h3 id="t-mig"><span class="n">13.9</span>An update fails during migration<a class="anchor" href="#t-mig" aria-label="Link to An update fails during migration">#</a></h3><div class="ts">
+<div class="ts-row ts-s"><span class="ts-k">Symptom</span><div><code>docker compose logs app</code> ends with <code>ERROR: Alembic migration failed!</code> and the app keeps restarting.</div></div>
+<div class="ts-row ts-w"><span class="ts-k">Why</span><div>A database migration could not apply, for instance because of a conflict in your data.</div></div>
+<div class="ts-row ts-f"><span class="ts-k">Fix</span><div>Read the lines above the error; they name the cause. If you cannot resolve it, go back to the old tag (section 10.1) and restore the backup you took before the update (section 9.3), then open an issue with the log.</div></div></div></div>
+
+<div class="sub" role="group" aria-labelledby="t-disk"><h3 id="t-disk"><span class="n">13.10</span>The disk is full<a class="anchor" href="#t-disk" aria-label="Link to The disk is full">#</a></h3><div class="ts">
+<div class="ts-row ts-s"><span class="ts-k">Symptom</span><div>Writes fail, builds stop, Postgres or Qdrant errors mention space.</div></div>
+<div class="ts-row ts-w"><span class="ts-k">Why</span><div>Old images and build cache from updates, local backups, or real growth in documents and vectors.</div></div>
+<div class="ts-row ts-f"><span class="ts-k">Fix</span><div><code>docker system df</code> shows where it went. <code>docker image prune -f</code> removes unused images. Lower <code>KEEP_DAYS</code> in the backup script, copy backups off the server, and grow the disk at your provider if data is the cause.</div></div></div></div>
+
+<div class="sub" role="group" aria-labelledby="t-ci"><h3 id="t-ci"><span class="n">13.11</span>The deploy job never starts<a class="anchor" href="#t-ci" aria-label="Link to The deploy job never starts">#</a></h3><div class="ts">
+<div class="ts-row ts-s"><span class="ts-k">Symptom</span><div>The deploy job waits for a runner, or waits for approval.</div></div>
+<div class="ts-row ts-w"><span class="ts-k">Why</span><div>The runner service is stopped or offline, its labels do not match <code>[self-hosted, linux, cob-prod]</code>, or the <code>production</code> environment is waiting for a reviewer.</div></div>
+<div class="ts-row ts-f"><span class="ts-k">Fix</span><div>On the server, in <code>actions-runner</code>, run <code>sudo ./svc.sh status</code> and restart it with <code>sudo ./svc.sh start</code>. Check <strong>Settings, Actions, Runners</strong> shows it as idle. Then approve the pending deployment on the run&rsquo;s page.</div></div></div></div>
+
+<p class="top"><a href="#top">Back to top</a></p></section>
+  </main>
+</div>
+<div id="live" class="sr-only" role="status" aria-live="polite"></div>
+<footer>
+  <div class="wrap">
+    <div class="foot-meta">
+      <div><a href="https://callobuzz.github.io/cob-rag-engine">cob-rag-engine by Callobuzz</a> · AGPL-3.0</div>
+      <div><a href="index.html">Home</a> · <a href="guide.html">Guide</a> · <a href="benchmarks.html">Benchmark report</a> · <a href="https://callobuzz.github.io/cob-rag-mcp">cob-rag-mcp</a> · <a href="https://github.com/callobuzz/cob-rag-engine/blob/main/CONTRIBUTING.md">Contributing</a> · <a href="https://github.com/callobuzz/cob-rag-engine/blob/main/SECURITY.md">Security</a></div>
+    </div>
+  </div>
+</footer>
+<script>
+(function(){
+'use strict';
+var root=document.documentElement;
+function $$(s,r){return Array.prototype.slice.call((r||document).querySelectorAll(s));}
+
+/* ---- providers: rendered from window.COB_PROVIDERS (edit the data block at the top of the page) ---- */
+function cell(tr,label,child,cls){
+  var td=document.createElement('td');td.setAttribute('data-label',label);if(cls){td.className=cls;}
+  if(typeof child==='string'){td.textContent=child;}else{td.appendChild(child);}
+  tr.appendChild(td);
+}
+function link(href,text,label){
+  var a=document.createElement('a');a.href=href;a.textContent=text;a.rel='noopener';a.setAttribute('aria-label',label);return a;
+}
+function providerTable(list){
+  var wrap=document.createElement('div');wrap.className='table-wrap';
+  var t=document.createElement('table'),head=document.createElement('thead'),hr=document.createElement('tr');
+  ['Provider','In India','Regions','Good to know','Links'].forEach(function(h){var th=document.createElement('th');th.textContent=h;hr.appendChild(th);});
+  head.appendChild(hr);t.appendChild(head);
+  var body=document.createElement('tbody');
+  list.forEach(function(p){
+    var tr=document.createElement('tr');
+    cell(tr,'Provider',p.name,'prov-name');
+    cell(tr,'In India',p.india||'');
+    cell(tr,'Regions',p.regions||'');
+    cell(tr,'Good to know',p.note||'');
+    var links=document.createElement('span');links.className='prov-links';
+    links.appendChild(link(p.url,'Open','Open '+p.name));
+    if(p.pricing){links.appendChild(link(p.pricing,'Pricing','Pricing for '+p.name));}
+    cell(tr,'Links',links);
+    body.appendChild(tr);
+  });
+  t.appendChild(body);wrap.appendChild(t);return wrap;
+}
+(function(){
+  var all=window.COB_PROVIDERS||[];
+  [['prov-cpu','cpu'],['prov-gpu','gpu']].forEach(function(p){
+    var host=document.getElementById(p[0]);if(!host)return;
+    var rows=all.filter(function(x){return x.kind===p[1];});
+    if(rows.length){host.appendChild(providerTable(rows));}
+  });
+})();
+
+/* ---- copy buttons (same component as the guide) ---- */
+var live=document.getElementById('live'),timers=new WeakMap();
+function say(msg){live.textContent='';window.setTimeout(function(){live.textContent=msg;},30);}
+function fallbackCopy(text){
+  return new Promise(function(res,rej){
+    var ta=document.createElement('textarea');ta.value=text;ta.setAttribute('readonly','');
+    ta.style.cssText='position:fixed;top:0;left:0;opacity:0;';document.body.appendChild(ta);ta.select();
+    var ok=false;try{ok=document.execCommand('copy');}catch(e){}
+    document.body.removeChild(ta);ok?res():rej(new Error('copy failed'));
+  });
+}
+function copyText(text){
+  if(navigator.clipboard&&window.isSecureContext){return navigator.clipboard.writeText(text).catch(function(){return fallbackCopy(text);});}
+  return fallbackCopy(text);
+}
+function flash(btn,cls,label){
+  btn.textContent=label;btn.classList.remove('is-done','is-fail');btn.classList.add(cls);
+  window.clearTimeout(timers.get(btn));
+  timers.set(btn,window.setTimeout(function(){btn.textContent='Copy';btn.classList.remove('is-done','is-fail');},2200));
+}
+document.addEventListener('click',function(e){
+  var btn=e.target.closest('.copy');if(!btn)return;
+  var text=btn.closest('.cb').querySelector('code').textContent.replace(/\n$/,'');
+  btn.setAttribute('data-copied',text);
+  copyText(text).then(function(){flash(btn,'is-done','Copied');say('Copied to clipboard');},
+    function(){flash(btn,'is-fail','Failed');say('Copy failed. Select the text and copy it by hand.');});
+});
+
+/* ---- your setup: three choices that decide which blocks show ---- */
+var KEY='cob-deploy-setup';
+var DEF={hw:'cpu',proxy:'caddy',ci:'runner'};
+var NAMES={hw:{cpu:'CPU server',gpu:'NVIDIA GPU server'},proxy:{caddy:'Caddy',nginx:'Nginx',cf:'Cloudflare + Caddy'},ci:{runner:'self-hosted runner',ssh:'deploy over SSH',none:'deploy by hand'}};
+var COND={hw:{cpu:'a CPU server',gpu:'an NVIDIA GPU server'},proxy:{caddy:'Caddy',nginx:'Nginx',cf:'Cloudflare'},ci:{runner:'a runner on the server',ssh:'GitHub Actions over SSH',none:'deploying by hand'}};
+var state={hw:DEF.hw,proxy:DEF.proxy,ci:DEF.ci},all=false;
+function valid(k,v){return NAMES[k]&&Object.prototype.hasOwnProperty.call(NAMES[k],v);}
+try{var saved=JSON.parse(localStorage.getItem(KEY)||'null');if(saved){Object.keys(DEF).forEach(function(k){if(valid(k,saved[k])){state[k]=saved[k];}});}}catch(e){}
+function save(){try{localStorage.setItem(KEY,JSON.stringify(state));}catch(e){}}
+var whenEls=$$('[data-when]');
+whenEls.forEach(function(el){
+  var parts=el.getAttribute('data-when').split(':'),k=parts[0],vs=parts[1].split('|');
+  el.setAttribute('data-cond',vs.map(function(v){return COND[k][v];}).join(' or '));
+});
+function matches(el){
+  var parts=el.getAttribute('data-when').split(':');
+  return parts[1].split('|').indexOf(state[parts[0]])!==-1;
+}
+function renumber(){
+  $$('section.s').forEach(function(sec){
+    var h2n=sec.querySelector('h2 .n');if(!h2n)return;
+    var base=parseInt(h2n.textContent,10);if(isNaN(base))return;
+    var i=0;
+    $$('.sub > h3 .n',sec).forEach(function(n){
+      var sub=n.closest('.sub');if(sub.hidden)return;
+      i++;n.textContent=base+'.'+i;
+    });
+  });
+}
+var sumEl=document.getElementById('setup-summary'),tocSum=document.getElementById('toc-summary');
+function apply(){
+  whenEls.forEach(function(el){el.hidden=!all&&!matches(el);});
+  root.classList.toggle('all',all);
+  $$('#setup-form input[type=radio]').forEach(function(r){r.checked=state[r.name]===r.value;});
+  var s=NAMES.hw[state.hw]+' · '+NAMES.proxy[state.proxy]+' · '+NAMES.ci[state.ci];
+  if(all){s='Everything (all options shown)';}
+  if(sumEl){sumEl.textContent=s;}
+  if(tocSum){tocSum.textContent=s;}
+  renumber();
+  refreshHeads();
+}
+var form=document.getElementById('setup-form');
+if(form){
+  form.addEventListener('change',function(e){
+    var t=e.target;
+    if(t.type==='radio'&&valid(t.name,t.value)){state[t.name]=t.value;save();apply();say('Showing the page for '+sumEl.textContent);}
+  });
+  form.addEventListener('submit',function(e){e.preventDefault();});
+}
+var allBox=document.getElementById('showall');
+if(allBox){allBox.addEventListener('change',function(){all=allBox.checked;apply();});}
+var resetBtn=document.getElementById('setup-reset');
+if(resetBtn){resetBtn.addEventListener('click',function(){
+  state={hw:DEF.hw,proxy:DEF.proxy,ci:DEF.ci};all=false;if(allBox){allBox.checked=false;}
+  try{localStorage.removeItem(KEY);}catch(e){}
+  apply();say('Setup reset');
+});}
+var editBtn=document.getElementById('setup-edit'),body=document.getElementById('setup-body');
+function openPanel(open){
+  if(!editBtn||!body)return;
+  body.hidden=!open;editBtn.setAttribute('aria-expanded',open?'true':'false');editBtn.textContent=open?'Done':'Edit';
+}
+if(editBtn){editBtn.addEventListener('click',function(){openPanel(body.hidden);});}
+
+/* ---- contents: mobile menu and scroll spy ---- */
+var det=document.querySelector('.toc details'),mq=window.matchMedia('(min-width: 961px)');
+function syncMenu(){if(mq.matches&&det){det.open=true;}}
+syncMenu();
+if(mq.addEventListener){mq.addEventListener('change',syncMenu);}
+var links={};$$('.toc a[data-id]').forEach(function(a){links[a.getAttribute('data-id')]=a;});
+var heads=[],activeId=null;
+function refreshHeads(){heads=$$('.prose h2[id]');activeId=null;mark();}
+function mark(){
+  if(!heads.length)return;
+  var line=(parseFloat(getComputedStyle(root).scrollPaddingTop)||88)+16,act=heads[0];
+  for(var i=0;i<heads.length;i++){if(heads[i].getBoundingClientRect().top<=line){act=heads[i];}else{break;}}
+  if(window.innerHeight+window.pageYOffset>=document.documentElement.scrollHeight-4){act=heads[heads.length-1];}
+  if(act.id===activeId)return;
+  activeId=act.id;
+  $$('.toc a[aria-current]').forEach(function(a){a.removeAttribute('aria-current');});
+  var a=links[act.id];if(a){a.setAttribute('aria-current','location');}
+}
+var tick=false;
+window.addEventListener('scroll',function(){if(tick)return;tick=true;window.setTimeout(function(){tick=false;mark();},40);},{passive:true});
+window.addEventListener('hashchange',function(){window.setTimeout(mark,60);});
+window.addEventListener('resize',mark);
+window.addEventListener('load',mark);
+
+apply();
+})();
+</script>
+</body>
+</html>

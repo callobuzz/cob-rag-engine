@@ -143,6 +143,8 @@ nav .links{justify-self: center; display: flex; align-items: center; gap: 2px; p
 nav .links a{color: var(--color-ink-2); text-decoration: none; font-size: 13.5px; font-weight: 500; line-height: 1; white-space: nowrap; padding: 8px 12px; border-radius: var(--radius-pill); transition: color var(--dur-micro) var(--ease-out), background-color var(--dur-micro) var(--ease-out);}
 nav .links a:hover{color: var(--color-ink); background: var(--color-panel-2);}
 nav .links a[aria-current]{color: var(--color-ink); background: color-mix(in oklch, var(--color-surface) 70%, var(--color-panel));}
+@media (min-width: 1101px) and (max-width: 1760px){nav .links a{padding: 8px 6px;}}
+@media (min-width: 1101px) and (max-width: 1260px){nav .links a{padding: 8px 4px; font-size: 12.5px;}}
 .gh{justify-self: end; display: inline-flex; align-items: center; gap: 8px; height: 36px; padding: 0 14px; border-radius: var(--radius-control); background: var(--color-ink); color: var(--color-paper); text-decoration: none; font-size: 14px; font-weight: 600; line-height: 1; white-space: nowrap; transition: background-color var(--dur-micro) var(--ease-out), transform var(--dur-micro) var(--ease-out);}
 .gh:hover{background: var(--color-primary); color: var(--color-primary-ink);}
 .gh:active{transform: translateY(1px);}
@@ -1589,6 +1591,64 @@ body > section:not(.hero), footer{content-visibility: auto; contain-intrinsic-si
 .lmc[data-state="cta"] *, .lmc.is-idle *{animation-play-state: paused !important;}
 .lmc.is-paused *{animation-play-state: paused !important;}
 
+
+
+/* ── Pitch modal (audience tabs) ─────────────────────── */
+.btn-sell{background: var(--color-amber); color: var(--color-paper); border-color: transparent;}
+.btn-sell:hover{background: var(--color-ink); color: var(--color-paper);}
+nav .links a.nav-sell{color: var(--color-amber); font-weight: 600; box-shadow: inset 0 0 0 1px color-mix(in oklch, var(--color-amber) 55%, transparent);}
+nav .links a.nav-sell:hover{background: color-mix(in oklch, var(--color-amber) 16%, transparent); color: var(--color-ink);}
+.pm-ico{width: 20px; height: 20px; flex: none; fill: none; stroke: currentColor; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round;}
+html.pm-lock, html.pm-lock body{overflow: hidden;}
+.pm{padding: 0; border: 1px solid var(--color-rule-strong); border-radius: 20px; background: var(--color-panel); color: var(--color-ink); width: min(980px, calc(100vw - 32px)); max-width: none; height: min(820px, calc(100dvh - 32px)); max-height: none; margin: auto; overflow: hidden; box-shadow: var(--shadow);}
+.pm[open]{display: flex; flex-direction: column;}
+.pm::backdrop{background: color-mix(in oklch, var(--color-paper) 74%, transparent); -webkit-backdrop-filter: blur(6px); backdrop-filter: blur(6px);}
+@media (prefers-reduced-motion: no-preference){
+  .pm[open]{animation: pm-in var(--dur-short) var(--ease-out);}
+  .pm[open]::backdrop{animation: pm-fade var(--dur-short) var(--ease-out);}
+  @keyframes pm-in{from{opacity: 0; transform: translateY(12px) scale(.985);}}
+  @keyframes pm-fade{from{opacity: 0;}}
+}
+.pm-head{display: flex; justify-content: space-between; align-items: flex-start; gap: var(--space-md); padding: var(--space-lg) var(--space-lg) var(--space-sm); background: radial-gradient(60% 120% at 0% 0%, color-mix(in oklch, var(--color-surface) 50%, transparent), transparent 70%);}
+.pm-head h2{margin: 6px 0 0; font-family: var(--font-display); font-weight: 500; font-size: clamp(1.25rem, 1vw + 1rem, 1.625rem); letter-spacing: -.02em; line-height: 1.15;}
+.pm-close{flex: none; display: inline-flex; align-items: center; justify-content: center; width: 44px; height: 44px; border-radius: var(--radius-control); border: 1px solid var(--color-rule-strong); background: transparent; color: var(--color-ink); cursor: pointer; transition: border-color var(--dur-micro) var(--ease-out), background-color var(--dur-micro) var(--ease-out);}
+.pm-close:hover{border-color: var(--color-primary); background: color-mix(in oklch, var(--color-surface) 40%, transparent);}
+.pm-tabs{display: flex; gap: var(--space-2xs); padding: 0 var(--space-lg); border-bottom: 1px solid var(--color-rule); overflow-x: auto; scrollbar-width: none;}
+.pm-tabs::-webkit-scrollbar{display: none;}
+.pm-tab{flex: none; min-height: 44px; padding: 0 16px; border: 0; border-bottom: 2px solid transparent; background: transparent; color: var(--color-ink-2); font: 600 14.5px/1 var(--font-body); cursor: pointer; white-space: nowrap; transition: color var(--dur-micro) var(--ease-out), border-color var(--dur-micro) var(--ease-out);}
+.pm-tab:hover{color: var(--color-ink);}
+.pm-tab[aria-selected="true"]{color: var(--color-ink); border-bottom-color: var(--color-primary);}
+.pm-tab:focus-visible{outline-offset: -3px;}
+.pm-body{flex: 1; min-height: 0; overflow-y: auto; overscroll-behavior: contain; padding: var(--space-lg) var(--space-lg) 0;}
+.pm-panel[hidden]{display: none;}
+.pm-panel:focus-visible{outline-offset: 2px;}
+.pm-h{margin: 0 0 var(--space-lg); max-width: 30ch; font-family: var(--font-display); font-weight: 500; font-size: clamp(1.5rem, 1.6vw + 1rem, 2.125rem); letter-spacing: -.024em; line-height: 1.1; text-wrap: balance;}
+.pm-grid{display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: var(--space-md);}
+.pm-card{min-width: 0; padding: var(--space-md) var(--space-lg); border: 1px solid var(--color-rule); border-radius: var(--radius-sm); background: var(--color-panel-2);}
+.pm-wide{grid-column: 1 / -1;}
+.pm-col{display: grid; gap: var(--space-md); align-content: start; min-width: 0;}
+.pm-card h4{margin: 0 0 var(--space-sm); font-family: var(--font-mono); font-size: 12px; font-weight: 600; letter-spacing: .06em; text-transform: uppercase; color: var(--color-primary);}
+.pm-card p{font-size: 14.5px; color: var(--color-ink-2); line-height: 1.6;}
+.pm-list, .pm-steps{margin: 0; padding: 0; list-style: none; display: grid; gap: var(--space-sm);}
+.pm-list li, .pm-steps li{display: flex; gap: 10px; align-items: flex-start; font-size: 14.5px; line-height: 1.5; color: var(--color-ink-2);}
+.pm-list li b, .pm-steps li b{color: var(--color-ink); font-weight: 600;}
+.pm-list li .pm-ico{margin-top: 1px; color: var(--color-primary);}
+.pm-prob li .pm-ico{color: var(--color-rose);}
+.pm-trust{grid-template-columns: repeat(3, minmax(0, 1fr)); gap: var(--space-md);}
+.pm-trust li .pm-ico{color: var(--color-green);}
+.pm-n{flex: none; display: inline-flex; align-items: center; justify-content: center; width: 22px; height: 22px; border-radius: 50%; background: var(--color-surface); color: var(--color-ink); font: 600 12px/1 var(--font-mono);}
+.pm-cta{position: sticky; bottom: 0; display: flex; flex-wrap: wrap; gap: var(--space-sm); margin: var(--space-md) calc(-1 * var(--space-lg)) 0; padding: var(--space-md) var(--space-lg); background: color-mix(in oklch, var(--color-panel) 94%, transparent); -webkit-backdrop-filter: blur(10px); backdrop-filter: blur(10px); border-top: 1px solid var(--color-rule);}
+.pm-cta .btn[hidden]{display: none;}
+.pm-note{margin: 0; padding: var(--space-md) 0 var(--space-lg); font-size: 12.5px; color: var(--color-ink-3);}
+@media (max-width: 760px){
+  .pm{width: 100vw; height: 100dvh; max-height: none; border: 0; border-radius: 0;}
+  .pm-head, .pm-tabs, .pm-body{padding-left: var(--gutter); padding-right: var(--gutter);}
+  .pm-body{padding-top: var(--space-md);}
+  .pm-grid, .pm-trust{grid-template-columns: minmax(0, 1fr);}
+  .pm-card{padding: var(--space-md);}
+  .pm-cta{margin-left: calc(-1 * var(--gutter)); margin-right: calc(-1 * var(--gutter)); padding: var(--space-sm) var(--gutter) calc(var(--space-sm) + env(safe-area-inset-bottom, 0px));}
+  .pm-cta .btn{flex: 1 1 100%; white-space: normal; height: auto; min-height: 46px; padding: 12px 16px; text-align: center;}
+}
 </style>
 </head>
 <body>
@@ -1596,13 +1656,16 @@ body > section:not(.hero), footer{content-visibility: auto; contain-intrinsic-si
   <div class="wrap">
     <a class="brand" href="#top"><img src="assets/logo-64.png" alt="" width="32" height="32">cob-rag-engine</a>
     <div class="links">
+      <a class="nav-sell" href="pitch.html" data-pitch="agencies">Sell AI</a>
       <a href="#sell">What to sell</a>
       <a href="#how">How it works</a>
       <a href="#ingest">Inside</a>
+      <a href="#why">Why us</a>
       <a href="#compare">Compare</a>
       <a href="#agents">For agents</a>
       <a href="#next">Roadmap</a>
       <a href="guide.html">Guide</a>
+      <a href="deploy.html">Deploy</a>
       <a href="#start">Get started</a>
     </div>
     <a class="gh" href="https://github.com/callobuzz/cob-rag-engine">★ GitHub</a>
@@ -1733,6 +1796,7 @@ body > section:not(.hero), footer{content-visibility: auto; contain-intrinsic-si
 <h1>The knowledge layer <em>for AI assistants and agents.</em></h1>
 <p class="lede">An AI assistant or agent is only as good as what it knows. cob-rag-engine gives every business you serve its own private knowledge base, with its own keys and model, measured search and a usage count to bill from. Put it on a website, call it from your app, or plug it into any AI agent over <a href="#agents">MCP</a> and script it from the shell. You own the server, the data and the margin.</p>
 <div class="cta">
+<a class="btn btn-sell" aria-label="For agencies: sell AI assistants" href="pitch.html" data-pitch="agencies">For agencies →</a>
 <a class="btn btn-primary" href="#start">Run it in 3 commands →</a>
 <a class="btn btn-ghost" href="#sell">What can I sell?</a>
 </div>
@@ -3358,7 +3422,7 @@ question: <span class="s">Do I need to fast for a lipid profile test?</span></pr
 <div class="ans-txt">
 <div class="ans-hd"><span class="ans-num">10</span><h3>Write the answer</h3><span class="ans-tag llm">your choice of model</span></div>
 <p>A language model writes the reply from those passages and cites them by number. You pick the model per client: a hosted one (OpenAI, Anthropic, OpenRouter and many more) or a local one through Ollama, so nothing leaves your server.</p>
-<p class="ans-tech">Called through LiteLLM. The key comes from the corpus's own encrypted key (BYOK), or <code>X-LLM-*</code> headers on API calls (never from browsers), or the engine default. The engine ships no model key; <code>.env.example</code> suggests OpenRouter with <code>openai/gpt-oss-20b</code>.</p>
+<p class="ans-tech">Called through LiteLLM. The key comes from the corpus's own encrypted key (BYOK), or <code>X-LLM-*</code> headers on API calls (never from browsers), or the engine default. The engine ships no model key; <code>.env.example</code> suggests OpenRouter with <code>openai/gpt-oss-120b</code>.</p>
 </div>
 <div class="ans-ex dg-win">
 <div class="dg-win-bar"><i></i><i></i><i></i><span>llm reply</span><b>EXAMPLE</b></div>
@@ -3944,6 +4008,79 @@ is free on orders above ₹999 <span class="k">[5]</span>.</pre>
 <p class="note">Limits, honestly: keys are set per knowledge base, not per tenant, so a tenant with five knowledge bases saves its key five times. The speech-to-text key is engine-wide.</p>
 </div>
 </section>
+<section class="act" id="why">
+<div class="wrap">
+<header class="sec-head"><div class="sec-head-t"><div class="kicker">Why not just LangChain?</div>
+<h2>Toolkits build AI. <span class="thin">This is the product you sell.</span></h2></div>
+<p class="sub">LangChain and agent SDKs (OpenAI Agents SDK, Claude Agent SDK, LangGraph) are toolkits for building AI. cob-rag-engine is the finished knowledge platform and chatbot business your agents and your customers use: install it and sell AI assistants the same day.</p></header>
+<p class="sub" style="margin-top:var(--space-md)">In plain words: a toolkit is a box of parts, and you still have to build the product around them. LlamaIndex is the same kind of thing, focused on getting your data indexed and retrieved. Dify is different: a platform where you build an AI app in a visual builder. cob-rag-engine is the finished product for one job, running knowledge-based assistants for many businesses from one self-hosted engine, already built, tested and measured. It is not an agent framework and it does not try to replace one. Your agents can use it as their knowledge layer.</p>
+<h3 style="margin:var(--space-2xl) 0 var(--space-xs)">What you would still build on a toolkit</h3>
+<p class="note" style="margin:0 0 var(--space-md)">Start from LangChain, LlamaIndex, LangGraph or an agent SDK and you get a very good way to call models and tools. To reach what cob-rag-engine ships today, you would still have to build and keep working:</p>
+<div class="grid g3">
+<div class="card"><h3>Customers, keys, roles and isolation</h3><p>Tenants (your customers), knowledge bases, five kinds of credential, owner and member roles, plans and caps. The isolation is tested against attack attempts: 412 of 412 refused in the isolation benchmark (every key kind, owner and member sign-ins, forged tokens, refresh reuse, suspended accounts, enumeration, lockout).</p></div>
+<div class="card"><h3>Document ingestion</h3><p>PDF, DOCX, XLSX, PPTX, HTML, Markdown and audio; OCR for scans, including Hindi (<code>RAG_OCR_LANGS=hi,en</code>); page furniture stripped before indexing; near-duplicate review; versioned re-ingestion.</p></div>
+<div class="card"><h3>Search that is measured</h3><p>Hybrid dense and BM25 keyword search with weighted fusion, benchmarked on six public BEIR datasets (mean nDCG@10 0.537 against 0.526 published for the same embedding model) and on real documents.</p></div>
+<div class="card"><h3>Answers that do not make things up</h3><p>A search-confidence gate, and a fact check that makes every price, date, time, number, phone, e-mail, link and name appear in the cited passages, sentence by sentence as the answer streams. When the documents do not say, it says "I don't know" and offers a person.</p></div>
+<div class="card"><h3>A conversation director</h3><p>Greetings, small talk, off-topic and abuse handled before any answer is written; English, Hindi and Hinglish; a model per language; thinking switched off or limited per model; answers started early while the message is still being understood.</p></div>
+<div class="card"><h3>A website widget that sells</h3><p>One script tag, locked to the customer's domains and rate limited; leads with a consent notice that follows the DPDP Act's notice elements; WhatsApp click-to-chat handoff; guided sales replies with one next step.</p></div>
+<div class="card"><h3>Billing and costs</h3><p>Plans, prepaid wallets in rupees or dollars, per-question pricing or the real AI cost plus a markup, and usage counted per customer, knowledge base and widget.</p></div>
+<div class="card"><h3>Dashboard, COB and evaluation</h3><p>An operator and customer dashboard, COB (the built-in assistant), these in-app docs, and a re-runnable retrieval, answer and conversation benchmark suite in the repository.</p></div>
+<div class="card"><h3>MCP and SDKs</h3><p><code>cob-rag-mcp</code> (52 tools) for any MCP client, and Python and JavaScript clients.</p></div>
+</div>
+<h3 style="margin:var(--space-2xl) 0 var(--space-md)">Side by side</h3>
+<div class="table-wrap">
+<table class="compare">
+<thead><tr><th></th><th>LangChain</th><th>LlamaIndex</th><th>Dify</th><th>Agent SDKs</th><th class="us">cob-rag-engine</th></tr></thead>
+<tbody>
+<tr><td>What it is</td><td>An open-source library of parts for AI apps</td><td>A framework for ingesting, indexing and retrieving data (paid hosted LlamaCloud and LlamaParse)</td><td>An open-source platform to build LLM apps visually: workflows, agents, knowledge base</td><td>Libraries that run an agent: model, tools, loop</td><td class="us">A self-hosted knowledge platform and chatbot service</td></tr>
+<tr><td>Time to a working chatbot business</td><td>You build the app, accounts, interface and billing around it</td><td>You build the product around the retrieval</td><td>Quick for your own app in its builder; reselling needs its written authorization</td><td>You build the product around the agent</td><td class="us">Install, create a customer, upload documents, paste one script tag</td></tr>
+<tr><td>Multi-customer platform</td><td>Not part of the library</td><td>Not part of the framework</td><td>Multi-tenant operation needs Dify's written authorization (modified Apache 2.0)</td><td>Not part of the SDKs</td><td class="us">Tenants, per-knowledge-base keys, roles, plans; isolation tested, 412 of 412 attempts refused</td></tr>
+<tr><td>Document pipeline, including Hindi OCR</td><td>Loaders you choose and wire up</td><td>Strong loaders and parsing; Hindi OCR is yours to set up</td><td>Knowledge base and pipelines; scans depend on plugins</td><td>Not what they are for</td><td class="us">Parsing, OCR with Hindi, cleanup, near-duplicate review, versions</td></tr>
+<tr><td>Grounded answers, no made-up facts</td><td>You write the checks</td><td>You write the checks</td><td>Retrieval and citations; checks are built in your workflow</td><td>Guardrail hooks; you write the checks</td><td class="us">Confidence gate and a sentence-by-sentence fact check; says "I don't know"</td></tr>
+<tr><td>Website widget, leads, WhatsApp</td><td>Not part of the library</td><td>Not part of the framework</td><td>Embeddable chat app; leads and handoff are yours to build</td><td>Not part of the SDKs</td><td class="us">Widget, leads with DPDP consent, WhatsApp click-to-chat handoff</td></tr>
+<tr><td>Billing</td><td>Not part of the library</td><td>Not part of the framework</td><td>App logs; not a billing system for your customers</td><td>Not part of the SDKs</td><td class="us">Plans, wallets, per-question or cost-plus pricing, usage per customer</td></tr>
+<tr><td>Dashboard and in-app assistant</td><td>Not part of the library</td><td>Not part of the framework</td><td>Its own studio and console</td><td>Not part of the SDKs</td><td class="us">Dashboard, COB and in-app docs</td></tr>
+<tr><td>Works with agents</td><td>Yes, it is an agent toolkit</td><td>Yes, it has agents too</td><td>Builds agents itself and has APIs</td><td>Yes, it is the agent loop</td><td class="us">Yes: MCP (52 tools), REST, Python and JS SDKs, read-only named keys</td></tr>
+</tbody>
+</table>
+</div>
+<p class="note">Dify's licence is Apache 2.0 with added conditions on multi-tenant use and on removing its branding<sup><a href="#s-dify-lic">[10]</a></sup>. Read the current text before you decide. Where a cell says a thing is not part of a library, we mean the library itself, not the add-ons you can build or buy around it.</p>
+<h3 style="margin:var(--space-2xl) 0 var(--space-md)">How it differs from LlamaIndex and Dify</h3>
+<div class="versus">
+<div class="side them"><h3>Where LlamaIndex and Dify are the right pick</h3><ul>
+<li><b>LlamaIndex</b> is a developer framework for data ingestion, indexing and retrieval in LLM apps (LlamaCloud and LlamaParse are its paid hosted services). It is a strong retrieval library. You still build the product around it: tenants, widget, leads, billing and a dashboard.</li>
+<li><b>Dify</b> is an open-source platform for building LLM apps, with a visual workflow and agent builder, a knowledge base, a cloud and self-hosting. It is the better choice when you want to design workflows visually, and it has a large plugin and model ecosystem that cob-rag-engine does not. Its licence is Apache 2.0 with added conditions (checked 5 October 2026): you may not use its source to operate a multi-tenant environment without written authorization, and you may not remove its logo or copyright in the console or apps. Read the current text before you build a business on it.</li>
+</ul></div>
+<div class="side ours"><h3>Where cob-rag-engine is built for resale</h3><ul>
+<li><b>What cob-rag-engine has that is built for resale:</b> customers (tenants), plans, wallets and billing, white-label branding and an operator workspace; Hindi and Hinglish handling with a model per language and Hindi OCR, DPDP consent on leads, WhatsApp handoff and rupee pricing; a fact gate and an honest "I don't know"; published benchmarks; COB and these docs inside the app; and an MCP server.</li>
+</ul></div>
+</div>
+<div class="verdict-grid" style="margin-top:var(--block-gap)">
+<div class="vcard is-yes"><span class="vtag">They work together</span><h3>Use it as your agents' knowledge layer</h3><p>Agents built with LangChain, LlamaIndex, LangGraph, the OpenAI Agents SDK, the Claude Agent SDK, n8n or any MCP client use cob-rag-engine as their knowledge layer. They reach it through MCP (<code>cob-rag-mcp</code>, 52 tools), REST, or the Python and JavaScript SDKs, each agent with its own read-only named key.</p><p>An agent SDK gives you the loop: the model, the tools, the hand-offs. It does not give you a governed, multi-customer, benchmarked knowledge base, billing, or a chatbot you can sell. That is the part cob-rag-engine adds. You host it yourself; there is no hosted cob-rag-engine.</p></div>
+<div class="vcard"><span class="vtag">Why no LangChain</span><h3>Why the answer pipeline has none</h3><p><b>Speed and control.</b> Every step is visible and tunable: early-start answers, a model per language, thinking control, and the fact gate.</p><p><b>Stability.</b> No framework releases to chase underneath a product you sell.</p><p><b>A smaller surface.</b> No LangChain in the default install: our own core handles ingestion, search and answers. The optional evaluation add-on uses RAGAS, which brings LangChain in as its own dependency, used only for quality scoring.</p><p><b>Our own provider pattern.</b> Models, vector databases, parsers, embeddings and storage each sit behind one small interface and can be swapped.</p></div>
+<div class="vcard"><span class="vtag">Honest</span><h3>When another tool alone is the right choice</h3><p>If you are building a one-off prototype, an unusual pipeline, or an agent for your own use, and you want to hand-build every step, LangChain, LlamaIndex or an agent SDK on its own is the right tool. If you want to design workflows visually, or build internal AI apps for your own company, Dify is a good fit. cob-rag-engine is the right choice when the knowledge belongs to businesses, must stay separate, must be answered honestly, and has to be sold. It has no visual agent builder and no agent loop of its own.</p></div>
+</div>
+<h3 style="margin:var(--space-2xl) 0 var(--space-md)">Say it in four lines</h3>
+<div class="card"><ol style="margin:0;padding-left:22px;display:grid;gap:var(--space-sm);color:var(--color-ink-2)">
+<li>LangChain, LlamaIndex and the agent SDKs give you parts to build with; cob-rag-engine is the finished knowledge platform: customers, keys, documents, fact-checked answers, a website widget and billing, already built and tested.</li>
+<li>They are not rivals: your LangChain, LlamaIndex, OpenAI or Claude agent plugs into it over MCP and uses it as its governed knowledge base.</li>
+<li>Dify is a full platform too, but it is built for designing apps, and its licence needs written authorization to run it for many customers; cob-rag-engine is built to resell, with plans and billing, Hindi and Hinglish, WhatsApp and DPDP consent, and answers that stay inside the customer's own documents.</li>
+<li>So you sell assistants from day one instead of building the platform under them, and if all you need is a one-off prototype, LangChain alone is the right call.</li>
+</ol></div>
+<h3 style="margin:var(--space-2xl) 0 var(--space-md)">Questions people ask</h3>
+<div class="grid g3">
+<div class="card"><h3>LangChain is there and good, so why would anyone use cob-rag-engine?</h3><p>LangChain builds AI; cob-rag-engine is a finished product built for one job: running knowledge-based assistants for many customers from one self-hosted engine. They solve different problems, and they work together.</p></div>
+<div class="card"><h3>What about LlamaIndex?</h3><p>LlamaIndex is a retrieval framework for developers; you still build tenants, the widget, leads, billing and the dashboard around it. cob-rag-engine ships those, and your LlamaIndex agent can call it over MCP.</p></div>
+<div class="card"><h3>Dify is a full platform too, so why cob-rag-engine?</h3><p>Dify is for building apps in a visual workflow builder, and has a bigger plugin ecosystem. cob-rag-engine is for reselling: customers, plans, wallets, white-label, Hindi and Hinglish, DPDP consent, WhatsApp handoff and a fact-checked "I don't know". Dify's licence needs written authorization to run it as a multi-tenant service. If you want to design workflows visually for your own company, Dify is a good fit.</p></div>
+<div class="card"><h3>Is cob-rag-engine a LangChain alternative?</h3><p>Not for building agents. It has no agent framework and no visual builder. It is the knowledge platform an agent, or a customer's website, asks.</p></div>
+<div class="card"><h3>Can I use LangChain, LangGraph, the OpenAI Agents SDK or the Claude Agent SDK with it?</h3><p>Yes. Use MCP (<code>cob-rag-mcp</code>), REST, or the Python and JavaScript SDKs, with a read-only named key for each agent.</p></div>
+<div class="card"><h3>Does it use LangChain inside?</h3><p>Not in the default install: our own core handles ingestion, search and answers. The optional evaluation add-on uses RAGAS, which brings LangChain in as its own dependency, used only for quality scoring.</p></div>
+<div class="card"><h3>Does it make up answers?</h3><p>It is built not to. A search-confidence gate and a fact check stop unsupported facts, and with no documented answer it says so and offers a person or a lead form.</p></div>
+<div class="card"><h3>When should I use LangChain or LlamaIndex alone?</h3><p>For a one-off prototype, an unusual pipeline, or an agent for your own use, where you want to hand-build every step.</p></div>
+<div class="card"><h3>Is there a hosted version?</h3><p>No. You host it yourself on Postgres, Qdrant, Redis and any S3-compatible storage.</p></div>
+</div>
+</div>
+</section>
 <section class="act tint" id="compare">
 <div class="wrap">
 <header class="sec-head"><div class="sec-head-t"><div class="kicker">The landscape</div>
@@ -4142,6 +4279,7 @@ is free on orders above ₹999 <span class="k">[5]</span>.</pre>
 <div class="card"><h3>Accounts built in</h3><p>People sign up with an e-mail address and confirm it with a 6-digit code. You choose open sign-up, approval of each one, or closed. Passwords are hashed with argon2id; sign-ins use short-lived tokens that rotate.</p></div>
 <div class="card"><h3>Teams and plans</h3><p>Each client gets a team with owner and member roles, invited by e-mail. Plans cap four things: knowledge bases, questions a month, documents and widget keys. Nothing is capped until you set a plan.</p></div>
 <div class="card"><h3>Your brand, your mail</h3><p>Your product name, logo and colour on the sign-in pages, the dashboard and every e-mail, with a permanent small &ldquo;cob-rag-engine by Callobuzz&rdquo; line. E-mail goes out over your own SMTP server.</p></div>
+<div class="card"><h3>Leads and handoff</h3><p>A website assistant with a name and a voice that answers only from your documents. It captures leads with a consent notice and a withdrawal link (phone first, encrypted), sorts them into qualified, partial and unqualified, e-mails a daily digest, offers WhatsApp, a call or a call-back when a person is needed, and shows you resolution, leads and handoffs. The widget's own text is in English, Hindi and Hinglish; replies in Hindi and Hinglish work. <!-- language-claim:start -->English, Hindi and Hinglish, measured: the default fast model <code>openai/gpt-6-luna</code> labels 266 held-out turns at 98.9% overall (English 98.9%, Hindi 100.0%, Hinglish 97.8%), keeps 98.6% of business questions, replies in the right language 100.0% of the time and falls back on 0.6% of its label calls, with thinking verified off; it passes every bar, as do 5 of the other 14 models tested. Reply quality is measured separately: in the answer benchmark <code>google/gemma-4-31b-it</code>, the Hindi and Hinglish pick, passes 90% of the Hindi and Hinglish items and declines 100% of the unanswerable ones.<!-- language-claim:end --> (See benchmarks/README.md.)</p></div>
 <div class="card"><h3>Operations</h3><p>A dashboard for you and for each client's team, usage API, Python and JavaScript SDKs, tracing with Langfuse, answer evaluation, knowledge-gap reports, zero-downtime embedding model switches.</p></div>
 </div>
 </div>
@@ -4157,6 +4295,8 @@ is free on orders above ₹999 <span class="k">[5]</span>.</pre>
 <div class="gap"><b>Agent mode and web search are not in the API yet</b><span>The code exists and is next on the roadmap; until it ships, answers come from the client's documents only.</span></div>
 <div class="gap"><b>No payments yet</b><span>It counts usage and enforces plan limits; you activate a plan by hand when a client pays. Razorpay and Stripe to do it automatically are next.</span></div>
 <div class="gap"><b>No SSO</b><span>Sign-in is e-mail and password, with owner and member roles. SAML and OIDC single sign-on are not built; API keys still work for scripts and apps.</span></div>
+<div class="gap"><b>No live takeover inbox</b><span>A visitor who wants a person gets the ways to reach the business (WhatsApp, a call, a call-back request) and you get a notification. Your team does not chat with the visitor inside the dashboard.</span></div>
+<div class="gap"><b>No WhatsApp Business API, no voice</b><span>WhatsApp works as a click-to-chat link, not as an inbound channel the assistant answers on. There is no phone or voice assistant.</span></div>
 <div class="gap"><b>No Kubernetes chart, backups are yours</b><span>Docker Compose on one server is the supported path. Back up Postgres; the search index can be rebuilt from it.</span></div>
 <div class="gap"><b>Complex layouts: good, not DeepDoc</b><span>For forms, engineering drawings or heavy multi-column scans, RAGFlow's parser is stronger.</span></div>
 <div class="gap"><b>One maintainer</b><span>Issues and pull requests are welcome; a commercial license and support are available by email.</span></div>
@@ -4171,7 +4311,7 @@ is free on orders above ₹999 <span class="k">[5]</span>.</pre>
 <div class="grid g3">
 
 <div class="card"><span class="tag">Next</span><h3>Agentic mode and web search</h3><p>Multi-step reasoning over a knowledge base, with optional web search, through the API. The agent loop and search providers are written; they are being wired to a route and tested.</p></div>
-<div class="card"><span class="tag">Planned</span><h3>Assistants that do things</h3><p>Per-client actions the assistant can call: book a home sample collection at Shree Labs, capture a lead, check an order. The step from a chatbot to an agent that agencies can charge more for.</p></div>
+<div class="card"><span class="tag">Planned</span><h3>Assistants that do things</h3><p>Per-client actions the assistant can call: book a home sample collection at Shree Labs, check an order status. Lead capture and handoff ship today; this is the step from a chatbot to an agent that agencies can charge more for.</p></div>
 <div class="card"><span class="tag">Planned</span><h3>Payment gateway</h3><p>Razorpay and Stripe, to activate a client's plan automatically when they pay, instead of you switching it on by hand.</p></div>
 <div class="card"><span class="tag">Planned</span><h3>Data connectors</h3><p>Google Drive, Notion, Confluence and more, with incremental sync, so a client's knowledge stays current without re-uploading.</p></div>
 <div class="card"><span class="tag">Later</span><h3>A visual agent canvas</h3><p>A no-code builder for agent workflows on top of the agent layer, for teams that would rather draw a flow than write one.</p></div>
@@ -4195,7 +4335,7 @@ is free on orders above ₹999 <span class="k">[5]</span>.</pre>
 <div class="wrap">
 <header class="sec-head"><div class="sec-head-t"><div class="kicker">Get started</div>
 <h2>Running in <span class="thin">three commands</span></h2></div>
-<p class="sub">Needs Docker and any Python 3 (no packages; without <code>make</code>, run <code>python scripts/setup.py</code>). Models download on first start and are cached. The dashboard on port 8090 manages clients, sign-ups, plans, keys, uploads and widgets. <a href="guide.html">Full step-by-step guide</a>.</p></header>
+<p class="sub">Needs Docker and any Python 3 (no packages; without <code>make</code>, run <code>python scripts/setup.py</code>). Models download on first start and are cached. The dashboard on port 8090 manages clients, sign-ups, plans, keys, uploads and widgets. <a href="guide.html">Full step-by-step guide</a>. Going live on a server? <a href="deploy.html">Deploy guide</a>.</p></header>
 <div class="start-grid">
 <div class="dg-win start-term">
 <div class="dg-win-bar"><i></i><i></i><i></i><span>terminal</span></div>
@@ -4343,7 +4483,7 @@ is free on orders above ₹999 <span class="k">[5]</span>.</pre>
 </div>
 <div class="foot-meta">
     <div>cob-rag-engine · by <a href="https://github.com/callobuzz">Callobuzz</a> · AGPL-3.0</div>
-    <div><a href="benchmarks.html">Benchmark report</a> · <a href="https://callobuzz.github.io/cob-rag-mcp">cob-rag-mcp</a> · <a href="https://github.com/callobuzz/cob-rag-engine/blob/main/CONTRIBUTING.md">Contributing</a> · <a href="https://github.com/callobuzz/cob-rag-engine/blob/main/SECURITY.md">Security</a></div>
+    <div><a href="pitch.html">Pitch sheet</a> · <a href="benchmarks.html">Benchmark report</a> · <a href="https://callobuzz.github.io/cob-rag-mcp">cob-rag-mcp</a> · <a href="https://github.com/callobuzz/cob-rag-engine/blob/main/CONTRIBUTING.md">Contributing</a> · <a href="https://github.com/callobuzz/cob-rag-engine/blob/main/SECURITY.md">Security</a></div>
 </div>
 </div>
 </footer>
@@ -4989,6 +5129,152 @@ for (var j = 0; j < secs.length; j++) io.observe(secs[j]);
   var mark = document.querySelector('.final-mark');
   if (mark) new IntersectionObserver(function (entries) { atCta = entries[0].intersectionRatio > 0.5; apply(); }, { threshold: [0, 0.5, 0.51, 1] }).observe(mark);
   document.addEventListener('visibilitychange', function () { c.classList.toggle('is-paused', document.hidden); });
+})();
+</script>
+<svg width="0" height="0" aria-hidden="true" focusable="false" style="position:absolute"><defs><symbol id="pm-i-users" viewBox="0 0 24 24"><circle cx="9" cy="8" r="3.5"/><path d="M2.5 20a6.5 6.5 0 0 1 13 0"/><path d="M16 4.5a3.5 3.5 0 0 1 0 7M18 14.5a6.5 6.5 0 0 1 3.5 5.5"/></symbol><symbol id="pm-i-tag" viewBox="0 0 24 24"><path d="M3 12V4h8l10 10-8 8z"/><circle cx="7.5" cy="8.5" r="1.2"/></symbol><symbol id="pm-i-chat" viewBox="0 0 24 24"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></symbol><symbol id="pm-i-bars" viewBox="0 0 24 24"><path d="M4 20V10M10 20V4M16 20v-7M22 20H2"/></symbol><symbol id="pm-i-doc" viewBox="0 0 24 24"><path d="M14 3H7a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V8z"/><path d="M14 3v5h5"/></symbol><symbol id="pm-i-lock" viewBox="0 0 24 24"><rect x="5" y="11" width="14" height="10" rx="2"/><path d="M8 11V8a4 4 0 0 1 8 0v3"/></symbol><symbol id="pm-i-check" viewBox="0 0 24 24"><path d="M5 12.5l4.5 4.5L19 7.5"/></symbol><symbol id="pm-i-code" viewBox="0 0 24 24"><path d="M8 8l-5 4 5 4M16 8l5 4-5 4M14 5l-4 14"/></symbol><symbol id="pm-i-globe" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M3 12h18M12 3a14 14 0 0 1 0 18M12 3a14 14 0 0 0 0 18"/></symbol><symbol id="pm-i-shield" viewBox="0 0 24 24"><path d="M12 3l8 3v6c0 5-3.5 8-8 9-4.5-1-8-4-8-9V6z"/></symbol><symbol id="pm-i-key" viewBox="0 0 24 24"><circle cx="8" cy="15" r="4"/><path d="M11 12l9-9M16 7l3 3"/></symbol><symbol id="pm-i-coin" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M9 8h6M9 12h6M9 8c4 0 4 4 0 4l5 5"/></symbol><symbol id="pm-i-bolt" viewBox="0 0 24 24"><path d="M13 2L4 14h7l-1 8 9-12h-7z"/></symbol><symbol id="pm-i-play" viewBox="0 0 24 24"><path d="M8 5l11 7-11 7z"/></symbol><symbol id="pm-i-mail" viewBox="0 0 24 24"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="M3 7l9 6 9-6"/></symbol><symbol id="pm-i-x" viewBox="0 0 24 24"><path d="M18 6 6 18M6 6l12 12"/></symbol><symbol id="pm-i-plug" viewBox="0 0 24 24"><path d="M9 3v5M15 3v5M6 8h12v3a6 6 0 0 1-12 0zM12 17v4"/></symbol></defs></svg>
+<dialog class="pm" id="pitch-modal" aria-labelledby="pm-title" data-video-url="">
+<div class="pm-head">
+<div><div class="kicker">Sell AI assistants</div><h2 id="pm-title">Pick the line that sounds like you</h2></div>
+<button type="button" class="pm-close" aria-label="Close"><svg class="pm-ico" aria-hidden="true" focusable="false"><use href="#pm-i-x"/></svg></button>
+</div>
+<div class="pm-tabs" role="tablist" aria-label="Who is this for"><button type="button" role="tab" class="pm-tab" id="pm-tab-agencies" aria-controls="pm-panel-agencies" aria-selected="true" tabindex="0" data-hash="for-agencies">Agencies</button><button type="button" role="tab" class="pm-tab" id="pm-tab-founders" aria-controls="pm-panel-founders" aria-selected="false" tabindex="-1" data-hash="for-founders">Freelancers &amp; founders</button><button type="button" role="tab" class="pm-tab" id="pm-tab-partners" aria-controls="pm-panel-partners" aria-selected="false" tabindex="-1" data-hash="for-partners">Software partners</button><button type="button" role="tab" class="pm-tab" id="pm-tab-developers" aria-controls="pm-panel-developers" aria-selected="false" tabindex="-1" data-hash="for-developers">Developers</button></div>
+<div class="pm-body">
+<section class="pm-panel" id="pm-panel-agencies" role="tabpanel" aria-labelledby="pm-tab-agencies" tabindex="0">
+<h3 class="pm-h">Your clients are asking for AI. Sell it under your own name and earn every month.</h3>
+<div class="pm-grid">
+<div class="pm-col"><div class="pm-card pm-prob"><h4>Your problem</h4><ul class="pm-list"><li><svg class="pm-ico" aria-hidden="true" focusable="false"><use href="#pm-i-x"/></svg><span>Clients ask for “an AI chatbot” and you cannot build one you would trust to answer their customers.</span></li><li><svg class="pm-ico" aria-hidden="true" focusable="false"><use href="#pm-i-x"/></svg><span>Website work is project income: when the project ends, so does the invoice.</span></li></ul></div>
+<div class="pm-card"><h4>What you get</h4><ul class="pm-list pm-get"><li><svg class="pm-ico" aria-hidden="true" focusable="false"><use href="#pm-i-users"/></svg><span><b>A private assistant per client</b> Each client gets their own documents, keys, model and prompt, kept apart from every other client.</span></li><li><svg class="pm-ico" aria-hidden="true" focusable="false"><use href="#pm-i-tag"/></svg><span><b>Your name on it</b> Your name, logo and colours in the dashboard, sign-up pages and e-mails. A small “cob-rag-engine by Callobuzz” line stays.</span></li><li><svg class="pm-ico" aria-hidden="true" focusable="false"><use href="#pm-i-chat"/></svg><span><b>Website widget, leads, WhatsApp</b> One script tag locked to the client&#x27;s domains. Leads come with a consent notice, and a WhatsApp click-to-chat button hands a hot lead to a person.</span></li><li><svg class="pm-ico" aria-hidden="true" focusable="false"><use href="#pm-i-bars"/></svg><span><b>A bill you can explain</b> Plans, caps and usage counted per client, with wallets in ₹ or $.</span></li></ul></div></div>
+<div class="pm-col"><div class="pm-card"><h4>How you earn</h4><p>Charge each client a monthly fee for their assistant. You choose the price, in ₹ or $. The engine counts every client&#x27;s usage so the invoice is easy to justify, and plan caps stop one client from using more than you priced. Your costs are the server and the AI model calls (a client can bring their own key). What you earn depends on your price and your clients; none is promised here.</p></div>
+<div class="pm-card"><h4>Start in 3 steps</h4><ol class="pm-steps"><li><span class="pm-n" aria-hidden="true">1</span><span><b>Install it, or ask for help.</b> Run it on your own server with Docker (the guide is step by step), or write to us and we will help you set it up.</span></li><li><span class="pm-n" aria-hidden="true">2</span><span><b>Add a client&#x27;s documents.</b> Upload their PDFs, Word and Excel files or web pages. Scanned Hindi pages are read too.</span></li><li><span class="pm-n" aria-hidden="true">3</span><span><b>Put it on their website.</b> Paste one script tag on their site. Add the WhatsApp number for hand-off.</span></li></ol></div></div>
+<div class="pm-card pm-wide"><h4>Why trust it</h4><ul class="pm-list pm-trust"><li><svg class="pm-ico" aria-hidden="true" focusable="false"><use href="#pm-i-shield"/></svg><span>Every price, date, phone number and name in an answer has to appear in the client&#x27;s own documents. If they do not say, the assistant says it does not know and offers a person.</span></li><li><svg class="pm-ico" aria-hidden="true" focusable="false"><use href="#pm-i-globe"/></svg><span>English, Hindi and Hinglish, measured: 98.9% of 266 held-out turns understood, and replies come in the visitor&#x27;s own language.</span></li><li><svg class="pm-ico" aria-hidden="true" focusable="false"><use href="#pm-i-lock"/></svg><span>412 of 412 isolation attacks refused in the repository&#x27;s own test: every key kind, owner and member sign-ins, forged tokens, other clients&#x27; data.</span></li></ul></div>
+</div>
+<div class="pm-cta">
+<a class="btn btn-primary" href="mailto:callobuzz@gmail.com?subject=Try%20cob-rag-engine%20free%20with%20one%20client&amp;body=Hi%20Callobuzz%2C%0A%0AI%20would%20like%20to%20try%20cob-rag-engine%20with%20one%20client%20%28agency%29.%0A%0AMy%20name%3A%0ACompany%20/%20agency%3A%0AWebsite%3A%0AThe%20client%20or%20project%20I%20would%20start%20with%3A%0AWill%20I%20install%20it%20myself%2C%20or%20would%20I%20like%20help%20setting%20it%20up%3F%0A%0AThanks"><svg class="pm-ico" aria-hidden="true" focusable="false"><use href="#pm-i-mail"/></svg>Try it free with one client</a>
+<a class="btn btn-ghost" href="pitch.html#agencies"><svg class="pm-ico" aria-hidden="true" focusable="false"><use href="#pm-i-doc"/></svg>See the pitch sheet</a>
+<a class="btn btn-ghost pm-video" href="#" target="_blank" rel="noopener" hidden><svg class="pm-ico" aria-hidden="true" focusable="false"><use href="#pm-i-play"/></svg>Watch the 60-second demo</a>
+</div>
+</section>
+<section class="pm-panel" id="pm-panel-founders" role="tabpanel" aria-labelledby="pm-tab-founders" tabindex="0" hidden>
+<h3 class="pm-h">Start your own AI chatbot business this week. Your brand, your prices.</h3>
+<div class="pm-grid">
+<div class="pm-col"><div class="pm-card pm-prob"><h4>Your problem</h4><ul class="pm-list"><li><svg class="pm-ico" aria-hidden="true" focusable="false"><use href="#pm-i-x"/></svg><span>You can sell, but building search, accounts, a widget and billing yourself takes months.</span></li><li><svg class="pm-ico" aria-hidden="true" focusable="false"><use href="#pm-i-x"/></svg><span>Hosted chatbot tools charge per bot and keep the best features in higher plans.</span></li></ul></div>
+<div class="pm-card"><h4>What you get</h4><ul class="pm-list pm-get"><li><svg class="pm-ico" aria-hidden="true" focusable="false"><use href="#pm-i-bolt"/></svg><span><b>A finished product, not parts</b> Customers, documents, fact-checked answers, a website widget and a dashboard are already built and tested.</span></li><li><svg class="pm-ico" aria-hidden="true" focusable="false"><use href="#pm-i-users"/></svg><span><b>Customers sign themselves up</b> E-mail sign-up with open, approval or closed modes, so you decide who gets in.</span></li><li><svg class="pm-ico" aria-hidden="true" focusable="false"><use href="#pm-i-coin"/></svg><span><b>Three ways to price</b> A plan, a price per question, or the real AI cost plus your markup. Prepaid wallets in ₹ or $.</span></li><li><svg class="pm-ico" aria-hidden="true" focusable="false"><use href="#pm-i-key"/></svg><span><b>Any model, any budget</b> Hosted models, or local ones on your own box. Each customer can bring their own AI key.</span></li></ul></div></div>
+<div class="pm-col"><div class="pm-card"><h4>How you earn</h4><p>Pick the model that fits your customers: a flat monthly plan, a price per question, or the AI cost plus a markup. You set every price. The engine is free under AGPL-3.0, including commercial use. Your costs are a server and the AI calls. What you earn depends on your price and how many customers you win; none is promised here.</p></div>
+<div class="pm-card"><h4>Start in 3 steps</h4><ol class="pm-steps"><li><span class="pm-n" aria-hidden="true">1</span><span><b>Install it.</b> Docker and one setup command on your own machine or a rented server. The guide shows each step.</span></li><li><span class="pm-n" aria-hidden="true">2</span><span><b>Add your first customer&#x27;s documents.</b> Create the customer, upload their files, and test the answers in the dashboard.</span></li><li><span class="pm-n" aria-hidden="true">3</span><span><b>Give them the script tag.</b> Paste one line on their website. Share a dashboard login if they want to see their questions.</span></li></ol></div></div>
+<div class="pm-card pm-wide"><h4>Why trust it</h4><ul class="pm-list pm-trust"><li><svg class="pm-ico" aria-hidden="true" focusable="false"><use href="#pm-i-shield"/></svg><span>Every price, date, phone number and name in an answer has to appear in the client&#x27;s own documents. If they do not say, the assistant says it does not know and offers a person.</span></li><li><svg class="pm-ico" aria-hidden="true" focusable="false"><use href="#pm-i-code"/></svg><span>Open source under AGPL-3.0. You own the server, the data and the margin.</span></li><li><svg class="pm-ico" aria-hidden="true" focusable="false"><use href="#pm-i-lock"/></svg><span>412 of 412 isolation attacks refused in the repository&#x27;s own test: every key kind, owner and member sign-ins, forged tokens, other clients&#x27; data.</span></li></ul></div>
+</div>
+<div class="pm-cta">
+<a class="btn btn-primary" href="mailto:callobuzz@gmail.com?subject=Try%20cob-rag-engine%20free%20with%20one%20client&amp;body=Hi%20Callobuzz%2C%0A%0AI%20would%20like%20to%20try%20cob-rag-engine%20with%20one%20client%20%28starting%20my%20own%20AI%20chatbot%20business%29.%0A%0AMy%20name%3A%0ACompany%20/%20agency%3A%0AWebsite%3A%0AThe%20client%20or%20project%20I%20would%20start%20with%3A%0AWill%20I%20install%20it%20myself%2C%20or%20would%20I%20like%20help%20setting%20it%20up%3F%0A%0AThanks"><svg class="pm-ico" aria-hidden="true" focusable="false"><use href="#pm-i-mail"/></svg>Try it free with one client</a>
+<a class="btn btn-ghost" href="pitch.html#founders"><svg class="pm-ico" aria-hidden="true" focusable="false"><use href="#pm-i-doc"/></svg>See the pitch sheet</a>
+<a class="btn btn-ghost pm-video" href="#" target="_blank" rel="noopener" hidden><svg class="pm-ico" aria-hidden="true" focusable="false"><use href="#pm-i-play"/></svg>Watch the 60-second demo</a>
+</div>
+</section>
+<section class="pm-panel" id="pm-panel-partners" role="tabpanel" aria-labelledby="pm-tab-partners" tabindex="0" hidden>
+<h3 class="pm-h">Add an AI assistant to what you already sell to the same clients.</h3>
+<div class="pm-grid">
+<div class="pm-col"><div class="pm-card pm-prob"><h4>Your problem</h4><ul class="pm-list"><li><svg class="pm-ico" aria-hidden="true" focusable="false"><use href="#pm-i-x"/></svg><span>Your clients are starting to ask their accounting, ERP, CRM or WhatsApp-tools vendor for “AI”.</span></li><li><svg class="pm-ico" aria-hidden="true" focusable="false"><use href="#pm-i-x"/></svg><span>A new product line should not mean building a new platform.</span></li></ul></div>
+<div class="pm-card"><h4>What you get</h4><ul class="pm-list pm-get"><li><svg class="pm-ico" aria-hidden="true" focusable="false"><use href="#pm-i-plug"/></svg><span><b>Sits beside your product</b> A separate engine with its own API. Nothing has to change inside what you already sell.</span></li><li><svg class="pm-ico" aria-hidden="true" focusable="false"><use href="#pm-i-doc"/></svg><span><b>Feed it their own content</b> Upload files, or sync a catalogue or help centre through the records API; unchanged records are skipped.</span></li><li><svg class="pm-ico" aria-hidden="true" focusable="false"><use href="#pm-i-bars"/></svg><span><b>Price it as an add-on</b> Usage is counted per client, knowledge base and widget, with plans and caps.</span></li><li><svg class="pm-ico" aria-hidden="true" focusable="false"><use href="#pm-i-code"/></svg><span><b>REST and SDKs</b> A REST API, Python and JavaScript clients, and the website widget.</span></li></ul></div></div>
+<div class="pm-col"><div class="pm-card"><h4>How you earn</h4><p>Add it to the invoice you already send: a monthly line per client, at a price you set. Usage is counted per client so the add-on is easy to price. What you earn depends on your price and your client base; none is promised here.</p></div>
+<div class="pm-card"><h4>Start in 3 steps</h4><ol class="pm-steps"><li><span class="pm-n" aria-hidden="true">1</span><span><b>Install or ask for help.</b> Run it next to your product with Docker, or write to us for help with the setup.</span></li><li><span class="pm-n" aria-hidden="true">2</span><span><b>Add one client&#x27;s documents.</b> Upload files, or sync their catalogue and help pages through the API.</span></li><li><span class="pm-n" aria-hidden="true">3</span><span><b>Show it where they already look.</b> Paste the widget on their website, or call the API from your own screens.</span></li></ol></div></div>
+<div class="pm-card pm-wide"><h4>Why trust it</h4><ul class="pm-list pm-trust"><li><svg class="pm-ico" aria-hidden="true" focusable="false"><use href="#pm-i-lock"/></svg><span>412 of 412 isolation attacks refused in the repository&#x27;s own test: every key kind, owner and member sign-ins, forged tokens, other clients&#x27; data.</span></li><li><svg class="pm-ico" aria-hidden="true" focusable="false"><use href="#pm-i-shield"/></svg><span>Leads carry a consent notice that follows the DPDP Act&#x27;s notice elements.</span></li><li><svg class="pm-ico" aria-hidden="true" focusable="false"><use href="#pm-i-globe"/></svg><span>English, Hindi and Hinglish, measured: 98.9% of 266 held-out turns understood, and replies come in the visitor&#x27;s own language.</span></li></ul></div>
+</div>
+<div class="pm-cta">
+<a class="btn btn-primary" href="mailto:callobuzz@gmail.com?subject=Try%20cob-rag-engine%20free%20with%20one%20client&amp;body=Hi%20Callobuzz%2C%0A%0AI%20would%20like%20to%20try%20cob-rag-engine%20with%20one%20client%20%28adding%20an%20assistant%20to%20what%20I%20already%20sell%29.%0A%0AMy%20name%3A%0ACompany%20/%20agency%3A%0AWebsite%3A%0AThe%20client%20or%20project%20I%20would%20start%20with%3A%0AWill%20I%20install%20it%20myself%2C%20or%20would%20I%20like%20help%20setting%20it%20up%3F%0A%0AThanks"><svg class="pm-ico" aria-hidden="true" focusable="false"><use href="#pm-i-mail"/></svg>Try it free with one client</a>
+<a class="btn btn-ghost" href="pitch.html#partners"><svg class="pm-ico" aria-hidden="true" focusable="false"><use href="#pm-i-doc"/></svg>See the pitch sheet</a>
+<a class="btn btn-ghost pm-video" href="#" target="_blank" rel="noopener" hidden><svg class="pm-ico" aria-hidden="true" focusable="false"><use href="#pm-i-play"/></svg>Watch the 60-second demo</a>
+</div>
+</section>
+<section class="pm-panel" id="pm-panel-developers" role="tabpanel" aria-labelledby="pm-tab-developers" tabindex="0" hidden>
+<h3 class="pm-h">Plug trustworthy company knowledge into your agents.</h3>
+<div class="pm-grid">
+<div class="pm-col"><div class="pm-card pm-prob"><h4>Your problem</h4><ul class="pm-list"><li><svg class="pm-ico" aria-hidden="true" focusable="false"><use href="#pm-i-x"/></svg><span>Agents make up company facts when they have no source to read.</span></li><li><svg class="pm-ico" aria-hidden="true" focusable="false"><use href="#pm-i-x"/></svg><span>Multi-customer knowledge, isolation and keys are a lot to build under every agent.</span></li></ul></div>
+<div class="pm-card"><h4>What you get</h4><ul class="pm-list pm-get"><li><svg class="pm-ico" aria-hidden="true" focusable="false"><use href="#pm-i-plug"/></svg><span><b>MCP, 52 tools</b> cob-rag-mcp for Claude, ChatGPT, Cursor, n8n and any MCP client.</span></li><li><svg class="pm-ico" aria-hidden="true" focusable="false"><use href="#pm-i-code"/></svg><span><b>REST, Python and JavaScript</b> The same knowledge over a plain API and two small client libraries.</span></li><li><svg class="pm-ico" aria-hidden="true" focusable="false"><use href="#pm-i-key"/></svg><span><b>A read-only key per agent</b> Named keys, so each agent sees only what you give it.</span></li><li><svg class="pm-ico" aria-hidden="true" focusable="false"><use href="#pm-i-shield"/></svg><span><b>Cited, checked answers</b> A search-confidence gate and a sentence-by-sentence fact check, or an honest “I don&#x27;t know”.</span></li></ul></div></div>
+<div class="pm-col"><div class="pm-card"><h4>How you earn</h4><p>Charge for the agent or app you build. The knowledge layer is the part you do not rebuild, and it is free under AGPL-3.0. If you resell it, usage is counted per key. What you earn depends on your work and your clients; none is promised here.</p></div>
+<div class="pm-card"><h4>Start in 3 steps</h4><ol class="pm-steps"><li><span class="pm-n" aria-hidden="true">1</span><span><b>Install it.</b> Docker and one setup command; the guide has the steps.</span></li><li><span class="pm-n" aria-hidden="true">2</span><span><b>Add the company&#x27;s documents.</b> Upload them to a knowledge base and test a few questions.</span></li><li><span class="pm-n" aria-hidden="true">3</span><span><b>Connect your agent.</b> Create a read-only named key and point your agent at it over MCP or REST.</span></li></ol></div></div>
+<div class="pm-card pm-wide"><h4>Why trust it</h4><ul class="pm-list pm-trust"><li><svg class="pm-ico" aria-hidden="true" focusable="false"><use href="#pm-i-shield"/></svg><span>Every price, date, phone number and name in an answer has to appear in the client&#x27;s own documents. If they do not say, the assistant says it does not know and offers a person.</span></li><li><svg class="pm-ico" aria-hidden="true" focusable="false"><use href="#pm-i-lock"/></svg><span>412 of 412 isolation attacks refused in the repository&#x27;s own test: every key kind, owner and member sign-ins, forged tokens, other clients&#x27; data.</span></li><li><svg class="pm-ico" aria-hidden="true" focusable="false"><use href="#pm-i-bars"/></svg><span>Search measured on six public BEIR datasets: mean nDCG@10 0.537 against 0.526 published for the same embedding model.</span></li></ul></div>
+</div>
+<div class="pm-cta">
+<a class="btn btn-primary" href="mailto:callobuzz@gmail.com?subject=Try%20cob-rag-engine%20free%20with%20one%20client&amp;body=Hi%20Callobuzz%2C%0A%0AI%20would%20like%20to%20try%20cob-rag-engine%20with%20one%20client%20%28a%20developer%20building%20agents%29.%0A%0AMy%20name%3A%0ACompany%20/%20agency%3A%0AWebsite%3A%0AThe%20client%20or%20project%20I%20would%20start%20with%3A%0AWill%20I%20install%20it%20myself%2C%20or%20would%20I%20like%20help%20setting%20it%20up%3F%0A%0AThanks"><svg class="pm-ico" aria-hidden="true" focusable="false"><use href="#pm-i-mail"/></svg>Try it free with one client</a>
+<a class="btn btn-ghost" href="pitch.html#developers"><svg class="pm-ico" aria-hidden="true" focusable="false"><use href="#pm-i-doc"/></svg>See the pitch sheet</a>
+<a class="btn btn-ghost pm-video" href="#" target="_blank" rel="noopener" hidden><svg class="pm-ico" aria-hidden="true" focusable="false"><use href="#pm-i-play"/></svg>Watch the 60-second demo</a>
+</div>
+</section>
+<p class="pm-note">Example businesses on this site are made up. Numbers come from the repository's own benchmarks. The WhatsApp button hands a chat to a person; it is not a WhatsApp Business API bot. There is no hosted cob-rag-engine: you run it on your server.</p>
+</div>
+</dialog>
+<script>
+/* ── Pitch modal ───────────────────────────────────────────────────────────────
+ * To show the "Watch the 60-second demo" button, paste your video link between the
+ * quotes below (YouTube, Loom, Drive, any https link). Leave it empty to hide the button.
+ * (Alternative: set data-video-url="https://..." on <dialog id="pitch-modal">.)       */
+var PITCH_VIDEO_URL = "";
+/* ────────────────────────────────────────────────────────────────────────────── */
+(function () {
+  var dlg = document.getElementById('pitch-modal');
+  if (!dlg || typeof dlg.showModal !== 'function') return;
+  var tabs = [].slice.call(dlg.querySelectorAll('[role="tab"]'));
+  var panels = [].slice.call(dlg.querySelectorAll('[role="tabpanel"]'));
+  var byHash = {};
+  tabs.forEach(function (t) { byHash[t.getAttribute('data-hash')] = t; });
+  var opener = null, baseUrl = null;
+
+  var video = PITCH_VIDEO_URL || dlg.getAttribute('data-video-url') || '';
+  if (/^https?:\/\//i.test(video)) {
+    [].forEach.call(dlg.querySelectorAll('.pm-video'), function (a) { a.href = video; a.hidden = false; });
+  }
+
+  function select(tab, focus) {
+    tabs.forEach(function (t, i) {
+      var on = t === tab;
+      t.setAttribute('aria-selected', on ? 'true' : 'false');
+      t.tabIndex = on ? 0 : -1;
+      panels[i].hidden = !on;
+    });
+    dlg.querySelector('.pm-body').scrollTop = 0;
+    if (focus) tab.focus();
+    try { history.replaceState(null, '', '#' + tab.getAttribute('data-hash')); } catch (e) {}
+  }
+  function open(hash) {
+    var tab = byHash[hash] || tabs[0];
+    if (!dlg.open) {
+      opener = document.activeElement;
+      baseUrl = location.pathname + location.search;
+      document.documentElement.classList.add('pm-lock');
+      dlg.showModal();
+    }
+    select(tab, true);
+  }
+  function close() { if (dlg.open) dlg.close(); }
+  dlg.addEventListener('close', function () {
+    document.documentElement.classList.remove('pm-lock');
+    try { history.replaceState(null, '', baseUrl || (location.pathname + location.search)); } catch (e) {}
+    if (opener && document.contains(opener) && opener !== document.body) opener.focus();
+    opener = null;
+  });
+  dlg.addEventListener('click', function (e) { if (e.target === dlg) close(); });
+  dlg.querySelector('.pm-close').addEventListener('click', close);
+
+  tabs.forEach(function (t, i) {
+    t.addEventListener('click', function () { select(t, false); });
+    t.addEventListener('keydown', function (e) {
+      var n = null;
+      if (e.key === 'ArrowRight') n = (i + 1) % tabs.length;
+      else if (e.key === 'ArrowLeft') n = (i + tabs.length - 1) % tabs.length;
+      else if (e.key === 'Home') n = 0;
+      else if (e.key === 'End') n = tabs.length - 1;
+      if (n !== null) { e.preventDefault(); select(tabs[n], true); }
+    });
+  });
+
+  [].forEach.call(document.querySelectorAll('[data-pitch]'), function (a) {
+    a.addEventListener('click', function (e) { e.preventDefault(); open(a.getAttribute('data-pitch')); });
+  });
+  function fromHash() {
+    var h = location.hash.slice(1);
+    if (byHash[h]) open(h);
+  }
+  window.addEventListener('hashchange', fromHash);
+  fromHash();
 })();
 </script>
 </body>
