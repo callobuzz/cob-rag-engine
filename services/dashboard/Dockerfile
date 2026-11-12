@@ -14,7 +14,10 @@ RUN corepack enable
 COPY package.json pnpm-lock.yaml ./
 RUN pnpm install --frozen-lockfile
 COPY . .
-RUN pnpm build
+# Only the bundle: the image is built from this folder alone, and some tests read shared
+# fixtures from the repository's tests/ folder, so `tsc -b` cannot run here. CI type-checks
+# the whole tree in its own step (pnpm typecheck) before this image is built.
+RUN pnpm exec vite build
 
 # --- Serve -------------------------------------------------------------------------------------
 FROM nginx:1.27-alpine
