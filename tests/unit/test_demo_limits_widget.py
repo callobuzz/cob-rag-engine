@@ -156,7 +156,11 @@ async def test_the_scope_reaches_the_model_call_through_a_real_streamed_response
     async def answer(request: Request) -> StreamingResponse:
         await limits.check(
             SimpleNamespace(
-                headers=request.headers, client=request.client, state=SimpleNamespace(user=None)
+                headers=request.headers,
+                client=request.client,
+                state=SimpleNamespace(user=None),
+                # the shared client-ip helper reads the proxy rules from the app's settings
+                app=SimpleNamespace(state=SimpleNamespace(settings=settings)),
             ),
             redis,
             settings,

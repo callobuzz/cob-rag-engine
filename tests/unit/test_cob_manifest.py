@@ -4,6 +4,7 @@ from pathlib import Path
 
 import pytest
 
+from callobuzz_rag import __version__
 from callobuzz_rag.cob.kb import load_docs_index, parse_external_id, records_for
 from callobuzz_rag.cob.manifest import ManifestError, load_manifest
 from callobuzz_rag.cob.types import (
@@ -108,7 +109,7 @@ def test_hash_changes_with_any_source_byte(tmp_path: Path) -> None:
     write(root / "docs/cob/screens/widget.md", SCREEN.replace("Paste", "Paste it"))
     second = load_docs_index(root)
     assert second.manifest_hash != first.manifest_hash and second.version != first.version
-    assert first.version.startswith("0.1.0+") and len(first.version.split("+")[1]) == 12
+    assert first.version.startswith(f"{__version__}+") and len(first.version.split("+")[1]) == 12
 
 
 def test_line_endings_do_not_change_the_hash(tmp_path: Path) -> None:
