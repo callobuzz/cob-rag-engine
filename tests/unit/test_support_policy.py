@@ -49,7 +49,9 @@ def test_security_facts_in_policy_and_page() -> None:
 
 
 def test_no_github_reporting_and_no_offers() -> None:
-    assert "github.com" not in SECURITY.lower()  # a vulnerability is never reported in a public issue
+    assert (
+        "github.com" not in SECURITY.lower()
+    )  # a vulnerability is never reported in a public issue
     for text in (SUPPORT, SECURITY, WEB):
         assert re.search(r"[$₹]\s?\d", text) is None
         assert "pitch.html" not in text

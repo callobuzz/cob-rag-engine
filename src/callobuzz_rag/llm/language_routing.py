@@ -120,7 +120,9 @@ def routing_note(lang: str, model: str) -> str:
     return f"model chosen for {lang} by language routing: {model}"
 
 
-def route_answer_llm(llm: Any, language_models: dict[str, str], text: str) -> tuple[Any, str | None]:
+def route_answer_llm(
+    llm: Any, language_models: dict[str, str], text: str
+) -> tuple[Any, str | None]:
     """The provider that writes the answer to `text`, and the routed model id (None = unrouted).
 
     For the surfaces that answer without the director (`/query`, `/query/stream`, widget chat

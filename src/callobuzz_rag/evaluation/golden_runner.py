@@ -240,7 +240,9 @@ class GoldenRunner:
                     session, corpus.tenant_id, settings=self._settings
                 )
                 if profile.config.answer_route == "local" and not profile.available:
-                    raise RuntimeError("The free local model is not ready, so this run cannot start.")
+                    raise RuntimeError(
+                        "The free local model is not ready, so this run cannot start."
+                    )
                 director = director_port.make_director(
                     self._settings, self._factory, corpus, runtime, snapshot, profile=profile
                 )

@@ -179,7 +179,7 @@ def test_credit_note_names_the_original_and_is_negative() -> None:
     text = text_of(render(note, reference="rfnd_Nxyz", original=original))
     assert "Credit Note" in text and "CN/26-27/00001" in text
     assert "Against invoice: INV/26-27/00001 dated 08-10-2026" in text
-    assert "−₹590.00" in text  # a real minus sign
+    assert "\N{MINUS SIGN}₹590.00" in text  # a real minus sign, not a hyphen
     assert "Refund reference: rfnd_Nxyz" in text
 
 

@@ -162,7 +162,6 @@ def test_the_litellm_call_carries_the_local_route() -> None:
 async def test_a_profile_model_the_server_does_not_hold_is_not_available() -> None:
     from callobuzz_rag.tiers.profiles import effective
 
-
     await local_status(S, transport=transport("gemma3:4b"), warm=False)
     row = SimpleNamespace(
         id=uuid.uuid4(),

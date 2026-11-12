@@ -472,7 +472,9 @@ class TestWidgetChatIsMetered:
                 return_value=(SimpleNamespace(model="m", language_models={}), MagicMock()),
             ),
         ):
-            resolver.return_value.resolve_llm.return_value = SimpleNamespace(model="m", language_models={})
+            resolver.return_value.resolve_llm.return_value = SimpleNamespace(
+                model="m", language_models={}
+            )
             async with AsyncClient(transport=ASGITransport(app=app), base_url="http://t") as c:
                 res = await c.post(
                     "/api/v1/widget/chat",
@@ -552,7 +554,9 @@ class TestFailedStreamsStillMeterTheirSpend:
                 return_value=(SimpleNamespace(model="m", language_models={}), MagicMock()),
             ),
         ):
-            resolver.return_value.resolve_llm.return_value = SimpleNamespace(model="m", language_models={})
+            resolver.return_value.resolve_llm.return_value = SimpleNamespace(
+                model="m", language_models={}
+            )
             async with AsyncClient(transport=ASGITransport(app=app), base_url="http://t") as c:
                 await c.post(
                     "/api/v1/widget/chat",

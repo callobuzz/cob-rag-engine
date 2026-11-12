@@ -66,9 +66,7 @@ def test_the_measured_default_is_offered_when_a_benchmark_exists(
 def test_no_removes_the_profile(
     monkeypatch: pytest.MonkeyPatch, target: Path, unmeasured: None
 ) -> None:
-    target.write_text(
-        "COMPOSE_PROFILES=local-llm\nRAG_LOCAL_LLM_ENABLED=true\n", encoding="utf-8"
-    )
+    target.write_text("COMPOSE_PROFILES=local-llm\nRAG_LOCAL_LLM_ENABLED=true\n", encoding="utf-8")
     # An existing file also asks whether to back it up and replace it.
     code, _, _ = interactive(monkeypatch, target, ["--full"], [*answers("n"), "y"])
     assert code == 0

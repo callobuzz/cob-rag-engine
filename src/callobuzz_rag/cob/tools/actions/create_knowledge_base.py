@@ -11,8 +11,8 @@ from callobuzz_rag.cob.types import CobRole
 from callobuzz_rag.core.schemas import StrictRequest
 
 # curly double quotes (U+201C, U+201D) and curly single quotes (U+2018, U+2019), by code point
-_OPEN = "\"" + chr(0x201C) + chr(0x2018) + "'"
-_CLOSE = "\"" + chr(0x201D) + chr(0x2019) + "'"
+_OPEN = '"' + chr(0x201C) + chr(0x2018) + "'"
+_CLOSE = '"' + chr(0x201D) + chr(0x2019) + "'"
 _NAMED = re.compile(
     rf"(?:called|named|name it|naam(?: se)?|नाम)\s*[:\-]?\s*[{_OPEN}]?"
     rf"([^{_CLOSE}\n.?!]{{2,80}})",

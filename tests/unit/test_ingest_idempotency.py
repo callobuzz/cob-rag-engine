@@ -26,6 +26,7 @@ def _no_upload_count() -> object:
     with patch("callobuzz_rag.api.routes.ingest._count_upload", AsyncMock()):
         yield
 
+
 @pytest.fixture(autouse=True)
 def upload_alerts() -> object:
     """The 80 % / 100 % upload notices (PIP3) the route schedules in the background, spied on."""

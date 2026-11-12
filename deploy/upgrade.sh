@@ -15,7 +15,7 @@ set -Eeuo pipefail
 IFS=$'\n\t'
 
 SCRIPT_DIR=$(cd -- "$(dirname -- "${BASH_SOURCE[0]}")" && pwd)
-# shellcheck source=lib/common.sh
+# shellcheck source-path=SCRIPTDIR source=lib/common.sh
 source "$SCRIPT_DIR/lib/common.sh"
 trap 'on_error $? $LINENO' ERR
 

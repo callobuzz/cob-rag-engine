@@ -416,7 +416,9 @@ async def test_cob_answers_when_the_read_fails_or_the_workspace_is_exempt() -> N
         assert await gate.cob_blocked(AsyncMock(), uuid.uuid4()) is False
 
 
-async def test_a_free_plan_with_the_local_model_down_pauses_instead_of_using_the_paid_model() -> None:
+async def test_a_free_plan_with_the_local_model_down_pauses_instead_of_using_the_paid_model() -> (
+    None
+):
     down = prof("Free", route="local", available=False, priority="low")
     with env(effective()) as s:
         d = await run(plan=down)

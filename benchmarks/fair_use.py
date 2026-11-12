@@ -1305,7 +1305,10 @@ def real_main(args: argparse.Namespace, sizes: Sizes, wanted: Sequence[str]) -> 
     from tests.integration.conftest import _async_url  # the same helpers the integration tests use
     from tests.integration.test_accounts_flow import _alembic, _redis_url
 
-    with PostgresContainer("postgres:16-alpine") as pg, RedisContainer("valkey/valkey:8.1-alpine") as redis:
+    with (
+        PostgresContainer("postgres:16-alpine") as pg,
+        RedisContainer("valkey/valkey:8.1-alpine") as redis,
+    ):
         db_url = _async_url(pg)
         _alembic(db_url, "head")  # alembic's env.py needs to run outside an event loop
         env = RealEnv(db_url, _redis_url(redis), args)

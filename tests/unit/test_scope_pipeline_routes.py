@@ -103,4 +103,6 @@ async def test_a_workspace_cannot_set_another_workspaces_fair_use(key: str) -> N
             json={"limits": {"storage_mb": 5}},
         )
     assert res.status_code == 403
+
+
 # /PIP3 fair use

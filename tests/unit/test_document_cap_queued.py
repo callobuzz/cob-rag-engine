@@ -171,7 +171,18 @@ def _limit_row(tenant: uuid.UUID, limit: int | None) -> MagicMock:
     (max_corpora, the plan's six limits, cached flag, overrides, six grant sums)."""
     result = MagicMock()
     result.scalar_one_or_none.return_value = tenant
-    result.one_or_none.return_value = (None, None, None, limit, None, None, None, True, {}, *[0] * 6)
+    result.one_or_none.return_value = (
+        None,
+        None,
+        None,
+        limit,
+        None,
+        None,
+        None,
+        True,
+        {},
+        *[0] * 6,
+    )
     return result
 
 

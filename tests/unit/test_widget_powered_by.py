@@ -45,7 +45,9 @@ def test_the_footer_is_plain_text_built_in_the_panel_from_the_config() -> None:
     build = _function_body(script, "build")
     statement = build[build.index("root.innerHTML =") :]
     statement = statement[: statement.index(";")]
-    assert statement.index("</form>") < statement.index("footHtml()") < statement.index("</section>")
+    assert (
+        statement.index("</form>") < statement.index("footHtml()") < statement.index("</section>")
+    )
     assert "?" not in statement.replace('"?"', "")
     assert not re.search(r"\bif\s*\(", statement)
     foot = _function_body(script, "footHtml")
@@ -54,7 +56,6 @@ def test_the_footer_is_plain_text_built_in_the_panel_from_the_config() -> None:
     assert "powered_by: { text: POWERED_TEXT }" in script
     # null (hidden) must override the default although the loader skips nulls
     assert "remote.powered_by === null" in script
-
 
 
 def test_the_footer_uses_a_muted_text_colour_not_the_brand_colour() -> None:

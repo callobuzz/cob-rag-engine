@@ -103,13 +103,18 @@ def test_every_page_is_on_the_shared_system(name: str) -> None:
 @pytest.mark.parametrize("name", PAGES)
 def test_every_page_has_the_same_main_nav(name: str) -> None:
     nav = _main_nav(_read(name))
-    assert re.findall(r'<a href="([^"]+)"', nav.split('class="links"', 1)[1].split("</div>", 1)[0]) == NAV_LINKS
-    assert 'data-theme-toggle' in nav and 'aria-pressed="false"' in nav
+    assert (
+        re.findall(r'<a href="([^"]+)"', nav.split('class="links"', 1)[1].split("</div>", 1)[0])
+        == NAV_LINKS
+    )
+    assert "data-theme-toggle" in nav and 'aria-pressed="false"' in nav
     assert 'class="gh" href="https://github.com/callobuzz/cob-rag-engine"' in nav
     current = re.findall(r'<a href="([^"]+)" aria-current="page"', nav)
     assert current == ([name] if name in NAV_LINKS else [])
     # the same markup on every page, apart from which link is current
-    assert re.sub(r' aria-current="page"', "", nav) == re.sub(r' aria-current="page"', "", _main_nav(_index()))
+    assert re.sub(r' aria-current="page"', "", nav) == re.sub(
+        r' aria-current="page"', "", _main_nav(_index())
+    )
 
 
 def test_the_theme_script_defaults_to_light_and_keeps_the_choice() -> None:

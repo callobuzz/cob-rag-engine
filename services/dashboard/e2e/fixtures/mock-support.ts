@@ -78,7 +78,12 @@ const detail = (r: Row) => ({
 		created_at: m.created_at,
 	})),
 });
-const adminRow = (r: Row) => ({ ...tenantRow(r), tenant_id: r.tenant_id, workspace_name: r.workspace_name, source: "landing_contact" in r.context ? "website" : "workspace" });
+const adminRow = (r: Row) => ({
+	...tenantRow(r),
+	tenant_id: r.tenant_id,
+	workspace_name: r.workspace_name,
+	source: "landing_contact" in r.context ? "website" : "workspace",
+});
 const adminDetail = (r: Row) => ({ ...adminRow(r), context: r.context, messages: r.messages });
 
 let tick = 0;

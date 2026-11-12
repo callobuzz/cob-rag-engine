@@ -73,7 +73,10 @@ def _session_row(row: tuple[Any, ...] | None) -> AsyncMock:
             (25, 3, 1000, 500, 2, None, None, False, None, 0, 0, 0, 0, 0, 0),
             caps.Limits(25, 1000, 500, 2, count_cached_answers=False),
         ),  # the override wins
-        ((None, None, None, None, None, None, None, True, {}, 0, 0, 0, 0, 0, 0), caps.Limits()),  # unlimited
+        (
+            (None, None, None, None, None, None, None, True, {}, 0, 0, 0, 0, 0, 0),
+            caps.Limits(),
+        ),  # unlimited
         (None, caps.Limits()),  # no such tenant: nothing to enforce
     ],
 )
@@ -87,7 +90,10 @@ async def test_question_quota_reads_limit_and_month_in_one_query() -> None:
     assert session.execute.await_count == 1
     sql = str(session.execute.await_args.args[0])
     assert "LEFT OUTER JOIN tenant_question_counts" in sql and "JOIN plans" in sql
-    assert await caps.question_quota(_session_row((None, 5, {}, 0)), uuid.uuid4(), date.today()) is None
+    assert (
+        await caps.question_quota(_session_row((None, 5, {}, 0)), uuid.uuid4(), date.today())
+        is None
+    )
 
 
 async def test_a_locking_quota_read_takes_the_count_row_first() -> None:

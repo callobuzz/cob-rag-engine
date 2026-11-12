@@ -243,9 +243,8 @@ class _Converter(HTMLParser):
                 self._flush()
         elif tag in ("em", "i"):
             self._inline.append("*")
-        elif tag == "a":
-            if self._links and self._links.pop():
-                self._inline.append(f"]({self._href})")
+        elif tag == "a" and self._links and self._links.pop():
+            self._inline.append(f"]({self._href})")
         if tag in _BLOCK_TAGS and tag != "dt":
             self._flush()
 

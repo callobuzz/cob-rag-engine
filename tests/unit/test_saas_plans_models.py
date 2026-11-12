@@ -14,7 +14,17 @@ from callobuzz_rag.db.models import AddOn, AddOnGrant, Plan, ServiceOrder
 from callobuzz_rag.db.models.add_on import KIND_FIELDS_CHECK, RENEWS_CHECK
 from tests.unit.accounts_fakes import MODELS
 
-_COLUMNS = ["kind", "credit_minor", "limit_field", "limit_delta", "questions", "feature", "duration", "renews", "includes_support_months"]
+_COLUMNS = [
+    "kind",
+    "credit_minor",
+    "limit_field",
+    "limit_delta",
+    "questions",
+    "feature",
+    "duration",
+    "renews",
+    "includes_support_months",
+]
 
 
 def _ok(check: str, **row: object) -> bool:
