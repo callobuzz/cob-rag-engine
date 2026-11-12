@@ -16,7 +16,9 @@ jobs:
   test:
     name: Lint + unit tests
     runs-on: ubuntu-latest
-    timeout-minutes: 30
+    # About 19,000 tests: one at a time they passed the old 30-minute limit, so they run on every
+    # core of the runner (pytest -n auto below) and the limit leaves room for a slow runner.
+    timeout-minutes: 60
     steps:
       - uses: actions/checkout@v4
 
@@ -55,7 +57,7 @@ jobs:
           pytest -q tests/unit/test_billing_money.py tests/unit/test_billing_ledger_model.py tests/unit/test_billing_charging.py tests/unit/test_billing_properties.py tests/unit/test_billing_statements.py tests/unit/test_billing_limits.py
 
       - name: Tests (everything that needs no running services)
-        run: pytest -q
+        run: pytest -q -n auto
 
   clients:
     name: Client SDKs

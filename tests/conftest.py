@@ -1,6 +1,8 @@
 """Shared test fixtures."""
 
 import os
+import re
+import uuid
 from collections.abc import Iterator
 
 # LiteLLM calls `load_dotenv()` at import unless LITELLM_MODE=PRODUCTION, and
@@ -18,6 +20,21 @@ from callobuzz_rag.core.config import Settings
 # would otherwise read it and a test would pass or fail by whose machine it runs
 # on. Explicit `_env_file=...` arguments still override this.
 Settings.model_config["env_file"] = None
+
+_UUID = re.compile(r"[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12}")
+
+
+def pytest_make_parametrize_id(config: pytest.Config, val: object, argname: str) -> str | None:
+    """Name a random UUID in a parameter `<uuid>`, so every run names a test the same way.
+
+    Many cases carry a fresh `uuid4()` (an unknown id, a path to a missing row). In the test id
+    that made each process collect different names, and `pytest -n` (CI) refuses to start when
+    its workers disagree. Only the id changes; the test still gets the random value."""
+    if isinstance(val, uuid.UUID):
+        return "<uuid>"
+    if isinstance(val, str) and _UUID.search(val):
+        return _UUID.sub("<uuid>", val)
+    return None
 
 
 @pytest.fixture(autouse=True, scope="session")
