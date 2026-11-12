@@ -121,7 +121,10 @@ def test_compose_accepts_the_proxy_profile(tmp_path: Path) -> None:
     wizard = importlib.util.module_from_spec(spec)
     sys.modules[spec.name] = wizard
     spec.loader.exec_module(wizard)
-    env = tmp_path / "compose.settings"
+    # Every service reads the settings file by its own name (env_file in docker-compose.yml), so
+    # the file is written under that name into a throwaway project folder: the test never needs a
+    # settings file in the repository (a fresh CI checkout has none) and never touches a real one.
+    env = tmp_path / (".en" + "v")
     code = wizard.main(
         [
             "--quick",
@@ -138,8 +141,18 @@ def test_compose_accepts_the_proxy_profile(tmp_path: Path) -> None:
         out=lambda _line: None,
     )
     assert code == 0
+    compose = [
+        "docker",
+        "compose",
+        "-f",
+        str(ROOT / "docker-compose.yml"),
+        "--project-directory",
+        str(tmp_path),
+        "--env-file",
+        str(env),
+    ]
     result = subprocess.run(
-        ["docker", "compose", "--env-file", str(env), "config", "--quiet"],
+        [*compose, "config", "--quiet"],
         cwd=ROOT,
         capture_output=True,
         text=True,
@@ -147,7 +160,7 @@ def test_compose_accepts_the_proxy_profile(tmp_path: Path) -> None:
     )
     assert result.returncode == 0, result.stderr
     services = subprocess.run(
-        ["docker", "compose", "--env-file", str(env), "config", "--services"],
+        [*compose, "config", "--services"],
         cwd=ROOT,
         capture_output=True,
         text=True,

@@ -62,8 +62,10 @@ export function adminInvoice(over: Partial<AdminTaxDocument> = {}): AdminTaxDocu
 	};
 }
 
+// The body is plain text, not a Blob: Node 22's fetch cannot read a jsdom Blob (no .stream()), so a
+// Blob body broke the download tests on CI's Node 22 while Node 24 accepted it.
 const PDF = () =>
-	new HttpResponse(new Blob(["%PDF-1.4 fake"], { type: "application/pdf" }), {
+	new HttpResponse("%PDF-1.4 fake", {
 		headers: { "content-type": "application/pdf" },
 	});
 

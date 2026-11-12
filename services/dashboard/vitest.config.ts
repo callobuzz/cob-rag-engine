@@ -3,6 +3,10 @@ import path from "node:path";
 import react from "@vitejs/plugin-react";
 import { defineConfig } from "vitest/config";
 
+// The tests read dates the way an Indian operator sees them (IST). Without this, a machine in UTC
+// (GitHub's CI) shows a 00:00 IST change as the day before, and date assertions differ by machine.
+process.env.TZ = "Asia/Kolkata";
+
 export default defineConfig({
 	plugins: [react()],
 	resolve: {
