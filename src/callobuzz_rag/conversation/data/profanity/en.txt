@@ -1,0 +1,13 @@
+# Mild English insults/profanity. One term per line, matched as whole words, case-insensitive.
+idiot
+stupid
+dumb
+moron
+bastard
+shut up
+fuck
+fucking
+shit
+bullshit
+bloody fool
+useless bot

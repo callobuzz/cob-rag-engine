@@ -1,0 +1,52 @@
+{
+  "clinic": {
+    "template": "clinic",
+    "business_name": "Sahyadri Diagnostics",
+    "business_profile": "Diagnostic lab in Pune with a branch in Kothrud: blood tests, thyroid and lipid profiles, health checkup packages for families and companies, visa medicals, home sample collection and online reports."
+  },
+  "store": {
+    "template": "store",
+    "business_name": "Vastra Silk House",
+    "business_profile": "Saree and ethnic wear store in Pune: Kanjivaram, Banarasi and Paithani silk sarees, blouses and school uniforms, sold in store and online with delivery across India."
+  },
+  "coaching": {
+    "template": "coaching",
+    "business_name": "Vidya Classes",
+    "business_profile": "Coaching institute in Pune: Class 8 to 10 foundation courses, NEET and JEE preparation, weekday and weekend batches."
+  },
+  "d_clinic": {
+    "template": "clinic",
+    "business_name": "Nirmal Health Clinic",
+    "business_profile": "Family clinic and pathology lab in Nagpur: doctor consultations, blood tests, child and adult vaccinations, physiotherapy."
+  },
+  "d_shoes": {
+    "template": "store",
+    "business_name": "Pace Footwear",
+    "business_profile": "Shoe shop in Jaipur, in store and online: running and sports shoes from Nike, ASICS and Salomon, formal shoes, sandals and kids' school shoes."
+  },
+  "d_english": {
+    "template": "coaching",
+    "business_name": "Bridge English Academy",
+    "business_profile": "Spoken English, IELTS and PTE coaching in Lucknow, in online and classroom batches."
+  },
+  "d_food": {
+    "template": "restaurant",
+    "business_name": "Masala Tadka Kitchen",
+    "business_profile": "North Indian restaurant in Indore: dine-in, takeaway, home delivery and party catering, with Jain options."
+  },
+  "d_homes": {
+    "template": "real_estate",
+    "business_name": "Skyline Homes",
+    "business_profile": "Builder of 2 and 3 BHK apartments in Noida Extension (Towers A to D): site visits, bookings and home loan help."
+  },
+  "d_billing": {
+    "template": "saas",
+    "business_name": "LedgerLite",
+    "business_profile": "GST billing and invoicing app for small shops, with a mobile app, inventory and yearly plans."
+  },
+  "d_blank": {
+    "template": "generic_support",
+    "business_name": "",
+    "business_profile": ""
+  }
+}

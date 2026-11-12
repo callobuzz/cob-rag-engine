@@ -1,0 +1,11 @@
+{% extends "_base.html" %}
+{% from "_macros.html" import button with context %}
+{% block content %}
+{% if reason == "token" %}
+<p style="margin:0 0 12px;">WhatsApp stopped answering for <strong>{{ tenant_name }}</strong>. Meta no longer accepts the connection of {{ number }} (its access has expired or was taken back), so customers' messages are kept for you but get no reply from the assistant.</p>
+{{ button(whatsapp_url, "Reconnect the number") }}
+{% else %}
+<p style="margin:0 0 12px;">WhatsApp was switched off for <strong>{{ tenant_name }}</strong>. Your plan on {{ branding.product_name }} no longer includes WhatsApp, so {{ number }} stopped answering and sending messages. Nothing was deleted.</p>
+{{ button(whatsapp_url, "Plans and WhatsApp") }}
+{% endif %}
+{% endblock %}

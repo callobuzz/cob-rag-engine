@@ -1,0 +1,9 @@
+{% extends "_base.txt" %}
+{% block content %}
+{{ product_name }} replied to your request #{{ number }}: {{ request_subject }}
+
+{{ message }}
+
+See the conversation:
+{{ request_url }}
+{% endblock %}

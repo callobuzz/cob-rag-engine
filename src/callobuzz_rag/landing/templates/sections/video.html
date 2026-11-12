@@ -1,0 +1,20 @@
+{% import "macros.html" as m with context %}
+{#- The video has no `src` until the script decides it is allowed (motion allowed, data saver
+    off, in view). The poster is what everyone sees first. A deleted file takes the section
+    with it. -#}
+{% set video = media.get(s.video_asset_id|string) %}
+{% set poster = media.get(s.poster_asset_id|string) %}
+{% if video and poster and s.placement == "section" %}
+<section class="section video" data-section="video" id="{{ s.id }}">
+  <div class="wrap">
+    {{ m.head(s) }}
+    <figure class="video-frame">
+      <video muted playsinline loop preload="none" poster="/_landing/media/{{ poster }}{{ media_suffix }}" data-video>
+        <source data-src="/_landing/media/{{ video }}{{ media_suffix }}">
+      </video>
+      <button type="button" class="video-toggle" data-video-toggle aria-pressed="false" data-play="{{ ui.play_video }}" data-pause="{{ ui.pause_video }}">{{ ui.play_video }}</button>
+      {% if s.caption %}<figcaption>{{ s.caption|t }}</figcaption>{% endif %}
+    </figure>
+  </div>
+</section>
+{% endif %}

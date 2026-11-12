@@ -1,0 +1,6 @@
+{% extends "_base.html" %}
+{% from "_macros.html" import button with context %}
+{% block content %}
+<p style="margin:0 0 12px;">The price change we announced for the <strong>{{ plan_name }}</strong> plan of <strong>{{ business_name }}</strong> will not happen. Your price stays as it is.</p>
+{{ button(billing_url, "See your plan") }}
+{% endblock %}

@@ -1,0 +1,24 @@
+{% import "macros.html" as m with context %}
+<section class="section grounded" data-section="grounded" id="{{ s.id }}">
+  <div class="wrap">
+    {{ m.head(s) }}
+    <div class="grounded-grid">
+      <ul class="behaviours">
+        {% for b in s.behaviours %}
+        <li class="behaviour">
+          {{ m.icon("check") }}
+          <div><h3>{{ b.title|t }}</h3><p>{{ b.text|t }}</p></div>
+        </li>
+        {% endfor %}
+      </ul>
+      <div class="caught" role="group" aria-label="{{ ui.checked_against }}">
+        <p class="caught-label">{{ ui.caught }}</p>
+        <p class="bubble bubble-assistant caught-guess"><s>{{ s.caught_example.guess|t }}</s></p>
+        <p class="caught-check">{{ m.icon("shield") }}{{ ui.checked_against }}</p>
+        <p class="caught-label">{{ ui.sent_instead }}</p>
+        <p class="bubble bubble-assistant caught-fixed">{{ s.caught_example.replaced_by|t }}</p>
+      </div>
+    </div>
+    <p class="fact-check">{{ s.fact_check_line|t }}</p>
+  </div>
+</section>

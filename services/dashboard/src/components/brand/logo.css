@@ -1,0 +1,431 @@
+/* cob-rag-engine logo: colour tokens plus the animated states, ported from the landing page footer logo
+ * (docs/index.html). Motion is state-driven by data-state on .lm-anim: armed (held), assemble (intro, once),
+ * live (calm loop). .is-paused stops everything when off-screen or the tab is hidden. Transform and opacity
+ * only, no SVG filters. */
+.lm {
+	/* logo-mark colours, from logo-source.png */
+	--logo-white: oklch(100.0% 0 0);
+	--logo-frost: oklch(94.1% 0.016 245.1);
+	--logo-steel: oklch(83.0% 0.032 245.2);
+	--logo-mist: oklch(95.9% 0.013 241);
+	--logo-ice: oklch(93.8% 0.057 208.6);
+	--logo-cyan: oklch(77.3% 0.132 219.9);
+	--logo-cyandeep: oklch(69.1% 0.139 232.6);
+	--logo-azure: oklch(57.5% 0.19 257.8);
+	--logo-band: oklch(76.7% 0.12 255.8);
+	--logo-cobalt: oklch(53.4% 0.204 261.6);
+	--logo-navy: oklch(36.0% 0.16 264.5);
+	--logo-side: oklch(31.3% 0.123 263.7);
+	--logo-sidedeep: oklch(23.9% 0.093 264.5);
+	--logo-well: oklch(20.6% 0.055 263.7);
+	--logo-welldeep: oklch(12.5% 0.022 269.7);
+	--logo-bhi: oklch(93.2% 0.063 208.6);
+	--logo-bcyan: oklch(82.1% 0.122 216.1);
+	--logo-bcyan2: oklch(76.0% 0.133 227.1);
+	--logo-bband: oklch(92.2% 0.064 213.4);
+	--logo-bcyan3: oklch(73.7% 0.136 235.6);
+	--logo-bmid: oklch(58.5% 0.191 258.1);
+	--logo-bband2: oklch(74.7% 0.133 254.1);
+	--logo-bblue: oklch(52.8% 0.207 262.2);
+	--logo-bdeep: oklch(43.5% 0.192 264.2);
+	--logo-pipedark: oklch(30.4% 0.112 261.5);
+	--logo-pipe: oklch(62.3% 0.18 255.1);
+	--logo-pipe2: oklch(52.8% 0.207 262.2);
+	--logo-pipehi: oklch(94.0% 0.047 215);
+	--logo-shadow: oklch(10.6% 0.032 252);
+	--logo-shi: oklch(98.8% 0.013 202.9);
+	--logo-sice: oklch(91.7% 0.077 205);
+	--logo-score: oklch(79.7% 0.134 211.5);
+	--logo-smid: oklch(60.9% 0.111 221.7);
+	--logo-sedge: oklch(34.4% 0.091 251.4);
+}
+.lm {
+	--lm-ease-out: cubic-bezier(0.16, 1, 0.3, 1);
+	--lm-ease-in: cubic-bezier(0.5, 0, 0.75, 0);
+	--lm-ease-in-out: cubic-bezier(0.65, 0, 0.35, 1);
+	--lm-accent: var(--brand, #2f8cff);
+}
+.lm-svg {
+	display: block;
+	width: 100%;
+	height: 100%;
+	overflow: visible;
+}
+.lm-anim {
+	position: relative;
+	isolation: isolate;
+	margin: 0;
+	aspect-ratio: 1;
+}
+.lm-anim::before {
+	content: "";
+	position: absolute;
+	inset: 4%;
+	z-index: -1;
+	border-radius: 50%;
+	background: radial-gradient(closest-side, color-mix(in oklch, var(--lm-accent) 22%, transparent), transparent 72%);
+	pointer-events: none;
+}
+.lm-anim :is(.lm-frame-upper, .lm-frame-lower, .lm-pipe path) {
+	stroke-dasharray: 1;
+	stroke-dashoffset: 0;
+}
+.lm-anim :is(.lm-block-top, .lm-block-mid, .lm-block-bottom) {
+	transform-box: view-box;
+	transform-origin: 0 0;
+}
+.lm-anim :is(.lm-sphere, .lm-bloom, .lm-flare) {
+	transform-box: fill-box;
+	transform-origin: center;
+}
+.lm-anim .lm-bloom {
+	opacity: 0.5;
+}
+.lm-edge {
+	fill: none;
+	stroke: var(--lm-accent);
+	stroke-width: 46;
+	stroke-linejoin: round;
+	opacity: 0.2;
+}
+.lm-lockflash {
+	fill: none;
+	stroke: var(--logo-white);
+	stroke-width: 4;
+	stroke-linecap: round;
+	opacity: 0;
+}
+.lm-pulse {
+	fill: none;
+	stroke: var(--logo-ice);
+	stroke-width: 6;
+	stroke-linecap: round;
+	stroke-dasharray: 0.07 2;
+	stroke-dashoffset: 0.07;
+	opacity: 0;
+}
+.lm-flare {
+	fill: var(--logo-ice);
+	opacity: 0;
+}
+.lm-ring {
+	position: absolute;
+	inset: 0;
+	width: 100%;
+	height: 100%;
+	overflow: visible;
+	pointer-events: none;
+	transform-origin: 50% 50.71%;
+	will-change: transform;
+}
+.lm-gear-teeth {
+	fill: none;
+	stroke: color-mix(in oklch, var(--lm-accent) 32%, transparent);
+	stroke-width: 9;
+	stroke-dasharray: 1.6 3.4;
+}
+.lm-gear-ring {
+	fill: none;
+	stroke: color-mix(in oklch, var(--lm-accent) 28%, transparent);
+	stroke-width: 1;
+}
+.lm-gear-index {
+	fill: none;
+	stroke: color-mix(in oklch, var(--lm-accent) 70%, transparent);
+	stroke-width: 2.5;
+	stroke-linecap: round;
+}
+.lm-scan circle {
+	fill: none;
+	stroke: var(--lm-accent);
+	stroke-width: 2;
+	stroke-dasharray: 9 91;
+	stroke-linecap: round;
+	opacity: 0.65;
+}
+.lm-sweep {
+	transform-box: view-box;
+	transform: translateX(-200px);
+}
+
+@keyframes lm-draw {
+	from {
+		stroke-dashoffset: 1;
+	}
+	to {
+		stroke-dashoffset: 0;
+	}
+}
+@keyframes lm-clunk {
+	0% {
+		transform: translateX(-44px);
+		opacity: 0;
+	}
+	45% {
+		opacity: 1;
+	}
+	62% {
+		transform: translateX(3px);
+	}
+	78% {
+		transform: translateX(-1px);
+	}
+	100% {
+		transform: none;
+		opacity: 1;
+	}
+}
+@keyframes lm-fade {
+	from {
+		opacity: 0;
+	}
+	to {
+		opacity: 1;
+	}
+}
+@keyframes lm-flash {
+	0%,
+	100% {
+		opacity: 0;
+	}
+	30% {
+		opacity: 1;
+	}
+}
+@keyframes lm-ignite {
+	0% {
+		transform: scale(0.2);
+		opacity: 0;
+	}
+	60% {
+		transform: scale(1.05);
+		opacity: 1;
+	}
+	100% {
+		transform: none;
+		opacity: 1;
+	}
+}
+@keyframes lm-bloom {
+	0% {
+		opacity: 0;
+		transform: scale(0.4);
+	}
+	45% {
+		opacity: 1;
+		transform: scale(1.4);
+	}
+	100% {
+		opacity: 0.5;
+		transform: none;
+	}
+}
+@keyframes lm-flare {
+	0% {
+		opacity: 0;
+		transform: scale(0.2, 1);
+	}
+	35% {
+		opacity: 1;
+		transform: scale(1.1, 1);
+	}
+	100% {
+		opacity: 0;
+		transform: scale(1.3, 1);
+	}
+}
+@keyframes lm-glint {
+	0%,
+	91%,
+	100% {
+		opacity: 0;
+		transform: scale(0.4, 1);
+	}
+	95% {
+		opacity: 0.75;
+		transform: scale(1, 1);
+	}
+}
+@keyframes lm-breathe {
+	0%,
+	100% {
+		opacity: 0.42;
+		transform: none;
+	}
+	50% {
+		opacity: 0.8;
+		transform: scale(1.12);
+	}
+}
+@keyframes lm-pulse {
+	0% {
+		stroke-dashoffset: 0.07;
+		opacity: 0;
+	}
+	4% {
+		opacity: 1;
+	}
+	58% {
+		stroke-dashoffset: -1;
+		opacity: 1;
+	}
+	62%,
+	100% {
+		stroke-dashoffset: -1;
+		opacity: 0;
+	}
+}
+@keyframes lm-spin {
+	to {
+		transform: rotate(360deg);
+	}
+}
+@keyframes lm-edge {
+	0%,
+	100% {
+		opacity: 0.1;
+	}
+	50% {
+		opacity: 0.3;
+	}
+}
+@keyframes lm-sweep {
+	0% {
+		transform: translateX(-200px);
+	}
+	24%,
+	100% {
+		transform: translateX(700px);
+	}
+}
+
+/* armed: held until the logo is on screen */
+.lm-anim[data-state="armed"] :is(.lm-frame-upper, .lm-frame-lower, .lm-pipe path) {
+	stroke-dashoffset: 1;
+}
+.lm-anim[data-state="armed"] :is(.lm-block-top, .lm-block-mid, .lm-block-bottom) {
+	opacity: 0;
+	transform: translateX(-44px);
+}
+.lm-anim[data-state="armed"]
+	:is(.lm-well, .lm-well-ao, .lm-frame-detail, .lm-couplings, .lm-gear, .lm-scan, .lm-edge, .lm-sphere, .lm-bloom) {
+	opacity: 0;
+}
+/* assemble: the bay appears, the frame is drawn, blocks slide in and lock, the conduits run, the core ignites */
+.lm-anim[data-state="assemble"] :is(.lm-well, .lm-well-ao) {
+	animation: lm-fade 0.5s var(--lm-ease-out) both;
+}
+.lm-anim[data-state="assemble"] .lm-frame-upper {
+	animation: lm-draw 0.7s var(--lm-ease-in) 0.1s both;
+}
+.lm-anim[data-state="assemble"] .lm-frame-lower {
+	animation: lm-draw 0.7s var(--lm-ease-out) 0.8s both;
+}
+.lm-anim[data-state="assemble"] .lm-frame-detail {
+	animation: lm-fade 0.5s var(--lm-ease-out) 1.35s both;
+}
+.lm-anim[data-state="assemble"] :is(.lm-block-top, .lm-block-mid, .lm-block-bottom) {
+	animation: lm-clunk 0.52s cubic-bezier(0.7, 0, 0.2, 1) calc(1s + var(--i) * 0.16s) both;
+}
+.lm-anim[data-state="assemble"] .lm-lockflash {
+	animation: lm-flash 0.38s var(--lm-ease-out) calc(1.34s + var(--i) * 0.16s) both;
+}
+.lm-anim[data-state="assemble"] .lm-pipe path {
+	animation: lm-draw 0.45s var(--lm-ease-out) calc(1.6s + var(--i) * 0.12s) both;
+}
+.lm-anim[data-state="assemble"] .lm-couplings {
+	animation: lm-fade 0.3s var(--lm-ease-out) 1.9s both;
+}
+.lm-anim[data-state="assemble"] .lm-sphere {
+	animation: lm-ignite 0.7s var(--lm-ease-out) 2.2s both;
+}
+.lm-anim[data-state="assemble"] .lm-bloom {
+	animation: lm-bloom 1.1s var(--lm-ease-out) 2.2s both;
+}
+.lm-anim[data-state="assemble"] .lm-flare {
+	animation: lm-flare 0.9s var(--lm-ease-out) 2.35s both;
+}
+.lm-anim[data-state="assemble"] :is(.lm-gear, .lm-scan, .lm-edge) {
+	animation: lm-fade 0.8s var(--lm-ease-out) 2.4s both;
+}
+/* live: the calm loop */
+.lm-anim[data-state="live"] .lm-pulse {
+	animation: lm-pulse 3.4s linear calc(var(--i) * 0.12s) infinite;
+}
+.lm-anim[data-state="live"] .lm-bloom {
+	animation: lm-breathe 3.4s var(--lm-ease-in-out) 1.6s infinite;
+}
+.lm-anim[data-state="live"] .lm-edge {
+	animation: lm-edge 4.2s var(--lm-ease-in-out) infinite;
+}
+.lm-anim[data-state="live"] .lm-gear {
+	animation: lm-spin 43.2s steps(72) infinite;
+}
+.lm-anim[data-state="live"] .lm-scan {
+	animation: lm-spin 9s linear infinite;
+}
+.lm-anim[data-state="live"] .lm-sweep {
+	animation: lm-sweep 7s var(--lm-ease-in-out) 1s infinite;
+}
+.lm-anim[data-state="live"] .lm-flare {
+	animation: lm-glint 8.4s var(--lm-ease-out) 2s infinite;
+}
+.lm-anim.is-paused * {
+	/* biome-ignore lint/complexity/noImportantStyles: pausing must beat the animation shorthand of every state rule above */
+	animation-play-state: paused !important;
+}
+
+@media (prefers-reduced-motion: reduce) {
+	/* One rule stops every animation; the rules after it only set the resting look. */
+	.lm-anim
+	:is(
+		.lm-block-top,
+		.lm-block-mid,
+		.lm-block-bottom,
+		.lm-sphere,
+		.lm-well,
+		.lm-well-ao,
+		.lm-frame-detail,
+		.lm-couplings,
+		.lm-gear,
+		.lm-scan,
+		.lm-bloom,
+		.lm-edge
+	) {
+		/* biome-ignore lint/complexity/noImportantStyles: reduced motion must win over every state rule and inline style, whatever its specificity */
+		animation: none !important;
+	}
+	.lm-anim :is(.lm-frame-upper, .lm-frame-lower, .lm-pipe path) {
+		/* biome-ignore lint/complexity/noImportantStyles: reduced motion must win over every state rule and inline style, whatever its specificity */
+		stroke-dashoffset: 0 !important;
+	}
+	.lm-anim
+		:is(
+			.lm-block-top,
+			.lm-block-mid,
+			.lm-block-bottom,
+			.lm-sphere,
+			.lm-well,
+			.lm-well-ao,
+			.lm-frame-detail,
+			.lm-couplings,
+			.lm-gear,
+			.lm-scan
+		) {
+		/* biome-ignore lint/complexity/noImportantStyles: reduced motion must win over every state rule and inline style, whatever its specificity */
+		opacity: 1 !important;
+		/* biome-ignore lint/complexity/noImportantStyles: reduced motion must win over every state rule and inline style, whatever its specificity */
+		transform: none !important;
+	}
+	.lm-anim .lm-bloom {
+		/* biome-ignore lint/complexity/noImportantStyles: reduced motion must win over every state rule and inline style, whatever its specificity */
+		opacity: 0.55 !important;
+	}
+	.lm-anim .lm-edge {
+		/* biome-ignore lint/complexity/noImportantStyles: reduced motion must win over every state rule and inline style, whatever its specificity */
+		opacity: 0.2 !important;
+	}
+	.lm-anim :is(.lm-pulse, .lm-flare, .lm-lockflash, .lm-sweep-wrap) {
+		display: none;
+	}
+}

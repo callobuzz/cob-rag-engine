@@ -1,0 +1,41 @@
+{% extends "_base.txt" %}
+{% block content %}
+Here is what your assistant did for {{ business_name }} in {{ month_label }}.
+
+{{ total }}
+Estimated value, {% if saved_settings %}based on your settings{% else %}using suggested values for your kind of business{% endif %}.
+
+{% for part in parts %}
+{{ part.label }}: {{ part.amount }}
+  {{ part.formula }}
+{% endfor %}
+
+The numbers
+- {{ conversations }} conversations
+- {{ answered }} questions answered without staff ({{ after_hours }} of them after hours)
+- {{ leads_qualified }} {{ leads_label }}
+- {{ handoffs }} requests to talk to a person, {{ bookings }} bookings requested
+- First reply: {{ first_reply }}
+{% if top_questions %}
+
+What people asked most
+{% for q in top_questions[:5] %}
+- {{ q.question }} ({{ q.count }})
+{% endfor %}
+{% endif %}
+{% if unanswered %}
+
+Questions it could not answer
+{% for q in unanswered[:5] %}
+- {{ q.question }} ({{ q.count }})
+{% endfor %}
+
+Adding these answers to your knowledge base helps next month.
+{% endif %}
+
+See the full report:
+{{ report_url }}
+
+{% if saved_settings %}These are estimates based on the values you set.{% else %}These are estimates using suggested values. Set your own for a closer number.{% endif %} Change them any time:
+{{ settings_url }}
+{% endblock %}

@@ -1,0 +1,13 @@
+{% extends "_base.txt" %}
+{% block content %}
+{% if reason == "token" -%}
+WhatsApp stopped answering for {{ tenant_name }}. Meta no longer accepts the connection of {{ number }} (its access has expired or was taken back), so customers' messages are kept for you but get no reply from the assistant.
+
+Reconnect the number to start answering again:
+{%- else -%}
+WhatsApp was switched off for {{ tenant_name }}. Your plan on {{ branding.product_name }} no longer includes WhatsApp, so {{ number }} stopped answering and sending messages. Nothing was deleted.
+
+Plans and WhatsApp:
+{%- endif %}
+{{ whatsapp_url }}
+{% endblock %}

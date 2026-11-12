@@ -1,0 +1,9 @@
+{% extends "_base.html" %}
+{% from "_macros.html" import button with context %}
+{% block content %}
+<p style="margin:0 0 12px;"><strong>{{ tenant_name }}</strong>: your order for <strong>{{ service_name }}</strong> is now <strong>{{ status_label }}</strong>.</p>
+{% if public_note %}
+<p style="margin:0 0 12px;padding:8px 12px;border-left:3px solid #dfe3ea;">{{ public_note }}</p>
+{% endif %}
+{{ button(orders_url, "See your orders") }}
+{% endblock %}

@@ -1,0 +1,12 @@
+{% extends "_base.txt" %}
+{% block content %}
+You are the administrator of {{ branding.product_name }}. Set your password to sign in:
+
+{{ link }}
+
+If the page asks for a code, enter this one:
+
+    {{ code }}
+
+The link and the code expire in {{ hours }} hours.
+{% endblock %}

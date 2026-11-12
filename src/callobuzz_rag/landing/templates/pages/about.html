@@ -1,0 +1,44 @@
+{% extends "base.html" %}
+{% block main %}
+{% set a = c.about %}
+<section class="section page-head about-head">
+  <div class="wrap narrow story">
+    <h1 class="display">{{ a.headline|t }}</h1>
+    {% for paragraph in a.story %}<p class="lead">{{ paragraph|t }}</p>{% endfor %}
+  </div>
+</section>
+{% if a.values %}
+<section class="section values">
+  <div class="wrap">
+    <ul class="tiles">
+      {% for v in a.values %}
+      <li class="tile"><h3>{{ v.title|t }}</h3><p>{{ v.text|t }}</p></li>
+      {% endfor %}
+    </ul>
+  </div>
+</section>
+{% endif %}
+{% if a.team %}
+<section class="section team">
+  <div class="wrap">
+    <ul class="tiles">
+      {% for member in a.team %}
+      <li class="tile"><h3>{{ member.name }}</h3><p>{{ member.role|t }}</p></li>
+      {% endfor %}
+    </ul>
+  </div>
+</section>
+{% endif %}
+{% set co = env.company %}
+{% if a.show_company_details and (co.legal_name or address_lines or co.email or co.phone) %}
+<section class="section company">
+  <div class="wrap narrow">
+    <h2 class="section-title">{{ ui.about_company }}</h2>
+    {% if co.legal_name %}<p><strong>{{ co.legal_name }}</strong></p>{% endif %}
+    {% for line in address_lines %}<p class="muted">{{ line }}</p>{% endfor %}
+    {% if co.email %}<p><a class="contact-link" href="mailto:{{ co.email }}">{{ co.email }}</a></p>{% endif %}
+    {% if co.phone %}<p><a class="contact-link" href="tel:{{ phone_digits }}">{{ co.phone }}</a></p>{% endif %}
+  </div>
+</section>
+{% endif %}
+{% endblock %}

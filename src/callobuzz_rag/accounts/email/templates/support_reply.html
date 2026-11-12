@@ -1,0 +1,7 @@
+{% extends "_base.html" %}
+{% from "_macros.html" import button with context %}
+{% block content %}
+<p style="margin:0 0 12px;">{{ product_name }} replied to your request #{{ number }}: <strong>{{ request_subject }}</strong></p>
+<p style="margin:0 0 16px;white-space:pre-wrap;">{{ message }}</p>
+{{ button(request_url, "See the conversation") }}
+{% endblock %}

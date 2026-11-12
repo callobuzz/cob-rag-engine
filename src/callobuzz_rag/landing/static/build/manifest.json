@@ -1,0 +1,39 @@
+{
+  "_motion-BpuvTA3T.js": {
+    "file": "assets/motion-BpuvTA3T.js",
+    "name": "motion"
+  },
+  "src/core/index.ts": {
+    "file": "assets/core-BCDHwYOp.js",
+    "name": "core",
+    "src": "src/core/index.ts",
+    "isEntry": true,
+    "imports": [
+      "_motion-BpuvTA3T.js"
+    ],
+    "css": [
+      "assets/core-Dqhuc2Yx.css"
+    ]
+  },
+  "src/home/index.ts": {
+    "file": "assets/home-CcNPY08F.js",
+    "name": "home",
+    "src": "src/home/index.ts",
+    "isEntry": true,
+    "imports": [
+      "_motion-BpuvTA3T.js"
+    ],
+    "css": [
+      "assets/home-DBgRq1Y5.css"
+    ]
+  },
+  "src/pages/index.ts": {
+    "file": "assets/pages-kX0qTpb4.js",
+    "name": "pages",
+    "src": "src/pages/index.ts",
+    "isEntry": true,
+    "css": [
+      "assets/pages-CVxZi1n3.css"
+    ]
+  }
+}

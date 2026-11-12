@@ -1,0 +1,7 @@
+{% extends "_base.html" %}
+{% from "_macros.html" import button with context %}
+{% block content %}
+<p style="margin:0 0 12px;"><strong>{{ tenant_name }}</strong>: a payment needs a look.</p>
+<p style="margin:0 0 12px;padding:8px 12px;border-left:3px solid #dfe3ea;">{{ reason }}</p>
+{{ button(payments_url, "Open payments") }}
+{% endblock %}

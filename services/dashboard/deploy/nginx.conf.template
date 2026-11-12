@@ -1,0 +1,85 @@
+# The dashboard's nginx site. deploy/40-cob-config.sh renders it into
+# /etc/nginx/conf.d/default.conf at start, replacing __ENGINE_ORIGIN__ and __SCRAPER_ORIGIN__
+# with the origins of RAG_DASHBOARD_ENGINE_URL and RAG_DASHBOARD_SCRAPER_URL.
+#
+# nginx drops every inherited add_header in a location that sets its own, so each location
+# includes the shared headers and sets its CSP and cache policy itself.
+#
+# L5a demo: __FRAME_ANCESTORS__ is the list of sites that may show the dashboard in a frame. It comes
+# from RAG_FRAME_ANCESTORS (40-cob-config.sh) and is 'self' unless the deployer sets it. The old
+# one-value frame header is sent nowhere, because it cannot name an allowed origin.
+# /L5a demo
+
+server {
+	listen 8080;
+	server_name _;
+	root /usr/share/nginx/html;
+	index index.html;
+	server_tokens off;
+	charset utf-8;
+
+	gzip on;
+	gzip_types text/css application/javascript application/json image/svg+xml;
+
+	location = /healthz {
+		access_log off;
+		default_type text/plain;
+		return 200 "ok";
+	}
+
+	# Hashed build output: never changes under the same name. A missing chunk is a 404, never
+	# index.html (a stale tab would otherwise parse HTML as JavaScript).
+	location /assets/ {
+		try_files $uri =404;
+		include /etc/nginx/cob/headers.conf;
+		add_header Content-Security-Policy "default-src 'self'; script-src 'self'; style-src 'self' 'unsafe-inline'; img-src 'self' https: data:; font-src 'self'; connect-src 'self' __ENGINE_ORIGIN__ __SCRAPER_ORIGIN__; frame-src 'self'; frame-ancestors __FRAME_ANCESTORS__; base-uri 'self'; form-action 'self'; object-src 'none'" always;
+		add_header Cache-Control "public, max-age=31536000, immutable" always;
+	}
+
+	# The widget preview page loads the engine's real widget.js, so only here may scripts come
+	# from the engine; its only network calls go to the engine.
+	location = /widget-demo.html {
+		include /etc/nginx/cob/headers.conf;
+		add_header Content-Security-Policy "default-src 'self'; script-src 'self' __ENGINE_ORIGIN__; style-src 'self' 'unsafe-inline'; img-src 'self' https: data:; font-src 'self'; connect-src __ENGINE_ORIGIN__; frame-src 'self'; frame-ancestors __FRAME_ANCESTORS__; base-uri 'self'; form-action 'self'; object-src 'none'" always;
+		add_header Cache-Control "no-cache" always;
+	}
+
+	# TV6: the WhatsApp page loads Meta's Embedded Signup SDK, so this one page (and only this one)
+	# may take scripts from connect.facebook.net, open Facebook's sign-up window in a frame and
+	# talk to Facebook. The dashboard links to it with a full page load, because a page's CSP is
+	# fixed when its document loads.
+	location = /whatsapp {
+		try_files /index.html =404;
+		include /etc/nginx/cob/headers.conf;
+		add_header Content-Security-Policy "default-src 'self'; script-src 'self' https://connect.facebook.net; style-src 'self' 'unsafe-inline'; img-src 'self' https: data:; font-src 'self'; connect-src 'self' __ENGINE_ORIGIN__ __SCRAPER_ORIGIN__ https://www.facebook.com https://graph.facebook.com https://connect.facebook.net; frame-src 'self' https://www.facebook.com https://web.facebook.com; frame-ancestors __FRAME_ANCESTORS__; base-uri 'self'; form-action 'self'; object-src 'none'" always;
+		add_header Cache-Control "no-cache" always;
+	}
+
+	# P1 payments: the pay page loads Razorpay's checkout script and opens its payment window in a
+	# frame, so this one page (and only this one) may take scripts from checkout.razorpay.com, frame
+	# Razorpay and talk to its API. The dashboard links to it with a full page load, because a
+	# page's CSP is fixed when its document loads. SV confirms the host list in Razorpay's test mode.
+	# It is never framed (frame-ancestors 'none', whatever RAG_FRAME_ANCESTORS allows for the demo):
+	# the one page that opens a real payment window must not sit inside another site.
+	location = /pay {
+		try_files /index.html =404;
+		include /etc/nginx/cob/headers.conf;
+		add_header Content-Security-Policy "default-src 'self'; script-src 'self' https://checkout.razorpay.com; style-src 'self' 'unsafe-inline'; img-src 'self' https: data:; font-src 'self'; connect-src 'self' __ENGINE_ORIGIN__ __SCRAPER_ORIGIN__ https://api.razorpay.com https://lumberjack.razorpay.com; frame-src 'self' https://api.razorpay.com https://checkout.razorpay.com; frame-ancestors 'none'; base-uri 'self'; form-action 'self'; object-src 'none'" always;
+		add_header Cache-Control "no-cache" always;
+	}
+	# /P1 payments
+
+	# The template config.js is generated from; not part of the site.
+	location = /config.js.template {
+		return 404;
+	}
+
+	# Everything else: index.html, config.js, theme.js, the favicon, and the SPA fallback for
+	# client-side routes (a reload on /admin/customers?status=pending serves index.html).
+	location / {
+		try_files $uri $uri/ /index.html;
+		include /etc/nginx/cob/headers.conf;
+		add_header Content-Security-Policy "default-src 'self'; script-src 'self'; style-src 'self' 'unsafe-inline'; img-src 'self' https: data:; font-src 'self'; connect-src 'self' __ENGINE_ORIGIN__ __SCRAPER_ORIGIN__; frame-src 'self'; frame-ancestors __FRAME_ANCESTORS__; base-uri 'self'; form-action 'self'; object-src 'none'" always;
+		add_header Cache-Control "no-cache" always;
+	}
+}

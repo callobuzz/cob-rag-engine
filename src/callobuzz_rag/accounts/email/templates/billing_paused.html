@@ -1,0 +1,8 @@
+{% extends "_base.html" %}
+{% from "_macros.html" import button with context %}
+{% block content %}
+<p style="margin:0 0 12px;">Answers are paused for <strong>{{ tenant_name }}</strong> on {{ branding.product_name }} {% if reason == "forced" %}by {{ branding.product_name }}{% elif reason == "credit_limit" %}because the credit limit is reached{% else %}because the balance has run out{% endif %}.</p>
+<p style="margin:0 0 12px;">Visitors who ask a question are shown your pause message and your contact options (WhatsApp, call and so on), so nobody is left without a reply. Greetings and your fixed answers still work. {% if reason == "forced" %}Answers resume once {{ branding.product_name }} lifts the pause.{% elif reason == "credit_limit" %}Answers resume as soon as the amount owed is paid.{% else %}Answers resume as soon as the balance is topped up.{% endif %}</p>
+{{ button(billing_url, "Plan and billing") }}
+<p style="margin:0 0 12px;">Questions? Contact {% if support_email %}<a href="mailto:{{ support_email }}" style="color:{{ branding.primary_color }};">{{ support_email }}</a>{% else %}the {{ branding.product_name }} team{% endif %}.</p>
+{% endblock %}

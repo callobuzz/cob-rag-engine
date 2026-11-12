@@ -1,0 +1,18 @@
+{% extends "_base.html" %}
+{% from "_macros.html" import button with context %}
+{% block content %}
+<p style="margin:0 0 12px;">A visitor left their details with the <strong>{{ kb_name }}</strong> assistant{% if business_name %} of {{ business_name }}{% endif %}.</p>
+<table role="presentation" cellpadding="0" cellspacing="0" border="0" style="margin:0 0 12px;font-size:15px;">
+{% if ref_code is defined and ref_code %}<tr><td style="padding:2px 16px 2px 0;color:#6a737d;">Reference</td><td style="padding:2px 0;"><strong>{{ ref_code }}</strong></td></tr>{% endif %}
+{% if name %}<tr><td style="padding:2px 16px 2px 0;color:#6a737d;">Name</td><td style="padding:2px 0;"><strong>{{ name }}</strong></td></tr>{% endif %}
+{% if phone %}<tr><td style="padding:2px 16px 2px 0;color:#6a737d;">Phone</td><td style="padding:2px 0;">{{ phone }}</td></tr>{% endif %}
+{% if email %}<tr><td style="padding:2px 16px 2px 0;color:#6a737d;">E-mail</td><td style="padding:2px 0;">{{ email }}</td></tr>{% endif %}
+{% for item in custom %}<tr><td style="padding:2px 16px 2px 0;color:#6a737d;">{{ item.label }}</td><td style="padding:2px 0;">{{ item.value }}</td></tr>{% endfor %}
+<tr><td style="padding:2px 16px 2px 0;color:#6a737d;">Why</td><td style="padding:2px 0;">{{ trigger }}</td></tr>
+<tr><td style="padding:2px 16px 2px 0;color:#6a737d;">Language</td><td style="padding:2px 0;">{{ language }}</td></tr>
+{% if page_url %}<tr><td style="padding:2px 16px 2px 0;color:#6a737d;">Page</td><td style="padding:2px 0;">{{ page_url }}</td></tr>{% endif %}
+</table>
+<p style="margin:0 0 12px;"><strong>Summary:</strong> {{ summary }}</p>
+{% if sources %}<p style="margin:0 0 12px;color:#6a737d;font-size:13px;">Documents consulted: {{ sources | join(", ") }}</p>{% endif %}
+{{ button(lead_url, "Open the lead and the full chat") }}
+{% endblock %}

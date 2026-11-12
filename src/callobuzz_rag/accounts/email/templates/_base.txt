@@ -1,0 +1,12 @@
+{{ branding.product_name }}
+
+{% block content %}{% endblock %}
+
+--
+{% if branding.support_email %}
+Questions? Write to {{ branding.support_email }}.
+{% endif %}
+This is an automated message from {{ branding.product_name }} ({{ dashboard_url }}).
+{% if POWERED_BY %}
+{{ POWERED_BY.text }}
+{% endif %}

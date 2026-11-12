@@ -1,0 +1,12 @@
+{% extends "_base.txt" %}
+{% block content %}
+{{ tenant_name }} has used {{ level_pct }}% of its {{ metric_label }} on {{ branding.product_name }} ({{ used }} of {{ limit }}).
+
+{{ what_happens }}
+{% if resets_at %}
+The count starts again at {{ resets_at }}.
+{% endif %}
+
+See your plan:
+{{ plan_url }}
+{% endblock %}

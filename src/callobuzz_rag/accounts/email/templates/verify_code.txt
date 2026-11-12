@@ -1,0 +1,10 @@
+{% extends "_base.txt" %}
+{% block content %}
+Hi {{ name }},
+
+Enter this code to verify your e-mail address for {{ branding.product_name }}:
+
+    {{ code }}
+
+It expires in {{ minutes }} minutes. If you did not sign up, you can ignore this e-mail.
+{% endblock %}

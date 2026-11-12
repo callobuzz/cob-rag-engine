@@ -1,0 +1,10 @@
+{% extends "base.html" %}
+{% block main %}
+<section class="section page-head">
+  <div class="wrap narrow">
+    <h1 class="display">{{ ui.not_found }}</h1>
+    <p class="lead">{{ ui.not_found_text }}</p>
+    <p><a class="btn btn-ghost" href="{{ home_link }}">{{ ui.back_home }}</a></p>
+  </div>
+</section>
+{% endblock %}

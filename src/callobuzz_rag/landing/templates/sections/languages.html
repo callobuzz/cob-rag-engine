@@ -1,0 +1,16 @@
+{% import "macros.html" as m with context %}
+{% set names = {"en": "English", "hi": "हिन्दी", "hi-Latn": "Hinglish"} %}
+<section class="section languages" data-section="languages" id="{{ s.id }}">
+  <div class="wrap">
+    {{ m.head(s) }}
+    <ul class="samples">
+      {% for sample in s.samples %}
+      <li class="sample" lang="{{ sample.lang }}" style="--i: {{ loop.index0 }}">
+        <span class="sample-lang">{{ names[sample.lang] }}</span>
+        <p class="bubble bubble-visitor sample-question">{{ sample.question }}</p>
+        <p class="bubble bubble-assistant sample-answer">{{ sample.answer }}</p>
+      </li>
+      {% endfor %}
+    </ul>
+  </div>
+</section>

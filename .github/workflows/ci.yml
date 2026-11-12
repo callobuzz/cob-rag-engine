@@ -1,0 +1,155 @@
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: ci-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  test:
+    name: Lint + unit tests
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+          cache: pip
+          cache-dependency-path: pyproject.toml
+
+      - name: Install
+        run: |
+          python -m pip install --upgrade pip
+          pip install -e ".[dev]"
+
+      - name: Ruff
+        run: |
+          ruff check src/ tests/ alembic/ benchmarks/ scripts/
+          ruff format --check src/ tests/ alembic/ benchmarks/ scripts/
+
+      - name: Mypy
+        run: mypy src/
+
+      # COB's help pages and its answer checks, named so a failure says what broke: the generated
+      # reference pages are current, every screen and setting is documented, and COB's eval set
+      # (role filter, administrator-only questions, routing, retrieval) passes without a model.
+      - name: COB docs and eval gates
+        run: |
+          python scripts/gen_cob_refs.py --check
+          pytest -q tests/unit/test_cob_docs_coverage.py tests/unit/test_cob_generated_refs.py tests/unit/test_cob_eval_items.py tests/unit/test_cob_eval_offline.py
+
+      # Money correctness, named so a regression fails with a clear name: the integer money type,
+      # the append-only ledger model, the price rule, the cross-module properties (no double
+      # charge on retry, balance = sum of the ledger), statements that add up and the limits.
+      - name: Billing money gates
+        run: |
+          pytest -q tests/unit/test_billing_money.py tests/unit/test_billing_ledger_model.py tests/unit/test_billing_charging.py tests/unit/test_billing_properties.py tests/unit/test_billing_statements.py tests/unit/test_billing_limits.py
+
+      - name: Tests (everything that needs no running services)
+        run: pytest -q
+
+  clients:
+    name: Client SDKs
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Python client
+        working-directory: clients/python
+        run: |
+          pip install -e ".[dev]"
+          pytest -q
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "20"
+      - name: JavaScript client
+        working-directory: clients/js
+        run: node --test
+      - name: Widget script syntax
+        run: |
+          node --check src/callobuzz_rag/widget/static/widget.js
+          node --check src/callobuzz_rag/widget/static/markdown.js
+          node --check src/callobuzz_rag/widget/static/lead_form.js
+          node --check src/callobuzz_rag/widget/static/handoff.js
+          node --check src/callobuzz_rag/widget/static/widget-core.js
+      - name: Widget Markdown renderer
+        run: node --test tests/widget_js/*.test.mjs
+
+  dashboard:
+    name: Dashboard
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    defaults:
+      run:
+        working-directory: services/dashboard
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+      - name: Install
+        run: |
+          corepack enable
+          pnpm install --frozen-lockfile
+      - name: Lint (Biome)
+        run: pnpm lint
+      - name: Typecheck
+        run: pnpm typecheck
+      - name: Unit and screen tests
+        run: pnpm test
+      - name: API types up to date
+        run: pnpm gen:api:check
+      - name: Production build
+        run: pnpm build
+      - name: Image start-script tests
+        run: sh deploy/test-config.sh
+      - name: Image build
+        run: docker build -t cob-rag-dashboard:ci .
+
+  compose:
+    name: Compose config
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Generate secrets from the template
+        run: python scripts/generate_secrets.py
+      - name: Validate docker-compose files
+        run: |
+          docker compose config --quiet
+          docker compose -f docker-compose.yml -f docker-compose.gpu.yml config --quiet
+          # L4 install
+          RAG_SITE_DOMAIN=chat.example.in docker compose --profile proxy config --quiet
+          # /L4 install
+
+  # L4 install
+  deploy-scripts:
+    name: Deploy scripts
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+      - name: Shellcheck
+        run: shellcheck -x -S style deploy/*.sh deploy/lib/*.sh
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+          cache: pip
+          cache-dependency-path: pyproject.toml
+      - name: Install
+        run: |
+          python -m pip install --upgrade pip
+          pip install -e ".[dev]"
+      - name: Install-script tests (throwaway containers, no network)
+        run: pytest -m integration tests/integration/test_deploy_scripts.py tests/integration/test_caddy_config.py -q
+  # /L4 install

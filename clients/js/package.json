@@ -1,0 +1,45 @@
+{
+  "name": "cob-rag-client",
+  "version": "0.2.0",
+  "description": "JavaScript/TypeScript client for cob-rag-engine — the self-hosted multi-tenant RAG engine",
+  "type": "module",
+  "main": "index.js",
+  "types": "index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./index.d.ts",
+      "default": "./index.js"
+    }
+  },
+  "files": [
+    "index.js",
+    "index.d.ts",
+    "README.md",
+    "LICENSE"
+  ],
+  "engines": {
+    "node": ">=18"
+  },
+  "scripts": {
+    "test": "node --test"
+  },
+  "license": "MIT",
+  "author": "Callobuzz (https://github.com/callobuzz)",
+  "homepage": "https://github.com/callobuzz/cob-rag-engine/tree/main/clients/js#readme",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/callobuzz/cob-rag-engine.git",
+    "directory": "clients/js"
+  },
+  "bugs": {
+    "url": "https://github.com/callobuzz/cob-rag-engine/issues"
+  },
+  "keywords": [
+    "rag",
+    "llm",
+    "chatbot",
+    "retrieval",
+    "multi-tenant",
+    "self-hosted"
+  ]
+}

@@ -1,0 +1,10 @@
+{% extends "base.html" %}
+{% block main %}
+<section class="section page-head">
+  <div class="wrap narrow">
+    <h1 class="display">{{ ui.sent_title }}</h1>
+    <p class="lead">{{ c.contact.success|t }}</p>
+    <p><a class="btn btn-ghost" href="{{ home_link }}">{{ ui.back_home }}</a></p>
+  </div>
+</section>
+{% endblock %}

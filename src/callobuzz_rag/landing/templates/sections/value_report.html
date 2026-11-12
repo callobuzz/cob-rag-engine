@@ -1,0 +1,13 @@
+{% import "macros.html" as m with context %}
+<section class="section value-report" data-section="value_report" id="{{ s.id }}">
+  <div class="wrap">
+    {{ m.head(s) }}
+    <dl class="report">
+      <div><dt>{{ ui.questions_answered }}</dt><dd><span class="count" data-count style="--to: {{ s.questions }}"><span class="num">{{ s.questions }}</span></span></dd></div>
+      <div><dt>{{ ui.after_hours }}</dt><dd><span class="count" data-count style="--to: {{ s.after_hours }}"><span class="num">{{ s.after_hours }}</span></span></dd></div>
+      <div><dt>{{ ui.leads }}</dt><dd><span class="count" data-count style="--to: {{ s.leads }}"><span class="num">{{ s.leads }}</span></span></dd></div>
+      <div class="report-value"><dt>{{ ui.estimated_value }}</dt><dd>{{ s.value_text|t }}</dd></div>
+    </dl>
+    <p class="report-caption">{{ s.caption|t }}</p>
+  </div>
+</section>

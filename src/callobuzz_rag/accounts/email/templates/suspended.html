@@ -1,0 +1,6 @@
+{% extends "_base.html" %}
+{% from "_macros.html" import support_line with context %}
+{% block content %}
+<p style="margin:0 0 12px;"><strong>{{ tenant_name }}</strong> has been suspended on {{ branding.product_name }}. Its knowledge bases, API keys and website chat are paused; nothing has been deleted.</p>
+<p style="margin:0 0 12px;">To find out more or to have it reactivated, contact {{ support_line() }}.</p>
+{% endblock %}

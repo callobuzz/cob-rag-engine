@@ -1,0 +1,18 @@
+{
+  "version": 1,
+  "contact_request": {
+    "en": [
+      "(call|ring|phone|text|whatsapp|message|contact|email) me( back| later| tomorrow| on whatsapp)?",
+      "(call|ring) back",
+      "(get|reach) (back )?(to|in touch with) me",
+      "my (number|phone|mobile|whatsapp) is"
+    ],
+    "hi": ["मुझे (कॉल|फोन) (करें|कीजिए|करो)", "मुझसे संपर्क (करें|कीजिए)", "मेरा (नंबर|मोबाइल) है"],
+    "hi-Latn": [
+      "(mujhe|muje) (call|phone|whatsapp) (karo|kariye|kar do|karna)",
+      "call back (karo|kariye|kar do)",
+      "mera (number|no|mobile) (hai|ye hai)",
+      "(mujhse|mujhe) contact (karo|kariye|karna)"
+    ]
+  }
+}

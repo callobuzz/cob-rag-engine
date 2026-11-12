@@ -1,0 +1,51 @@
+{% import "macros.html" as m with context %}
+{% set conv = s.conversation %}
+{% set has_phone = env.whatsapp_on_sale and s.visual in ("both", "whatsapp") %}
+{% set has_site = s.visual in ("both", "website") or not env.whatsapp_on_sale %}
+{% set visual = "both" if has_phone and has_site else ("whatsapp" if has_phone else "website") %}
+{% set full = s.headline|t %}
+{% set sep = " — " if " — " in full else ". " %}
+{% set parts = full.split(sep, 1) if sep in full else [full] %}
+<section class="section hero" data-section="hero" data-visual="{{ visual }}"{% if s.backdrop_video %} data-backdrop{% endif %} id="{{ s.id }}">
+  <div class="hero-bg" aria-hidden="true">
+    {% if s.backdrop_video %}
+    {% set bv = sections|selectattr("type", "equalto", "video")|selectattr("placement", "equalto", "hero_backdrop")|first %}
+    {% if bv is defined and media.get(bv.video_asset_id|string) and media.get(bv.poster_asset_id|string) %}
+    <video class="hero-video" muted playsinline loop preload="none" tabindex="-1" data-video data-backdrop data-poster="/_landing/media/{{ media.get(bv.poster_asset_id|string) }}{{ media_suffix }}"><source data-src="/_landing/media/{{ media.get(bv.video_asset_id|string) }}{{ media_suffix }}"></video>
+    {% set backdrop_on = true %}
+    {% endif %}
+    {% endif %}
+  </div>
+  {% if backdrop_on is defined %}<button type="button" class="video-toggle hero-video-toggle" data-video-toggle aria-pressed="false" data-play="{{ ui.play_video }}" data-pause="{{ ui.pause_video }}">{{ ui.play_video }}</button>{% endif %}
+  <div class="wrap hero-grid">
+    <div class="hero-copy">
+      {% if s.eyebrow %}<p class="eyebrow">{{ s.eyebrow|t }}</p>{% endif %}
+      <h1 class="display">{% if parts|length > 1 %}<span class="h-lead">{{ parts[0] }}{{ "." if sep == ". " else "" }}</span> <span class="h-rest">{{ parts[1] }}</span>{% else %}<span class="h-lead">{{ parts[0] }}</span>{% endif %}</h1>
+      {% if s.sub %}<p class="lead">{{ s.sub|t }}</p>{% endif %}
+      <p class="actions">
+        {% if env.signup_available %}<a class="btn btn-primary" href="{{ s.primary_href }}">{{ s.primary_label|t if s.primary_label else ui.start_free }}</a>{% else %}<a class="btn btn-primary" href="{{ link('contact') }}">{{ ui.contact_us }}</a>{% endif %}
+        {% if ask_ready %}<button type="button" class="btn btn-ghost" data-ask data-ask-key="{{ env.ask_public_key }}" data-ask-text="{{ conv.turns[0].text|t }}">{{ (s.ask_label or c.ask.label)|t }}</button>{% endif %}
+        {% if s.show_pricing_link and c.pricing.enabled %}<a class="btn btn-link" href="{{ link('pricing') }}">{{ ui.see_pricing }}{{ m.icon("arrow") }}</a>{% endif %}
+      </p>
+      {% if whatsapp_link and s.whatsapp_label %}<p class="hero-wa"><a class="contact-link" href="{{ whatsapp_link }}">{{ s.whatsapp_label|t }}</a></p>{% endif %}
+      {% if s.microcopy %}<p class="micro">{{ s.microcopy|t }}</p>{% endif %}
+    </div>
+    <div class="hero-visual">
+      <div class="stage" data-stage>
+        {% if has_site %}
+        <figure class="site-card">
+          <figcaption class="site-bar"><span class="site-title">{{ conv.business_name|t }}</span><span class="site-sub">{{ ui.your_website }}</span></figcaption>
+          <div class="chat-head"><span class="avatar" aria-hidden="true">{{ (conv.assistant_name|t)[:1] }}</span><span class="who"><strong>{{ conv.assistant_name|t }}</strong><span class="status">{{ ui.ai_assistant }}</span></span></div>
+          {{ m.chat(conv, "site") }}
+        </figure>
+        {% endif %}
+        {% if has_phone %}
+        <figure class="phone"{% if has_site %} aria-hidden="true"{% endif %}>
+          <figcaption class="phone-bar"><span class="avatar" aria-hidden="true">{{ (conv.business_name|t)[:1] }}</span><span class="who"><strong>{{ conv.business_name|t }}</strong><span class="status">{{ ui.online }}</span></span></figcaption>
+          {{ m.chat(conv, "phone") }}
+        </figure>
+        {% endif %}
+      </div>
+    </div>
+  </div>
+</section>

@@ -1,0 +1,11 @@
+{% extends "_base.txt" %}
+{% block content %}
+Answers are paused for {{ tenant_name }} on {{ branding.product_name }} {% if reason == "forced" %}by {{ branding.product_name }}{% elif reason == "credit_limit" %}because the credit limit is reached{% else %}because the balance has run out{% endif %}.
+
+Visitors who ask a question are shown your pause message and your contact options (WhatsApp, call and so on), so nobody is left without a reply. Greetings and your fixed answers still work. {% if reason == "forced" %}Answers resume once {{ branding.product_name }} lifts the pause.{% elif reason == "credit_limit" %}Answers resume as soon as the amount owed is paid.{% else %}Answers resume as soon as the balance is topped up.{% endif %}
+
+Plan and billing:
+{{ billing_url }}
+
+Questions? Contact {{ support_email or ("the " ~ branding.product_name ~ " team") }}.
+{% endblock %}

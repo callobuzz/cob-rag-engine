@@ -1,0 +1,7 @@
+{% extends "_base.html" %}
+{% from "_macros.html" import button with context %}
+{% block content %}
+<p style="margin:0 0 12px;">{{ inviter_name }} invited you to join <strong>{{ tenant_name }}</strong> on {{ branding.product_name }} as {{ "an" if role == "owner" else "a" }} {{ role }}.</p>
+{{ button(accept_url, "Accept the invitation") }}
+<p style="margin:0 0 12px;">The invitation expires in {{ days }} days. If you were not expecting it, you can ignore this e-mail.</p>
+{% endblock %}

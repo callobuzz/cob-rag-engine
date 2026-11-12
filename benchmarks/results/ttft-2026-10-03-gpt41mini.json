@@ -1,0 +1,34 @@
+{
+  "date": "2026-10-03",
+  "label_ms": 1520,
+  "retrieval_ms": 77,
+  "answer_first_token_ms": 800,
+  "runs": 5,
+  "rows": [
+    {
+      "turn": "smalltalk (rules)",
+      "before_ms": 0,
+      "after_ms": 0
+    },
+    {
+      "turn": "business question",
+      "before_ms": 2344,
+      "after_ms": 1535
+    },
+    {
+      "turn": "off-topic",
+      "before_ms": 1530,
+      "after_ms": 1531
+    },
+    {
+      "turn": "human request",
+      "before_ms": 1534,
+      "after_ms": 1529
+    },
+    {
+      "turn": "human request (rules)",
+      "before_ms": 0,
+      "after_ms": 0
+    }
+  ]
+}

@@ -1,0 +1,579 @@
+{
+	"schema_version": 1,
+	"updated": "2026-10-03",
+	"method": {
+		"summary": "266 held-out turns in English, Hindi and Hinglish, each asked of the business it was written for (tests/fixtures/conversation/labels.jsonl). The turns the rules decide (104) are labelled by the rules; the other 162 go to the model through the engine's own labeler and provider with the frozen prompt, nothing cached, thinking off, four calls in flight (benchmarks/fast_models.py). Latency is the label call alone; cost is the provider's billed cost; the serving host comes from OpenRouter's generation record. Every call is checked: reasoning tokens must be 0 with thinking off, and a model that cannot switch thinking off (gpt-oss) runs at its minimum and is marked so. One run per model, no tuning; a single run reads as roughly plus or minus 2 points.",
+		"link": "https://callobuzz.github.io/cob-rag-engine/benchmarks.html#fast-models"
+	},
+	"bars": {
+		"overall": 0.9,
+		"per_language": 0.85,
+		"business_recall": 0.97,
+		"reply_language": 0.95,
+		"max_fallback_rate": 0.05
+	},
+	"models": [
+		{
+			"key": "meta-llama/llama-3.1-8b-instruct@groq",
+			"model": "meta-llama/llama-3.1-8b-instruct",
+			"provider": "openrouter",
+			"provider_order": ["groq"],
+			"reasoning_effort": null,
+			"thinking_control_verified": true,
+			"date": "2026-10-03",
+			"report": "fast/sweep-2026-10-04/summary.md",
+			"turns": 266,
+			"model_turns": 162,
+			"overall": 0.91,
+			"per_language": {
+				"en": 0.921,
+				"hi": 0.908,
+				"hi-Latn": 0.9
+			},
+			"business_recall": 0.931,
+			"reply_language": 1.0,
+			"fallback_rate": 0.0,
+			"latency_s": {
+				"p50": 0.18,
+				"p90": 0.21,
+				"p99": 0.4
+			},
+			"usd_per_1000_labels": 0.039,
+			"cached_prompt_share": 0.815,
+			"bars": {
+				"overall": true,
+				"per_language": true,
+				"business_recall": false,
+				"reply_language": true,
+				"fallbacks": true
+			},
+			"passes": false,
+			"tags": []
+		},
+		{
+			"key": "meta-llama/llama-3.3-70b-instruct@groq",
+			"model": "meta-llama/llama-3.3-70b-instruct",
+			"provider": "openrouter",
+			"provider_order": ["groq"],
+			"reasoning_effort": null,
+			"thinking_control_verified": true,
+			"date": "2026-10-03",
+			"report": "fast/sweep-2026-10-04/summary.md",
+			"turns": 266,
+			"model_turns": 162,
+			"overall": 0.921,
+			"per_language": {
+				"en": 0.899,
+				"hi": 0.931,
+				"hi-Latn": 0.933
+			},
+			"business_recall": 0.903,
+			"reply_language": 1.0,
+			"fallback_rate": 0.012,
+			"latency_s": {
+				"p50": 0.47,
+				"p90": 0.56,
+				"p99": 3.59
+			},
+			"usd_per_1000_labels": 0.725,
+			"cached_prompt_share": 0.0,
+			"bars": {
+				"overall": true,
+				"per_language": true,
+				"business_recall": false,
+				"reply_language": true,
+				"fallbacks": true
+			},
+			"passes": false,
+			"tags": []
+		},
+		{
+			"key": "google/gemini-2.5-flash-lite",
+			"model": "google/gemini-2.5-flash-lite",
+			"provider": "openrouter",
+			"provider_order": [],
+			"reasoning_effort": "none",
+			"thinking_control_verified": true,
+			"date": "2026-10-03",
+			"report": "fast/sweep-2026-10-04/summary.md",
+			"turns": 266,
+			"model_turns": 162,
+			"overall": 0.959,
+			"per_language": {
+				"en": 0.966,
+				"hi": 0.954,
+				"hi-Latn": 0.956
+			},
+			"business_recall": 0.958,
+			"reply_language": 1.0,
+			"fallback_rate": 0.043,
+			"latency_s": {
+				"p50": 0.79,
+				"p90": 0.91,
+				"p99": 2.77
+			},
+			"usd_per_1000_labels": 0.134,
+			"cached_prompt_share": 0.0,
+			"bars": {
+				"overall": true,
+				"per_language": true,
+				"business_recall": false,
+				"reply_language": true,
+				"fallbacks": true
+			},
+			"passes": false,
+			"tags": []
+		},
+		{
+			"key": "mistralai/mistral-small-2603",
+			"model": "mistralai/mistral-small-2603",
+			"provider": "openrouter",
+			"provider_order": [],
+			"reasoning_effort": "none",
+			"thinking_control_verified": true,
+			"date": "2026-10-03",
+			"report": "fast/sweep-2026-10-04/summary.md",
+			"turns": 266,
+			"model_turns": 162,
+			"overall": 0.959,
+			"per_language": {
+				"en": 0.978,
+				"hi": 0.943,
+				"hi-Latn": 0.956
+			},
+			"business_recall": 0.958,
+			"reply_language": 1.0,
+			"fallback_rate": 0.0,
+			"latency_s": {
+				"p50": 0.85,
+				"p90": 1.22,
+				"p99": 1.93
+			},
+			"usd_per_1000_labels": 0.056,
+			"cached_prompt_share": 0.93,
+			"bars": {
+				"overall": true,
+				"per_language": true,
+				"business_recall": false,
+				"reply_language": true,
+				"fallbacks": true
+			},
+			"passes": false,
+			"tags": []
+		},
+		{
+			"key": "openai/gpt-4.1-nano",
+			"model": "openai/gpt-4.1-nano",
+			"provider": "openrouter",
+			"provider_order": [],
+			"reasoning_effort": null,
+			"thinking_control_verified": true,
+			"date": "2026-10-03",
+			"report": "fast/sweep-2026-10-04/summary.md",
+			"turns": 266,
+			"model_turns": 162,
+			"overall": 0.94,
+			"per_language": {
+				"en": 0.955,
+				"hi": 0.931,
+				"hi-Latn": 0.933
+			},
+			"business_recall": 0.972,
+			"reply_language": 1.0,
+			"fallback_rate": 0.0,
+			"latency_s": {
+				"p50": 1.05,
+				"p90": 1.27,
+				"p99": 1.96
+			},
+			"usd_per_1000_labels": 0.131,
+			"cached_prompt_share": 0.006,
+			"bars": {
+				"overall": true,
+				"per_language": true,
+				"business_recall": true,
+				"reply_language": true,
+				"fallbacks": true
+			},
+			"passes": true,
+			"tags": ["fastest"]
+		},
+		{
+			"key": "qwen/qwen3.8-27b@cerebras",
+			"model": "qwen/qwen3.8-27b",
+			"provider": "openrouter",
+			"provider_order": ["cerebras"],
+			"reasoning_effort": "none",
+			"thinking_control_verified": true,
+			"date": "2026-10-03",
+			"report": "fast/sweep-2026-10-04/summary.md",
+			"turns": 266,
+			"model_turns": 162,
+			"overall": 0.97,
+			"per_language": {
+				"en": 0.966,
+				"hi": 0.977,
+				"hi-Latn": 0.967
+			},
+			"business_recall": 0.972,
+			"reply_language": 1.0,
+			"fallback_rate": 0.0,
+			"latency_s": {
+				"p50": 1.27,
+				"p90": 1.41,
+				"p99": 1.57
+			},
+			"usd_per_1000_labels": 0.214,
+			"cached_prompt_share": 0.91,
+			"bars": {
+				"overall": true,
+				"per_language": true,
+				"business_recall": true,
+				"reply_language": true,
+				"fallbacks": true
+			},
+			"passes": true,
+			"tags": []
+		},
+		{
+			"key": "openai/gpt-4.1-mini",
+			"model": "openai/gpt-4.1-mini",
+			"provider": "openrouter",
+			"provider_order": [],
+			"reasoning_effort": null,
+			"thinking_control_verified": true,
+			"date": "2026-10-03",
+			"report": "fast/sweep-2026-10-04/summary.md",
+			"turns": 266,
+			"model_turns": 162,
+			"overall": 0.974,
+			"per_language": {
+				"en": 0.989,
+				"hi": 0.966,
+				"hi-Latn": 0.967
+			},
+			"business_recall": 0.986,
+			"reply_language": 1.0,
+			"fallback_rate": 0.0,
+			"latency_s": {
+				"p50": 1.45,
+				"p90": 1.66,
+				"p99": 2.25
+			},
+			"usd_per_1000_labels": 0.524,
+			"cached_prompt_share": 0.006,
+			"bars": {
+				"overall": true,
+				"per_language": true,
+				"business_recall": true,
+				"reply_language": true,
+				"fallbacks": true
+			},
+			"passes": true,
+			"tags": []
+		},
+		{
+			"key": "qwen/qwen3-next-80b-a3b-instruct",
+			"model": "qwen/qwen3-next-80b-a3b-instruct",
+			"provider": "openrouter",
+			"provider_order": [],
+			"reasoning_effort": null,
+			"thinking_control_verified": true,
+			"date": "2026-10-03",
+			"report": "fast/sweep-2026-10-04/summary.md",
+			"turns": 266,
+			"model_turns": 162,
+			"overall": 0.97,
+			"per_language": {
+				"en": 0.978,
+				"hi": 0.966,
+				"hi-Latn": 0.967
+			},
+			"business_recall": 0.917,
+			"reply_language": 1.0,
+			"fallback_rate": 0.019,
+			"latency_s": {
+				"p50": 0.79,
+				"p90": 1.66,
+				"p99": 2.69
+			},
+			"usd_per_1000_labels": 0.139,
+			"cached_prompt_share": 0.719,
+			"bars": {
+				"overall": true,
+				"per_language": true,
+				"business_recall": false,
+				"reply_language": true,
+				"fallbacks": true
+			},
+			"passes": false,
+			"tags": []
+		},
+		{
+			"key": "deepseek/deepseek-v4.1-flash",
+			"model": "deepseek/deepseek-v4.1-flash",
+			"provider": "openrouter",
+			"provider_order": [],
+			"reasoning_effort": "none",
+			"thinking_control_verified": true,
+			"date": "2026-10-03",
+			"report": "fast/sweep-2026-10-04/summary.md",
+			"turns": 266,
+			"model_turns": 162,
+			"overall": 0.985,
+			"per_language": {
+				"en": 0.989,
+				"hi": 0.989,
+				"hi-Latn": 0.978
+			},
+			"business_recall": 0.944,
+			"reply_language": 1.0,
+			"fallback_rate": 0.0,
+			"latency_s": {
+				"p50": 1.24,
+				"p90": 1.67,
+				"p99": 2.92
+			},
+			"usd_per_1000_labels": 0.069,
+			"cached_prompt_share": 0.811,
+			"bars": {
+				"overall": true,
+				"per_language": true,
+				"business_recall": false,
+				"reply_language": true,
+				"fallbacks": true
+			},
+			"passes": false,
+			"tags": []
+		},
+		{
+			"key": "google/gemma-4-26b-a4b-it",
+			"model": "google/gemma-4-26b-a4b-it",
+			"provider": "openrouter",
+			"provider_order": [],
+			"reasoning_effort": "none",
+			"thinking_control_verified": true,
+			"date": "2026-10-03",
+			"report": "fast/sweep-2026-10-04/summary.md",
+			"turns": 266,
+			"model_turns": 162,
+			"overall": 0.977,
+			"per_language": {
+				"en": 0.978,
+				"hi": 0.989,
+				"hi-Latn": 0.967
+			},
+			"business_recall": 0.972,
+			"reply_language": 1.0,
+			"fallback_rate": 0.019,
+			"latency_s": {
+				"p50": 1.21,
+				"p90": 1.91,
+				"p99": 2.81
+			},
+			"usd_per_1000_labels": 0.058,
+			"cached_prompt_share": 0.529,
+			"bars": {
+				"overall": true,
+				"per_language": true,
+				"business_recall": true,
+				"reply_language": true,
+				"fallbacks": true
+			},
+			"passes": true,
+			"tags": ["cheapest"]
+		},
+		{
+			"key": "openai/gpt-6-luna",
+			"model": "openai/gpt-6-luna",
+			"provider": "openrouter",
+			"provider_order": [],
+			"reasoning_effort": "none",
+			"thinking_control_verified": true,
+			"date": "2026-10-03",
+			"report": "fast/sweep-2026-10-04/summary.md",
+			"turns": 266,
+			"model_turns": 162,
+			"overall": 0.989,
+			"per_language": {
+				"en": 0.989,
+				"hi": 1.0,
+				"hi-Latn": 0.978
+			},
+			"business_recall": 0.986,
+			"reply_language": 1.0,
+			"fallback_rate": 0.006,
+			"latency_s": {
+				"p50": 1.55,
+				"p90": 1.94,
+				"p99": 2.8
+			},
+			"usd_per_1000_labels": 0.162,
+			"cached_prompt_share": 0.0,
+			"bars": {
+				"overall": true,
+				"per_language": true,
+				"business_recall": true,
+				"reply_language": true,
+				"fallbacks": true
+			},
+			"passes": true,
+			"tags": ["recommended", "most_accurate"]
+		},
+		{
+			"key": "openai/gpt-oss-120b",
+			"model": "openai/gpt-oss-120b",
+			"provider": "openrouter",
+			"provider_order": [],
+			"reasoning_effort": "low",
+			"thinking_control_verified": true,
+			"date": "2026-10-03",
+			"report": "fast/sweep-2026-10-04/summary.md",
+			"turns": 266,
+			"model_turns": 162,
+			"overall": 0.951,
+			"per_language": {
+				"en": 0.955,
+				"hi": 0.954,
+				"hi-Latn": 0.944
+			},
+			"business_recall": 0.972,
+			"reply_language": 1.0,
+			"fallback_rate": 0.049,
+			"latency_s": {
+				"p50": 1.44,
+				"p90": 2.28,
+				"p99": 3.46
+			},
+			"usd_per_1000_labels": 0.12,
+			"cached_prompt_share": 0.586,
+			"bars": {
+				"overall": true,
+				"per_language": true,
+				"business_recall": true,
+				"reply_language": true,
+				"fallbacks": true
+			},
+			"passes": true,
+			"tags": []
+		},
+		{
+			"key": "google/gemma-4-31b-it",
+			"model": "google/gemma-4-31b-it",
+			"provider": "openrouter",
+			"provider_order": [],
+			"reasoning_effort": "none",
+			"thinking_control_verified": true,
+			"date": "2026-10-03",
+			"report": "fast/sweep-2026-10-04/summary.md",
+			"turns": 266,
+			"model_turns": 162,
+			"overall": 0.959,
+			"per_language": {
+				"en": 0.944,
+				"hi": 1.0,
+				"hi-Latn": 0.933
+			},
+			"business_recall": 0.972,
+			"reply_language": 1.0,
+			"fallback_rate": 0.086,
+			"latency_s": {
+				"p50": 2.07,
+				"p90": 2.46,
+				"p99": 3.53
+			},
+			"usd_per_1000_labels": 0.101,
+			"cached_prompt_share": 0.876,
+			"bars": {
+				"overall": true,
+				"per_language": true,
+				"business_recall": true,
+				"reply_language": true,
+				"fallbacks": false
+			},
+			"passes": false,
+			"tags": []
+		},
+		{
+			"key": "qwen/qwen3-30b-a3b-instruct-2507",
+			"model": "qwen/qwen3-30b-a3b-instruct-2507",
+			"provider": "openrouter",
+			"provider_order": [],
+			"reasoning_effort": null,
+			"thinking_control_verified": true,
+			"date": "2026-10-03",
+			"report": "fast/sweep-2026-10-04/summary.md",
+			"turns": 266,
+			"model_turns": 162,
+			"overall": 0.959,
+			"per_language": {
+				"en": 0.978,
+				"hi": 0.943,
+				"hi-Latn": 0.956
+			},
+			"business_recall": 0.958,
+			"reply_language": 1.0,
+			"fallback_rate": 0.031,
+			"latency_s": {
+				"p50": 0.98,
+				"p90": 2.47,
+				"p99": 3.0
+			},
+			"usd_per_1000_labels": 0.09,
+			"cached_prompt_share": 0.84,
+			"bars": {
+				"overall": true,
+				"per_language": true,
+				"business_recall": false,
+				"reply_language": true,
+				"fallbacks": true
+			},
+			"passes": false,
+			"tags": []
+		},
+		{
+			"key": "mistralai/mistral-small-3.2-24b-instruct",
+			"model": "mistralai/mistral-small-3.2-24b-instruct",
+			"provider": "openrouter",
+			"provider_order": [],
+			"reasoning_effort": null,
+			"thinking_control_verified": true,
+			"date": "2026-10-03",
+			"report": "fast/sweep-2026-10-04/summary.md",
+			"turns": 266,
+			"model_turns": 162,
+			"overall": 0.966,
+			"per_language": {
+				"en": 0.944,
+				"hi": 0.977,
+				"hi-Latn": 0.978
+			},
+			"business_recall": 0.958,
+			"reply_language": 1.0,
+			"fallback_rate": 0.056,
+			"latency_s": {
+				"p50": 2.0,
+				"p90": 3.1,
+				"p99": 3.71
+			},
+			"usd_per_1000_labels": 0.106,
+			"cached_prompt_share": 0.0,
+			"bars": {
+				"overall": true,
+				"per_language": true,
+				"business_recall": false,
+				"reply_language": true,
+				"fallbacks": false
+			},
+			"passes": false,
+			"tags": []
+		}
+	],
+	"recommendations": {
+		"default": "openai/gpt-6-luna",
+		"fastest_passing": "openai/gpt-4.1-nano",
+		"budget": "google/gemma-4-26b-a4b-it",
+		"cheapest_passing": "google/gemma-4-26b-a4b-it",
+		"most_accurate": "openai/gpt-6-luna"
+	}
+}

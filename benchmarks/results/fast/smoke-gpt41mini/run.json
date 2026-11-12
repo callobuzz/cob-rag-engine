@@ -1,0 +1,12 @@
+{
+  "run": "smoke-gpt41mini",
+  "harness_version": "1.0.0",
+  "created": "2026-10-03T18:30:28.840+00:00",
+  "labels_sha256": "6c55e4380020816d1cf176bc1f243da1f6057373c1b3eb6221263596bbe188b655540cef",
+  "provider": "openrouter",
+  "dry_run": false,
+  "smoke": true,
+  "models": [
+    "openai/gpt-4.1-mini"
+  ]
+}

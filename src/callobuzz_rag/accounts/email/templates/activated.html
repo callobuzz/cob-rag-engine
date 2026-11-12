@@ -1,0 +1,13 @@
+{% extends "_base.html" %}
+{% from "_macros.html" import button with context %}
+{% block content %}
+{% if reactivated %}
+<p style="margin:0 0 12px;"><strong>{{ tenant_name }}</strong> is active again on {{ branding.product_name }}. Everything is where you left it.</p>
+{% else %}
+<p style="margin:0 0 12px;">You're in: <strong>{{ tenant_name }}</strong> is now active on {{ branding.product_name }}.</p>
+{% endif %}
+{% if plan_name %}
+<p style="margin:0 0 12px;">Your plan: <strong>{{ plan_name }}</strong>.</p>
+{% endif %}
+{{ button(login_url, "Sign in") }}
+{% endblock %}

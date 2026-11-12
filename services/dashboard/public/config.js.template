@@ -1,0 +1,10 @@
+// Generated when the container starts (deploy/40-cob-config.sh) from RAG_DASHBOARD_ENGINE_URL,
+// RAG_DASHBOARD_SCRAPER_URL and RAG_DASHBOARD_USD_TO_INR. Same shape as public/config.js.
+globalThis.RAG_CONFIG = {
+	// Where the BROWSER reaches the RAG API.
+	ragUrl: "__RAG_URL__",
+	// Where the BROWSER reaches the scraper.
+	scraperUrl: "__SCRAPER_URL__",
+	// Display-only conversion for the ₹ / $ currency toggle (always labelled "estimate").
+	usdToInr: __USD_TO_INR__,
+};

@@ -1,0 +1,7 @@
+{% extends "_base.html" %}
+{% from "_macros.html" import button with context %}
+{% block content %}
+<p style="margin:0 0 12px;">We refunded <strong>{{ amount }}</strong> to the way you paid, for {{ tenant_name }}.</p>
+<p style="margin:0 0 12px;">It usually reaches your bank in 5 to 7 working days. The amount was taken off your balance when we started the refund.</p>
+{{ button(billing_url, "Open Plan & billing") }}
+{% endblock %}

@@ -1,0 +1,7 @@
+{% extends "_base.html" %}
+{% from "_macros.html" import button with context %}
+{% block content %}
+<p style="margin:0 0 12px;"><strong>{{ tenant_name }}</strong> reached <strong>{{ level_pct }}%</strong> of its {{ metric_label }} ({{ used }} of {{ limit }}).</p>
+<p style="margin:0 0 12px;">{{ what_happens }}</p>
+{{ button(customer_url, "Open the customer") }}
+{% endblock %}

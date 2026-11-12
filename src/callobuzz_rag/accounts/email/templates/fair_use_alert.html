@@ -1,0 +1,8 @@
+{% extends "_base.html" %}
+{% from "_macros.html" import button with context %}
+{% block content %}
+<p style="margin:0 0 12px;"><strong>{{ tenant_name }}</strong> has used <strong>{{ level_pct }}%</strong> of its {{ metric_label }} on {{ branding.product_name }} ({{ used }} of {{ limit }}).</p>
+<p style="margin:0 0 12px;">{{ what_happens }}</p>
+{% if resets_at %}<p style="margin:0 0 12px;">The count starts again at {{ resets_at }}.</p>{% endif %}
+{{ button(plan_url, "See your plan") }}
+{% endblock %}

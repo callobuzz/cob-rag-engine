@@ -1,0 +1,9 @@
+{% extends "_base.txt" %}
+{% block content %}
+The AI spend of your customers today is {{ used }}, {{ level_pct }}% of the daily ceiling you set ({{ limit }}).
+
+At the ceiling, every answer paid by your own AI key switches to the free local model (or pauses when there is none) until midnight UTC. Customers who bring their own key are not affected.
+
+See the costs:
+{{ costs_url }}
+{% endblock %}

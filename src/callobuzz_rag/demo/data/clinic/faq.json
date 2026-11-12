@@ -1,0 +1,32 @@
+[
+  {
+    "lang": "en",
+    "title": "Is the clinic open on Sundays?",
+    "body": "Yes, but only for a short morning session. On Sundays Dr. Anjali Kulkarni sees patients from 10:00 to 13:00. The clinic is closed on Sunday evening."
+  },
+  {
+    "lang": "en",
+    "title": "How much is the first consultation?",
+    "body": "The first consultation costs ₹500. A follow-up visit within 7 days of the first one costs ₹300."
+  },
+  {
+    "lang": "en",
+    "title": "Can I pay by UPI?",
+    "body": "Yes. We accept UPI, debit and credit cards, and cash at the reception desk. We do not take cheques."
+  },
+  {
+    "lang": "hi",
+    "title": "क्लिनिक में पहली बार दिखाने की फीस कितनी है?",
+    "body": "पहली बार दिखाने की फीस ₹500 है। पहली बार के 7 दिन के अंदर दोबारा दिखाने पर ₹300 लगते हैं।"
+  },
+  {
+    "lang": "hi",
+    "title": "क्या क्लिनिक रविवार को खुला रहता है?",
+    "body": "रविवार को क्लिनिक सिर्फ सुबह 10 बजे से दोपहर 1 बजे तक खुला रहता है। रविवार शाम को क्लिनिक बंद रहता है।"
+  },
+  {
+    "lang": "hi",
+    "title": "अपॉइंटमेंट कैसे बुक करें?",
+    "body": "आप क्लिनिक के रिसेप्शन पर फोन करके या WhatsApp पर संदेश भेजकर अपॉइंटमेंट बुक कर सकते हैं। नंबर है +91 98765 43210."
+  }
+]

@@ -1,0 +1,97 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta http-equiv="Content-Security-Policy" content="default-src 'none'; style-src 'unsafe-inline'; img-src https: data:">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex">
+<title>{{ sheet.product_name }} price list</title>
+<style>
+  :root { --brand: {{ sheet.color }}; --ink: #1d2433; --muted: #5d6676; --line: #dfe3ea; --paper: #ffffff; }
+  * { box-sizing: border-box; }
+  body { margin: 0; background: #f3f5f8; color: var(--ink); font: 14px/1.5 system-ui, -apple-system, "Segoe UI", Roboto, sans-serif; }
+  .sheet { max-width: 920px; margin: 24px auto; padding: 40px 44px; background: var(--paper); border: 1px solid var(--line); border-radius: 8px; }
+  header { display: flex; justify-content: space-between; align-items: flex-start; gap: 16px; border-bottom: 3px solid var(--brand); padding-bottom: 16px; }
+  header img { max-height: 44px; max-width: 200px; }
+  .brand { font-size: 18px; font-weight: 700; color: var(--brand); }
+  h1 { font-size: 24px; margin: 20px 0 4px; }
+  .sub { color: var(--muted); margin: 0 0 24px; }
+  .plans { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 16px; }
+  .plan { border: 1px solid var(--line); border-top: 4px solid var(--brand); border-radius: 6px; padding: 16px; break-inside: avoid; }
+  .plan h2 { font-size: 17px; margin: 0 0 2px; }
+  .plan .desc { color: var(--muted); margin: 0 0 10px; font-size: 13px; }
+  .price { font-size: 22px; font-weight: 700; margin: 6px 0 2px; font-variant-numeric: tabular-nums; }
+  .upcoming { font-size: 13px; color: #7a5a00; background: #fff4d6; border-radius: 4px; padding: 3px 8px; display: inline-block; margin: 4px 0; }
+  .line { margin: 4px 0; }
+  ul.limits { list-style: none; margin: 12px 0 0; padding: 0; border-top: 1px solid var(--line); }
+  ul.limits li { display: flex; justify-content: space-between; gap: 8px; padding: 5px 0; border-bottom: 1px solid var(--line); font-size: 13px; }
+  h3 { font-size: 16px; margin: 28px 0 8px; }
+  table { width: 100%; border-collapse: collapse; }
+  th, td { padding: 7px 8px; text-align: left; border-bottom: 1px solid var(--line); vertical-align: top; }
+  td.num, th.num { text-align: right; white-space: nowrap; font-variant-numeric: tabular-nums; }
+  th { font-size: 12px; text-transform: uppercase; letter-spacing: .04em; color: var(--muted); }
+  .note { margin-top: 24px; color: var(--muted); white-space: pre-wrap; }
+  footer { margin-top: 28px; padding-top: 12px; border-top: 1px solid var(--line); color: var(--muted); font-size: 12px; display: flex; justify-content: space-between; gap: 12px; flex-wrap: wrap; }
+  @page { size: A4; margin: 14mm; }
+  @media print {
+    body { background: #fff; }
+    .sheet { margin: 0; padding: 0; border: 0; border-radius: 0; max-width: none; }
+    tr, .plan { break-inside: avoid; }
+  }
+  @media (max-width: 560px) { .sheet { margin: 0; padding: 20px 16px; border-radius: 0; } }
+</style>
+</head>
+<body>
+<main class="sheet">
+  <header>
+    <div class="brand">{{ sheet.product_name }}</div>
+    {% if sheet.logo_url %}<img src="{{ sheet.logo_url }}" alt="">{% endif %}
+  </header>
+  <h1>Price list</h1>
+  <p class="sub">Plans and add-ons, as of {{ sheet.generated_on }}.</p>
+
+  <section class="plans">
+  {% for plan in sheet.plans %}
+    <article class="plan">
+      <h2>{{ plan.name }}</h2>
+      {% if plan.description %}<p class="desc">{{ plan.description }}</p>{% endif %}
+      <div class="price">{{ plan.price }}</div>
+      {# P2 invoices #}{% if plan.price_incl %}<div class="line">{{ plan.price_incl }}</div>{% endif %}
+      {% if plan.upcoming %}<div class="upcoming">{{ plan.upcoming }}</div>{% endif %}
+      {% if plan.credit %}<p class="line">{{ plan.credit }}</p>{% endif %}
+      <p class="line">{{ plan.usage }}</p>
+      {% if plan.beyond_limit %}<p class="line">{{ plan.beyond_limit }}</p>{% endif %}
+      <ul class="limits">
+      {% for label, value in plan.limits %}
+        <li><span>{{ label }}</span><strong>{{ value }}</strong></li>
+      {% endfor %}
+      </ul>
+    </article>
+  {% endfor %}
+  </section>
+
+  {% if sheet.add_ons %}
+  <h3>Add-ons</h3>
+  <table>
+    <thead><tr><th>Add-on</th><th>What you get</th><th class="num">Price</th></tr></thead>
+    <tbody>
+    {% for add_on in sheet.add_ons %}
+      <tr>
+        <td><strong>{{ add_on.name }}</strong>{% if add_on.description %}<br><span class="desc">{{ add_on.description }}</span>{% endif %}</td>
+        <td>{{ add_on.gives }}</td>
+        <td class="num">{{ add_on.price }}{# P2 invoices #}{% if add_on.price_incl %}<br><span class="desc">{{ add_on.price_incl }}</span>{% endif %}</td>
+      </tr>
+    {% endfor %}
+    </tbody>
+  </table>
+  {% endif %}
+
+  {% if sheet.note %}<p class="note">{{ sheet.note }}</p>{% endif %}
+
+  <footer>
+    <span>Prices are in the currency shown.</span>
+    {% if powered_text %}<span>{{ powered_text }}</span>{% endif %}
+  </footer>
+</main>
+</body>
+</html>

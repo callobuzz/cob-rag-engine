@@ -1,0 +1,7 @@
+{% extends "_base.html" %}
+{% from "_macros.html" import button with context %}
+{% block content %}
+<p style="margin:0 0 12px;">You can pay <strong>{{ amount }}</strong> for {{ tenant_name }} online with UPI, card or net banking.</p>
+<p style="margin:0 0 12px;">{{ purpose_label }}. This link works until {{ expires_on }}.</p>
+{{ button(pay_url, "Pay now") }}
+{% endblock %}

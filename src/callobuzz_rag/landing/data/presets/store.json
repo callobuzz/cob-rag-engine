@@ -1,0 +1,58 @@
+{
+  "key": "store",
+  "name": "Shop or D2C brand",
+  "conversation": {
+    "assistant_name": ["Meera", "मीरा", "Meera"],
+    "business_name": ["Kulkarni Furniture, Nagpur", "कुलकर्णी फर्नीचर, नागपुर", "Kulkarni Furniture, Nagpur"],
+    "turns": [
+      {"role": "visitor", "text": ["COD available hai? Delivery kitne din mein hogi?", "COD मिलता है? डिलीवरी कितने दिन में होगी?", "COD available hai? Delivery kitne din mein hogi?"]},
+      {"role": "assistant",
+       "text": ["Cash on delivery is available on orders up to ₹25,000. Delivery in Nagpur takes 3 to 5 days, and other cities take 7 to 10 days.",
+                "₹25,000 तक के ऑर्डर पर कैश ऑन डिलीवरी मिलती है। नागपुर में डिलीवरी 3 से 5 दिन में होती है, दूसरे शहरों में 7 से 10 दिन लगते हैं।",
+                "₹25,000 tak ke order par cash on delivery milti hai. Nagpur mein delivery 3 se 5 din mein hoti hai, doosre shehron mein 7 se 10 din lagte hain."],
+       "source": ["Delivery policy, updated 28 Sep", "डिलीवरी नीति, 28 सितंबर को अपडेट", "Delivery policy, 28 Sep ko update hui"]},
+      {"role": "visitor", "text": ["Teak wala 6-seater table abhi stock mein hai?", "टीक वाला 6 सीटर टेबल अभी स्टॉक में है?", "Teak wala 6-seater table abhi stock mein hai?"]},
+      {"role": "assistant",
+       "text": ["I can not see live stock, so I will not guess. Share your number and the shop will confirm today.",
+                "मुझे लाइव स्टॉक नहीं दिखता, इसलिए मैं अंदाज़ा नहीं लगाऊँगी। अपना नंबर दें, दुकान आज ही बता देगी।",
+                "Mujhe live stock nahi dikhta, isliye main andaza nahi lagaungi. Apna number dein, dukaan aaj hi bata degi."],
+       "source": ["Contact page", "संपर्क पेज", "Contact page"]}
+    ],
+    "lead": {"name": "Rohan K.", "phone_masked": "+91 97•••• 3310", "came_from": "website",
+             "looking_for": ["Teak dining table, 6 seats", "टीक डाइनिंग टेबल, 6 सीटर", "Teak dining table, 6 seats"],
+             "consent": ["Rohan agreed to be contacted by Kulkarni Furniture about this enquiry.", "रोहन ने इस पूछताछ के लिए कुलकर्णी फर्नीचर से संपर्क की सहमति दी।", "Rohan ne is enquiry ke liye Kulkarni Furniture se sampark ki sahmati di."]}
+  },
+  "pain_wall": {
+    "heading": ["Every shopper asks before they buy.", "खरीदने से पहले हर ग्राहक पूछता है।", "Khareedne se pehle har customer poochta hai."],
+    "questions": [
+      {"text": ["COD available hai?", "COD मिलता है?", "COD available hai?"], "channel": "website", "time": "21:50"},
+      {"text": ["Return ho jayega?", "रिटर्न हो जाएगा?", "Return ho jayega?"], "channel": "whatsapp", "time": "22:12"},
+      {"text": ["Teak ka rate kya hai?", "टीक का रेट क्या है?", "Teak ka rate kya hai?"], "channel": "website", "time": "22:40"},
+      {"text": ["Assembly free hai?", "असेंबली फ्री है?", "Assembly free hai?"], "channel": "whatsapp", "time": "23:05"},
+      {"text": ["Pune delivery hogi?", "पुणे में डिलीवरी होगी?", "Pune delivery hogi?"], "channel": "website", "time": "23:30"}
+    ],
+    "punchline": ["A shopper who waits till morning for an answer has often bought from the next shop.", "जो ग्राहक सुबह तक जवाब का इंतज़ार करता है, वह अक्सर अगली दुकान से खरीद चुका होता है।", "Jo customer subah tak jawab ka intezaar karta hai, woh aksar agli dukaan se khareed chuka hota hai."]
+  },
+  "languages": {"samples": [
+    {"lang": "en", "question": "Can I return a table if I do not like it?", "answer": "Yes, within 7 days if it is unused. Pick-up is free in Nagpur."},
+    {"lang": "hi", "question": "पसंद न आए तो टेबल वापस कर सकते हैं?", "answer": "हाँ, 7 दिन के अंदर, अगर इस्तेमाल नहीं हुआ हो। नागपुर में पिक-अप मुफ़्त है।"},
+    {"lang": "hi-Latn", "question": "Pasand na aaye to table wapas kar sakte hain?", "answer": "Haan, 7 din ke andar, agar use nahi hua ho. Nagpur mein pick-up free hai."}
+  ]},
+  "whatsapp_journey": {"chapters": [
+    {"time": "23:42", "title": ["A late-night order question", "देर रात का सवाल", "Der raat ka sawaal"], "messages": [
+      {"from": "visitor", "text": ["Catalogue bhej do.", "कैटलॉग भेज दो।", "Catalogue bhej do."]},
+      {"from": "assistant", "text": ["Here is our latest catalogue.", "ये रहा हमारा नया कैटलॉग।", "Yeh raha hamara naya catalogue."], "attachment": ["Catalogue, PDF", "कैटलॉग, PDF", "Catalogue, PDF"]}]},
+    {"time": "07:30", "title": ["The lead is waiting", "सुबह लीड तैयार है", "Subah lead taiyaar hai"], "messages": [
+      {"from": "assistant", "text": ["New lead: Rohan K. is asking about a 6-seater teak table.", "नया लीड: रोहन के. 6 सीटर टीक टेबल के बारे में पूछ रहे हैं।", "Naya lead: Rohan K. 6-seater teak table ke baare mein pooch rahe hain."]}]},
+    {"time": "09:10", "title": ["You step in", "आप जवाब देते हैं", "Aap jawab dete hain"], "messages": [
+      {"from": "owner", "text": ["Hello Rohan, the teak table is in stock. We can deliver on Friday.", "नमस्ते रोहन, टीक टेबल स्टॉक में है। शुक्रवार को डिलीवरी हो सकती है।", "Namaste Rohan, teak table stock mein hai. Friday ko delivery ho sakti hai."]}]},
+    {"time": "11:00", "title": ["Order placed", "ऑर्डर पक्का", "Order pakka"], "messages": [
+      {"from": "visitor", "text": ["Done, I will pay on delivery.", "ठीक है, डिलीवरी पर पैसे दूँगा।", "Theek hai, delivery par paise dunga."]}]}
+  ]},
+  "faq": {"items": [
+    {"q": ["Will it quote the wrong price?", "क्या यह गलत कीमत बता देगा?", "Kya yeh galat price bata dega?"],
+     "a": ["It quotes only what is on your pages and names the page. If a price is not written anywhere, it says so and offers to pass the shopper to you.", "यह सिर्फ वही बताता है जो आपके पेजों पर लिखा है, और पेज का नाम भी बताता है। जिस कीमत का कहीं ज़िक्र न हो, उसके बारे में साफ कहता है और ग्राहक को आपसे जोड़ने की पेशकश करता है।", "Yeh sirf wahi batata hai jo aapke pages par likha hai, aur page ka naam bhi batata hai. Jis price ka kahin zikr na ho, uske baare mein saaf kehta hai aur customer ko aapse jodne ki peshkash karta hai."]},
+    {"q": ["Does it work for a small shop?", "क्या यह छोटी दुकान के लिए चलेगा?", "Kya yeh chhoti dukaan ke liye chalega?"],
+     "a": ["Yes. A shop with 10 questions a day sees roughly 300 questions a month. Start free and see the cost in ₹ before you pay.", "हाँ। रोज़ 10 सवाल वाली दुकान में महीने में करीब 300 सवाल आते हैं। फ्री में शुरू करें और पैसे देने से पहले खर्च ₹ में देखें।", "Haan. Roz 10 sawaal wali dukaan mein mahine mein kareeb 300 sawaal aate hain. Free mein shuru karein aur paise dene se pehle kharch ₹ mein dekhein."]}
+  ]}
+}

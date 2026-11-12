@@ -1,0 +1,77 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1000 520" width="1000" height="520" role="img" aria-labelledby="t d" font-family="'IBM Plex Sans', 'Segoe UI', system-ui, -apple-system, sans-serif">
+  <title id="t">How cob-rag-engine works</title>
+  <desc id="d">Websites embed the chat widget and apps call the API; the engine answers from each customer's own documents using local or hosted models.</desc>
+  <defs>
+    <marker id="a" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0 0 10 5 0 10z" fill="#64748b"/></marker>
+    <linearGradient id="eng" x1="0" x2="1" y1="0" y2="1"><stop offset="0" stop-color="#4f46e5"/><stop offset="1" stop-color="#0f766e"/></linearGradient>
+  </defs>
+  <rect width="1000" height="520" rx="20" fill="#f8fafc"/>
+
+  <!-- left: callers -->
+  <text x="40" y="52" font-size="13" font-weight="700" fill="#475569" letter-spacing=".08em">YOUR CUSTOMERS</text>
+  <g>
+    <rect x="40" y="70" width="230" height="84" rx="12" fill="#fff" stroke="#e2e8f0"/>
+    <circle cx="66" cy="96" r="6" fill="#f87171"/><circle cx="84" cy="96" r="6" fill="#fbbf24"/><circle cx="102" cy="96" r="6" fill="#34d399"/>
+    <text x="60" y="130" font-size="14" fill="#0f172a" font-weight="600">acme-store.com</text>
+    <circle cx="240" cy="126" r="16" fill="#0f766e"/><path d="M232 121h16v9h-10l-6 5z" fill="#fff"/>
+  </g>
+  <g>
+    <rect x="40" y="170" width="230" height="84" rx="12" fill="#fff" stroke="#e2e8f0"/>
+    <circle cx="66" cy="196" r="6" fill="#f87171"/><circle cx="84" cy="196" r="6" fill="#fbbf24"/><circle cx="102" cy="196" r="6" fill="#34d399"/>
+    <text x="60" y="230" font-size="14" fill="#0f172a" font-weight="600">dental-clinic.com</text>
+    <circle cx="240" cy="226" r="16" fill="#7c3aed"/><path d="M232 221h16v9h-10l-6 5z" fill="#fff"/>
+  </g>
+  <text x="40" y="282" font-size="12.5" fill="#64748b">One &lt;script&gt; tag each · pk_ key locked to the site</text>
+
+  <text x="40" y="332" font-size="13" font-weight="700" fill="#475569" letter-spacing=".08em">YOUR PRODUCT</text>
+  <rect x="40" y="350" width="230" height="110" rx="12" fill="#fff" stroke="#e2e8f0"/>
+  <text x="60" y="380" font-size="14" fill="#0f172a" font-weight="600">Your SaaS / backend</text>
+  <text x="60" y="404" font-size="12.5" fill="#475569">Python &amp; JS SDKs · REST API</text>
+  <text x="60" y="426" font-size="12.5" fill="#475569">tk_ tenant · ck_ corpus keys</text>
+  <text x="60" y="448" font-size="12.5" fill="#475569">Dashboard for operators</text>
+
+  <!-- arrows in -->
+  <path d="M272 112 C 320 112, 330 200, 368 210" fill="none" stroke="#64748b" stroke-width="2" marker-end="url(#a)"/>
+  <path d="M272 212 C 320 212, 330 230, 368 232" fill="none" stroke="#64748b" stroke-width="2" marker-end="url(#a)"/>
+  <path d="M272 405 C 320 405, 330 300, 368 290" fill="none" stroke="#64748b" stroke-width="2" marker-end="url(#a)"/>
+
+  <!-- engine -->
+  <rect x="370" y="60" width="330" height="410" rx="18" fill="url(#eng)"/>
+  <text x="394" y="98" font-size="20" font-weight="800" fill="#fff">cob-rag-engine</text>
+  <text x="394" y="120" font-size="12.5" fill="#e0e7ff">self-hosted · multi-tenant · API-first</text>
+  <g font-size="13" fill="#0f172a">
+    <rect x="394" y="140" width="282" height="46" rx="10" fill="#fff" opacity=".96"/>
+    <text x="410" y="160" font-weight="700">Tenants → corpora → widget keys</text>
+    <text x="410" y="178" font-size="11.5" fill="#475569">isolated data, keys, models and prompts</text>
+    <rect x="394" y="196" width="282" height="46" rx="10" fill="#fff" opacity=".96"/>
+    <text x="410" y="216" font-weight="700">Ingestion</text>
+    <text x="410" y="234" font-size="11.5" fill="#475569">parse · chunk · enrich · embed · version</text>
+    <rect x="394" y="252" width="282" height="46" rx="10" fill="#fff" opacity=".96"/>
+    <text x="410" y="272" font-weight="700">Retrieval</text>
+    <text x="410" y="290" font-size="11.5" fill="#475569">hybrid dense+BM25 · RRF · rerank · MMR</text>
+    <rect x="394" y="308" width="282" height="46" rx="10" fill="#fff" opacity=".96"/>
+    <text x="410" y="328" font-weight="700">Grounded answers</text>
+    <text x="410" y="346" font-size="11.5" fill="#475569">citations · validation · streaming · memory</text>
+    <rect x="394" y="364" width="282" height="46" rx="10" fill="#fff" opacity=".96"/>
+    <text x="410" y="384" font-weight="700">Guardrails &amp; metering</text>
+    <text x="410" y="402" font-size="11.5" fill="#475569">origin lock · rate limits · usage per customer</text>
+  </g>
+  <text x="394" y="444" font-size="12" fill="#e0e7ff">Postgres · Qdrant · Redis · any S3</text>
+
+  <!-- right: models -->
+  <path d="M702 180 C 760 180, 760 140, 796 140" fill="none" stroke="#64748b" stroke-width="2" marker-end="url(#a)"/>
+  <path d="M702 330 C 760 330, 760 360, 796 360" fill="none" stroke="#64748b" stroke-width="2" marker-end="url(#a)"/>
+  <text x="798" y="52" font-size="13" font-weight="700" fill="#475569" letter-spacing=".08em">YOUR MODELS</text>
+  <rect x="798" y="70" width="170" height="150" rx="12" fill="#fff" stroke="#e2e8f0"/>
+  <text x="814" y="98" font-size="14" font-weight="700" fill="#0f172a">Local</text>
+  <text x="814" y="122" font-size="12.5" fill="#475569">CPU or GPU</text>
+  <text x="814" y="144" font-size="12.5" fill="#475569">Ollama · TEI</text>
+  <text x="814" y="166" font-size="12.5" fill="#475569">bge reranker</text>
+  <text x="814" y="198" font-size="12" fill="#0f766e" font-weight="600">$0 per query</text>
+  <rect x="798" y="290" width="170" height="150" rx="12" fill="#fff" stroke="#e2e8f0"/>
+  <text x="814" y="318" font-size="14" font-weight="700" fill="#0f172a">Hosted</text>
+  <text x="814" y="342" font-size="12.5" fill="#475569">OpenAI · Anthropic</text>
+  <text x="814" y="364" font-size="12.5" fill="#475569">Gemini · OpenRouter…</text>
+  <text x="814" y="386" font-size="12.5" fill="#475569">Cohere · Voyage</text>
+  <text x="814" y="418" font-size="12" fill="#4f46e5" font-weight="600">per corpus or per request</text>
+</svg>

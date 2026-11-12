@@ -1,0 +1,6 @@
+{% extends "_base.txt" %}
+{% block content %}
+{{ tenant_name }} has been suspended on {{ branding.product_name }}. Its knowledge bases, API keys and website chat are paused; nothing has been deleted.
+
+To find out more or to have it reactivated, contact {{ branding.support_email or ("the " ~ branding.product_name ~ " team") }}.
+{% endblock %}

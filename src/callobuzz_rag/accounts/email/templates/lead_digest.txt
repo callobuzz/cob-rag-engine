@@ -1,0 +1,10 @@
+{% extends "_base.txt" %}
+{% block content %}
+Leads from the {{ kb_name }} assistant on {{ day }}: {{ total }}
+
+{% for r in rows %}- {{ r.name or "-" }}, {{ r.phone or "-" }}, {{ r.status }}{% if r.qualification %} ({{ r.qualification }}){% endif %}, {{ r.created_local }}
+{% endfor %}{% if more %}And {{ more }} more in the leads inbox.
+{% endif %}
+Open the leads inbox:
+{{ leads_url }}
+{% endblock %}

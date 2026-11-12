@@ -1,0 +1,252 @@
+/*
+ * Rendered Markdown (answers in the playground, conversations and the preview console).
+ * Tokens only, so light and dark both read; no colours of its own.
+ */
+.md {
+	overflow-wrap: anywhere;
+	line-height: 1.55;
+}
+.md > :first-child {
+	margin-top: 0;
+}
+.md > :last-child {
+	margin-bottom: 0;
+}
+.md p {
+	margin: 0 0 0.6em;
+}
+.md h3,
+.md h4,
+.md h5,
+.md h6 {
+	margin: 0.9em 0 0.35em;
+	font-family: var(--font-display);
+	font-weight: 700;
+	line-height: 1.3;
+	color: var(--foreground);
+}
+.md h3 {
+	font-size: 1.12em;
+}
+.md h4 {
+	font-size: 1.05em;
+}
+.md h5,
+.md h6 {
+	font-size: 1em;
+}
+.md ul,
+.md ol {
+	margin: 0 0 0.6em;
+	padding-left: 1.4em;
+}
+.md li > ul,
+.md li > ol {
+	margin: 0.2em 0 0;
+}
+.md li + li {
+	margin-top: 0.2em;
+}
+.md a {
+	color: var(--primary);
+	text-decoration: underline;
+	text-underline-offset: 2px;
+	overflow-wrap: anywhere;
+}
+.md code {
+	padding: 0.1em 0.35em;
+	border-radius: 5px;
+	background: var(--accent);
+	border: 1px solid var(--border);
+	font-family: var(--font-mono);
+	font-size: 0.88em;
+}
+.md pre {
+	margin: 0 0 0.7em;
+	padding: 0.7em 0.85em;
+	overflow-x: auto;
+	border-radius: 8px;
+	background: var(--card);
+	border: 1px solid var(--border);
+	font-size: 0.86em;
+	line-height: 1.5;
+}
+.md pre code {
+	padding: 0;
+	border: 0;
+	background: none;
+	font-size: inherit;
+	white-space: pre;
+	overflow-wrap: normal;
+}
+.md-code {
+	position: relative;
+}
+.md-copy {
+	position: absolute;
+	top: 6px;
+	right: 6px;
+	display: grid;
+	place-items: center;
+	width: 26px;
+	height: 26px;
+	border-radius: 6px;
+	border: 1px solid var(--border);
+	background: var(--secondary);
+	color: var(--muted-foreground);
+	cursor: pointer;
+	opacity: 0;
+	transition: opacity var(--t) var(--ease);
+}
+.md-copy svg {
+	width: 14px;
+	height: 14px;
+}
+.md-code:hover .md-copy,
+.md-copy:focus-visible {
+	opacity: 1;
+}
+.md-copy:hover {
+	color: var(--foreground);
+	background: var(--accent);
+}
+.md-copy:focus-visible {
+	outline: none;
+	box-shadow: 0 0 0 2px var(--ring);
+}
+@media (hover: none) {
+	.md-copy {
+		opacity: 1;
+	}
+}
+.md blockquote {
+	margin: 0 0 0.6em;
+	padding: 0.1em 0 0.1em 0.85em;
+	border-left: 3px solid var(--input);
+	color: var(--foreground-2);
+}
+.md hr {
+	margin: 0.9em 0;
+	border: 0;
+	border-top: 1px solid var(--border);
+}
+.md-table {
+	margin: 0 0 0.7em;
+	max-width: 100%;
+	overflow-x: auto;
+	border: 1px solid var(--border);
+	border-radius: 8px;
+}
+.md-table:focus-visible {
+	outline: none;
+	box-shadow: 0 0 0 2px var(--ring);
+}
+.md table {
+	width: max-content;
+	min-width: 100%;
+	border-collapse: collapse;
+	font-size: 0.93em;
+}
+.md th,
+.md td {
+	padding: 0.4em 0.7em;
+	border-bottom: 1px solid var(--border);
+	text-align: left;
+	vertical-align: top;
+}
+.md th {
+	background: var(--card);
+	font-weight: 600;
+	white-space: nowrap;
+}
+.md tr:last-child td {
+	border-bottom: 0;
+}
+.md .md-center {
+	text-align: center;
+}
+.md .md-right {
+	text-align: right;
+}
+.md-cite {
+	display: inline-grid;
+	place-items: center;
+	min-width: 1.45em;
+	height: 1.45em;
+	margin: 0 0.12em;
+	padding: 0 0.3em;
+	vertical-align: 0.08em;
+	border: 1px solid color-mix(in srgb, var(--primary) 35%, var(--border));
+	border-radius: 999px;
+	background: var(--primary-soft);
+	color: var(--primary);
+	font-family: var(--font-mono);
+	font-size: 0.74em;
+	font-weight: 600;
+	line-height: 1;
+	cursor: pointer;
+}
+.md-cite:hover {
+	background: color-mix(in srgb, var(--primary) 18%, transparent);
+}
+.md-cite:focus-visible {
+	outline: none;
+	box-shadow: 0 0 0 2px var(--ring);
+}
+.md-inline {
+	overflow-wrap: anywhere;
+}
+/* The streaming caret rides on the last text block, not on its own line. */
+.md-streaming > :last-child:is(p, h3, h4, h5, h6, ul, ol, blockquote)::after {
+	content: "";
+	display: inline-block;
+	width: 7px;
+	height: 14px;
+	margin-left: 2px;
+	vertical-align: -2px;
+	background: var(--primary);
+	animation: md-caret 1s steps(2) infinite;
+}
+.md-streaming > :last-child:is(ul, ol, blockquote)::after {
+	display: block;
+	margin-top: 4px;
+}
+@keyframes md-caret {
+	50% {
+		opacity: 0;
+	}
+}
+@media (prefers-reduced-motion: reduce) {
+	.md-streaming > :last-child::after {
+		display: none;
+	}
+}
+
+/* Docs pages (variant="page"): real h1 to h4 with ids, so a heading scrolls clear of the header. */
+.md-page h1,
+.md-page h2,
+.md-page h3,
+.md-page h4 {
+	margin: 1.4em 0 0.45em;
+	font-family: var(--font-display);
+	font-weight: 700;
+	line-height: 1.25;
+	color: var(--foreground);
+	scroll-margin-top: 5rem;
+}
+.md-page h1 {
+	font-size: 1.7em;
+}
+.md-page h2 {
+	font-size: 1.3em;
+	padding-top: 0.2em;
+}
+.md-page h3 {
+	font-size: 1.1em;
+}
+.md-page h4 {
+	font-size: 1em;
+}
+.md-page {
+	line-height: 1.65;
+}

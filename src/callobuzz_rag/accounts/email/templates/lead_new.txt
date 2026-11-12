@@ -1,0 +1,19 @@
+{% extends "_base.txt" %}
+{% block content %}
+A visitor left their details with the {{ kb_name }} assistant{% if business_name %} of {{ business_name }}{% endif %}.
+
+{% if ref_code is defined and ref_code %}Reference: {{ ref_code }}
+{% endif %}{% if name %}Name:     {{ name }}
+{% endif %}{% if phone %}Phone:    {{ phone }}
+{% endif %}{% if email %}E-mail:   {{ email }}
+{% endif %}{% for item in custom %}{{ item.label }}: {{ item.value }}
+{% endfor %}Why:      {{ trigger }}
+Language: {{ language }}
+{% if page_url %}Page:     {{ page_url }}
+{% endif %}
+Summary: {{ summary }}
+{% if sources %}Documents consulted: {{ sources | join(", ") }}
+{% endif %}
+Open the lead and the full chat:
+{{ lead_url }}
+{% endblock %}

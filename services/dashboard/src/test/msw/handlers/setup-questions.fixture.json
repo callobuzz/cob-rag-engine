@@ -1,0 +1,179 @@
+{
+	"version": 1,
+	"questions": [
+		{
+			"id": "audience",
+			"kind": "single",
+			"required": true,
+			"other": true,
+			"title": "Who usually asks your business questions?",
+			"help": "The assistant adjusts its words to them.",
+			"options": [
+				{ "value": "patients", "label": "Patients and their families" },
+				{ "value": "shoppers", "label": "Shoppers" },
+				{ "value": "students_parents", "label": "Students and parents" },
+				{ "value": "businesses", "label": "Other businesses" },
+				{ "value": "citizens", "label": "Citizens using a public service" },
+				{ "value": "general_public", "label": "Anyone from the public" }
+			]
+		},
+		{
+			"id": "tone",
+			"kind": "single",
+			"required": true,
+			"other": false,
+			"title": "How should the assistant sound?",
+			"help": "You can fine-tune this later.",
+			"options": [
+				{ "value": "friendly", "label": "Friendly" },
+				{ "value": "professional", "label": "Professional" },
+				{ "value": "warm", "label": "Warm and caring" },
+				{ "value": "matter_of_fact", "label": "Short and to the point" },
+				{ "value": "playful", "label": "Playful" }
+			]
+		},
+		{
+			"id": "languages",
+			"kind": "multi",
+			"required": true,
+			"other": false,
+			"max_items": 6,
+			"title": "Which languages do your customers write in?",
+			"help": "Pick all that apply. English, Hindi and Hinglish are the languages we measure. Other languages work but are not yet measured, and Malayalam and Punjabi can be added in the Assistant tab.",
+			"options": [
+				{ "value": "en", "label": "English" },
+				{ "value": "hi", "label": "हिन्दी (Hindi)" },
+				{ "value": "hi-Latn", "label": "Hinglish (Hindi in English letters)" },
+				{ "value": "mr", "label": "मराठी (Marathi)" },
+				{ "value": "ta", "label": "தமிழ் (Tamil)" },
+				{ "value": "te", "label": "తెలుగు (Telugu)" },
+				{ "value": "bn", "label": "বাংলা (Bengali)" },
+				{ "value": "gu", "label": "ગુજરાતી (Gujarati)" },
+				{ "value": "kn", "label": "ಕನ್ನಡ (Kannada)" }
+			]
+		},
+		{
+			"id": "never_do",
+			"kind": "multi",
+			"required": false,
+			"other": true,
+			"max_items": 8,
+			"title": "What must the assistant never do?",
+			"help": "Each choice becomes a rule you can edit.",
+			"options": [
+				{ "value": "diagnose", "label": "Diagnose or suggest medicines" },
+				{ "value": "quote_unlisted_prices", "label": "Quote a price that is not in our documents" },
+				{ "value": "promise_discounts", "label": "Promise discounts or offers" },
+				{ "value": "legal_financial_advice", "label": "Give legal or financial advice" },
+				{ "value": "competitors", "label": "Talk about competitors" },
+				{ "value": "politics_religion", "label": "Discuss politics or religion" },
+				{ "value": "guarantee_results", "label": "Guarantee results, admissions or approvals" }
+			]
+		},
+		{
+			"id": "when_unsure",
+			"kind": "single",
+			"required": true,
+			"other": false,
+			"title": "When the assistant can't answer, what should it offer?",
+			"help": "Visitors can always ask for a person.",
+			"options": [
+				{ "value": "whatsapp", "label": "Chat with us on WhatsApp" },
+				{ "value": "call", "label": "Call us" },
+				{ "value": "form", "label": "Leave your number and we'll call back" },
+				{ "value": "email", "label": "Email us" }
+			]
+		},
+		{
+			"id": "top_services",
+			"kind": "list",
+			"required": true,
+			"other": false,
+			"max_items": 10,
+			"prefill_from": "services",
+			"title": "What are your main services or products?",
+			"help": "One per line. We filled in what we found on your website.",
+			"options": []
+		},
+		{
+			"id": "lead_followup",
+			"kind": "single",
+			"required": true,
+			"other": false,
+			"title": "When someone leaves their number, how fast do you follow up?",
+			"help": "The assistant tells visitors what to expect.",
+			"options": [
+				{ "value": "within_hour", "label": "Within an hour" },
+				{ "value": "same_day", "label": "The same day" },
+				{ "value": "next_working_day", "label": "The next working day" },
+				{ "value": "no_leads", "label": "Don't collect numbers" }
+			]
+		},
+		{
+			"id": "exact_answers",
+			"kind": "multi",
+			"required": false,
+			"other": true,
+			"max_items": 8,
+			"title": "Which questions need exact answers from your documents only?",
+			"help": "The assistant will never guess these.",
+			"options": [
+				{ "value": "prices", "label": "Prices and fees" },
+				{ "value": "timings", "label": "Timings" },
+				{ "value": "refunds", "label": "Refunds and cancellations" },
+				{ "value": "eligibility", "label": "Eligibility" },
+				{ "value": "documents_required", "label": "Documents required" },
+				{ "value": "address", "label": "Address and directions" }
+			]
+		},
+		{
+			"id": "hours",
+			"kind": "hours",
+			"required": false,
+			"other": false,
+			"prefill_from": "hours",
+			"title": "What are your working hours?",
+			"help": "Used to say whether someone can call now. Times are in India time unless you change it later. A closing time earlier than the opening time means you close the next day.",
+			"options": []
+		},
+		{
+			"id": "sensitive_profile",
+			"kind": "single",
+			"required": true,
+			"other": false,
+			"skip_if_template_profile": true,
+			"title": "Is your work in any of these areas?",
+			"help": "Adds the right disclaimers and safe limits.",
+			"options": [
+				{ "value": "none", "label": "None of these" },
+				{ "value": "medical", "label": "Health or medicine" },
+				{ "value": "legal", "label": "Law" },
+				{ "value": "financial", "label": "Money, loans or investment" },
+				{ "value": "education", "label": "Education and admissions" },
+				{ "value": "government", "label": "Government service" }
+			]
+		},
+		{
+			"id": "assistant_name",
+			"kind": "text",
+			"required": true,
+			"other": false,
+			"title": "What should the assistant be called?",
+			"help": "A human-style name works best, for example Asha or Ravi.",
+			"options": []
+		},
+		{
+			"id": "greeting_style",
+			"kind": "single",
+			"required": true,
+			"other": false,
+			"title": "How should it greet visitors?",
+			"help": "",
+			"options": [
+				{ "value": "short_welcome", "label": "A short welcome" },
+				{ "value": "welcome_with_services", "label": "A welcome that lists what it can help with" },
+				{ "value": "welcome_with_contact", "label": "A welcome with how to reach you" }
+			]
+		}
+	]
+}

@@ -1,0 +1,17 @@
+{% extends "_base.html" %}
+{% from "_macros.html" import button with context %}
+{% block content %}
+<p style="margin:0 0 12px;">Leads from the {{ kb_name }} assistant on {{ day }}: <strong>{{ total }}</strong>.</p>
+<p style="margin:0 0 12px;color:#6a737d;font-size:14px;">
+{% for status, n in by_status.items() %}{{ status }}: {{ n }}{% if not loop.last %} &middot; {% endif %}{% endfor %}
+{% if by_qualification %}<br>{% for q, n in by_qualification.items() %}{{ q }}: {{ n }}{% if not loop.last %} &middot; {% endif %}{% endfor %}{% endif %}
+</p>
+<table role="presentation" cellpadding="0" cellspacing="0" border="0" style="width:100%;font-size:14px;border-collapse:collapse;">
+<tr><th align="left" style="padding:4px 8px 4px 0;">Name</th><th align="left" style="padding:4px 8px;">Phone</th><th align="left" style="padding:4px 8px;">Status</th><th align="left" style="padding:4px 0 4px 8px;">Time</th></tr>
+{% for r in rows %}
+<tr><td style="padding:4px 8px 4px 0;border-top:1px solid #e6e8eb;">{{ r.name or "-" }}</td><td style="padding:4px 8px;border-top:1px solid #e6e8eb;">{{ r.phone or "-" }}</td><td style="padding:4px 8px;border-top:1px solid #e6e8eb;">{{ r.status }}{% if r.qualification %} &middot; {{ r.qualification }}{% endif %}</td><td style="padding:4px 0 4px 8px;border-top:1px solid #e6e8eb;">{{ r.created_local }}</td></tr>
+{% endfor %}
+</table>
+{% if more %}<p style="margin:8px 0 0;color:#6a737d;font-size:13px;">And {{ more }} more in the leads inbox.</p>{% endif %}
+{{ button(leads_url, "Open the leads inbox") }}
+{% endblock %}

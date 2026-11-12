@@ -1,0 +1,12 @@
+{% extends "_base.html" %}
+{% from "_macros.html" import button with context %}
+{% block content %}
+<p style="margin:0 0 12px;">The plan for <strong>{{ business_name }}</strong> on {{ product_name }} ({{ plan_name }}) renews on <strong>{{ renews_on }}</strong>.</p>
+<p style="margin:0 0 4px;font-size:28px;font-weight:700;">{{ amount }}</p>
+<p style="margin:0 0 16px;font-size:13px;color:#6a737d;">will be charged from your balance on that day{% if included %}, and {{ included }} of credit is added for the new period{% endif %}.</p>
+{% if new_price %}
+<p style="margin:0 0 12px;">Your new price applies from this renewal. We told you about the change in advance; you can see it on your plan page.</p>
+{% endif %}
+<p style="margin:0 0 12px;">Make sure your balance can cover it so your assistant keeps answering without a break.</p>
+{{ button(billing_url, "Plan and billing") }}
+{% endblock %}

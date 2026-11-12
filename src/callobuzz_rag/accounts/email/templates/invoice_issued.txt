@@ -1,0 +1,9 @@
+{% extends "_base.txt" %}
+{% block content %}
+Your tax document {{ number }} for {{ total }} is ready for {{ tenant_name }}.
+
+You can download the PDF from Plan & billing, under Tax invoices. Keep it for your GST records.
+
+Plan & billing:
+{{ invoices_url }}
+{% endblock %}

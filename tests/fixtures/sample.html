@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Sample Document for Testing</title>
+</head>
+<body>
+    <h1>Introduction</h1>
+    <p>This is a sample HTML document used for integration testing of the RAG kernel parsing pipeline. It contains multiple sections with headings, paragraphs, and a table.</p>
+
+    <h2>Key Concepts</h2>
+    <p>The RAG (Retrieval-Augmented Generation) pattern combines information retrieval with language model generation. Documents are parsed, chunked, enriched with metadata, and stored as vector embeddings for semantic search.</p>
+
+    <h2>Architecture</h2>
+    <p>The system uses a provider pattern for all external dependencies. Each component (parser, chunker, embedder, vector store) implements an abstract interface, allowing easy swapping of implementations.</p>
+
+    <h3>Components</h3>
+    <table>
+        <thead>
+            <tr><th>Component</th><th>Implementation</th><th>Purpose</th></tr>
+        </thead>
+        <tbody>
+            <tr><td>Parser</td><td>Docling</td><td>Document structure extraction</td></tr>
+            <tr><td>Embedder</td><td>Jina v3</td><td>Dense vector generation</td></tr>
+            <tr><td>Vector DB</td><td>Qdrant</td><td>Similarity search</td></tr>
+            <tr><td>Storage</td><td>MinIO</td><td>Raw document storage</td></tr>
+        </tbody>
+    </table>
+
+    <h2>Conclusion</h2>
+    <p>This document serves as a test fixture for validating the end-to-end ingestion pipeline. It exercises heading detection, paragraph chunking, and table extraction.</p>
+</body>
+</html>

@@ -1,0 +1,12 @@
+{% extends "_base.txt" %}
+{% block content %}
+{{ business_name }} ({{ from_email }}) wrote to you.
+
+Request #{{ number }}{% if page %} from {{ page }}{% endif %}
+{{ request_subject }}
+
+{{ message }}
+
+Open the request:
+{{ admin_url }}
+{% endblock %}

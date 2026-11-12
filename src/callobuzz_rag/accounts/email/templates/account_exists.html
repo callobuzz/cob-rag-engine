@@ -1,0 +1,8 @@
+{% extends "_base.html" %}
+{% from "_macros.html" import button with context %}
+{% block content %}
+<p style="margin:0 0 12px;">Hi {{ name }},</p>
+<p style="margin:0 0 12px;">Someone tried to sign up for {{ branding.product_name }} with this e-mail address, but you already have an account. If it was you, sign in instead:</p>
+{{ button(login_url, "Sign in") }}
+<p style="margin:0 0 12px;">Forgot your password? <a href="{{ reset_url }}" style="color:{{ branding.primary_color }};">Reset it here</a>. If it was not you, you can ignore this e-mail; nothing has changed.</p>
+{% endblock %}

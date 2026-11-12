@@ -1,0 +1,493 @@
+# ============================================================================
+# Callobuzz RAG Engine — full local stack
+#
+#   make setup                              # or: python scripts/setup.py (asks a few questions,
+#                                           # writes .env with every secret generated)
+#   docker compose up -d --build            # the wizard prints the exact command for your choices
+#
+# Then:  API http://127.0.0.1:8000/docs   Dashboard http://127.0.0.1:8090
+#
+# CONFIGURATION IS THE `.env` BESIDE THIS FILE. Compose auto-loads it for
+# `${VAR}` interpolation (including every `:?` guard below), and app/worker/beat
+# receive it whole through `env_file:`. `make dev-app` reads the same file, so a
+# native process and a container share one configuration.
+#
+# HOST-SIDE vs CONTAINER ADDRESSES. `.env` says RAG_DB_HOST=127.0.0.1, because a
+# process on this machine reaches Postgres through its published port. A
+# container must say `postgres`. The `environment:` block of the app services
+# sets the container value, and `environment:` beats `env_file:` on a key
+# collision. To point the containers at a datastore elsewhere, set the matching
+# `*_CONTAINER` variable in `.env` (e.g. RAG_DB_HOST_CONTAINER=10.0.0.5).
+#
+# PUBLISHED PORTS ARE LOOPBACK-ONLY BY DEFAULT. Every `ports:` entry is prefixed
+# with ${RAG_BIND_ADDR:-127.0.0.1}. Do not "simplify" these to "5433:5432": a bare
+# host port binds 0.0.0.0, and a host firewall such as UFW will not stop it —
+# Docker's iptables rules are evaluated first.
+#
+# HOST PORTS of the app, scraper and dashboard are RAG_APP_HOST_PORT (8000),
+# RAG_SCRAPER_HOST_PORT (8001) and RAG_DASHBOARD_HOST_PORT (8090); the ports
+# inside the containers do not change.
+#
+# OPTIONAL SERVICES are behind profiles, set with COMPOSE_PROFILES in `.env`:
+#   tei            the bundled embedding container (on in the template; drop it for a hosted
+#                  embedding API or in-process embeddings, so it never downloads its model)
+#   observability  self-hosted Langfuse + its Postgres
+#   transcription  the Whisper ASR sidecar
+#   local-llm      a small open model that answers on this server's CPU (the free tier)
+#   legacy-dashboard  the previous dashboard on :8091 (this release only)
+#   proxy          Caddy, one public address with automatic HTTPS (RAG_SITE_DOMAIN; L4 install)
+#
+# GPU: `docker compose -f docker-compose.yml -f docker-compose.gpu.yml up -d`.
+# It cannot be a default: Compose refuses to start a service reserving a device
+# the host lacks.
+# ============================================================================
+
+name: cob-rag
+
+x-logging: &logging
+  driver: json-file
+  options:
+    max-size: "10m"
+    max-file: "3"
+
+# app, worker, mailer and celery-beat share their whole configuration. Scheduled jobs
+# have no request behind them, so they cannot receive X-LLM-* headers and use the
+# engine's own credentials; one block means those reach them by construction.
+x-rag-app: &rag-app
+  build:
+    context: .
+    args:
+      # Optional answer-quality evaluation (RAGAS + LangChain, about 150 MB): set
+      # RAG_INSTALL_EVAL=true in .env, then `docker compose build`. The wizard asks.
+      INSTALL_EVAL: ${RAG_INSTALL_EVAL:-false}
+  image: cob-rag:local
+  restart: unless-stopped
+  logging: *logging
+  volumes:
+    # Persists the ~2 GB cross-encoder reranker across container recreation.
+    # Without it every `up` re-downloads it from huggingface.co on the first
+    # query: a ~60s cold start, and a hard failure with no outbound internet.
+    - hf_cache:/home/appuser/.cache/huggingface
+    # Uploaded files (local storage). The same volume on app, worker, mailer and beat,
+    # so every process sees the same folder. One server only; use s3 for several.
+    - files:/var/lib/cob-rag/files
+  env_file:
+    - .env
+  environment:
+    RAG_DB_HOST: ${RAG_DB_HOST_CONTAINER:-postgres}
+    RAG_DB_PORT: ${RAG_DB_PORT_CONTAINER:-5432}
+    RAG_DB_USER: rag
+    RAG_DB_NAME: rag_kernel
+    RAG_REDIS_HOST: ${RAG_REDIS_HOST_CONTAINER:-valkey}
+    RAG_REDIS_PORT: ${RAG_REDIS_PORT_CONTAINER:-6379}
+    # Files live in the `files` volume below (RAG_STORAGE_PROVIDER=local, the default).
+    # With RAG_STORAGE_PROVIDER=s3, set RAG_S3_ENDPOINT_CONTAINER to any S3-compatible service.
+    RAG_STORAGE_LOCAL_ROOT: /var/lib/cob-rag/files
+    RAG_S3_ENDPOINT: ${RAG_S3_ENDPOINT_CONTAINER:-}
+    RAG_QDRANT_HOST: ${RAG_QDRANT_HOST_CONTAINER:-qdrant}
+    RAG_QDRANT_PORT: ${RAG_QDRANT_PORT_CONTAINER:-6333}
+    RAG_TEI_URL: ${RAG_TEI_URL_CONTAINER:-http://tei:8080}
+    RAG_LANGFUSE_HOST: ${RAG_LANGFUSE_HOST_CONTAINER:-http://langfuse:3000}
+    RAG_WHISPER_LOCAL_URL: ${RAG_WHISPER_LOCAL_URL_CONTAINER:-http://whisper:9000}
+    RAG_LOCAL_LLM_URL: ${RAG_LOCAL_LLM_URL_CONTAINER:-http://local-llm:11434}
+  depends_on:
+    postgres:
+      condition: service_healthy
+    valkey:
+      condition: service_healthy
+    qdrant:
+      condition: service_healthy
+    # Waits for the embedding model, which on first start downloads for a few
+    # minutes. Without this the app reports healthy while TEI is still
+    # downloading, and anything ingested in that window fails at the embedding
+    # step for good. `required: false`: TEI is behind the `tei` profile, so when
+    # it is off (a hosted embedding API or in-process embeddings) there is nothing
+    # to wait for and nothing to start.
+    tei:
+      condition: service_healthy
+      required: false
+
+services:
+  # === Datastores =============================================================
+
+  postgres:
+    image: postgres:16-alpine
+    restart: unless-stopped
+    logging: *logging
+    environment:
+      POSTGRES_USER: rag
+      # The same value the app reads as RAG_DB_PASSWORD — one variable, so the two
+      # cannot drift. `:?` fails the whole `up` instead of initialising a
+      # database with an empty password.
+      POSTGRES_PASSWORD: ${RAG_DB_PASSWORD:?set RAG_DB_PASSWORD in .env (run make setup)}
+      POSTGRES_DB: rag_kernel
+    ports:
+      - "${RAG_BIND_ADDR:-127.0.0.1}:5433:5432"
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U rag -d rag_kernel"]
+      interval: 5s
+      timeout: 5s
+      retries: 10
+
+  # Valkey (a Redis-compatible store, BSD-3-Clause): queues, rate windows, caches. The compose
+  # service is `valkey`; the network alias `redis` keeps an old RAG_REDIS_HOST_CONTAINER=redis working.
+  # Env names (RAG_REDIS_*) and the published port 6380 are unchanged.
+  valkey:
+    image: ${RAG_VALKEY_IMAGE:-valkey/valkey:8.1-alpine}
+    restart: unless-stopped
+    logging: *logging
+    networks:
+      default:
+        aliases:
+          - redis
+    # Valkey ships with authentication OFF. `--requirepass` is the only thing
+    # between this port and an unauthenticated FLUSHALL.
+    command:
+      - valkey-server
+      - --requirepass
+      - ${RAG_REDIS_PASSWORD:?set RAG_REDIS_PASSWORD in .env (run make setup)}
+    environment:
+      # valkey-cli reads the password from here (VALKEYCLI_AUTH first, REDISCLI_AUTH as the
+      # old name); `-a` would leak it into `docker inspect` and `ps`.
+      VALKEYCLI_AUTH: ${RAG_REDIS_PASSWORD}
+      REDISCLI_AUTH: ${RAG_REDIS_PASSWORD}
+    ports:
+      - "${RAG_BIND_ADDR:-127.0.0.1}:6380:6379"
+    volumes:
+      - valkey:/data
+    healthcheck:
+      # Not a bare `valkey-cli ping`: against a password-protected server that
+      # prints "NOAUTH ..." and still exits 0. Matching PONG lets it fail.
+      test: ["CMD-SHELL", "valkey-cli ping | grep -q PONG"]
+      interval: 5s
+      timeout: 5s
+      retries: 10
+
+  qdrant:
+    image: qdrant/qdrant:v1.13.2  # keep in step with qdrant-client in pyproject.toml
+    restart: unless-stopped
+    logging: *logging
+    environment:
+      QDRANT__SERVICE__ENABLE_TELEMETRY: "false"
+      # Qdrant ships unauthenticated; without a key anyone who can reach the port
+      # can read every embedding and delete the collection.
+      QDRANT__SERVICE__API_KEY: ${RAG_QDRANT_API_KEY:?set RAG_QDRANT_API_KEY in .env (run make setup)}
+    ports:
+      - "${RAG_BIND_ADDR:-127.0.0.1}:6333:6333"  # REST
+      - "${RAG_BIND_ADDR:-127.0.0.1}:6334:6334"  # gRPC
+    volumes:
+      - qdrant:/qdrant/storage
+    healthcheck:
+      # An AUTHENTICATED request, so a key mismatch fails at startup rather than
+      # on the first query. The image has no curl or wget, hence bash /dev/tcp.
+      test:
+        - CMD-SHELL
+        - >-
+          bash -c 'exec 3<>/dev/tcp/localhost/6333;
+          printf "GET /collections HTTP/1.0\r\nHost: x\r\napi-key: $$QDRANT__SERVICE__API_KEY\r\n\r\n" >&3;
+          head -1 <&3 | grep -q "200 OK"'
+      interval: 5s
+      timeout: 5s
+      retries: 10
+
+  # === Embeddings =============================================================
+  # Hugging Face Text Embeddings Inference. The CPU image has no CUDA kernels;
+  # for GPU set RAG_TEI_IMAGE to the tag matching your card's compute capability
+  # (e.g. ...:89-1.9 for Ada, ...:cuda-1.9 portable) and use docker-compose.gpu.yml.
+  tei:
+    profiles: ["tei"]
+    image: ${RAG_TEI_IMAGE:-ghcr.io/huggingface/text-embeddings-inference:cpu-1.9}
+    restart: unless-stopped
+    logging: *logging
+    environment:
+      MODEL_ID: ${RAG_TEI_MODEL_ID:-BAAI/bge-m3}
+      # bge-m3 reads up to 8192 tokens; TEI truncates longer inputs (the engine sends truncate=true).
+      # 16384 (the TEI default) fits one full-length input plus a 32-chunk batch of ~512 tokens.
+      MAX_BATCH_TOKENS: "16384"
+      MAX_CLIENT_BATCH_SIZE: "32"  # equals RAG_TEI_BATCH_SIZE (the engine splits larger lists)
+      PORT: "8080"
+    ports:
+      - "${RAG_BIND_ADDR:-127.0.0.1}:8081:8080"
+    volumes:
+      - tei_models:/data
+    healthcheck:
+      test: ["CMD-SHELL", "curl -f http://localhost:8080/health || exit 1"]
+      interval: 10s
+      timeout: 10s
+      retries: 30
+      start_period: 120s  # first start downloads the model
+
+  # === Engine =================================================================
+
+  app:
+    <<: *rag-app
+    entrypoint: ["/bin/sh", "/app/scripts/entrypoint.sh"]  # migrations, then uvicorn
+    ports:
+      - "${RAG_BIND_ADDR:-127.0.0.1}:${RAG_APP_HOST_PORT:-8000}:8000"
+    healthcheck:
+      test: ["CMD-SHELL", "curl -f http://localhost:8000/api/v1/health || exit 1"]
+      interval: 10s
+      timeout: 5s
+      retries: 10
+      start_period: 60s
+
+  worker:
+    <<: *rag-app
+    # Ingest jobs run in parallel up to RAG_WORKER_CONCURRENCY. When the worker
+    # embeds on a GPU in-process, 1 is usually fastest: the jobs share one device.
+    command: >
+      celery -A callobuzz_rag.worker.celery_app worker
+      --loglevel=info --concurrency=${RAG_WORKER_CONCURRENCY:-2} --pool=prefork
+      -Q ingestion,periodic
+    healthcheck:
+      test: ["CMD-SHELL", "celery -A callobuzz_rag.worker.celery_app inspect ping --timeout 5 || exit 1"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 30s
+
+  # Transactional e-mail (accounts): its own queue, so a 10-minute verification code
+  # never waits behind the worker's long ingests. Threads suit I/O-bound SMTP, and the
+  # e-mail task loads no models. Sends through RAG_SMTP_* (see .env.example).
+  mailer:
+    <<: *rag-app
+    command: >
+      celery -A callobuzz_rag.worker.celery_app worker
+      --loglevel=info --pool=threads --concurrency=4 -Q email -n mailer@%h
+    healthcheck:
+      test: ["CMD-SHELL", "celery -A callobuzz_rag.worker.celery_app inspect ping --timeout 5 || exit 1"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 30s
+
+  celery-beat:
+    <<: *rag-app
+    command: >
+      celery -A callobuzz_rag.worker.celery_app beat
+      --loglevel=info --scheduler redbeat.RedBeatScheduler
+    healthcheck:
+      test: ["CMD-SHELL", "python -c 'import os; os.kill(1, 0)' || exit 1"]
+      interval: 30s
+      timeout: 5s
+      retries: 3
+      start_period: 15s
+
+  # Web scraper: its own image and its own SQLite database. Nothing calls it on
+  # the request path — the dashboard's Scraper tab talks to it from the browser.
+  # Every call carries an engine key (X-API-Key), checked against the engine.
+  # Settings (env, prefix SCRAPER_):
+  #   SCRAPER_RAG_URL                 where the engine is; callers are checked via its
+  #                                   /api/v1/whoami and pages go ONLY to its /api/v1/ingest
+  #   SCRAPER_CORS_ORIGINS            JSON list of browser origins allowed to call the API
+  #                                   (default: the dashboard on :8090, the legacy one on :8091,
+  #                                   both as 127.0.0.1 and localhost, and http://127.0.0.1:5173)
+  #   SCRAPER_ALLOW_PRIVATE_NETWORKS  false (default) refuses to crawl loopback / private /
+  #                                   link-local addresses and internal names (SSRF guard)
+  #   SCRAPER_AUTH_CACHE_SECONDS      how long an accepted key is cached in memory (60)
+  #   SCRAPER_MAX_RESPONSE_BYTES      largest response the crawler reads (10485760)
+  #   SCRAPER_RENDER_TOKEN            shared secret for POST /api/v1/render, set from
+  #                                   RAG_WEBSITE_RENDER_TOKEN (empty = route off)
+  scraper:
+    build:
+      context: ./services/scraper
+    image: cob-rag-scraper:local
+    restart: unless-stopped
+    logging: *logging
+    ports:
+      - "${RAG_BIND_ADDR:-127.0.0.1}:${RAG_SCRAPER_HOST_PORT:-8001}:8001"
+    volumes:
+      - scraper_data:/data
+    environment:
+      SCRAPER_PORT: 8001
+      SCRAPER_DATA_DIR: /data
+      SCRAPER_DB_PATH: /data/scraper.db
+      SCRAPER_RAG_URL: http://app:8000
+      # BIZ1: the engine's website learning renders JavaScript-only pages through this
+      # shared secret (empty = the render route is off).
+      SCRAPER_RENDER_TOKEN: ${RAG_WEBSITE_RENDER_TOKEN:-}
+      # JSON list of browser origins. Defaults to the dashboard (its host port is
+      # RAG_DASHBOARD_HOST_PORT), the legacy dashboard and the Vite dev server.
+      SCRAPER_CORS_ORIGINS: '${SCRAPER_CORS_ORIGINS:-["http://127.0.0.1:${RAG_DASHBOARD_HOST_PORT:-8090}","http://localhost:${RAG_DASHBOARD_HOST_PORT:-8090}","http://127.0.0.1:8091","http://localhost:8091","http://127.0.0.1:5173"]}'
+
+  # The dashboard (services/dashboard): a static React app built in the image and
+  # served by nginx as a non-root user on 8080. At start the container writes
+  # config.js and a Content-Security-Policy from the RAG_DASHBOARD_* values below:
+  # the BROWSER's view of the engine and scraper (127.0.0.1, never a service name).
+  dashboard:
+    build:
+      context: ./services/dashboard
+    image: cob-rag-dashboard:local
+    restart: unless-stopped
+    logging: *logging
+    ports:
+      - "${RAG_BIND_ADDR:-127.0.0.1}:${RAG_DASHBOARD_HOST_PORT:-8090}:8080"
+    environment:
+      RAG_DASHBOARD_ENGINE_URL: ${RAG_DASHBOARD_ENGINE_URL:-http://127.0.0.1:${RAG_APP_HOST_PORT:-8000}}
+      RAG_DASHBOARD_SCRAPER_URL: ${RAG_DASHBOARD_SCRAPER_URL:-http://127.0.0.1:${RAG_SCRAPER_HOST_PORT:-8001}}
+      RAG_DASHBOARD_USD_TO_INR: ${RAG_DASHBOARD_USD_TO_INR:-85}
+      # L5a demo: who may show the dashboard in a frame ('self' when empty)
+      RAG_FRAME_ANCESTORS: ${RAG_FRAME_ANCESTORS:-}
+      # /L5a demo
+    healthcheck:
+      test: ["CMD", "wget", "-qO-", "http://127.0.0.1:8080/healthz"]
+      interval: 30s
+      timeout: 5s
+      retries: 3
+
+  # L4 install
+  # Caddy: the one front door with automatic HTTPS (Let's Encrypt) for RAG_SITE_DOMAIN.
+  # Off unless `proxy` is in COMPOSE_PROFILES (deploy/install.sh and scripts/setup.py add it).
+  # The one service published on every interface: it is the front door. Everything else
+  # stays on RAG_BIND_ADDR. Routes are in deploy/caddy/Caddyfile.
+  caddy:
+    image: ${RAG_CADDY_IMAGE:-caddy:2.10-alpine}
+    profiles: ["proxy"]
+    restart: unless-stopped
+    logging: *logging
+    ports:
+      - "${RAG_PROXY_BIND_ADDR:-0.0.0.0}:80:80"
+      - "${RAG_PROXY_BIND_ADDR:-0.0.0.0}:443:443"
+      - "${RAG_PROXY_BIND_ADDR:-0.0.0.0}:443:443/udp"
+    environment:
+      RAG_SITE_DOMAIN: ${RAG_SITE_DOMAIN:-}
+      RAG_ACME_EMAIL: ${RAG_ACME_EMAIL:-}
+    volumes:
+      - ./deploy/caddy/Caddyfile:/etc/caddy/Caddyfile:ro
+      - caddy_data:/data
+      - caddy_config:/config
+    depends_on:
+      app:
+        condition: service_started
+      dashboard:
+        condition: service_started
+      scraper:
+        condition: service_started
+  # /L4 install
+
+  # LEGACY: the previous single-page dashboard (services/chat), kept for one
+  # release and removed in the next. Off unless `legacy-dashboard` is in
+  # COMPOSE_PROFILES. Where it reaches the API is set in services/chat/config.js;
+  # the engine's RAG_CORS_ORIGINS must list :8091 for it to sign in.
+  dashboard-legacy:
+    image: nginx:alpine
+    restart: unless-stopped
+    logging: *logging
+    profiles: ["legacy-dashboard"]
+    ports:
+      - "${RAG_BIND_ADDR:-127.0.0.1}:8091:80"
+    volumes:
+      - ./services/chat:/usr/share/nginx/html:ro
+    healthcheck:
+      test: ["CMD", "wget", "-qO-", "http://127.0.0.1/"]
+      interval: 30s
+      timeout: 5s
+      retries: 3
+
+  # === Optional: transcription ================================================
+
+  whisper:
+    image: ${RAG_WHISPER_IMAGE:-onerahmet/openai-whisper-asr-webservice:v1.9.1}
+    restart: unless-stopped
+    logging: *logging
+    profiles: ["transcription"]
+    ports:
+      - "${RAG_BIND_ADDR:-127.0.0.1}:${RAG_WHISPER_HOST_PORT:-9010}:9000"
+    environment:
+      ASR_MODEL: ${RAG_WHISPER_LOCAL_MODEL:-base}
+      ASR_ENGINE: faster_whisper
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:9000/"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+
+  # === Optional: local model ==================================================
+  # A small open model that answers on this server's CPU: the free "Economy" answer tier.
+  # Slower than a hosted model (often 10-40 s) and it costs nothing per question. Ollama
+  # downloads RAG_LOCAL_LLM_MODEL once at first start (scripts/entrypoint-local-llm.sh); the
+  # service is healthy when the model is really there. Nothing depends on it: with the
+  # profile off the engine behaves as if the tier did not exist. GPU: docker-compose.gpu.yml.
+
+  local-llm:
+    profiles: ["local-llm"]
+    image: ${RAG_LOCAL_LLM_IMAGE:-ollama/ollama:0.12.6}
+    restart: unless-stopped
+    logging: *logging
+    entrypoint: ["/bin/sh", "/entrypoint-local-llm.sh"]
+    environment:
+      RAG_LOCAL_LLM_MODEL: ${RAG_LOCAL_LLM_MODEL:-gemma3:4b}
+      OLLAMA_NUM_PARALLEL: ${RAG_LOCAL_LLM_SLOTS:-1}
+      OLLAMA_KEEP_ALIVE: ${RAG_LOCAL_LLM_KEEP_ALIVE:-24h}
+      OLLAMA_CONTEXT_LENGTH: ${RAG_LOCAL_LLM_NUM_CTX:-8192}
+      OLLAMA_MAX_LOADED_MODELS: "2"
+    ports:
+      - "${RAG_BIND_ADDR:-127.0.0.1}:${RAG_LOCAL_LLM_HOST_PORT:-11434}:11434"
+    volumes:
+      - local_llm_models:/root/.ollama
+      - ./scripts/entrypoint-local-llm.sh:/entrypoint-local-llm.sh:ro
+    healthcheck:
+      test: ["CMD-SHELL", "ollama show \"$$RAG_LOCAL_LLM_MODEL\" >/dev/null 2>&1 || exit 1"]
+      interval: 15s
+      timeout: 10s
+      retries: 20
+      start_period: 900s  # first start downloads the model
+
+  # === Optional: observability ================================================
+
+  langfuse-postgres:
+    image: postgres:16-alpine
+    restart: unless-stopped
+    logging: *logging
+    profiles: ["observability"]
+    environment:
+      POSTGRES_USER: langfuse
+      POSTGRES_PASSWORD: ${RAG_LANGFUSE_DB_PASSWORD:-}
+      POSTGRES_DB: langfuse
+    volumes:
+      - langfuse_pgdata:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U langfuse"]
+      interval: 5s
+      timeout: 5s
+      retries: 10
+
+  langfuse:
+    image: langfuse/langfuse:2
+    restart: unless-stopped
+    logging: *logging
+    profiles: ["observability"]
+    environment:
+      DATABASE_URL: postgresql://langfuse:${RAG_LANGFUSE_DB_PASSWORD:-}@langfuse-postgres:5432/langfuse
+      # SALT keys the hashing of stored Langfuse API keys: changing it after first
+      # boot invalidates them. Treat both as write-once.
+      NEXTAUTH_SECRET: ${RAG_LANGFUSE_NEXTAUTH_SECRET:-}
+      NEXTAUTH_URL: ${RAG_LANGFUSE_URL:-http://localhost:3002}
+      SALT: ${RAG_LANGFUSE_SALT:-}
+      HOSTNAME: 0.0.0.0
+    ports:
+      - "${RAG_BIND_ADDR:-127.0.0.1}:3002:3000"
+    depends_on:
+      langfuse-postgres:
+        condition: service_healthy
+    healthcheck:
+      test: ["CMD-SHELL", "wget --spider -q http://localhost:3000/api/public/health || exit 1"]
+      interval: 10s
+      timeout: 5s
+      retries: 10
+      start_period: 30s
+
+volumes:
+  pgdata:
+  valkey:
+  qdrant:
+  files:
+  tei_models:
+  local_llm_models:
+  hf_cache:
+  scraper_data:
+  caddy_data:  # L4 install
+  caddy_config:  # L4 install
+  langfuse_pgdata:

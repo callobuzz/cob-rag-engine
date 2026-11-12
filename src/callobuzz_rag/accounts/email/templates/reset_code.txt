@@ -1,0 +1,10 @@
+{% extends "_base.txt" %}
+{% block content %}
+Hi {{ name }},
+
+Someone asked to reset the password of your {{ branding.product_name }} account. Enter this code to choose a new one:
+
+    {{ code }}
+
+It expires in {{ minutes }} minutes. If this was not you, ignore this e-mail: your password stays as it is.
+{% endblock %}

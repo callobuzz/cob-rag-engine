@@ -1,0 +1,21 @@
+[
+  {
+    "text": "This is the first paragraph. It contains some text about machine learning. The field has grown rapidly in recent years.",
+    "structure_path": [
+      "Introduction"
+    ],
+    "is_table": false,
+    "is_code": false,
+    "is_parent": false
+  },
+  {
+    "text": "We used a transformer architecture. The model was trained on a large dataset. Results were evaluated using standard metrics.",
+    "structure_path": [
+      "Introduction",
+      "Methods"
+    ],
+    "is_table": false,
+    "is_code": false,
+    "is_parent": false
+  }
+]

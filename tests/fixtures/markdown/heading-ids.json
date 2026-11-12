@@ -1,0 +1,29 @@
+{
+  "cases": [
+    {"text": "Embed the widget", "id": "embed-the-widget"},
+    {"text": "What you see", "id": "what-you-see"},
+    {"text": "Keys & permissions", "id": "keys-permissions"},
+    {"text": "Plans, usage & costs", "id": "plans-usage-costs"},
+    {"text": "Why does it say \"not allowed\"?", "id": "why-does-it-say-not-allowed"},
+    {"text": "  Padded   spaces  ", "id": "padded-spaces"},
+    {"text": "UPPER Case Title", "id": "upper-case-title"},
+    {"text": "Step 1: Create the key (optional)", "id": "step-1-create-the-key-optional"},
+    {"text": "The `RAG_COB_ENABLED` setting", "id": "the-rag_cob_enabled-setting"},
+    {"text": "snake_case_name", "id": "snake_case_name"},
+    {"text": "well-known -- dashes", "id": "well-known-dashes"},
+    {"text": "Café menu", "id": "café-menu"},
+    {"text": "Ｆｕｌｌｗｉｄｔｈ", "id": "fullwidth"},
+    {"text": "100% free", "id": "100-free"},
+    {"text": "Rocket 🚀 launch", "id": "rocket-launch"},
+    {"text": "!!!", "id": "section"},
+    {"text": "वेबसाइट विजेट", "id": "वबसइट-वजट"},
+    {"text": "Chat & API / Webhooks", "id": "chat-api-webhooks"}
+  ],
+  "sequences": [
+    {
+      "headings": ["Troubleshooting", "Common tasks", "Troubleshooting", "Troubleshooting"],
+      "ids": ["troubleshooting", "common-tasks", "troubleshooting-2", "troubleshooting-3"]
+    },
+    {"headings": ["Keys & more", "Keys more"], "ids": ["keys-more", "keys-more-2"]}
+  ]
+}

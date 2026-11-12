@@ -1,0 +1,13 @@
+{
+  "signup_mode": "closed",
+  "branding": {
+    "product_name": "Sahayak Studio",
+    "primary_color": "#0f766e",
+    "support_email": "help@sahayak.example.com",
+    "contact_text": "Questions about this demo? Write to us at help@sahayak.example.com"
+  },
+  "cob_public_sign_in": true,
+  "pipelines": {
+    "engine_ai_spend_per_day_usd_micro": 2000000
+  }
+}

@@ -1,0 +1,15 @@
+{% extends "base.html" %}
+{% block title %}{{ page.title or page.url }}{% endblock %}
+{% block content %}
+<h2>{{ page.title or 'Untitled' }} <span class="badge badge-{{ page.status }}">{{ page.status }}</span></h2>
+<table>
+    {# URLs come from untrusted sitemaps: only http(s) ones become links. #}
+    <tr><th>URL</th><td>{% if page.url.startswith(('http://', 'https://')) %}<a href="{{ page.url }}" target="_blank" rel="noopener noreferrer">{{ page.url }}</a>{% else %}{{ page.url }}{% endif %}</td></tr>
+    <tr><th>Words</th><td>{{ page.word_count }}</td></tr>
+    {% if page.rejection_reason %}<tr><th>Flags</th><td>{{ page.rejection_reason }}</td></tr>{% endif %}
+    {% if page.delivery_error %}<tr><th>Delivery error</th><td>{{ page.delivery_error }}</td></tr>{% endif %}
+</table>
+<h3>Extracted Content</h3>
+<article><pre style="white-space: pre-wrap;">{{ content }}</pre></article>
+<a href="/jobs/{{ page.job_id }}" role="button" class="outline">Back to Job</a>
+{% endblock %}

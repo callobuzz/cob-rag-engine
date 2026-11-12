@@ -1,0 +1,60 @@
+{
+  "key": "clinic",
+  "name": "Clinic",
+  "conversation": {
+    "assistant_name": ["Asha", "आशा", "Asha"],
+    "business_name": ["Sharma Dental Clinic, Pune", "शर्मा डेंटल क्लिनिक, पुणे", "Sharma Dental Clinic, Pune"],
+    "turns": [
+      {"role": "visitor", "text": ["Fees kitni hai? Sunday ko khula hai?", "फीस कितनी है? रविवार को खुला है?", "Fees kitni hai? Sunday ko khula hai?"]},
+      {"role": "assistant",
+       "text": ["A first consultation is ₹500, adjusted if you go ahead with treatment. We are open Monday to Saturday, 10 am to 7 pm, and Sunday 10 am to 1 pm.",
+                "पहली कंसल्टेशन ₹500 की है, इलाज करवाने पर यह रकम उसमें जुड़ जाती है। हम सोमवार से शनिवार सुबह 10 से शाम 7 बजे तक और रविवार सुबह 10 से दोपहर 1 बजे तक खुले हैं।",
+                "Pehli consultation ₹500 ki hai, treatment karwane par yeh rakam usme adjust ho jaati hai. Hum Monday se Saturday subah 10 se shaam 7 baje tak aur Sunday subah 10 se dopahar 1 baje tak khule hain."],
+       "source": ["Fees page, updated 2 Oct", "फीस पेज, 2 अक्टूबर को अपडेट", "Fees page, 2 Oct ko update hua"]},
+      {"role": "visitor", "text": ["Kal shaam 5 baje ka slot milega?", "कल शाम 5 बजे का स्लॉट मिलेगा?", "Kal shaam 5 baje ka slot milega?"]},
+      {"role": "assistant",
+       "text": ["I can not see the appointment calendar, so I will not guess. Share your number and the clinic will confirm a slot with you.",
+                "मुझे अपॉइंटमेंट कैलेंडर नहीं दिखता, इसलिए मैं अंदाज़ा नहीं लगाऊँगी। अपना नंबर दें, क्लिनिक आपसे स्लॉट पक्का करेगा।",
+                "Mujhe appointment calendar nahi dikhta, isliye main andaza nahi lagaungi. Apna number dein, clinic aapse slot confirm karega."],
+       "source": ["Contact page", "संपर्क पेज", "Contact page"]}
+    ],
+    "lead": {"name": "Priya S.", "phone_masked": "+91 98•••• 4512", "came_from": "website",
+             "looking_for": ["Appointment, tomorrow evening", "अपॉइंटमेंट, कल शाम", "Appointment, kal shaam"],
+             "consent": ["Priya agreed to be contacted by Sharma Dental Clinic about this enquiry.", "प्रिया ने इस पूछताछ के लिए शर्मा डेंटल क्लिनिक से संपर्क की सहमति दी।", "Priya ne is enquiry ke liye Sharma Dental Clinic se sampark ki sahmati di."]}
+  },
+  "pain_wall": {
+    "heading": ["The same questions, again and again.", "वही सवाल, बार-बार।", "Wahi sawaal, baar-baar."],
+    "questions": [
+      {"text": ["Fees kitni hai?", "फीस कितनी है?", "Fees kitni hai?"], "channel": "website", "time": "22:14"},
+      {"text": ["Sunday ko khula hai?", "रविवार को खुला है?", "Sunday ko khula hai?"], "channel": "whatsapp", "time": "22:31"},
+      {"text": ["Doctor kab aayenge?", "डॉक्टर कब आएँगे?", "Doctor kab aayenge?"], "channel": "website", "time": "23:02"},
+      {"text": ["Braces ka kharcha kitna?", "ब्रेसेस का खर्चा कितना?", "Braces ka kharcha kitna?"], "channel": "whatsapp", "time": "23:20"},
+      {"text": ["Parking milegi kya?", "पार्किंग मिलेगी क्या?", "Parking milegi kya?"], "channel": "website", "time": "23:48"}
+    ],
+    "punchline": ["The question you miss at 10 pm is the patient who books elsewhere at 10:05.", "रात 10 बजे जो सवाल छूटता है, वही मरीज़ 10:05 पर कहीं और बुकिंग कर लेता है।", "Raat 10 baje jo sawaal chhoot jaata hai, wahi patient 10:05 par kahin aur booking kar leta hai."]
+  },
+  "languages": {"samples": [
+    {"lang": "en", "question": "What are your clinic timings?", "answer": "Monday to Saturday, 10 am to 7 pm. Sunday, 10 am to 1 pm."},
+    {"lang": "hi", "question": "क्लिनिक का समय क्या है?", "answer": "सोमवार से शनिवार, सुबह 10 से शाम 7 बजे। रविवार सुबह 10 से दोपहर 1 बजे।"},
+    {"lang": "hi-Latn", "question": "Clinic ka timing kya hai?", "answer": "Monday se Saturday, subah 10 se shaam 7 baje. Sunday subah 10 se dopahar 1 baje."}
+  ]},
+  "whatsapp_journey": {"chapters": [
+    {"time": "23:42", "title": ["After closing time", "क्लिनिक बंद होने के बाद", "Clinic band hone ke baad"], "messages": [
+      {"from": "visitor", "text": ["Fees ki list bhej do.", "फीस की लिस्ट भेज दो।", "Fees ki list bhej do."]},
+      {"from": "assistant", "text": ["Here is our fee list.", "ये रही हमारी फीस की लिस्ट।", "Yeh rahi hamari fees ki list."], "attachment": ["Fee list, PDF", "फीस लिस्ट, PDF", "Fee list, PDF"]}]},
+    {"time": "07:30", "title": ["The lead is waiting", "सुबह लीड तैयार है", "Subah lead taiyaar hai"], "messages": [
+      {"from": "assistant", "text": ["New lead: Priya S. wants a slot tomorrow evening.", "नया लीड: प्रिया एस. को कल शाम का स्लॉट चाहिए।", "Naya lead: Priya S. ko kal shaam ka slot chahiye."]}]},
+    {"time": "09:10", "title": ["The person steps in", "आप जवाब देते हैं", "Aap jawab dete hain"], "messages": [
+      {"from": "owner", "text": ["Hello Priya, this is Dr Sharma's clinic. 5:30 pm tomorrow works.", "नमस्ते प्रिया, डॉ. शर्मा के क्लिनिक से बोल रहे हैं। कल शाम 5:30 बजे का समय ठीक है।", "Namaste Priya, Dr Sharma ke clinic se bol rahe hain. Kal shaam 5:30 baje ka time theek hai."]}]},
+    {"time": "11:00", "title": ["Booked", "बुकिंग पक्की", "Booking pakki"], "messages": [
+      {"from": "visitor", "text": ["Thank you, see you tomorrow.", "धन्यवाद, कल मिलते हैं।", "Dhanyavaad, kal milte hain."]}]}
+  ]},
+  "faq": {"items": [
+    {"q": ["Will it give wrong medical advice?", "क्या यह गलत मेडिकल सलाह देगा?", "Kya yeh galat medical salah dega?"],
+     "a": ["It answers only from your own pages, such as timings and fees, and checks each answer against them. It does not diagnose. For anything medical it asks the patient to speak to the doctor.", "यह सिर्फ आपके अपने पेजों से जवाब देता है, जैसे समय और फीस, और हर जवाब को उनसे मिलाकर जाँचता है। यह बीमारी की पहचान नहीं करता। मेडिकल सवाल पर मरीज़ को डॉक्टर से बात करने को कहता है।", "Yeh sirf aapke apne pages se jawab deta hai, jaise timing aur fees, aur har jawab ko unse milakar jaanchta hai. Yeh diagnose nahi karta. Medical sawaal par patient ko doctor se baat karne ko kehta hai."]},
+    {"q": ["Can it book appointments?", "क्या यह अपॉइंटमेंट बुक कर सकता है?", "Kya yeh appointment book kar sakta hai?"],
+     "a": ["It takes the patient's name and number, with their consent, and your team confirms the slot. It never promises a time it cannot see.", "यह मरीज़ की सहमति से नाम और नंबर लेता है, और आपकी टीम स्लॉट पक्का करती है। जो समय यह देख नहीं सकता, उसका वादा कभी नहीं करता।", "Yeh patient ki sahmati se naam aur number leta hai, aur aapki team slot confirm karti hai. Jo time yeh dekh nahi sakta, uska vaada kabhi nahi karta."]},
+    {"q": ["What does it cost for a small clinic?", "छोटे क्लिनिक के लिए कितना खर्च आता है?", "Chhote clinic ke liye kitna kharch aata hai?"],
+     "a": ["Start on the free plan. A clinic with about 30 questions a day sees roughly 900 questions a month, and the pricing page shows the cost in ₹.", "फ्री प्लान से शुरू करें। रोज़ करीब 30 सवाल वाले क्लिनिक में महीने में लगभग 900 सवाल आते हैं, और कीमतों वाले पेज पर खर्च ₹ में दिखता है।", "Free plan se shuru karein. Roz kareeb 30 sawaal wale clinic mein mahine mein lagbhag 900 sawaal aate hain, aur pricing page par kharch ₹ mein dikhta hai."]}
+  ]}
+}

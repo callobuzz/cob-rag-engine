@@ -1,0 +1,27 @@
+/* Auth panel backdrop for operator-branded installs: rings + dot grid + glow, tinted by --brand. */
+.brand-backdrop {
+	position: relative;
+	width: min(100cqw, 100cqh);
+	aspect-ratio: 1;
+	border-radius: 50%;
+	background:
+		radial-gradient(closest-side, color-mix(in srgb, var(--brand) 42%, transparent), transparent 72%),
+		repeating-radial-gradient(
+			circle at center,
+			transparent 0 34px,
+			color-mix(in srgb, var(--brand) 55%, transparent) 34px 35px
+		);
+	-webkit-mask-image: radial-gradient(closest-side, #000 40%, transparent 100%);
+	mask-image: radial-gradient(closest-side, #000 40%, transparent 100%);
+}
+.brand-backdrop::after {
+	content: "";
+	position: absolute;
+	inset: 12%;
+	border-radius: 50%;
+	background-image: radial-gradient(color-mix(in srgb, var(--brand) 55%, #ffffff) 1.2px, transparent 1.6px);
+	background-size: 22px 22px;
+	opacity: 0.55;
+	-webkit-mask-image: radial-gradient(closest-side, #000 30%, transparent 100%);
+	mask-image: radial-gradient(closest-side, #000 30%, transparent 100%);
+}

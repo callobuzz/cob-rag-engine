@@ -1,0 +1,47 @@
+.git
+__pycache__
+*.py[cod]
+.venv
+venv
+.env
+.env.*
+!.env.example
+.pytest_cache
+.mypy_cache
+.ruff_cache
+htmlcov
+.coverage
+*.egg-info
+dist
+build
+.idea
+.vscode
+# COB reads docs/cob, the HTML guides, CHANGELOG.md and benchmarks/README.md at run time.
+docs/*
+!docs/cob
+!docs/guide.html
+!docs/deploy.html
+!docs/benchmarks.html
+# L5a release
+!docs/requirements.html
+!docs/getting-started.html
+!docs/support.html
+# /L5a release
+tests
+.claude
+*.md
+!README.md
+!CHANGELOG.md
+# The dashboard builds in its own image; its packages and output never enter the engine's.
+**/node_modules
+services
+# Only the result files the engine serves (GET /api/v1/models/fast-benchmarks, /answer-benchmarks, /benchmark-summary).
+benchmarks/*
+!benchmarks/README.md
+!benchmarks/results
+benchmarks/results/*
+!benchmarks/results/fast-models.json
+!benchmarks/results/summary.json
+!benchmarks/results/answer-models.json
+clients
+.playwright-mcp

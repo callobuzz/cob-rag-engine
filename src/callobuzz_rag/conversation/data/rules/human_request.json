@@ -1,0 +1,40 @@
+{
+  "version": 3,
+  "human_request": {
+    "en": [
+      "(talk|speak|chat) (to|with) (a |an |some )?(human|person|agent|someone|representative|executive|real person|staff|doctor|manager)",
+      "(human|real person|live agent|customer care) please",
+      "connect me (to|with) (a |an )?(human|person|agent|someone|executive)",
+      "(?:^|(?:please|pls|plz|kindly|just|hi|hello|hey|ok|okay|yes|yeah|so|and|then|also|but|(?:can|could|would|will) (?:you|u|someone|somebody|anyone)|someone|somebody) )(call|ring) me( back)?(?! (?:when|if|once|after|before|whenever|because|since)\\b)",
+      "i need (a |an )?(real |live )?(human|person|agent)( (please|pls|plz|now|urgently|asap|right now))?$",
+      "i need (a |an )?(real |live )?(human|person|agent) to (talk|speak|chat)",
+      "(talk|speak|chat) (to|with) (the|your) (\\w+ )?(owner|manager|doctor|staff|team|human|person|agent|representative|executive)",
+      "(is there|is anyone|anyone) (someone |somebody )?(i|we) can (talk|speak) to",
+      "(is there|is anyone) (someone|somebody|a manager|a person|a human) (i|we) can (talk|speak) to",
+      "(get|give) me (a |an )?(real |live )?(person|human|agent)",
+      "^(agent|human|person|real person|live agent|representative|customer care|executive)( please| pls| plz| ji)?$"
+    ],
+    "hi": [
+      "किसी (इंसान|व्यक्ति|आदमी|एजेंट|स्टाफ) से बात",
+      "(एजेंट|मैनेजर|डॉक्टर) से बात",
+      "मुझे कॉल (करें|कीजिए|करो)",
+      "(डॉक्टर|मैनेजर|मालिक|स्टाफ) (साहब |साहिबा |जी )?से बात",
+      "(असली|किसी असली) (इंसान|व्यक्ति|आदमी) से (बात|मिलवाइए|मिलवा दीजिए|मिलाइए|मिलवाओ)",
+      "कोई (मैनेजर|स्टाफ|इंसान|व्यक्ति) है जिससे बात",
+      "मैनेजर से बात (कराइए|करवाइए)"
+    ],
+    "hi-Latn": [
+      "kisi (insaan|insan|aadmi|banda|bande|person) se baat",
+      "(agent|manager|doctor|staff|human) se baat",
+      "call (back )?(karo|kariye|karwao|kar do)",
+      "mujhe call (karo|kariye|kar do)",
+      "(agent|manager|doctor|staff|human|owner|malik) (sahab |sahib |ji )?se baat",
+      "(real|asli) (insaan|insan|banda|bande|person|aadmi) se (baat|milao|milwao|milwaiye|mila do)",
+      "koi (manager|staff|insaan|insan|banda|person) hai jisse baat",
+      "kisi se baat (karni|karna|karwao|karao)( hai)?",
+      "(insaan|insan) se baat",
+      "^(?:mujhe |muje |hamein |hame )?(?:ek )?(agent|insaan|insan|human|manager)( real)? chahiye( (abhi|please|pls|plz|ji|turant))?$",
+      "(agent|insaan|insan|human|manager) chahiye (jo|jisse|se baat|to (talk|speak))"
+    ]
+  }
+}

@@ -1,0 +1,46 @@
+{% import "macros.html" as m with context %}
+{#- The "11:42 pm" chapter. With the WhatsApp channel on sale the messages are WhatsApp's own
+    look; without it the same story is told on the website chat and the morning message is an
+    e-mail summary with a call button, and no word on the page names WhatsApp. -#}
+{% set wa = env.whatsapp_on_sale %}
+{% set tod = {0: "night", 1: "dawn", 2: "day", 3: "noon", 4: "noon"} %}
+<section class="section journey" data-section="whatsapp_journey" data-variant="{{ 'whatsapp' if wa else 'email_handoff' }}" id="{{ s.id }}">
+  <div class="wrap journey-grid">
+    <div class="journey-head">
+      {% if wa %}
+      {{ m.head(s) }}
+      {% else %}
+      <p class="eyebrow">{{ ui.journey_eyebrow }}</p>
+      <h2 class="section-title">{{ ui.journey_heading }}</h2>
+      <p class="section-body">{{ ui.journey_body }}</p>
+      {% endif %}
+    </div>
+    <ol class="chapters" data-chapters>
+      {% for chapter in s.chapters %}
+      <li class="chapter" data-tod="{{ tod[loop.index0] }}" style="--i: {{ loop.index0 }}">
+        <p class="chapter-time">{{ m.clock(chapter.time) }}{% if wa or not (chapter.title|t) is mentions_whatsapp %}<span>{{ chapter.title|t }}</span>{% endif %}</p>
+        {% if not wa and loop.index0 == 1 %}
+        {% set msg = chapter.messages[0] %}
+        <div class="email-card">
+          <p class="email-meta">{{ ui.email_to_you }}</p>
+          <p class="email-subject">{{ ui.email_subject }}</p>
+          <p>{{ msg.text|t }}</p>
+          {% if phone_digits %}<a class="btn btn-ghost" href="tel:{{ phone_digits }}">{{ m.icon("phone") }}{{ ui.call }}</a>{% endif %}
+        </div>
+        {% else %}
+        <div class="screen {{ 'screen-wa' if wa else 'screen-site' }}">
+          <ol class="chat-turns">
+            {% for msg in chapter.messages if wa or not (msg.text|t) is mentions_whatsapp %}
+            <li class="bubble bubble-{{ msg.sender }}">
+              <p>{{ msg.text|t }}</p>
+              {% if msg.attachment %}<span class="chip attachment">{{ m.icon("doc") }}{{ msg.attachment|t }}</span>{% endif %}
+            </li>
+            {% endfor %}
+          </ol>
+        </div>
+        {% endif %}
+      </li>
+      {% endfor %}
+    </ol>
+  </div>
+</section>

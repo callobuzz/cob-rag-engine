@@ -1,0 +1,7 @@
+{% extends "_base.html" %}
+{% from "_macros.html" import button with context %}
+{% block content %}
+<p style="margin:0 0 12px;"><strong>{{ tenant_name }}</strong>: <strong>{{ add_on_name }}</strong> has ended.</p>
+<p style="margin:0 0 12px;">{{ reason }}</p>
+{{ button(shop_url, "Open Plan & billing") }}
+{% endblock %}

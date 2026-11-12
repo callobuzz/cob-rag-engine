@@ -1,0 +1,7 @@
+{% extends "_base.txt" %}
+{% block content %}
+The price change we announced for the {{ plan_name }} plan of {{ business_name }} will not happen. Your price stays as it is.
+
+See your plan:
+{{ billing_url }}
+{% endblock %}

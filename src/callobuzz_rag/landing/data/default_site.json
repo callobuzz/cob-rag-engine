@@ -1,0 +1,439 @@
+{
+  "schema_version": 1,
+  "default_language": "en",
+  "languages": ["en"],
+  "theme": {
+    "brand_color": "#0f766e",
+    "accent_color": null,
+    "font_pairing": "neutral",
+    "base": "light",
+    "button_shape": "round",
+    "logo_asset_id": null
+  },
+  "home": [
+    {
+      "id": "hero",
+      "type": "hero",
+      "enabled": true,
+      "headline": {"en": "Answers customers day and night. From your own content."},
+      "sub": {"en": "{product} reads your website, replies in English, Hindi or Hinglish, takes a number from interested visitors and hands over when they ask for a person."},
+      "primary_label": {"en": "Start free"},
+      "primary_href": "/signup",
+      "microcopy": {"en": "Free plan, no card. Nothing goes live until you say so."},
+      "ask_label": {"en": "Ask it yourself"},
+      "whatsapp_label": {"en": "Talk to us on WhatsApp"},
+      "show_pricing_link": true,
+      "visual": "both",
+      "backdrop_video": false,
+      "conversation": {
+        "preset": "clinic",
+        "assistant_name": {"en": "Asha"},
+        "business_name": {"en": "Sharma Dental Clinic, Pune"},
+        "turns": [
+          {"role": "visitor", "text": {"en": "Fees kitni hai? Sunday ko khula hai?"}},
+          {
+            "role": "assistant",
+            "text": {"en": "A first consultation is ₹500, and it is adjusted if you go ahead with treatment. We are open Monday to Saturday, 10 am to 7 pm, and Sunday 10 am to 1 pm."},
+            "source": {"en": "Fees page, updated 2 Oct"}
+          },
+          {"role": "visitor", "text": {"en": "Kal shaam 5 baje ka slot milega?"}},
+          {
+            "role": "assistant",
+            "text": {"en": "I can not see the appointment calendar, so I will not guess. Share your number and the clinic will confirm a slot with you."}
+          }
+        ],
+        "lead": {
+          "name": "Priya S.",
+          "phone_masked": "+91 98•••• 4512",
+          "looking_for": {"en": "Appointment, tomorrow evening"},
+          "came_from": "website",
+          "consent": {"en": "Priya agreed to be contacted by Sharma Dental Clinic about this enquiry."}
+        },
+        "generated": false
+      }
+    },
+    {
+      "id": "trust-strip",
+      "type": "trust_strip",
+      "enabled": true,
+      "chips": [
+        {"en": "Clinics"},
+        {"en": "Coaching classes"},
+        {"en": "Real estate"},
+        {"en": "Shops"},
+        {"en": "Salons"},
+        {"en": "CA firms"}
+      ],
+      "statement": {"en": "Made for Indian businesses that answer the same questions every day."}
+    },
+    {
+      "id": "pain-wall",
+      "type": "pain_wall",
+      "enabled": true,
+      "narrator": {"en": "Here are the questions that arrive after you have closed for the day."},
+      "eyebrow": {"en": "The questions that arrive late"},
+      "heading": {"en": "Stop answering the same 20 questions every day."},
+      "questions": [
+        {"text": {"en": "Fees kitni hai?"}, "channel": "website", "time": "22:14"},
+        {"text": {"en": "Sunday ko khula hai?"}, "channel": "whatsapp", "time": "22:31"},
+        {"text": {"en": "2BHK ka rate?"}, "channel": "website", "time": "23:02"},
+        {"text": {"en": "Doctor kab aayenge?"}, "channel": "whatsapp", "time": "23:20"},
+        {"text": {"en": "COD available hai?"}, "channel": "website", "time": "23:48"}
+      ],
+      "punchline": {"en": "The question you miss at 10 pm is the customer who calls your competitor at 10:05."}
+    },
+    {
+      "id": "how-it-works",
+      "type": "how_it_works",
+      "enabled": true,
+      "narrator": {"en": "Setting me up takes an afternoon, not a project."},
+      "eyebrow": {"en": "How it works"},
+      "heading": {"en": "Three steps, and you stay in charge."},
+      "steps": [
+        {"title": {"en": "Give it your website"}, "text": {"en": "Add your website address and any brochures. It reads them and learns your business."}},
+        {"title": {"en": "Check what it knows"}, "text": {"en": "Ask it questions, fix any answer once, and it remembers the fix."}},
+        {"title": {"en": "Switch it on"}, "text": {"en": "Put it on your website with one line of code. Pause it any time."}}
+      ]
+    },
+    {
+      "id": "grounded",
+      "type": "grounded",
+      "enabled": true,
+      "narrator": {"en": "I answer only from your own pages. When I do not know, I say so."},
+      "eyebrow": {"en": "Answers only from your content"},
+      "heading": {"en": "It says so when it does not know."},
+      "behaviours": [
+        {"title": {"en": "Answers what it knows"}, "text": {"en": "Each answer names the page it came from, so you can check it."}},
+        {"title": {"en": "Hands over when it should"}, "text": {"en": "For prices it cannot see or a request for a person, it passes the customer to you."}},
+        {"title": {"en": "Says I do not know"}, "text": {"en": "No guessing. If your content does not cover it, it tells the customer so."}}
+      ],
+      "fact_check_line": {"en": "Every answer is checked sentence by sentence against your own pages before it is sent."},
+      "caught_example": {
+        "guess": {"en": "Yes, we have a slot at 5 pm tomorrow."},
+        "replaced_by": {"en": "I can not see the calendar. Share your number and the clinic will confirm."}
+      }
+    },
+    {
+      "id": "languages",
+      "type": "languages",
+      "enabled": true,
+      "narrator": {"en": "Ask me in English, हिंदी or Hinglish. I reply the way you wrote."},
+      "eyebrow": {"en": "English, Hindi, Hinglish"},
+      "heading": {"en": "It talks the way your customers talk."},
+      "samples": [
+        {"lang": "en", "question": "What are your clinic timings?", "answer": "Monday to Saturday, 10 am to 7 pm. Sunday, 10 am to 1 pm."},
+        {"lang": "hi", "question": "क्लिनिक का समय क्या है?", "answer": "सोमवार से शनिवार, सुबह 10 से शाम 7 बजे। रविवार सुबह 10 से दोपहर 1 बजे।"},
+        {"lang": "hi-Latn", "question": "Clinic ka timing kya hai?", "answer": "Monday se Saturday, subah 10 se shaam 7 baje. Sunday subah 10 se dopahar 1 baje."}
+      ]
+    },
+    {
+      "id": "whatsapp",
+      "type": "whatsapp_journey",
+      "enabled": true,
+      "narrator": {"en": "It is 11:42 pm and a customer is still awake. Here is what happens next."},
+      "eyebrow": {"en": "One assistant, website and WhatsApp"},
+      "heading": {"en": "A question at night, a customer by lunch."},
+      "chapters": [
+        {
+          "time": "23:42",
+          "title": {"en": "After closing time"},
+          "messages": [
+            {"from": "visitor", "text": {"en": "Fees ki list bhej do."}},
+            {"from": "assistant", "text": {"en": "Here is our fee list."}, "attachment": {"en": "Fee list, PDF"}}
+          ]
+        },
+        {
+          "time": "07:30",
+          "title": {"en": "The lead is waiting"},
+          "messages": [
+            {"from": "assistant", "text": {"en": "New lead: Priya S. wants a slot tomorrow evening. Reference K7-4PQM."}}
+          ]
+        },
+        {
+          "time": "09:10",
+          "title": {"en": "The person steps in"},
+          "messages": [
+            {"from": "owner", "text": {"en": "Hello Priya, this is Dr Sharma's clinic. 5:30 pm tomorrow works."}}
+          ]
+        },
+        {
+          "time": "11:00",
+          "title": {"en": "Booked"},
+          "messages": [
+            {"from": "visitor", "text": {"en": "Thank you, see you tomorrow."}}
+          ]
+        }
+      ],
+      "fallback": "email_handoff"
+    },
+    {
+      "id": "leads",
+      "type": "leads",
+      "enabled": true,
+      "narrator": {"en": "When someone is interested, I ask for a name and number, and save what they agreed to."},
+      "eyebrow": {"en": "Leads with consent"},
+      "heading": {"en": "Every lead says what they agreed to."},
+      "body": {"en": "When someone is interested, the assistant asks for a name and number, shows them what happens next, and keeps the line they accepted next to the lead."},
+      "lead": {
+        "name": "Rahul M.",
+        "phone_masked": "+91 99•••• 0187",
+        "looking_for": {"en": "2BHK near Baner"},
+        "came_from": "whatsapp",
+        "consent": {"en": "Rahul agreed to be contacted by the sales team about this enquiry."}
+      },
+      "inbox_count": 3
+    },
+    {
+      "id": "human-handoff",
+      "type": "human_handoff",
+      "enabled": true,
+      "narrator": {"en": "And if they want a person, I never get in the way."},
+      "eyebrow": {"en": "A human, never a trap"},
+      "heading": {"en": "Your customer can ask for a person at any time."},
+      "body": {"en": "In any language, they get your contact details, with a reference code so you see the whole conversation."},
+      "ref_code": "K7-4PQM",
+      "prefill": {"en": "Hi, I was chatting on your website. My reference is K7-4PQM. I asked about fees and would like to speak to someone."},
+      "channels": ["whatsapp", "call", "email"]
+    },
+    {
+      "id": "value-report",
+      "type": "value_report",
+      "enabled": true,
+      "narrator": {"en": "At the end of the month, you can see what I did for you."},
+      "eyebrow": {"en": "Know what it is doing for you"},
+      "heading": {"en": "A monthly report, in rupees."},
+      "questions": 412,
+      "after_hours": 38,
+      "leads": 21,
+      "value_text": {"en": "₹46,000"},
+      "caption": {"en": "This month's value is estimated, based on the numbers you set."}
+    },
+    {
+      "id": "bento",
+      "type": "bento",
+      "enabled": true,
+      "narrator": {"en": "A few smaller things people ask about."},
+      "eyebrow": {"en": "Everything in one place"},
+      "heading": {"en": "Small things that make it feel like yours."},
+      "tiles": [
+        {"icon": "chat", "title": {"en": "Your name and look"}, "text": {"en": "Your logo, colours and greeting on the website chat."}},
+        {"icon": "shield", "title": {"en": "Your sites only"}, "text": {"en": "Only the websites you list can load your assistant."}},
+        {"icon": "lock", "title": {"en": "Contact details locked"}, "text": {"en": "Names and numbers are stored encrypted."}},
+        {"icon": "tag", "title": {"en": "A spending cap"}, "text": {"en": "Set a monthly limit. You never get a surprise bill."}},
+        {"icon": "book", "title": {"en": "Fix an answer once"}, "text": {"en": "Correct a reply in the dashboard and it is used next time."}}
+      ]
+    },
+    {
+      "id": "proof",
+      "type": "proof",
+      "enabled": false,
+      "eyebrow": {"en": "See it live"},
+      "heading": {"en": "Assistants working for real businesses."},
+      "cases": [],
+      "gallery": []
+    },
+    {
+      "id": "pricing-teaser",
+      "type": "pricing_teaser",
+      "enabled": true,
+      "narrator": {"en": "Start free. You see every price before you pay it."},
+      "eyebrow": {"en": "Pricing"},
+      "heading": {"en": "Start free. Pay for what your customers ask."},
+      "plan_ids": [],
+      "note": {"en": "Prices exclude GST. A GST invoice for every payment."}
+    },
+    {
+      "id": "privacy",
+      "type": "privacy",
+      "enabled": true,
+      "narrator": {"en": "A few plain promises about your data."},
+      "eyebrow": {"en": "Trust and privacy"},
+      "heading": {"en": "Plain sentences, not fine print."},
+      "sentences": [
+        {"en": "Your content is used only to answer your own customers."},
+        {"en": "Only the websites you list can load your assistant."},
+        {"en": "Contact details are stored encrypted."},
+        {"en": "You can delete everything you have added."},
+        {"en": "A spending cap you set, not a bill you discover."},
+        {"en": "The assistant is always labelled as an AI assistant."}
+      ]
+    },
+    {
+      "id": "faq",
+      "type": "faq",
+      "enabled": true,
+      "narrator": {"en": "The questions people ask before they start."},
+      "eyebrow": {"en": "Questions"},
+      "heading": {"en": "Before you start"},
+      "items": [
+        {"q": {"en": "Will it make things up?"}, "a": {"en": "It answers from your own pages and brochures, and checks each answer against them before sending. If your content does not cover a question, it says so and offers to pass the customer to you."}},
+        {"q": {"en": "What if it does not know?"}, "a": {"en": "It tells the customer it does not have that information and shows how to reach you. It does not guess."}},
+        {"q": {"en": "Does it speak Hindi?"}, "a": {"en": "Yes. It replies in English, Hindi or Hinglish, in the language the customer used."}},
+        {"q": {"en": "Do I need the WhatsApp Business API?"}, "a": {"en": "For WhatsApp you connect your own WhatsApp Business number through Meta. The setup screen walks you through it."}},
+        {"q": {"en": "What does an answer cost?"}, "a": {"en": "Each plan shows its price, and the pricing page has a calculator. Replies that hand the customer to you are free."}},
+        {"q": {"en": "Can I use my own AI key?"}, "a": {"en": "Where your plan allows it, yes. You pay your AI provider directly and we charge only the plan."}},
+        {"q": {"en": "Is there a free plan?"}, "a": {"en": "Yes. When the free allowance is used up, the assistant shows your contact details instead of answering, until the next month or until you add balance."}},
+        {"q": {"en": "Can my customer reach a real person?"}, "a": {"en": "Always. They can ask for a person in any language and get your WhatsApp, phone or e-mail."}},
+        {"q": {"en": "Can you set it up for me?"}, "a": {"en": "Yes, we offer set-up help. Write to us from the contact page."}}
+      ],
+      "structured_data": false
+    },
+    {
+      "id": "final-cta",
+      "type": "final_cta",
+      "enabled": true,
+      "bubble": {"en": "See it answer your customers' hardest question, from your own website."},
+      "button_label": {"en": "Start free"},
+      "sub": {"en": "Free plan, no card. Nothing goes live until you say so."},
+      "whatsapp_label": {"en": "Or talk to us on WhatsApp"}
+    }
+  ],
+  "pricing": {
+    "enabled": true,
+    "headline": {"en": "Simple plans. A balance you control."},
+    "sub": {"en": "Start free. Pay for what your customers ask. Set a monthly cap and never get a surprise bill."},
+    "tax_line_in": {"en": "Prices exclude 18% GST. A GST invoice for every payment."},
+    "tax_line_global": {"en": "Prices in USD, excluding local taxes."},
+    "cards": [],
+    "credit_box": {"en": "One answer to one customer question uses a small amount from your balance on the standard model. Better models cost more per answer, and the dashboard shows the price before you switch. Replies that hand the customer to you are free. Unused plan credit resets every month."},
+    "credit_examples": [],
+    "calculator": {"enabled": true, "slider_max": 5000, "slider_default": 900, "est_answer_minor": {}},
+    "show_packs": true,
+    "show_services": true,
+    "show_whatsapp_fees": true,
+    "show_spend_cap": true,
+    "comparison_table": true,
+    "faq": [
+      {"q": {"en": "Do I get a GST invoice?"}, "a": {"en": "Yes. Every payment comes with a GST invoice you can download from your dashboard."}},
+      {"q": {"en": "Can I cancel any time?"}, "a": {"en": "Yes. You keep what you have paid for until the end of the period."}},
+      {"q": {"en": "What happens when my balance runs out?"}, "a": {"en": "The assistant shows your contact details instead of answering. It never goes silent. Add balance and it answers again."}},
+      {"q": {"en": "Can I use my own AI key?"}, "a": {"en": "Where your plan allows it, yes. You pay your AI provider directly."}},
+      {"q": {"en": "Where is my data stored?"}, "a": {"en": "On the servers of the company that runs this service. Ask us for the region before you sign up."}}
+    ]
+  },
+  "features": {
+    "enabled": true,
+    "headline": {"en": "Everything an assistant for your business needs."},
+    "sub": {"en": "Built around answers you can check and a way to reach you."},
+    "groups": [
+      {
+        "title": {"en": "Answers"},
+        "items": [
+          {"icon": "book", "title": {"en": "Learns your website"}, "text": {"en": "Reads your pages and brochures and keeps up when you change them."}},
+          {"icon": "check", "title": {"en": "Checked answers"}, "text": {"en": "Each answer is checked against your content and names its source."}},
+          {"icon": "globe", "title": {"en": "English, Hindi, Hinglish"}, "text": {"en": "Replies in the language the customer wrote in."}}
+        ]
+      },
+      {
+        "title": {"en": "Customers"},
+        "items": [
+          {"icon": "users", "title": {"en": "Leads with consent"}, "text": {"en": "Takes a name and number and keeps what the customer agreed to."}},
+          {"icon": "phone", "title": {"en": "A person on request"}, "text": {"en": "Shows your WhatsApp, phone or e-mail whenever someone asks."}},
+          {"icon": "chart", "title": {"en": "Monthly value report"}, "text": {"en": "An estimated summary in rupees, based on numbers you set."}}
+        ]
+      },
+      {
+        "title": {"en": "Control"},
+        "items": [
+          {"icon": "shield", "title": {"en": "Your sites only"}, "text": {"en": "Only the websites you list can load your assistant."}},
+          {"icon": "tag", "title": {"en": "Spending cap"}, "text": {"en": "A monthly limit you choose."}},
+          {"icon": "lock", "title": {"en": "Encrypted contacts"}, "text": {"en": "Names and numbers are stored encrypted."}}
+        ]
+      }
+    ],
+    "checklist": [
+      {"q": {"en": "Does it show where an answer came from?"}, "a": {"en": "Yes, each answer names the page or file it used."}},
+      {"q": {"en": "Can customers reach a person?"}, "a": {"en": "Yes, at any time, in any language."}},
+      {"q": {"en": "Is there a spending limit?"}, "a": {"en": "Yes, you set a monthly cap."}}
+    ],
+    "cta_label": {"en": "Start free"}
+  },
+  "about": {
+    "enabled": true,
+    "headline": {"en": "We help businesses answer every customer, every time."},
+    "story": [
+      {"en": "Most small businesses answer the same questions again and again, and miss the ones that arrive late at night. We built {product} so that the answers come from your own content, and a real person is always one tap away."}
+    ],
+    "values": [
+      {"title": {"en": "Honest answers"}, "text": {"en": "If it does not know, it says so."}},
+      {"title": {"en": "Plain pricing"}, "text": {"en": "You see the price before you pay it."}},
+      {"title": {"en": "You stay in charge"}, "text": {"en": "Pause it, correct it or delete it whenever you like."}}
+    ],
+    "team": [],
+    "show_company_details": true
+  },
+  "contact": {
+    "enabled": true,
+    "headline": {"en": "Talk to us."},
+    "sub": {"en": "Tell us what you would like the assistant to do. We read every message."},
+    "form_enabled": true,
+    "topics": {
+      "sales": {"en": "Plans and pricing"},
+      "support": {"en": "Help with my account"},
+      "partnership": {"en": "Working together"},
+      "other": {"en": "Something else"}
+    },
+    "show_whatsapp": true,
+    "show_phone": true,
+    "show_email": true,
+    "show_address": true,
+    "response_time": {"en": "We reply within one working day."},
+    "consent": {"en": "We use your details only to reply to this message."},
+    "success": {"en": "Thank you. We have your message and will reply soon."}
+  },
+  "nav": {
+    "links": [
+      {"label": {"en": "Features"}, "page": "features"},
+      {"label": {"en": "Pricing"}, "page": "pricing"},
+      {"label": {"en": "About"}, "page": "about"},
+      {"label": {"en": "Contact"}, "page": "contact"}
+    ],
+    "show_sign_in": true,
+    "show_sign_up": true
+  },
+  "footer": {
+    "columns": [
+      {
+        "title": {"en": "Product"},
+        "links": [
+          {"label": {"en": "Features"}, "page": "features"},
+          {"label": {"en": "Pricing"}, "page": "pricing"}
+        ]
+      },
+      {
+        "title": {"en": "Company"},
+        "links": [
+          {"label": {"en": "About"}, "page": "about"},
+          {"label": {"en": "Contact"}, "page": "contact"}
+        ]
+      }
+    ],
+    "show_legal": true,
+    "note": null
+  },
+  "seo": {
+    "home": {
+      "title": {"en": "An assistant that answers your customers"},
+      "description": {"en": "{product} answers customer questions on your website, from your own content, in English, Hindi and Hinglish."}
+    },
+    "pricing": {
+      "title": {"en": "Pricing"},
+      "description": {"en": "Simple plans with a balance you control. Start free."}
+    },
+    "features": {
+      "title": {"en": "Features"},
+      "description": {"en": "Checked answers, leads with consent, a person on request and a spending cap."}
+    },
+    "about": {
+      "title": {"en": "About"},
+      "description": {"en": "Why we built {product}, and how we think about honest answers."}
+    },
+    "contact": {
+      "title": {"en": "Contact"},
+      "description": {"en": "Write to us about plans, set-up or anything else."}
+    },
+    "og_headline": {"en": "An assistant that answers from your own content"}
+  },
+  "announcement": {"enabled": false, "text": null, "href": null},
+  "ask": {"enabled": false, "label": {"en": "Ask it yourself"}}
+}

@@ -1,0 +1,195 @@
+{"id": "den-001", "text": "hey, good evening", "label": "smalltalk", "language": "en", "script": "latin", "business": "d_food", "history": []}
+{"id": "den-002", "text": "thanks a ton", "label": "smalltalk", "language": "en", "script": "latin", "business": "d_shoes", "history": []}
+{"id": "den-003", "text": "you've been a great help today", "label": "smalltalk", "language": "en", "script": "latin", "business": "d_clinic", "history": []}
+{"id": "den-004", "text": "have a nice weekend", "label": "smalltalk", "language": "en", "script": "latin", "business": "d_homes", "history": []}
+{"id": "den-005", "text": "nice chatting with you", "label": "smalltalk", "language": "en", "script": "latin", "business": "d_english", "history": []}
+{"id": "den-006", "text": "what's your name?", "label": "smalltalk", "language": "en", "script": "latin", "business": "d_billing", "history": []}
+{"id": "den-007", "text": "is this an automated chat?", "label": "smalltalk", "language": "en", "script": "latin", "business": "d_blank", "history": []}
+{"id": "den-008", "text": "good night", "label": "smalltalk", "language": "en", "script": "latin", "business": "d_food", "history": []}
+{"id": "den-009", "text": "Is Dr. Mehra available on Saturday mornings?", "label": "business_question", "language": "en", "script": "latin", "business": "d_clinic", "history": []}
+{"id": "den-010", "text": "How much is a dengue NS1 test?", "label": "business_question", "language": "en", "script": "latin", "business": "d_clinic", "history": []}
+{"id": "den-011", "text": "Do you have the Nike Pegasus in size 10?", "label": "business_question", "language": "en", "script": "latin", "business": "d_shoes", "history": []}
+{"id": "den-012", "text": "What's your exchange window for worn shoes?", "label": "business_question", "language": "en", "script": "latin", "business": "d_shoes", "history": []}
+{"id": "den-013", "text": "Are IELTS classes held online or at the centre?", "label": "business_question", "language": "en", "script": "latin", "business": "d_english", "history": []}
+{"id": "den-014", "text": "How many students are in one batch?", "label": "business_question", "language": "en", "script": "latin", "business": "d_english", "history": []}
+{"id": "den-015", "text": "Do you have Jain food options?", "label": "business_question", "language": "en", "script": "latin", "business": "d_food", "history": []}
+{"id": "den-016", "text": "What time does the kitchen close tonight?", "label": "business_question", "language": "en", "script": "latin", "business": "d_food", "history": []}
+{"id": "den-017", "text": "What is the carpet area of the 3 BHK flats?", "label": "business_question", "language": "en", "script": "latin", "business": "d_homes", "history": []}
+{"id": "den-018", "text": "Is the project RERA registered?", "label": "business_question", "language": "en", "script": "latin", "business": "d_homes", "history": []}
+{"id": "den-019", "text": "Does LedgerLite work offline?", "label": "business_question", "language": "en", "script": "latin", "business": "d_billing", "history": []}
+{"id": "den-020", "text": "Can I print GST invoices in Hindi?", "label": "business_question", "language": "en", "script": "latin", "business": "d_billing", "history": []}
+{"id": "den-021", "text": "Where can I find your terms and conditions?", "label": "business_question", "language": "en", "script": "latin", "business": "d_blank", "history": []}
+{"id": "den-022", "text": "Do you have a store in Hyderabad?", "label": "business_question", "language": "en", "script": "latin", "business": "d_blank", "history": []}
+{"id": "den-023", "text": "Hello! Do you sell school shoes?", "label": "business_question", "language": "en", "script": "latin", "business": "d_shoes", "history": []}
+{"id": "den-024", "text": "Is there a minimum order for home delivery?", "label": "business_question", "language": "en", "script": "latin", "business": "d_food", "history": []}
+{"id": "den-025", "text": "What is the price of a 2 BHK in Tower C?", "label": "business_question", "language": "en", "script": "latin", "business": "d_homes", "history": []}
+{"id": "den-026", "text": "Is the white sneaker still available in size 7?", "label": "business_question", "language": "en", "script": "latin", "business": "d_shoes", "history": []}
+{"id": "den-027", "text": "what about the flu shot?", "label": "business_question", "language": "en", "script": "latin", "business": "d_clinic", "history": [{"role": "user", "content": "Do you do vaccinations for babies?"}, {"role": "assistant", "content": "Yes, all routine infant vaccines are given on weekdays."}]}
+{"id": "den-028", "text": "and in women's sizes?", "label": "business_question", "language": "en", "script": "latin", "business": "d_shoes", "history": [{"role": "user", "content": "Do you have trail running shoes?"}, {"role": "assistant", "content": "Yes, from Salomon and ASICS."}]}
+{"id": "den-029", "text": "is there a clubhouse too?", "label": "business_question", "language": "en", "script": "latin", "business": "d_homes", "history": [{"role": "user", "content": "When is possession of Tower B?"}, {"role": "assistant", "content": "Possession is planned for March 2027."}]}
+{"id": "den-030", "text": "does that cover two phones?", "label": "business_question", "language": "en", "script": "latin", "business": "d_billing", "history": [{"role": "user", "content": "How much is the yearly plan?"}, {"role": "assistant", "content": "Rs 3,999 a year for one shop."}]}
+{"id": "den-031", "text": "is there a weekend option?", "label": "business_question", "language": "en", "script": "latin", "business": "d_english", "history": [{"role": "user", "content": "When does the next PTE batch start?"}, {"role": "assistant", "content": "On 12 November, evenings 7 to 9 pm."}]}
+{"id": "den-032", "text": "What is the difference between a viral and a bacterial fever?", "label": "domain_explainer", "language": "en", "script": "latin", "business": "d_clinic", "history": []}
+{"id": "den-033", "text": "What is heel-to-toe drop in running shoes?", "label": "domain_explainer", "language": "en", "script": "latin", "business": "d_shoes", "history": []}
+{"id": "den-034", "text": "How is the IELTS band score calculated?", "label": "domain_explainer", "language": "en", "script": "latin", "business": "d_english", "history": []}
+{"id": "den-035", "text": "What is the difference between dum biryani and pulao?", "label": "domain_explainer", "language": "en", "script": "latin", "business": "d_food", "history": []}
+{"id": "den-036", "text": "What does carpet area mean compared to super built-up area?", "label": "domain_explainer", "language": "en", "script": "latin", "business": "d_homes", "history": []}
+{"id": "den-037", "text": "What is an e-way bill?", "label": "domain_explainer", "language": "en", "script": "latin", "business": "d_billing", "history": []}
+{"id": "den-038", "text": "Who wrote the Ramayana?", "label": "off_topic", "language": "en", "script": "latin", "business": "d_clinic", "history": []}
+{"id": "den-039", "text": "How tall is Mount Everest?", "label": "off_topic", "language": "en", "script": "latin", "business": "d_shoes", "history": []}
+{"id": "den-040", "text": "How do I make paneer butter masala at home?", "label": "off_topic", "language": "en", "script": "latin", "business": "d_billing", "history": []}
+{"id": "den-041", "text": "What is 17 times 23?", "label": "off_topic", "language": "en", "script": "latin", "business": "d_english", "history": []}
+{"id": "den-042", "text": "Which is better, iPhone or Samsung?", "label": "off_topic", "language": "en", "script": "latin", "business": "d_food", "history": []}
+{"id": "den-043", "text": "Write a poem about the monsoon", "label": "off_topic", "language": "en", "script": "latin", "business": "d_homes", "history": []}
+{"id": "den-044", "text": "who won the last football world cup?", "label": "off_topic", "language": "en", "script": "latin", "business": "d_clinic", "history": [{"role": "user", "content": "Is the clinic open on Diwali?"}, {"role": "assistant", "content": "We are closed on Diwali day."}]}
+{"id": "den-045", "text": "What is the population of Japan?", "label": "off_topic", "language": "en", "script": "latin", "business": "d_blank", "history": []}
+{"id": "den-046", "text": "I'd like to reserve a table for 6 at 8 pm", "label": "buying_intent", "language": "en", "script": "latin", "business": "d_food", "history": []}
+{"id": "den-047", "text": "I'll take the black ones in size 9, how do I pay?", "label": "buying_intent", "language": "en", "script": "latin", "business": "d_shoes", "history": []}
+{"id": "den-048", "text": "We want to visit the site this Sunday and book a 2 BHK", "label": "buying_intent", "language": "en", "script": "latin", "business": "d_homes", "history": []}
+{"id": "den-049", "text": "Please sign me up for the spoken English evening batch", "label": "buying_intent", "language": "en", "script": "latin", "business": "d_english", "history": []}
+{"id": "den-050", "text": "We have 3 stores and want to buy the business plan", "label": "buying_intent", "language": "en", "script": "latin", "business": "d_billing", "history": []}
+{"id": "den-051", "text": "Can you book a full blood count for my wife tomorrow morning?", "label": "buying_intent", "language": "en", "script": "latin", "business": "d_clinic", "history": []}
+{"id": "den-052", "text": "Need catering for 80 guests on the 14th, please send a quote", "label": "buying_intent", "language": "en", "script": "latin", "business": "d_food", "history": []}
+{"id": "den-053", "text": "Is the red pair in stock? I want to order it today", "label": "buying_intent", "language": "en", "script": "latin", "business": "d_shoes", "history": []}
+{"id": "den-054", "text": "Interested in buying a 3 BHK, what's the next step?", "label": "buying_intent", "language": "en", "script": "latin", "business": "d_homes", "history": []}
+{"id": "den-055", "text": "Looking to place a bulk order for our office", "label": "buying_intent", "language": "en", "script": "latin", "business": "d_blank", "history": []}
+{"id": "den-056", "text": "Can someone from support call me back?", "label": "human_request", "language": "en", "script": "latin", "business": "d_billing", "history": []}
+{"id": "den-057", "text": "I'd like to speak to the doctor directly", "label": "human_request", "language": "en", "script": "latin", "business": "d_clinic", "history": []}
+{"id": "den-058", "text": "Is there a manager I can talk to?", "label": "human_request", "language": "en", "script": "latin", "business": "d_food", "history": []}
+{"id": "den-059", "text": "I don't want a bot, get me a real person", "label": "human_request", "language": "en", "script": "latin", "business": "d_homes", "history": []}
+{"id": "den-060", "text": "you are a useless idiot machine", "label": "abuse", "language": "en", "script": "latin", "business": "d_shoes", "history": []}
+{"id": "den-061", "text": "what a dumb, pathetic answer", "label": "abuse", "language": "en", "script": "latin", "business": "d_billing", "history": []}
+{"id": "den-062", "text": "okay", "label": "other", "language": "en", "script": "latin", "business": "d_food", "history": []}
+{"id": "den-063", "text": "hmm ok", "label": "other", "language": "en", "script": "latin", "business": "d_clinic", "history": []}
+{"id": "den-064", "text": "k", "label": "other", "language": "en", "script": "latin", "business": "d_shoes", "history": []}
+{"id": "den-065", "text": "wait", "label": "other", "language": "en", "script": "latin", "business": "d_english", "history": []}
+{"id": "den-066", "text": "one sec", "label": "other", "language": "en", "script": "latin", "business": "d_homes", "history": []}
+{"id": "den-067", "text": "yes", "label": "other", "language": "en", "script": "latin", "business": "d_blank", "history": []}
+{"id": "den-068", "text": "I'll think about it", "label": "other", "language": "en", "script": "latin", "business": "d_billing", "history": []}
+{"id": "dhi-001", "text": "शुभ संध्या", "label": "smalltalk", "language": "hi", "script": "devanagari", "business": "d_food", "history": []}
+{"id": "dhi-002", "text": "आपका बहुत बहुत आभार", "label": "smalltalk", "language": "hi", "script": "devanagari", "business": "d_shoes", "history": []}
+{"id": "dhi-003", "text": "आज आपने बहुत मदद की", "label": "smalltalk", "language": "hi", "script": "devanagari", "business": "d_clinic", "history": []}
+{"id": "dhi-004", "text": "आपका सप्ताहांत अच्छा रहे", "label": "smalltalk", "language": "hi", "script": "devanagari", "business": "d_homes", "history": []}
+{"id": "dhi-005", "text": "आपसे बात करके अच्छा लगा", "label": "smalltalk", "language": "hi", "script": "devanagari", "business": "d_english", "history": []}
+{"id": "dhi-006", "text": "तुम्हारा नाम क्या है?", "label": "smalltalk", "language": "hi", "script": "devanagari", "business": "d_billing", "history": []}
+{"id": "dhi-007", "text": "क्या यह कोई ऑटोमैटिक चैट है?", "label": "smalltalk", "language": "hi", "script": "devanagari", "business": "d_blank", "history": []}
+{"id": "dhi-008", "text": "क्या डॉक्टर मेहरा शनिवार सुबह मिलते हैं?", "label": "business_question", "language": "hi", "script": "devanagari", "business": "d_clinic", "history": []}
+{"id": "dhi-009", "text": "डेंगू टेस्ट कितने का है?", "label": "business_question", "language": "hi", "script": "devanagari", "business": "d_clinic", "history": []}
+{"id": "dhi-010", "text": "क्या आपके पास 10 नंबर के स्पोर्ट्स जूते हैं?", "label": "business_question", "language": "hi", "script": "devanagari", "business": "d_shoes", "history": []}
+{"id": "dhi-011", "text": "पहने हुए जूते कितने दिन में बदल सकते हैं?", "label": "business_question", "language": "hi", "script": "devanagari", "business": "d_shoes", "history": []}
+{"id": "dhi-012", "text": "आईईएलटीएस की क्लास ऑनलाइन होती है या सेंटर पर?", "label": "business_question", "language": "hi", "script": "devanagari", "business": "d_english", "history": []}
+{"id": "dhi-013", "text": "एक बैच में कितने छात्र होते हैं?", "label": "business_question", "language": "hi", "script": "devanagari", "business": "d_english", "history": []}
+{"id": "dhi-014", "text": "क्या जैन खाना मिलता है?", "label": "business_question", "language": "hi", "script": "devanagari", "business": "d_food", "history": []}
+{"id": "dhi-015", "text": "आज रात रसोई कितने बजे बंद होगी?", "label": "business_question", "language": "hi", "script": "devanagari", "business": "d_food", "history": []}
+{"id": "dhi-016", "text": "तीन बीएचके फ्लैट का कार्पेट एरिया कितना है?", "label": "business_question", "language": "hi", "script": "devanagari", "business": "d_homes", "history": []}
+{"id": "dhi-017", "text": "क्या यह प्रोजेक्ट रेरा में रजिस्टर्ड है?", "label": "business_question", "language": "hi", "script": "devanagari", "business": "d_homes", "history": []}
+{"id": "dhi-018", "text": "क्या यह सॉफ्टवेयर बिना इंटरनेट के चलता है?", "label": "business_question", "language": "hi", "script": "devanagari", "business": "d_billing", "history": []}
+{"id": "dhi-019", "text": "क्या बिल हिंदी में छप सकता है?", "label": "business_question", "language": "hi", "script": "devanagari", "business": "d_billing", "history": []}
+{"id": "dhi-020", "text": "क्या हैदराबाद में आपकी कोई दुकान है?", "label": "business_question", "language": "hi", "script": "devanagari", "business": "d_blank", "history": []}
+{"id": "dhi-021", "text": "होम डिलीवरी के लिए कम से कम कितने का ऑर्डर चाहिए?", "label": "business_question", "language": "hi", "script": "devanagari", "business": "d_food", "history": []}
+{"id": "dhi-022", "text": "टावर सी में दो बीएचके का दाम क्या है?", "label": "business_question", "language": "hi", "script": "devanagari", "business": "d_homes", "history": []}
+{"id": "dhi-023", "text": "और फ्लू का टीका?", "label": "business_question", "language": "hi", "script": "devanagari", "business": "d_clinic", "history": [{"role": "user", "content": "क्या आप बच्चों का टीकाकरण करते हैं?"}, {"role": "assistant", "content": "जी हाँ, सभी सामान्य टीके सोमवार से शुक्रवार लगते हैं।"}]}
+{"id": "dhi-024", "text": "और महिलाओं के साइज़ में?", "label": "business_question", "language": "hi", "script": "devanagari", "business": "d_shoes", "history": [{"role": "user", "content": "क्या आपके पास ट्रेल रनिंग जूते हैं?"}, {"role": "assistant", "content": "जी हाँ, सालोमन और असिक्स के।"}]}
+{"id": "dhi-025", "text": "क्या वहाँ क्लबहाउस भी है?", "label": "business_question", "language": "hi", "script": "devanagari", "business": "d_homes", "history": [{"role": "user", "content": "टावर बी का पज़ेशन कब मिलेगा?"}, {"role": "assistant", "content": "मार्च 2027 में।"}]}
+{"id": "dhi-026", "text": "क्या उसमें दो फोन चल जाएंगे?", "label": "business_question", "language": "hi", "script": "devanagari", "business": "d_billing", "history": [{"role": "user", "content": "सालाना प्लान कितने का है?"}, {"role": "assistant", "content": "एक दुकान के लिए 3,999 रुपये सालाना।"}]}
+{"id": "dhi-027", "text": "क्या वीकेंड पर भी बैच है?", "label": "business_question", "language": "hi", "script": "devanagari", "business": "d_english", "history": [{"role": "user", "content": "अगला पीटीई बैच कब शुरू होगा?"}, {"role": "assistant", "content": "12 नवंबर से, शाम 7 से 9 बजे।"}]}
+{"id": "dhi-028", "text": "वायरल और बैक्टीरियल बुखार में क्या फर्क होता है?", "label": "domain_explainer", "language": "hi", "script": "devanagari", "business": "d_clinic", "history": []}
+{"id": "dhi-029", "text": "रनिंग जूतों में कुशनिंग का क्या काम होता है?", "label": "domain_explainer", "language": "hi", "script": "devanagari", "business": "d_shoes", "history": []}
+{"id": "dhi-030", "text": "आईईएलटीएस का बैंड स्कोर कैसे निकाला जाता है?", "label": "domain_explainer", "language": "hi", "script": "devanagari", "business": "d_english", "history": []}
+{"id": "dhi-031", "text": "दम बिरयानी और पुलाव में क्या अंतर है?", "label": "domain_explainer", "language": "hi", "script": "devanagari", "business": "d_food", "history": []}
+{"id": "dhi-032", "text": "कार्पेट एरिया और सुपर बिल्ट-अप एरिया में क्या फर्क है?", "label": "domain_explainer", "language": "hi", "script": "devanagari", "business": "d_homes", "history": []}
+{"id": "dhi-033", "text": "ई-वे बिल क्या होता है?", "label": "domain_explainer", "language": "hi", "script": "devanagari", "business": "d_billing", "history": []}
+{"id": "dhi-034", "text": "रामायण किसने लिखी थी?", "label": "off_topic", "language": "hi", "script": "devanagari", "business": "d_clinic", "history": []}
+{"id": "dhi-035", "text": "माउंट एवरेस्ट की ऊँचाई कितनी है?", "label": "off_topic", "language": "hi", "script": "devanagari", "business": "d_shoes", "history": []}
+{"id": "dhi-036", "text": "घर पर पनीर बटर मसाला कैसे बनाएं?", "label": "off_topic", "language": "hi", "script": "devanagari", "business": "d_billing", "history": []}
+{"id": "dhi-037", "text": "सत्रह गुणा तेईस कितना होता है?", "label": "off_topic", "language": "hi", "script": "devanagari", "business": "d_english", "history": []}
+{"id": "dhi-038", "text": "आईफोन अच्छा है या सैमसंग?", "label": "off_topic", "language": "hi", "script": "devanagari", "business": "d_food", "history": []}
+{"id": "dhi-039", "text": "बारिश पर एक कविता लिखो", "label": "off_topic", "language": "hi", "script": "devanagari", "business": "d_homes", "history": []}
+{"id": "dhi-040", "text": "पिछला फुटबॉल विश्व कप किसने जीता?", "label": "off_topic", "language": "hi", "script": "devanagari", "business": "d_clinic", "history": [{"role": "user", "content": "क्या दिवाली पर क्लिनिक खुला है?"}, {"role": "assistant", "content": "दिवाली के दिन हम बंद रहते हैं।"}]}
+{"id": "dhi-041", "text": "शुक्रवार रात आठ बजे छह लोगों के लिए टेबल बुक करनी है", "label": "buying_intent", "language": "hi", "script": "devanagari", "business": "d_food", "history": []}
+{"id": "dhi-042", "text": "काले वाले 9 नंबर में ले लूँगा, पेमेंट कैसे करूँ?", "label": "buying_intent", "language": "hi", "script": "devanagari", "business": "d_shoes", "history": []}
+{"id": "dhi-043", "text": "रविवार को साइट देखकर दो बीएचके बुक करना चाहते हैं", "label": "buying_intent", "language": "hi", "script": "devanagari", "business": "d_homes", "history": []}
+{"id": "dhi-044", "text": "मुझे स्पोकन इंग्लिश के शाम वाले बैच में दाखिला चाहिए", "label": "buying_intent", "language": "hi", "script": "devanagari", "business": "d_english", "history": []}
+{"id": "dhi-045", "text": "हमारी तीन दुकानें हैं, बिज़नेस प्लान खरीदना चाहते हैं", "label": "buying_intent", "language": "hi", "script": "devanagari", "business": "d_billing", "history": []}
+{"id": "dhi-046", "text": "कल सुबह पत्नी के लिए ब्लड टेस्ट बुक कर दीजिए", "label": "buying_intent", "language": "hi", "script": "devanagari", "business": "d_clinic", "history": []}
+{"id": "dhi-047", "text": "चौदह तारीख को अस्सी मेहमानों के लिए केटरिंग का कोटेशन चाहिए", "label": "buying_intent", "language": "hi", "script": "devanagari", "business": "d_food", "history": []}
+{"id": "dhi-048", "text": "तीन बीएचके खरीदने में रुचि है, आगे क्या करना होगा?", "label": "buying_intent", "language": "hi", "script": "devanagari", "business": "d_homes", "history": []}
+{"id": "dhi-049", "text": "हमें ऑफिस के लिए थोक में सामान मंगवाना है", "label": "buying_intent", "language": "hi", "script": "devanagari", "business": "d_blank", "history": []}
+{"id": "dhi-050", "text": "सपोर्ट टीम से कोई मुझे वापस फोन करे", "label": "human_request", "language": "hi", "script": "devanagari", "business": "d_billing", "history": []}
+{"id": "dhi-051", "text": "मुझे सीधे डॉक्टर साहब से बात करनी है", "label": "human_request", "language": "hi", "script": "devanagari", "business": "d_clinic", "history": []}
+{"id": "dhi-052", "text": "क्या कोई मैनेजर है जिससे बात हो सके?", "label": "human_request", "language": "hi", "script": "devanagari", "business": "d_food", "history": []}
+{"id": "dhi-053", "text": "बॉट नहीं चाहिए, किसी असली व्यक्ति से मिलवाइए", "label": "human_request", "language": "hi", "script": "devanagari", "business": "d_homes", "history": []}
+{"id": "dhi-054", "text": "तुम बिल्कुल बेवकूफ मशीन हो", "label": "abuse", "language": "hi", "script": "devanagari", "business": "d_shoes", "history": []}
+{"id": "dhi-055", "text": "कितना घटिया और फालतू जवाब है", "label": "abuse", "language": "hi", "script": "devanagari", "business": "d_billing", "history": []}
+{"id": "dhi-056", "text": "हाँ", "label": "other", "language": "hi", "script": "devanagari", "business": "d_food", "history": []}
+{"id": "dhi-057", "text": "हम्म ठीक", "label": "other", "language": "hi", "script": "devanagari", "business": "d_clinic", "history": []}
+{"id": "dhi-058", "text": "रुकिए", "label": "other", "language": "hi", "script": "devanagari", "business": "d_shoes", "history": []}
+{"id": "dhi-059", "text": "एक मिनट", "label": "other", "language": "hi", "script": "devanagari", "business": "d_english", "history": []}
+{"id": "dhi-060", "text": "नहीं", "label": "other", "language": "hi", "script": "devanagari", "business": "d_homes", "history": []}
+{"id": "dhi-061", "text": "सोचकर बताता हूँ", "label": "other", "language": "hi", "script": "devanagari", "business": "d_billing", "history": []}
+{"id": "dhl-001", "text": "good evening ji", "label": "smalltalk", "language": "hi-Latn", "script": "latin", "business": "d_food", "history": []}
+{"id": "dhl-002", "text": "bahut bahut shukriya aapka", "label": "smalltalk", "language": "hi-Latn", "script": "latin", "business": "d_shoes", "history": []}
+{"id": "dhl-003", "text": "aaj aapne bahut help ki", "label": "smalltalk", "language": "hi-Latn", "script": "latin", "business": "d_clinic", "history": []}
+{"id": "dhl-004", "text": "aapka weekend accha jaye", "label": "smalltalk", "language": "hi-Latn", "script": "latin", "business": "d_homes", "history": []}
+{"id": "dhl-005", "text": "aapse baat karke accha laga", "label": "smalltalk", "language": "hi-Latn", "script": "latin", "business": "d_english", "history": []}
+{"id": "dhl-006", "text": "tumhara naam kya hai?", "label": "smalltalk", "language": "hi-Latn", "script": "latin", "business": "d_billing", "history": []}
+{"id": "dhl-007", "text": "yeh automatic chat hai kya?", "label": "smalltalk", "language": "hi-Latn", "script": "latin", "business": "d_blank", "history": []}
+{"id": "dhl-008", "text": "shubh ratri", "label": "smalltalk", "language": "hi-Latn", "script": "latin", "business": "d_food", "history": []}
+{"id": "dhl-009", "text": "Dr. Mehra Saturday subah milte hain kya?", "label": "business_question", "language": "hi-Latn", "script": "latin", "business": "d_clinic", "history": []}
+{"id": "dhl-010", "text": "dengue test kitne ka hai?", "label": "business_question", "language": "hi-Latn", "script": "latin", "business": "d_clinic", "history": []}
+{"id": "dhl-011", "text": "10 number mein sports shoes milenge?", "label": "business_question", "language": "hi-Latn", "script": "latin", "business": "d_shoes", "history": []}
+{"id": "dhl-012", "text": "pehne hue shoes kitne din mein exchange ho sakte hain?", "label": "business_question", "language": "hi-Latn", "script": "latin", "business": "d_shoes", "history": []}
+{"id": "dhl-013", "text": "IELTS ki class online hoti hai ya centre pe?", "label": "business_question", "language": "hi-Latn", "script": "latin", "business": "d_english", "history": []}
+{"id": "dhl-014", "text": "ek batch mein kitne students hote hain?", "label": "business_question", "language": "hi-Latn", "script": "latin", "business": "d_english", "history": []}
+{"id": "dhl-015", "text": "Jain khana milta hai kya?", "label": "business_question", "language": "hi-Latn", "script": "latin", "business": "d_food", "history": []}
+{"id": "dhl-016", "text": "aaj raat kitchen kitne baje band hoga?", "label": "business_question", "language": "hi-Latn", "script": "latin", "business": "d_food", "history": []}
+{"id": "dhl-017", "text": "3 BHK ka carpet area kitna hai?", "label": "business_question", "language": "hi-Latn", "script": "latin", "business": "d_homes", "history": []}
+{"id": "dhl-018", "text": "project RERA registered hai kya?", "label": "business_question", "language": "hi-Latn", "script": "latin", "business": "d_homes", "history": []}
+{"id": "dhl-019", "text": "LedgerLite bina internet ke chalta hai kya?", "label": "business_question", "language": "hi-Latn", "script": "latin", "business": "d_billing", "history": []}
+{"id": "dhl-020", "text": "bill Hindi mein print ho sakta hai?", "label": "business_question", "language": "hi-Latn", "script": "latin", "business": "d_billing", "history": []}
+{"id": "dhl-021", "text": "Hyderabad mein aapka store hai kya?", "label": "business_question", "language": "hi-Latn", "script": "latin", "business": "d_blank", "history": []}
+{"id": "dhl-022", "text": "home delivery ke liye minimum order kitna hai?", "label": "business_question", "language": "hi-Latn", "script": "latin", "business": "d_food", "history": []}
+{"id": "dhl-023", "text": "Tower C mein 2 BHK ka rate kya hai?", "label": "business_question", "language": "hi-Latn", "script": "latin", "business": "d_homes", "history": []}
+{"id": "dhl-024", "text": "white sneaker 7 number mein abhi available hai?", "label": "business_question", "language": "hi-Latn", "script": "latin", "business": "d_shoes", "history": []}
+{"id": "dhl-025", "text": "aur flu ka injection?", "label": "business_question", "language": "hi-Latn", "script": "latin", "business": "d_clinic", "history": [{"role": "user", "content": "bacchon ka vaccination karte ho kya?"}, {"role": "assistant", "content": "Haan, saare routine vaccine weekdays mein lagte hain."}]}
+{"id": "dhl-026", "text": "aur ladies size mein?", "label": "business_question", "language": "hi-Latn", "script": "latin", "business": "d_shoes", "history": [{"role": "user", "content": "trail running shoes hain kya?"}, {"role": "assistant", "content": "Haan, Salomon aur ASICS ke."}]}
+{"id": "dhl-027", "text": "clubhouse bhi hai kya wahan?", "label": "business_question", "language": "hi-Latn", "script": "latin", "business": "d_homes", "history": [{"role": "user", "content": "Tower B ka possession kab milega?"}, {"role": "assistant", "content": "March 2027 mein."}]}
+{"id": "dhl-028", "text": "usme do phone chal jayenge?", "label": "business_question", "language": "hi-Latn", "script": "latin", "business": "d_billing", "history": [{"role": "user", "content": "yearly plan kitne ka hai?"}, {"role": "assistant", "content": "Ek shop ke liye Rs 3,999 saal ka."}]}
+{"id": "dhl-029", "text": "weekend wala batch bhi hai?", "label": "business_question", "language": "hi-Latn", "script": "latin", "business": "d_english", "history": [{"role": "user", "content": "agla PTE batch kab start hoga?"}, {"role": "assistant", "content": "12 November se, shaam 7 se 9."}]}
+{"id": "dhl-030", "text": "viral aur bacterial fever mein kya farak hota hai?", "label": "domain_explainer", "language": "hi-Latn", "script": "latin", "business": "d_clinic", "history": []}
+{"id": "dhl-031", "text": "running shoes mein heel drop ka matlab kya hai?", "label": "domain_explainer", "language": "hi-Latn", "script": "latin", "business": "d_shoes", "history": []}
+{"id": "dhl-032", "text": "IELTS band score kaise calculate hota hai?", "label": "domain_explainer", "language": "hi-Latn", "script": "latin", "business": "d_english", "history": []}
+{"id": "dhl-033", "text": "dum biryani aur pulao mein kya difference hai?", "label": "domain_explainer", "language": "hi-Latn", "script": "latin", "business": "d_food", "history": []}
+{"id": "dhl-034", "text": "carpet area aur super built-up area mein kya fark hai?", "label": "domain_explainer", "language": "hi-Latn", "script": "latin", "business": "d_homes", "history": []}
+{"id": "dhl-035", "text": "e-way bill kya hota hai?", "label": "domain_explainer", "language": "hi-Latn", "script": "latin", "business": "d_billing", "history": []}
+{"id": "dhl-036", "text": "Ramayan kisne likhi thi?", "label": "off_topic", "language": "hi-Latn", "script": "latin", "business": "d_clinic", "history": []}
+{"id": "dhl-037", "text": "Mount Everest kitna uncha hai?", "label": "off_topic", "language": "hi-Latn", "script": "latin", "business": "d_shoes", "history": []}
+{"id": "dhl-038", "text": "ghar pe paneer butter masala kaise banaye?", "label": "off_topic", "language": "hi-Latn", "script": "latin", "business": "d_billing", "history": []}
+{"id": "dhl-039", "text": "17 guna 23 kitna hota hai?", "label": "off_topic", "language": "hi-Latn", "script": "latin", "business": "d_english", "history": []}
+{"id": "dhl-040", "text": "iPhone better hai ya Samsung?", "label": "off_topic", "language": "hi-Latn", "script": "latin", "business": "d_food", "history": []}
+{"id": "dhl-041", "text": "baarish pe ek kavita likho", "label": "off_topic", "language": "hi-Latn", "script": "latin", "business": "d_homes", "history": []}
+{"id": "dhl-042", "text": "last football world cup kisne jeeta?", "label": "off_topic", "language": "hi-Latn", "script": "latin", "business": "d_clinic", "history": [{"role": "user", "content": "Diwali pe clinic khula hai kya?"}, {"role": "assistant", "content": "Diwali ke din hum band rehte hain."}]}
+{"id": "dhl-043", "text": "Japan ki population kitni hai?", "label": "off_topic", "language": "hi-Latn", "script": "latin", "business": "d_blank", "history": []}
+{"id": "dhl-044", "text": "Friday raat 8 baje 6 logon ke liye table book karni hai", "label": "buying_intent", "language": "hi-Latn", "script": "latin", "business": "d_food", "history": []}
+{"id": "dhl-045", "text": "black wale 9 number mein le lunga, payment kaise karu?", "label": "buying_intent", "language": "hi-Latn", "script": "latin", "business": "d_shoes", "history": []}
+{"id": "dhl-046", "text": "Sunday ko site dekh ke 2 BHK book karna chahte hain", "label": "buying_intent", "language": "hi-Latn", "script": "latin", "business": "d_homes", "history": []}
+{"id": "dhl-047", "text": "spoken English ke evening batch mein mera admission kar do", "label": "buying_intent", "language": "hi-Latn", "script": "latin", "business": "d_english", "history": []}
+{"id": "dhl-048", "text": "humari 3 dukaan hain, business plan kharidna chahte hain", "label": "buying_intent", "language": "hi-Latn", "script": "latin", "business": "d_billing", "history": []}
+{"id": "dhl-049", "text": "kal subah wife ke liye blood test book kar dijiye", "label": "buying_intent", "language": "hi-Latn", "script": "latin", "business": "d_clinic", "history": []}
+{"id": "dhl-050", "text": "14 tareekh ko 80 guests ke liye catering ka quote chahiye", "label": "buying_intent", "language": "hi-Latn", "script": "latin", "business": "d_food", "history": []}
+{"id": "dhl-051", "text": "red wala stock mein hai? aaj hi order karna hai", "label": "buying_intent", "language": "hi-Latn", "script": "latin", "business": "d_shoes", "history": []}
+{"id": "dhl-052", "text": "3 BHK lene ka interest hai, aage kya process hai?", "label": "buying_intent", "language": "hi-Latn", "script": "latin", "business": "d_homes", "history": []}
+{"id": "dhl-053", "text": "office ke liye bulk order dena hai", "label": "buying_intent", "language": "hi-Latn", "script": "latin", "business": "d_blank", "history": []}
+{"id": "dhl-054", "text": "support team se koi mujhe call back kare", "label": "human_request", "language": "hi-Latn", "script": "latin", "business": "d_billing", "history": []}
+{"id": "dhl-055", "text": "mujhe seedha doctor sahab se baat karni hai", "label": "human_request", "language": "hi-Latn", "script": "latin", "business": "d_clinic", "history": []}
+{"id": "dhl-056", "text": "koi manager hai jisse baat ho sake?", "label": "human_request", "language": "hi-Latn", "script": "latin", "business": "d_food", "history": []}
+{"id": "dhl-057", "text": "bot nahi chahiye, kisi real bande se milao", "label": "human_request", "language": "hi-Latn", "script": "latin", "business": "d_homes", "history": []}
+{"id": "dhl-058", "text": "tum ekdum bewakoof machine ho", "label": "abuse", "language": "hi-Latn", "script": "latin", "business": "d_shoes", "history": []}
+{"id": "dhl-059", "text": "kitna ghatiya aur faltu jawab hai", "label": "abuse", "language": "hi-Latn", "script": "latin", "business": "d_billing", "history": []}
+{"id": "dhl-060", "text": "haan ji", "label": "other", "language": "hi-Latn", "script": "latin", "business": "d_food", "history": []}
+{"id": "dhl-061", "text": "hmm thik", "label": "other", "language": "hi-Latn", "script": "latin", "business": "d_clinic", "history": []}
+{"id": "dhl-062", "text": "ruko", "label": "other", "language": "hi-Latn", "script": "latin", "business": "d_shoes", "history": []}
+{"id": "dhl-063", "text": "ek minute", "label": "other", "language": "hi-Latn", "script": "latin", "business": "d_english", "history": []}
+{"id": "dhl-064", "text": "nahi", "label": "other", "language": "hi-Latn", "script": "latin", "business": "d_homes", "history": []}
+{"id": "dhl-065", "text": "soch ke batata hoon", "label": "other", "language": "hi-Latn", "script": "latin", "business": "d_billing", "history": []}
+{"id": "dhl-066", "text": "acha ok", "label": "other", "language": "hi-Latn", "script": "latin", "business": "d_blank", "history": []}

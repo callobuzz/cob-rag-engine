@@ -1,0 +1,26 @@
+{
+  "run": "sweep-2026-10-04",
+  "harness_version": "1.0.0",
+  "created": "2026-10-03T18:30:57.830+00:00",
+  "labels_sha256": "6c55e4380020816d1cf176bc1f243da1f6057373c1b3eb6221263596bbe188b655540cef",
+  "provider": "openrouter",
+  "dry_run": false,
+  "smoke": false,
+  "models": [
+    "deepseek/deepseek-v4.1-flash",
+    "google/gemini-2.5-flash-lite",
+    "google/gemma-4-26b-a4b-it",
+    "google/gemma-4-31b-it",
+    "meta-llama/llama-3.1-8b-instruct@groq",
+    "meta-llama/llama-3.3-70b-instruct@groq",
+    "mistralai/mistral-small-2603",
+    "mistralai/mistral-small-3.2-24b-instruct",
+    "openai/gpt-4.1-mini",
+    "openai/gpt-4.1-nano",
+    "openai/gpt-6-luna",
+    "openai/gpt-oss-120b",
+    "qwen/qwen3-30b-a3b-instruct-2507",
+    "qwen/qwen3-next-80b-a3b-instruct",
+    "qwen/qwen3.8-27b@cerebras"
+  ]
+}

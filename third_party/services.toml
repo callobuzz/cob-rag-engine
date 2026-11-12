@@ -1,0 +1,184 @@
+# Everything we ship or that the install pulls that is not a Python or npm package.
+# Read by scripts/third_party_notices.py (L1) and scripts/dependency_audit.py (L2).
+# `shipped = false`: pulled from its publisher by Docker Compose on the buyer's server (not in the zip).
+# Every image `ref` equals the default in docker-compose.yml (tests/unit/test_dependency_audit.py checks it).
+
+[[image]]
+name = "postgres"
+ref = "postgres:16-alpine"
+licence = "PostgreSQL"
+shipped = false
+url = "https://www.postgresql.org/about/licence/"
+
+[[image]]
+name = "valkey"
+ref = "valkey/valkey:8.1-alpine"
+licence = "BSD-3-Clause"
+shipped = false
+url = "https://github.com/valkey-io/valkey/blob/unstable/COPYING"
+
+[[image]]
+name = "qdrant"
+ref = "qdrant/qdrant:v1.13.2"
+licence = "Apache-2.0"
+shipped = false
+url = "https://github.com/qdrant/qdrant/blob/master/LICENSE"
+
+[[image]]
+name = "text-embeddings-inference (profile tei)"
+ref = "ghcr.io/huggingface/text-embeddings-inference:cpu-1.9"
+licence = "Apache-2.0"
+shipped = false
+url = "https://github.com/huggingface/text-embeddings-inference/blob/main/LICENSE"
+
+[[image]]
+name = "whisper webservice (profile transcription; wrapper MIT, bundles FFmpeg LGPL-2.1)"
+ref = "onerahmet/openai-whisper-asr-webservice:v1.9.1"
+licence = "MIT"
+shipped = false
+url = "https://github.com/ahmetoner/whisper-asr-webservice/blob/main/LICENCE"
+
+[[image]]
+name = "whisper webservice, GPU (docker-compose.gpu.yml; adds NVIDIA CUDA libraries)"
+ref = "onerahmet/openai-whisper-asr-webservice:v1.9.1-gpu"
+licence = "MIT"
+shipped = false
+url = "https://github.com/ahmetoner/whisper-asr-webservice/blob/main/LICENCE"
+
+[[image]]
+name = "ollama (profile local-llm)"
+ref = "ollama/ollama:0.12.6"
+licence = "MIT"
+shipped = false
+url = "https://github.com/ollama/ollama/blob/main/LICENSE"
+
+[[image]]
+name = "langfuse (profile observability; MIT except the ee/ folders, which are not used)"
+ref = "langfuse/langfuse:2"
+licence = "MIT"
+shipped = false
+url = "https://github.com/langfuse/langfuse/blob/main/LICENSE"
+
+[[image]]
+name = "nginx (legacy dashboard profile)"
+ref = "nginx:alpine"
+licence = "BSD-2-Clause"
+shipped = false
+url = "https://nginx.org/LICENSE"
+
+# Base images of our own Dockerfiles (built on the buyer's server from the shipped source).
+[[image]]
+name = "nginx (dashboard build stage 2)"
+ref = "nginx:1.27-alpine"
+licence = "BSD-2-Clause"
+shipped = false
+url = "https://nginx.org/LICENSE"
+
+[[image]]
+name = "python base (engine and scraper; PSF plus Debian packages, see the Dockerfile for the OS list)"
+ref = "python:3.12-slim"
+licence = "PSF-2.0"
+shipped = false
+url = "https://docs.python.org/3/license.html"
+
+[[image]]
+name = "node build image (dashboard build stage 1 only; nothing from it is in the final image)"
+ref = "node:22-alpine"
+licence = "MIT"
+shipped = false
+url = "https://github.com/nodejs/node/blob/main/LICENSE"
+
+[[model]]
+name = "BAAI/bge-base-en-v1.5"
+licence = "MIT"
+downloaded_at_runtime = true
+
+[[model]]
+name = "BAAI/bge-m3"
+licence = "MIT"
+downloaded_at_runtime = true
+
+[[model]]
+name = "BAAI/bge-reranker-v2-m3 (reranker, off by default)"
+licence = "Apache-2.0"
+downloaded_at_runtime = true
+
+[[model]]
+name = "docling layout model (docling-layout-heron)"
+licence = "Apache-2.0"
+downloaded_at_runtime = true
+
+[[model]]
+name = "docling TableFormer"
+licence = "CDLA-Permissive-2.0"
+downloaded_at_runtime = true
+
+[[model]]
+name = "RapidOCR PP-OCR ONNX models (inside the rapidocr wheel)"
+licence = "Apache-2.0"
+downloaded_at_runtime = false
+
+[[model]]
+name = "Whisper weights (faster-whisper)"
+licence = "MIT"
+downloaded_at_runtime = true
+
+[[model]]
+name = "jina-embeddings-v3 (hosted Jina API only; the CC-BY-NC-4.0 weights are never downloaded or bundled)"
+licence = "CC-BY-NC-4.0"
+downloaded_at_runtime = false
+api_only = true
+
+[[font]]
+name = "Schibsted Grotesk, Red Hat Text, JetBrains Mono (@fontsource)"
+licence = "OFL-1.1"
+
+[[font]]
+name = "Noto Sans (the GST invoice PDFs, bundled in the engine)"
+path = "src/callobuzz_rag/billing/invoicing/fonts/OFL.txt"
+licence = "OFL-1.1"
+
+[[data]]
+name = "SecLists common passwords"
+path = "src/callobuzz_rag/accounts/data/LICENSE-SecLists.txt"
+licence = "MIT"
+
+[[data]]
+name = "NLTK punkt_tab, stopwords"
+licence = "Apache-2.0"
+downloaded_at_build = true
+
+[[data]]
+name = "tiktoken cl100k_base (the data file states no licence; tiktoken is MIT; downloaded at runtime)"
+licence = "MIT"
+
+# Packages whose metadata licence is blank or vague, resolved by reading the LICENSE file that
+# ships in the wheel (scripts/dependency_audit.py requires a reason on every row).
+[[overrides]]
+name = "tiktoken"
+licence = "MIT"
+reason = "LICENSE file in the wheel is the MIT licence (OpenAI, Shantanu Jain); the metadata says nothing"
+
+[[overrides]]
+name = "ragas"
+licence = "Apache-2.0"
+reason = "LICENSE file in the wheel is the Apache License 2.0; the metadata says nothing"
+
+[[overrides]]
+name = "python-dateutil"
+licence = "Apache-2.0 AND BSD-3-Clause"
+reason = "LICENSE file in the wheel: Apache-2.0 for new contributions, BSD-3-Clause for the original code; the metadata says 'Dual License'"
+
+[[overrides]]
+name = "cuda-toolkit"
+licence = "NVIDIA Proprietary Software"
+reason = "metapackage with no files of its own; it only pulls in the NVIDIA CUDA wheels, which are under the NVIDIA End User License Agreement (reproduced above for each)"
+
+# L4 install
+[[image]]
+name = "caddy (profile proxy)"
+ref = "caddy:2.10-alpine"
+licence = "Apache-2.0"
+shipped = false
+url = "https://github.com/caddyserver/caddy/blob/master/LICENSE"
+# /L4 install

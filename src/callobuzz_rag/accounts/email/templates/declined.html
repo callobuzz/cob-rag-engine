@@ -1,0 +1,6 @@
+{% extends "_base.html" %}
+{% from "_macros.html" import support_line with context %}
+{% block content %}
+<p style="margin:0 0 12px;">Thank you for signing up <strong>{{ tenant_name }}</strong> for {{ branding.product_name }}. We couldn't activate this workspace.</p>
+<p style="margin:0 0 12px;">If you have questions, contact {{ support_line() }}.</p>
+{% endblock %}

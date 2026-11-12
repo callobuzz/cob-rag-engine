@@ -1,0 +1,16 @@
+{% import "macros.html" as m with context %}
+<section class="section pain-wall" data-section="pain_wall" id="{{ s.id }}">
+  <div class="wrap">
+    {{ m.head(s) }}
+    <ul class="questions" data-wall>
+      {% for q in s.questions %}
+      {% set via = "whatsapp" if q.channel == "whatsapp" and env.whatsapp_on_sale else "website" %}
+      <li class="question question-{{ via }}" style="--i: {{ loop.index0 }}">
+        <span class="question-text">{{ q.text|t }}</span>
+        <span class="question-meta"><span class="tag tag-{{ via }}">{{ ui.tag_whatsapp if via == "whatsapp" else ui.tag_website }}</span>{{ m.clock(q.time) }}</span>
+      </li>
+      {% endfor %}
+    </ul>
+    {% if s.punchline %}<p class="punchline">{{ s.punchline|t }}</p>{% endif %}
+  </div>
+</section>

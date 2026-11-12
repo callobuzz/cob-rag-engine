@@ -1,0 +1,1326 @@
+<!doctype html>
+<html lang="en" class="no-js">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Production deployment guide · cob-rag-engine</title>
+<meta name="description" content="Run cob-rag-engine in production: server sizing, cloud providers with Indian regions, firewall, HTTPS with Caddy, Nginx or Cloudflare, backups, updates, and automatic deploys with GitHub Actions.">
+<link rel="canonical" href="https://callobuzz.github.io/cob-rag-engine/deploy.html">
+<meta name="theme-color" content="#ffffff">
+<meta property="og:title" content="cob-rag-engine: production deployment guide">
+<meta property="og:description" content="Run cob-rag-engine in production: server sizing, cloud providers with Indian regions, firewall, HTTPS with Caddy, Nginx or Cloudflare, backups, updates, and automatic deploys with GitHub Actions.">
+<meta property="og:type" content="article">
+<meta property="og:url" content="https://callobuzz.github.io/cob-rag-engine/deploy.html">
+<meta property="og:site_name" content="cob-rag-engine by Callobuzz">
+<meta property="og:image" content="https://callobuzz.github.io/cob-rag-engine/assets/social-card.png">
+<meta property="og:image:width" content="1280">
+<meta property="og:image:height" content="640">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="cob-rag-engine: production deployment guide">
+<meta name="twitter:description" content="Run cob-rag-engine in production: server sizing, cloud providers with Indian regions, firewall, HTTPS with Caddy, Nginx or Cloudflare, backups, updates, and automatic deploys with GitHub Actions.">
+<link rel="icon" type="image/png" sizes="32x32" href="assets/logo-32.png">
+<link rel="icon" type="image/png" sizes="64x64" href="assets/logo-64.png">
+<link rel="apple-touch-icon" href="assets/logo-180.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;600&family=Red+Hat+Text:wght@400;500;600&family=Schibsted+Grotesk:wght@500;600;700&display=swap" rel="stylesheet">
+<script src="assets/theme.js"></script>
+<link rel="stylesheet" href="assets/site.css">
+</head>
+<body id="top">
+<!-- ======================================================================================
+     PROVIDERS: edit links here. This is the ONE place to change the provider list.
+     Referral links go in the `url` field (the visible "Open" link). Keep `pricing` pointing
+     at the provider's own pricing page: this guide never states prices.
+     Fields: name, kind ("cpu" or "gpu"), url, pricing, regions, india, note.
+     `india` is plain text shown in the table; write "No India region" when that is true.
+     Region lists change. Checked against vendor pages on 2 October 2026; confirm before you buy.
+     ====================================================================================== -->
+<script id="providers-data">
+window.COB_PROVIDERS = [
+  { name: "Hetzner Cloud", kind: "cpu",
+    url: "https://www.hetzner.com/cloud", pricing: "https://www.hetzner.com/cloud",
+    regions: "Falkenstein, Nuremberg, Helsinki, Ashburn, Hillsboro, Singapore",
+    india: "No India region. Singapore is the nearest.",
+    note: "Best value for money in Europe. Slower for users in India." },
+  { name: "DigitalOcean", kind: "cpu",
+    url: "https://www.digitalocean.com/", pricing: "https://www.digitalocean.com/pricing/droplets",
+    regions: "Several, including Bangalore (BLR1)",
+    india: "Bangalore (BLR1)",
+    note: "Simple console. Region list: docs.digitalocean.com/platform/regional-availability" },
+  { name: "Vultr", kind: "cpu",
+    url: "https://www.vultr.com/", pricing: "https://www.vultr.com/pricing/",
+    regions: "Many worldwide",
+    india: "Mumbai, Delhi NCR, Bangalore",
+    note: "The widest choice of Indian cities among the global clouds." },
+  { name: "Linode (Akamai Cloud)", kind: "cpu",
+    url: "https://www.linode.com/", pricing: "https://www.linode.com/pricing/",
+    regions: "Many worldwide",
+    india: "Mumbai, Chennai",
+    note: "Now part of Akamai. Plain virtual machines." },
+  { name: "OVHcloud VPS", kind: "cpu",
+    url: "https://www.ovhcloud.com/en-in/vps/", pricing: "https://www.ovhcloud.com/en-in/vps/",
+    regions: "Europe, North America, Asia-Pacific",
+    india: "Mumbai is listed among its Asia-Pacific VPS locations. Confirm in the order form.",
+    note: "Low prices. Check the plan's RAM and disk type before you order." },
+  { name: "AWS Lightsail", kind: "cpu",
+    url: "https://aws.amazon.com/lightsail/", pricing: "https://aws.amazon.com/lightsail/pricing/",
+    regions: "Many AWS regions",
+    india: "Mumbai (ap-south-1)",
+    note: "Fixed monthly bundles. Good if the rest of your business is already on AWS." },
+  { name: "Hetzner GPU (dedicated)", kind: "gpu",
+    url: "https://www.hetzner.com/dedicated-rootserver/matrix-gpu/", pricing: "https://www.hetzner.com/dedicated-rootserver/matrix-gpu/",
+    regions: "Germany (the GEX44 line: RTX 4000 SFF Ada, 20 GB, 64 GB RAM, at Falkenstein)",
+    india: "No India region",
+    note: "A whole machine rented by the month, not a virtual server. Stock changes." },
+  { name: "RunPod", kind: "gpu",
+    url: "https://www.runpod.io/", pricing: "https://www.runpod.io/pricing",
+    regions: "Listed on their site",
+    india: "Check their list",
+    note: "Billed by the hour. Attach a persistent volume or you lose data when a pod is removed." },
+  { name: "Vast.ai", kind: "gpu",
+    url: "https://vast.ai/", pricing: "https://vast.ai/pricing",
+    regions: "A marketplace of hosts worldwide",
+    india: "Check each listing",
+    note: "Cheapest, but host quality varies. Do not put customer documents on a host you do not trust." },
+  { name: "Lambda", kind: "gpu",
+    url: "https://lambda.ai/", pricing: "https://lambda.ai/pricing",
+    regions: "Listed on their site",
+    india: "Check their list",
+    note: "On-demand GPU cloud. Check availability before you plan around it." }
+];
+</script>
+<a class="skip" href="#guide">Skip to the guide</a>
+<nav aria-label="Main">
+  <div class="wrap">
+    <a class="brand" href="index.html"><img src="assets/logo-64.png" alt="" width="28" height="28">cob-rag-engine</a>
+    <div class="links">
+      <a href="index.html">Overview</a>
+      <a href="getting-started.html">Get started</a>
+      <a href="guide.html">Guide</a>
+      <a href="deploy.html" aria-current="page">Deploy</a>
+      <a href="benchmarks.html">Benchmarks</a>
+    </div>
+    <div class="nav-end">
+      <button class="theme" type="button" aria-pressed="false" data-theme-toggle><svg class="i-moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 14.5A8 8 0 0 1 9.5 4a8 8 0 1 0 10.5 10.5Z"/></svg><svg class="i-sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" aria-hidden="true"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"/></svg><span class="sr-only">Dark theme</span></button>
+      <a class="gh" href="https://github.com/callobuzz/cob-rag-engine"><svg viewBox="0 0 16 16" fill="currentColor" aria-hidden="true"><path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.01 8.01 0 0 0 16 8c0-4.42-3.58-8-8-8Z"/></svg>GitHub</a>
+    </div>
+  </div>
+</nav>
+<header class="page-head">
+  <div class="wrap">
+    <span class="kicker">Deployment</span>
+    <h1>Put it on a server <span class="thin">your customers can reach</span></h1>
+    <p class="lede">Run cob-rag-engine on a rented server with a real domain, HTTPS, backups and automatic updates. You have already run it on your own machine with the <a href="guide.html">step-by-step guide</a>; this page is the production version. Every command and setting name was checked against the repository.</p>
+    <div class="callout tip access" role="note"><strong class="cl">Where to get it</strong><div>Get cob-rag-engine from <a href="https://github.com/callobuzz/cob-rag-engine">its repository</a> (<code>git clone https://github.com/callobuzz/cob-rag-engine.git</code>) or download a release zip, then <code>cd cob-rag-engine</code>. The steps below run from that folder. Questions: <a href="mailto:callobuzz@gmail.com?subject=cob-rag-engine%3A%20question">callobuzz@gmail.com</a>.</div></div>
+    <div class="cta">
+      <a class="btn btn-primary" href="#overview">Start at step 1</a>
+      <a class="btn btn-ghost" href="#yoursetup">Choose your setup</a>
+      <a class="btn btn-ghost" href="#troubleshooting">Something broke? Troubleshooting</a>
+    </div>
+    <p class="meta">Checked against the repository on 2 October 2026. Examples use the domain <code>yourbusiness.in</code>; replace it with yours. Tell the page which hardware, proxy and update method you will use and it shows only what applies. Prefer to read everything? Switch on &ldquo;Show all options&rdquo;.</p>
+  </div>
+</header>
+<div class="wrap doc" id="guide">
+  <aside class="toc" aria-label="On this page">
+    <div class="toc-setup js-only"><b>Your setup</b><span id="toc-summary"></span><br><a href="#yoursetup">Edit your setup</a></div>
+    <details open>
+      <summary>On this page<span class="chev" aria-hidden="true"></span></summary>
+      <ol>
+        <!-- L4 install -->
+        <li><a href="#installer" data-id="installer"><span class="tn">&middot;</span>The quick way: the installer</a></li>
+        <!-- /L4 install -->
+        <li><a href="#overview" data-id="overview"><span class="tn">1</span>The plan</a></li>
+        <li><a href="#yoursetup" data-id="yoursetup"><span class="tn">&middot;</span>Your setup</a></li>
+        <li><a href="#sizing" data-id="sizing"><span class="tn">2</span>Server size</a></li>
+        <li><a href="#providers" data-id="providers"><span class="tn">3</span>Where to rent one</a></li>
+        <li><a href="#server" data-id="server"><span class="tn">4</span>Prepare the server</a></li>
+        <li><a href="#configure" data-id="configure"><span class="tn">5</span>Configure for production</a></li>
+        <li><a href="#start" data-id="start"><span class="tn">6</span>Start the stack</a></li>
+        <li><a href="#https" data-id="https"><span class="tn">7</span>HTTPS and the proxy</a></li>
+        <li><a href="#checklist" data-id="checklist"><span class="tn">8</span>Production checklist</a></li>
+        <li><a href="#backups" data-id="backups"><span class="tn">9</span>Backups</a></li>
+        <li><a href="#updates" data-id="updates"><span class="tn">10</span>Updates and rollback</a></li>
+        <li><a href="#cicd" data-id="cicd"><span class="tn">11</span>Automatic deploys</a></li>
+        <li><a href="#monitoring" data-id="monitoring"><span class="tn">12</span>Monitoring</a></li>
+        <li><a href="#whatsapp" data-id="whatsapp"><span class="tn">13</span>Connect WhatsApp (Meta app)</a></li>
+        <li><a href="#troubleshooting" data-id="troubleshooting"><span class="tn">14</span>Troubleshooting</a></li>
+        <!-- L5a demo --><li><a href="#demo" data-id="demo"><span class="tn">15</span>Run a public demo</a></li><!-- /L5a demo -->
+        <!-- P3 legal --><li><a href="#legal" data-id="legal"><span class="tn">16</span>Legal pages</a></li><!-- /P3 legal -->
+        <!-- P1 payments --><li><a href="#payments" data-id="payments"><span class="tn">17</span>Take online payments</a></li><!-- /P1 payments -->
+        <!-- P2 invoices --><li><a href="#invoices" data-id="invoices"><span class="tn">18</span>GST invoices</a></li><!-- /P2 invoices -->
+      </ol>
+    </details>
+  </aside>
+  <main class="prose">
+
+<!-- L4 install -->
+<section class="s" id="sec-installer" aria-labelledby="installer"><h2 id="installer"><span class="n">Quick start</span>The quick way: the installer<a class="anchor" href="#installer" aria-label="Link to section The quick way: the installer">#</a></h2>
+<p>On a fresh Ubuntu 22.04, Ubuntu 24.04 or Debian 12 server, one command does sections 4 to 7 below for you: it checks the server, installs Docker if it is missing, asks three questions, writes the settings with generated passwords, starts everything behind Caddy with a free HTTPS certificate, and prints the link you sign in with. Check <a href="requirements.html">the requirements</a> first (server size, a web address with its DNS record pointing at the server, ports 80 and 443 free). Windows and macOS are for trying it on your own computer; use the <a href="guide.html">step-by-step guide</a>.</p>
+<ol class="steps">
+<li><strong>Get the code on the server.</strong> Clone the repository there, or copy a release zip to the server (for example with <code>scp</code>), unzip it and enter the folder.</li>
+<li><strong>Run the installer.</strong> It needs administrator rights.</li>
+</ol>
+<div class="cb"><div class="cb-bar"><span>Terminal (on the server)</span><button type="button" class="copy" aria-label="Copy the installer commands">Copy</button></div><pre tabindex="0"><code><span class="k">git</span> clone https://github.com/callobuzz/cob-rag-engine.git
+<span class="k">cd</span> cob-rag-engine
+<span class="k">sudo</span> bash deploy/install.sh</code></pre></div>
+<p>It asks two questions: your <strong>web address</strong> (for example <code>chat.sharmafurniture.in</code>), your <strong>e-mail</strong> (you sign in with it), and nothing more. Everything else, including your AI provider key and e-mail sending, is set afterwards in the dashboard&rsquo;s first-run steps (and section 5.3 for e-mail). To try it without changing anything first, add <code>--dry-run</code>: it lists every step and writes nothing.</p>
+<div class="sub" role="group" aria-labelledby="installer-what"><h3 id="installer-what"><span class="n">&middot;</span>What it does, and where things live<a class="anchor" href="#installer-what" aria-label="Link to What it does, and where things live">#</a></h3>
+<ul>
+<li>It refuses to start on a server that is too small, runs another program on port 80 or 443, or runs another version of the product, and says what to do. A web address that is an IP address or a <code>.local</code> or <code>.test</code> name is refused too.</li>
+<li>Everything lives in <code>/opt/cob-rag/</code>: the settings file (<code>.env</code>, readable by the administrator only), the running version (<code>current</code>), older versions (<code>releases/</code>), backups (<code>backups/</code>) and what was installed (<code>state/</code>).</li>
+<li>One web address serves everything: the dashboard at <code>/</code>, the engine under <code>/api/</code> and the chat window script at <code>/widget.js</code>, and the crawler under <code>/scraper/</code>. A nightly backup runs at 02:30 and keeps the last 7 days (<code>--no-backup-cron</code> turns it off). If a firewall (<code>ufw</code>) is already on, it opens ports 80 and 443; it never turns one on.</li>
+<li><strong>Running it again is safe.</strong> It keeps your answers and secrets and makes sure everything is in place. If a different version is already installed it stops and points you to the upgrade command below.</li>
+<li>Later: <code>sudo bash /opt/cob-rag/current/deploy/upgrade.sh &lt;new zip or folder&gt;</code> (section 10), <code>.../backup.sh</code> and <code>.../restore.sh</code> (section 9).</li>
+</ul>
+<div class="callout warn" role="note"><strong class="cl">A backup on the same server is lost with the server</strong><div>Copy the folders in <code>/opt/cob-rag/backups/</code> to another computer or a storage bucket now and then.</div></div></div>
+<p class="top"><a href="#top">Back to top</a></p></section>
+<!-- /L4 install -->
+
+<section class="s" id="sec-overview" aria-labelledby="overview"><h2 id="overview"><span class="n">01</span>The plan<a class="anchor" href="#overview" aria-label="Link to section The plan">#</a></h2>
+<p>In plain words: you rent a small computer in a data centre, point a web address at it, and run the same Docker Compose stack you ran at home. A program called a <em>reverse proxy</em> sits in front, gets a free HTTPS certificate, and passes visitors to the engine. Nothing else is reachable from the internet.</p>
+<ol class="steps">
+<li><strong>Rent a server</strong> big enough for the models (section 2) from a provider near your customers (section 3).</li>
+<li><strong>Point a domain at it</strong>, close every port except 22, 80 and 443, install Docker, clone the repository (section 4).</li>
+<li><strong>Run the setup wizard in production mode</strong>, with real SMTP and real addresses (section 5), then start the stack (section 6).</li>
+<li><strong>Put HTTPS in front</strong> with Caddy, Nginx or Cloudflare (section 7).</li>
+<li><strong>Back up, then automate updates</strong> (sections 9 to 11).</li>
+</ol>
+<p>Three web addresses are used throughout. Use your own names:</p>
+<div class="table-wrap"><table><thead><tr><th>Address</th><th>What it serves</th><th>Inside the server</th></tr></thead><tbody>
+<tr><td data-label="Address"><code>chat.yourbusiness.in</code></td><td data-label="What it serves">The engine API and <code>widget.js</code> (what customers&rsquo; websites call)</td><td data-label="Inside the server"><code>127.0.0.1:8000</code></td></tr>
+<tr><td data-label="Address"><code>app.yourbusiness.in</code></td><td data-label="What it serves">The dashboard (what you and your customers sign in to)</td><td data-label="Inside the server"><code>127.0.0.1:8090</code></td></tr>
+<tr><td data-label="Address"><code>scrape.yourbusiness.in</code></td><td data-label="What it serves">The web scraper, only if you use the dashboard&rsquo;s Scraper page</td><td data-label="Inside the server"><code>127.0.0.1:8001</code></td></tr>
+</tbody></table></div>
+<div class="callout tip" role="note"><strong class="cl">Tip</strong><div>Do a dry run first on a throwaway server for a day. Everything here is repeatable: the whole setup is one <code>.env</code> file plus the Compose stack.</div></div>
+<p class="top"><a href="#top">Back to top</a></p></section>
+
+<section class="s" id="sec-yoursetup" aria-labelledby="yoursetup"><h2 id="yoursetup"><span class="n">Start here</span>Your setup<a class="anchor" href="#yoursetup" aria-label="Link to section Your setup">#</a></h2>
+<p>Three choices change which commands you see. Your answers stay in this browser; nothing is sent anywhere.</p>
+<p class="setup-nojs">JavaScript is off, so every variant is shown and each one is labelled with the choice it applies to.</p>
+<div class="setup" id="setup-card">
+<div class="setup-bar">
+<div class="setup-sum"><span class="kicker">Showing this page for</span><p class="sum-line" id="setup-summary">CPU server &middot; Caddy &middot; self-hosted runner</p></div>
+<button type="button" class="btn btn-ghost btn-sm" id="setup-edit" aria-expanded="true" aria-controls="setup-body">Done</button>
+</div>
+<div class="setup-body" id="setup-body">
+<form class="setup-form" id="setup-form" aria-label="Your setup">
+<div class="setup-grid">
+<fieldset class="g"><legend>Server hardware</legend><div class="opts">
+<label class="opt"><input type="radio" name="hw" value="cpu"><span>CPU only</span></label>
+<label class="opt"><input type="radio" name="hw" value="gpu"><span>NVIDIA GPU</span></label>
+</div><p class="hint">CPU is right for most chatbots. A GPU only makes the local models faster.</p></fieldset>
+<fieldset class="g"><legend>HTTPS in front</legend><div class="opts">
+<label class="opt"><input type="radio" name="proxy" value="caddy"><span>Caddy</span></label>
+<label class="opt"><input type="radio" name="proxy" value="nginx"><span>Nginx</span></label>
+<label class="opt"><input type="radio" name="proxy" value="cf"><span>Cloudflare + Caddy</span></label>
+</div><p class="hint">Caddy is the simplest: it gets and renews certificates by itself.</p></fieldset>
+<fieldset class="g wide"><legend>Automatic deploys</legend><div class="opts">
+<label class="opt"><input type="radio" name="ci" value="runner"><span>GitHub Actions, runner on the server</span></label>
+<label class="opt"><input type="radio" name="ci" value="ssh"><span>GitHub Actions, over SSH</span></label>
+<label class="opt"><input type="radio" name="ci" value="none"><span>By hand</span></label>
+</div><p class="hint">You can start by hand and add this later.</p></fieldset>
+</div>
+<div class="setup-actions">
+<label class="sw"><input type="checkbox" id="showall" role="switch"><span class="sw-t" aria-hidden="true"></span><span>Show all options</span></label>
+<button type="button" class="btn btn-ghost btn-sm" id="setup-reset">Reset</button>
+</div>
+</form>
+</div>
+</div>
+<p class="top"><a href="#top">Back to top</a></p></section>
+
+<section class="s" id="sec-sizing" aria-labelledby="sizing"><h2 id="sizing"><span class="n">02</span>Server size<a class="anchor" href="#sizing" aria-label="Link to section Server size">#</a></h2>
+<p>The engine itself is light. The weight is the AI models it runs for you: one that turns text into numbers (embeddings) and, optionally, one that re-orders search results (the re-ranker). Your answer-writing model runs at your AI provider, not on your server.</p>
+<div class="sub" role="group" aria-labelledby="sizes"><h3 id="sizes"><span class="n">2.1</span>What to rent<a class="anchor" href="#sizes" aria-label="Link to What to rent">#</a></h3>
+<div class="table-wrap"><table><thead><tr><th>Size</th><th>CPU / RAM / disk</th><th>Good for</th></tr></thead><tbody>
+<tr><td data-label="Size">Minimum, CPU</td><td data-label="CPU / RAM / disk">2 vCPU, 4 GB RAM, 40 GB SSD</td><td data-label="Good for">A trial, or one or two small customers. Re-ranker off. Add 2 GB of swap (below).</td></tr>
+<tr><td data-label="Size">Recommended, CPU</td><td data-label="CPU / RAM / disk">4 vCPU, 8 GB RAM, 80 GB SSD</td><td data-label="Good for">A real deployment with several customers, a few documents each. Leaves room for a second API worker or a busy import.</td></tr>
+<tr><td data-label="Size">GPU</td><td data-label="CPU / RAM / disk">NVIDIA GPU, 8 vCPU, 16 GB RAM, 100 GB SSD</td><td data-label="Good for">Large imports, the local re-ranker, audio transcription. See VRAM below.</td></tr>
+</tbody></table></div>
+<p>Two of these figures are measured and two are advice. <strong>Measured</strong>, with the earlier embedding model <code>BAAI/bge-base-en-v1.5</code>: the default stack used about 2.1 GB of RAM on CPU with 270,000 chunks indexed (API 0.5 GB, worker 0.4 GB, embedding container 0.6 GB, Qdrant 0.3 GB, the rest under 0.2 GB each), and the local re-ranker adds about 2.3 GB. The default is now <code>BAAI/bge-m3</code>, which needs about 2.3 GB for its weights in the embedding container (an estimate; it will be measured in the final test). <strong>Advice, not measured</strong>: the vCPU and disk columns, and the 2 GB headroom on top. Building the images also needs memory, which is why 4 GB is a minimum and not a comfort.</p>
+<div class="callout tip" role="note"><strong class="cl">Tip</strong><div>On CPU, embedding runs at about 6 passages a second on 8 vCPUs, so importing thousands of pages takes hours. For a big first import use a hosted embedding model (<code>RAG_EMBEDDING_PROVIDER=litellm</code>) or a GPU, then go back to the small server.</div></div>
+</div>
+<div class="sub" role="group" aria-labelledby="drivers"><h3 id="drivers"><span class="n">2.2</span>What uses memory<a class="anchor" href="#drivers" aria-label="Link to What uses memory">#</a></h3>
+<ul>
+<li><strong>API workers.</strong> <code>RAG_API_WORKERS</code> (default 1). Each worker is a separate process with its own copy of the models, so memory grows with it. Raise it only with the RAM to match.</li>
+<li><strong>The re-ranker.</strong> About 2.3 GB, and the model file (about the same) is cached in the <code>hf_cache</code> volume. On CPU a re-ranked query took about 15 seconds in our benchmark, so keep it off on a CPU server. It is off by default (<code>RAG_RERANKING_ENABLED=false</code>).</li>
+<li><strong>The embedding container.</strong> <code>tei</code> serves <code>BAAI/bge-m3</code> (<code>RAG_TEI_MODEL_ID</code>), about 2.3 GB in memory on CPU (an estimate). On first start it downloads the model, which takes a few minutes.</li>
+<li><strong>Worker concurrency.</strong> <code>RAG_WORKER_CONCURRENCY</code> (default 2) is how many ingest jobs run at once.</li>
+<li><strong>Qdrant</strong> grows with the number of chunks; the numbers above are for 270,000.</li>
+<li><strong>Optional services</strong> (Whisper for audio, Langfuse for traces) add containers we have not measured. Leave them off until you need them.</li>
+</ul>
+<div data-when="hw:gpu"><p><strong>VRAM</strong> (the GPU&rsquo;s own memory): about 3 GB per API worker according to <code>.env.example</code>, plus the re-ranker at about 2.3 GB, plus the embedding model. <code>docker-compose.gpu.yml</code> hands every GPU service the whole card, so they share it. Run <code>nvidia-smi</code> while it is busy before you decide a card is big enough.</p></div>
+<p>Disk fills with Docker images, the model caches (<code>hf_cache</code>, <code>tei_models</code>), the Postgres, Qdrant and <code>files</code> volumes, and your customers&rsquo; uploaded files. Rent a disk you can grow.</p>
+<p>If you must run on 4 GB, add swap before you build the images:</p>
+<div class="cb"><div class="cb-bar"><span>Terminal (on the server)</span><button type="button" class="copy" aria-label="Copy swap commands">Copy</button></div><pre tabindex="0"><code><span class="k">sudo</span> fallocate -l 2G /swapfile
+<span class="k">sudo</span> chmod 600 /swapfile
+<span class="k">sudo</span> mkswap /swapfile
+<span class="k">sudo</span> swapon /swapfile
+<span class="c"># keep it after a reboot:</span>
+<span class="k">echo</span> '/swapfile none swap sw 0 0' | <span class="k">sudo</span> tee -a /etc/fstab</code></pre></div>
+</div>
+<p class="top"><a href="#top">Back to top</a></p></section>
+
+<section class="s" id="sec-providers" aria-labelledby="providers"><h2 id="providers"><span class="n">03</span>Where to rent one<a class="anchor" href="#providers" aria-label="Link to section Where to rent one">#</a></h2>
+<p>Any provider that gives you a Linux server with root access works. Pick a region near your customers&rsquo; visitors: a chat bubble feels slower when every message crosses an ocean. For customers in India, an Indian city is best. Prices change often, so each row links to the provider&rsquo;s own pricing page instead of quoting one.</p>
+<noscript><p>The provider table needs JavaScript. The providers are Hetzner, DigitalOcean, Vultr, Linode (Akamai), OVHcloud and AWS Lightsail for ordinary servers, and Hetzner GPU, RunPod, Vast.ai and Lambda for GPUs; search for each one&rsquo;s pricing page.</p></noscript>
+<div id="prov-cpu"></div>
+<div data-when="hw:gpu"><h3>GPU options</h3><div id="prov-gpu"></div>
+<div class="callout warn" role="note"><strong class="cl">Think before you rent a GPU</strong><div>A GPU server running all month is much dearer than a CPU one, and hourly GPU clouds can remove your machine. For most chatbots a CPU server plus a hosted embedding API is cheaper and simpler. Use a GPU for heavy imports or the local re-ranker.</div></div></div>
+<div class="callout tip" role="note"><strong class="cl">Choose Ubuntu</strong><div>The commands on this page assume <strong>Ubuntu 24.04 LTS</strong> (or Debian). Pick that image when you create the server and add your SSH key there.</div></div>
+<p class="top"><a href="#top">Back to top</a></p></section>
+
+<section class="s" id="sec-server" aria-labelledby="server"><h2 id="server"><span class="n">04</span>Prepare the server<a class="anchor" href="#server" aria-label="Link to section Prepare the server">#</a></h2>
+<div class="sub" role="group" aria-labelledby="dns"><h3 id="dns"><span class="n">4.1</span>Point your domain at it<a class="anchor" href="#dns" aria-label="Link to Point your domain at it">#</a></h3>
+<p>In your domain&rsquo;s DNS settings, add an <strong>A record</strong> for each address, pointing at the server&rsquo;s public IP (and an <strong>AAAA record</strong> if you use its IPv6 address). Use the exact IP your provider shows.</p>
+<div class="cb"><div class="cb-bar"><span>DNS records</span><button type="button" class="copy" aria-label="Copy DNS record list">Copy</button></div><pre tabindex="0"><code>chat    A    203.0.113.10
+app     A    203.0.113.10
+scrape  A    203.0.113.10   <span class="c"># only if you use the Scraper page</span></code></pre></div>
+<p><code>203.0.113.10</code> is a documentation address; use yours. Check it has spread before you go on:</p>
+<div class="cb"><div class="cb-bar"><span>Terminal (your own computer)</span><button type="button" class="copy" aria-label="Copy DNS check">Copy</button></div><pre tabindex="0"><code><span class="k">nslookup</span> chat.yourbusiness.in</code></pre></div>
+<div data-when="proxy:cf" class="callout warn" role="note"><strong class="cl">Cloudflare</strong><div>Add the records in Cloudflare, with the orange cloud (<em>Proxied</em>) <strong>off</strong> for now. Switch it on in section 7 after HTTPS works, or Caddy may not get its certificate.</div></div></div>
+<div class="sub" role="group" aria-labelledby="user"><h3 id="user"><span class="n">4.2</span>Sign in and create a working user<a class="anchor" href="#user" aria-label="Link to Sign in and create a working user">#</a></h3>
+<p>Sign in over SSH as the user your provider gave you (often <code>root</code>), update the system, and make a normal user called <code>deploy</code> so you do not run everything as root.</p>
+<div class="cb"><div class="cb-bar"><span>Terminal (on the server, as root)</span><button type="button" class="copy" aria-label="Copy user setup commands">Copy</button></div><pre tabindex="0"><code>apt update &amp;&amp; apt upgrade -y
+adduser deploy
+usermod -aG sudo deploy
+<span class="c"># let you sign in as deploy with the same SSH key:</span>
+rsync --archive --chown=deploy:deploy ~/.ssh /home/deploy</code></pre></div>
+<p><code>adduser</code> asks you to choose a password for <code>deploy</code>; you need it for <code>sudo</code>. Then sign in again as <code>deploy</code> (<code>ssh deploy@chat.yourbusiness.in</code>) and use that user for everything below.</p></div>
+<div class="sub" role="group" aria-labelledby="firewall"><h3 id="firewall"><span class="n">4.3</span>Close every port except three<a class="anchor" href="#firewall" aria-label="Link to Close every port except three">#</a></h3>
+<p>Allow SSH (22), HTTP (80) and HTTPS (443), and nothing else. Port 80 is needed to get certificates.</p>
+<div class="cb"><div class="cb-bar"><span>Terminal (on the server)</span><button type="button" class="copy" aria-label="Copy firewall commands">Copy</button></div><pre tabindex="0"><code><span class="k">sudo</span> ufw default deny incoming
+<span class="k">sudo</span> ufw default allow outgoing
+<span class="k">sudo</span> ufw allow 22/tcp
+<span class="k">sudo</span> ufw allow 80/tcp
+<span class="k">sudo</span> ufw allow 443/tcp
+<span class="k">sudo</span> ufw enable
+<span class="k">sudo</span> ufw status verbose</code></pre></div>
+<div class="callout danger" role="note"><strong class="cl">Why this is not enough on its own</strong><div>Docker writes its own firewall rules, and they are checked before UFW. A published port such as <code>5433:5432</code> would be open to the world even with UFW on. That is why <code>docker-compose.yml</code> publishes every port on <code>${RAG_BIND_ADDR:-127.0.0.1}</code> and why you must <strong>leave <code>RAG_BIND_ADDR=127.0.0.1</code></strong>. Only the proxy on this machine can reach the engine, the database, Valkey and Qdrant.</div></div>
+<p>If you use a provider-level firewall (DigitalOcean, Hetzner and Lightsail all have one), open the same three ports there too.</p></div>
+<div class="sub" role="group" aria-labelledby="docker"><h3 id="docker"><span class="n">4.4</span>Install Docker<a class="anchor" href="#docker" aria-label="Link to Install Docker">#</a></h3>
+<p>You need Docker Engine with the Compose v2 plugin (the <code>docker compose</code> command, two words). The careful way is Docker&rsquo;s own <a href="https://docs.docker.com/engine/install/ubuntu/">install guide for Ubuntu</a>. The quick way is Docker&rsquo;s convenience script:</p>
+<div class="cb"><div class="cb-bar"><span>Terminal (on the server)</span><button type="button" class="copy" aria-label="Copy Docker install commands">Copy</button></div><pre tabindex="0"><code><span class="k">curl</span> -fsSL https://get.docker.com -o get-docker.sh
+<span class="k">sudo</span> sh get-docker.sh
+<span class="k">sudo</span> usermod -aG docker deploy
+<span class="c"># sign out and in again so the group applies, then:</span>
+<span class="k">docker</span> compose version</code></pre></div>
+<div class="callout warn" role="note"><strong class="cl">Warning</strong><div>Anyone in the <code>docker</code> group can become root on the server. Keep that group to people and tools you trust. Section 11 comes back to this.</div></div>
+<div data-when="hw:gpu"><p>For a GPU, also install the NVIDIA driver and the <a href="https://docs.nvidia.com/datacenter/cloud-native/container-toolkit/latest/install-guide.html">NVIDIA Container Toolkit</a> so Docker can see the card, then check it with the same command the guide uses:</p>
+<div class="cb"><div class="cb-bar"><span>Terminal (on the server)</span><button type="button" class="copy" aria-label="Copy GPU check">Copy</button></div><pre tabindex="0"><code><span class="k">docker</span> run --rm --gpus all nvidia/cuda:12.4.0-base-ubuntu22.04 nvidia-smi</code></pre></div></div></div>
+<div class="sub" role="group" aria-labelledby="clone"><h3 id="clone"><span class="n">4.5</span>Get the code<a class="anchor" href="#clone" aria-label="Link to Get the code">#</a></h3>
+<p>Clone the repository on the server (or copy a release zip there with <code>scp</code> and unzip it) and move into the folder.</p>
+<div class="cb"><div class="cb-bar"><span>Terminal (on the server)</span><button type="button" class="copy" aria-label="Copy folder command">Copy</button></div><pre tabindex="0"><code><span class="k">cd</span> cob-rag-engine</code></pre></div>
+<p>If you plan automatic deploys (section 11), put the code in <strong>your own private repository</strong> and use that copy, because the deploy workflow lives in a repository you control. A private repository needs a read-only <a href="https://docs.github.com/en/authentication/connecting-to-github-with-ssh/managing-deploy-keys">deploy key</a> so the server can fetch it.</p></div>
+<p class="top"><a href="#top">Back to top</a></p></section>
+
+<section class="s" id="sec-configure" aria-labelledby="configure"><h2 id="configure"><span class="n">05</span>Configure for production<a class="anchor" href="#configure" aria-label="Link to section Configure for production">#</a></h2>
+<p>The setup wizard writes one file, <code>.env</code>, with every secret generated. For a live server run it in <strong>full</strong> mode: only full mode asks &ldquo;Is this a development machine or a live deployment?&rdquo; and for your web addresses.</p>
+<div class="sub" role="group" aria-labelledby="wizard"><h3 id="wizard"><span class="n">5.1</span>Run the wizard<a class="anchor" href="#wizard" aria-label="Link to Run the wizard">#</a></h3>
+<div class="cb" data-when="hw:cpu"><div class="cb-bar"><span>Terminal (in cob-rag-engine)</span><button type="button" class="copy" aria-label="Copy wizard command">Copy</button></div><pre tabindex="0"><code><span class="k">python3</span> scripts/setup.py --full --gpu no</code></pre></div>
+<div class="cb" data-when="hw:gpu"><div class="cb-bar"><span>Terminal (in cob-rag-engine)</span><button type="button" class="copy" aria-label="Copy wizard command for a GPU">Copy</button></div><pre tabindex="0"><code><span class="k">python3</span> scripts/setup.py --full --gpu yes</code></pre></div>
+<p>Use <code>python3</code> on Ubuntu: <code>make setup</code> runs <code>python</code>, which a fresh Ubuntu does not have. The wizard needs Python 3.10 or newer and nothing installed; Ubuntu 24.04 ships 3.12. Answer like this:</p>
+<ul>
+<li><strong>Environment:</strong> Production.</li>
+<li><strong>Super-admin e-mail:</strong> the address you will sign in with.</li>
+<li><strong>AI model key:</strong> your provider and key (they are hidden as you type).</li>
+<li><strong>E-mail:</strong> your SMTP details (section 5.3).</li>
+<li><strong>Web addresses:</strong> the public engine address <code>https://chat.yourbusiness.in</code>, the same for &ldquo;Engine address as the dashboard&rsquo;s browser sees it&rdquo;, your scraper address <code>https://scrape.yourbusiness.in</code> (or leave the default if you will not use it), and the dashboard <code>https://app.yourbusiness.in</code>.</li>
+<li><strong>Interface to publish ports on:</strong> keep <code>127.0.0.1</code>.</li>
+</ul>
+<p>The wizard finishes by printing the exact start command for your choices, and warns you if production is missing SMTP or an <code>https://</code> dashboard address. Running it again later is safe: it backs the old file up first and keeps the values you already have.</p></div>
+<div class="sub" role="group" aria-labelledby="envvals"><h3 id="envvals"><span class="n">5.2</span>Check the values that matter<a class="anchor" href="#envvals" aria-label="Link to Check the values that matter">#</a></h3>
+<p>Open <code>.env</code> and make sure these are set. The wizard handles most; <code>RAG_TRUST_PROXY_HEADERS</code>, <code>RAG_TRUSTED_PROXY_HOPS</code> and the scraper&rsquo;s origins it does not, so add them by hand.</p>
+<div class="cb"><div class="cb-bar"><span>.env (edit with nano .env)</span><button type="button" class="copy" aria-label="Copy production settings">Copy</button></div><pre tabindex="0"><code>RAG_ENV=prod
+RAG_BIND_ADDR=127.0.0.1
+RAG_PUBLIC_URL=https://chat.yourbusiness.in
+RAG_DASHBOARD_URL=https://app.yourbusiness.in
+RAG_DASHBOARD_ENGINE_URL=https://chat.yourbusiness.in
+RAG_DASHBOARD_SCRAPER_URL=https://scrape.yourbusiness.in
+RAG_CORS_ORIGINS=["https://app.yourbusiness.in"]
+SCRAPER_CORS_ORIGINS=["https://app.yourbusiness.in"]
+RAG_TRUST_PROXY_HEADERS=true
+RAG_TRUSTED_PROXY_HOPS=1</code></pre></div>
+<dl class="defs">
+<div><dt><code>RAG_ENV=prod</code></dt><dd>Hides the API docs (<code>/docs</code>), refuses a wildcard CORS list, and refuses the <code>log</code> e-mail provider. The engine will not start with <code>RAG_EMAIL_PROVIDER=log</code> in production.</dd></div>
+<div><dt><code>RAG_BIND_ADDR=127.0.0.1</code></dt><dd>Every published port listens on this machine only. Never set it to <code>0.0.0.0</code>: that exposes Postgres, Valkey (a Redis-compatible store) and Qdrant, and UFW does not stop it.</dd></div>
+<div><dt><code>RAG_PUBLIC_URL</code></dt><dd>Where browsers reach the engine. It goes into the widget embed snippet you give customers.</dd></div>
+<div><dt><code>RAG_DASHBOARD_URL</code></dt><dd>The base of every link in e-mails (sign in, reset, invitation). Must be the dashboard&rsquo;s public <code>https://</code> address.</dd></div>
+<div><dt><code>RAG_DASHBOARD_ENGINE_URL</code>, <code>RAG_DASHBOARD_SCRAPER_URL</code></dt><dd>Where the <em>browser</em> finds the engine and the scraper. Never a Compose service name. The dashboard only allows connections to these two origins.</dd></div>
+<div><dt><code>RAG_CORS_ORIGINS</code></dt><dd>The browser origins allowed to call the engine directly. <strong>The dashboard&rsquo;s origin must be in it</strong>, written exactly (scheme and host, no trailing slash, as a JSON list). Production refuses <code>["*"]</code>. Customers&rsquo; websites do <em>not</em> go here: the widget has its own per-key origin lock.</dd></div>
+<div><dt><code>SCRAPER_CORS_ORIGINS</code></dt><dd>The same, for the scraper. Include the dashboard origin.</dd></div>
+<div><dt><code>RAG_TRUST_PROXY_HEADERS</code>, <code>RAG_TRUSTED_PROXY_HOPS</code></dt><dd>Whose address the engine believes. Read section 7.3 before you leave it on. Only <code>true</code> behind a proxy you control, and <code>RAG_TRUSTED_PROXY_HOPS</code> must be the number of proxies in front of the engine (1 for Caddy or Nginx alone, 2 for Cloudflare in front of Nginx). The old name <code>RAG_WIDGET_TRUST_PROXY_HEADERS</code> still works.</dd></div>
+</dl>
+<div class="callout tip" role="note"><strong class="cl">Tip</strong><div>Uploads are capped at 50 MB by default (<code>RAG_MAX_UPLOAD_BYTES</code>), and a plan can set a lower limit. Nginx has its own, smaller default, covered in section 7.</div></div></div>
+<div class="sub" role="group" aria-labelledby="smtp"><h3 id="smtp"><span class="n">5.3</span>E-mail (SMTP) is required<a class="anchor" href="#smtp" aria-label="Link to E-mail (SMTP) is required">#</a></h3>
+<p>Sign-in codes, sign-up verification, invitations and password resets are sent as e-mail. Production refuses the development shortcut that writes them to a log, so without SMTP e-mail is switched off and sign-up and password reset do not work. Use a sending service, not a mailbox:</p>
+<div class="cb"><div class="cb-bar"><span>.env</span><button type="button" class="copy" aria-label="Copy SMTP settings">Copy</button></div><pre tabindex="0"><code>RAG_SMTP_HOST=email-smtp.ap-south-1.amazonaws.com
+RAG_SMTP_PORT=587
+RAG_SMTP_SECURITY=starttls
+RAG_SMTP_USERNAME=your-smtp-username
+RAG_SMTP_PASSWORD=your-smtp-password
+RAG_SMTP_FROM="Your Product &lt;no-reply@yourbusiness.in&gt;"</code></pre></div>
+<p>That example is Amazon SES in Mumbai (the host pattern is <code>email-smtp.&lt;region&gt;.amazonaws.com</code>, with SMTP credentials from the SES console). Port 587 uses <code>starttls</code>, 465 uses <code>ssl</code>. Whatever service you use, add its SPF and DKIM records to your DNS, or customers&rsquo; mail will land in spam. Gmail works for a trial with a 16-character app password, but it is not meant for production. You test it in section 8.</p></div>
+<p class="top"><a href="#top">Back to top</a></p></section>
+
+<section class="s" id="sec-start" aria-labelledby="start"><h2 id="start"><span class="n">06</span>Start the stack<a class="anchor" href="#start" aria-label="Link to section Start the stack">#</a></h2>
+<div class="cb" data-when="hw:cpu"><div class="cb-bar"><span>Terminal (in cob-rag-engine)</span><button type="button" class="copy" aria-label="Copy start command">Copy</button></div><pre tabindex="0"><code><span class="k">docker</span> compose up -d --build</code></pre></div>
+<div data-when="hw:gpu"><div class="cb"><div class="cb-bar"><span>Terminal (in cob-rag-engine)</span><button type="button" class="copy" aria-label="Copy start command with the GPU overlay">Copy</button></div><pre tabindex="0"><code><span class="k">docker</span> compose -f docker-compose.yml -f docker-compose.gpu.yml up -d --build</code></pre></div>
+<p>The overlay reserves the GPU for the engine, the worker and the embedding container. The embedding container also needs the image tag that matches your card in <code>RAG_TEI_IMAGE</code> (for example <code>ghcr.io/huggingface/text-embeddings-inference:89-1.9</code> for an Ada card, or <code>cuda-1.9</code> to be portable); the wizard sets it for you. Check the embedding log says it is starting on CUDA.</p></div>
+<p>The first start builds three images and downloads the embedding model, which takes several minutes. The app container runs the database migrations itself before it starts serving. Watch it settle:</p>
+<div class="cb"><div class="cb-bar"><span>Terminal</span><button type="button" class="copy" aria-label="Copy status commands">Copy</button></div><pre tabindex="0"><code><span class="k">docker</span> compose ps
+<span class="k">docker</span> compose logs -f --tail=100 app
+<span class="c"># when it is up, from the server:</span>
+<span class="k">curl</span> -fsS http://127.0.0.1:8000/api/v1/health/ready</code></pre></div>
+<p>The engine has two health addresses. <code>/api/v1/health</code> is the detailed one: it answers <code>{"status":"ok","services":{...}}</code>, or <code>"status":"degraded"</code> with the list saying which of <code>postgres</code>, <code>redis</code>, <code>qdrant</code> or <code>storage</code> failed, and it always answers HTTP 200. <code>/api/v1/health/ready</code> is the one for scripts and monitors: it answers HTTP <strong>503</strong> when Postgres, Valkey or Qdrant is down (it does not look at object storage at all, so an uptime monitor never costs a storage request), and each check gives up after 3 seconds, so a dead dependency cannot hang the poll. Because of that, <code>curl -f</code> fails exactly when the engine cannot serve. Docker&rsquo;s own container check keeps using the first one, so a brief Valkey restart does not mark the engine itself unhealthy.</p>
+<p>From outside the server nothing answers yet, and that is correct: every port is on <code>127.0.0.1</code>. HTTPS comes next.</p>
+<p class="top"><a href="#top">Back to top</a></p></section>
+
+<section class="s" id="sec-https" aria-labelledby="https"><h2 id="https"><span class="n">07</span>HTTPS and the proxy<a class="anchor" href="#https" aria-label="Link to section HTTPS and the proxy">#</a></h2>
+<p>A <em>reverse proxy</em> listens on ports 80 and 443, holds the HTTPS certificates, and forwards each address to the right container port on <code>127.0.0.1</code>. Pick the one you chose above. All three do the same job.</p>
+
+<div class="sub" role="group" aria-labelledby="caddy" data-when="proxy:caddy|cf"><h3 id="caddy"><span class="n">7.1</span>Install Caddy<a class="anchor" href="#caddy" aria-label="Link to Install Caddy">#</a></h3>
+<p>Caddy gets and renews free certificates from Let&rsquo;s Encrypt by itself. Install it from <a href="https://caddyserver.com/docs/install">its official repository</a>:</p>
+<div class="cb"><div class="cb-bar"><span>Terminal (on the server)</span><button type="button" class="copy" aria-label="Copy Caddy install commands">Copy</button></div><pre tabindex="0"><code><span class="k">sudo</span> apt install -y debian-keyring debian-archive-keyring apt-transport-https curl
+<span class="k">curl</span> -1sLf 'https://dl.cloudsmith.io/public/caddy/stable/gpg.key' | <span class="k">sudo</span> gpg --dearmor -o /usr/share/keyrings/caddy-stable-archive-keyring.gpg
+<span class="k">curl</span> -1sLf 'https://dl.cloudsmith.io/public/caddy/stable/debian.deb.txt' | <span class="k">sudo</span> tee /etc/apt/sources.list.d/caddy-stable.list
+<span class="k">sudo</span> apt update
+<span class="k">sudo</span> apt install -y caddy</code></pre></div>
+<div data-when="proxy:caddy"><p>Caddy (recommended) needs one file. Replace the contents of <code>/etc/caddy/Caddyfile</code>:</p>
+<div class="cb"><div class="cb-bar"><span>/etc/caddy/Caddyfile</span><button type="button" class="copy" aria-label="Copy the Caddyfile">Copy</button></div><pre tabindex="0"><code><span class="c"># The engine API and widget.js</span>
+chat.yourbusiness.in {
+	reverse_proxy 127.0.0.1:8000 {
+		<span class="c"># answers stream token by token; do not buffer them</span>
+		flush_interval -1
+		<span class="c"># X-Forwarded-For becomes exactly one entry: the address that connected to Caddy.</span>
+		<span class="c"># With RAG_TRUSTED_PROXY_HOPS=1 the engine reads that one entry.</span>
+		header_up X-Forwarded-For {remote_host}
+	}
+}
+
+<span class="c"># The dashboard</span>
+app.yourbusiness.in {
+	reverse_proxy 127.0.0.1:8090
+}
+
+<span class="c"># The scraper (delete this block if you do not use it)</span>
+scrape.yourbusiness.in {
+	reverse_proxy 127.0.0.1:8001
+}</code></pre></div>
+<div class="cb"><div class="cb-bar"><span>Terminal (on the server)</span><button type="button" class="copy" aria-label="Copy Caddy reload commands">Copy</button></div><pre tabindex="0"><code><span class="k">sudo</span> caddy validate --config /etc/caddy/Caddyfile
+<span class="k">sudo</span> systemctl reload caddy</code></pre></div>
+<p>Caddy has no upload limit of its own, so the engine&rsquo;s own cap applies.</p></div></div>
+
+<div class="sub" role="group" aria-labelledby="nginx" data-when="proxy:nginx"><h3 id="nginx"><span class="n">7.1</span>Nginx<a class="anchor" href="#nginx" aria-label="Link to Nginx">#</a></h3>
+<p>Install Nginx and Certbot, then add one site file. Certbot adds the HTTPS part and renews the certificates.</p>
+<div class="cb"><div class="cb-bar"><span>Terminal (on the server)</span><button type="button" class="copy" aria-label="Copy Nginx install commands">Copy</button></div><pre tabindex="0"><code><span class="k">sudo</span> apt install -y nginx certbot python3-certbot-nginx</code></pre></div>
+<div class="cb"><div class="cb-bar"><span>/etc/nginx/sites-available/cob-rag</span><button type="button" class="copy" aria-label="Copy the Nginx site file">Copy</button></div><pre tabindex="0"><code><span class="c"># The engine API and widget.js</span>
+server {
+	listen 80;
+	server_name chat.yourbusiness.in;
+	<span class="c"># Nginx's default is 1 MB, which breaks document uploads. Match RAG_MAX_UPLOAD_BYTES (50 MB).</span>
+	client_max_body_size 50m;
+
+	location / {
+		proxy_pass http://127.0.0.1:8000;
+		proxy_http_version 1.1;
+		proxy_set_header Host $host;
+		<span class="c"># one entry: the address that connected to Nginx. With RAG_TRUSTED_PROXY_HOPS=1 the</span>
+		<span class="c"># engine reads the last entry. ($proxy_add_x_forwarded_for is also safe with hops=1,</span>
+		<span class="c"># because only the entry Nginx itself appended is read.)</span>
+		proxy_set_header X-Forwarded-For $remote_addr;
+		proxy_set_header X-Forwarded-Proto $scheme;
+		<span class="c"># answers stream token by token</span>
+		proxy_buffering off;
+		proxy_read_timeout 300s;
+	}
+}
+
+<span class="c"># The dashboard</span>
+server {
+	listen 80;
+	server_name app.yourbusiness.in;
+	location / {
+		proxy_pass http://127.0.0.1:8090;
+		proxy_set_header Host $host;
+		proxy_set_header X-Forwarded-Proto $scheme;
+	}
+}
+
+<span class="c"># The scraper (delete this block if you do not use it)</span>
+server {
+	listen 80;
+	server_name scrape.yourbusiness.in;
+	location / {
+		proxy_pass http://127.0.0.1:8001;
+		proxy_set_header Host $host;
+		proxy_set_header X-Forwarded-Proto $scheme;
+	}
+}</code></pre></div>
+<div class="cb"><div class="cb-bar"><span>Terminal (on the server)</span><button type="button" class="copy" aria-label="Copy Nginx enable and certificate commands">Copy</button></div><pre tabindex="0"><code><span class="k">sudo</span> ln -s /etc/nginx/sites-available/cob-rag /etc/nginx/sites-enabled/cob-rag
+<span class="k">sudo</span> nginx -t
+<span class="k">sudo</span> systemctl reload nginx
+<span class="k">sudo</span> certbot --nginx -d chat.yourbusiness.in -d app.yourbusiness.in -d scrape.yourbusiness.in</code></pre></div></div>
+
+<div class="sub" role="group" aria-labelledby="cf" data-when="proxy:cf"><h3 id="cf"><span class="n">7.1</span>Cloudflare in front of Caddy<a class="anchor" href="#cf" aria-label="Link to Cloudflare in front of Caddy">#</a></h3>
+<p>Cloudflare&rsquo;s proxy (the orange cloud) hides your server&rsquo;s address and absorbs floods. Caddy still runs on the server and holds the certificate. Do it in this order:</p>
+<ol class="steps">
+<li>Install Caddy and use the Caddyfile below, with the orange cloud still <strong>off</strong>. Check <code>https://chat.yourbusiness.in/api/v1/health/ready</code> works.</li>
+<li>In Cloudflare, set <strong>SSL/TLS to Full (strict)</strong>, then switch the orange cloud <strong>on</strong> for the three records.</li>
+<li>Lock the server so only Cloudflare can connect (below). Otherwise anyone who learns the server&rsquo;s address can skip Cloudflare and forge headers.</li>
+</ol>
+<p>Install Caddy with the commands in 7.1 above. The Caddyfile has one special line. Behind Cloudflare, the address that connects to Caddy is a Cloudflare server, not the visitor; the visitor&rsquo;s real address is in the <code>CF-Connecting-IP</code> header. The engine itself never reads <code>CF-Connecting-IP</code>, only <code>X-Forwarded-For</code>, so Caddy copies the visitor&rsquo;s address into it.</p>
+<div class="cb"><div class="cb-bar"><span>/etc/caddy/Caddyfile</span><button type="button" class="copy" aria-label="Copy the Cloudflare Caddyfile">Copy</button></div><pre tabindex="0"><code>chat.yourbusiness.in {
+	reverse_proxy 127.0.0.1:8000 {
+		flush_interval -1
+		<span class="c"># Cloudflare puts the real visitor here. X-Forwarded-For becomes that single entry,</span>
+		<span class="c"># so RAG_TRUSTED_PROXY_HOPS stays 1 (Caddy is the only proxy the engine trusts).</span>
+		header_up X-Forwarded-For {http.request.header.CF-Connecting-IP}
+	}
+}
+
+app.yourbusiness.in {
+	reverse_proxy 127.0.0.1:8090
+}
+
+scrape.yourbusiness.in {
+	reverse_proxy 127.0.0.1:8001
+}</code></pre></div>
+<div class="cb"><div class="cb-bar"><span>Terminal (on the server)</span><button type="button" class="copy" aria-label="Copy Caddy reload commands for Cloudflare">Copy</button></div><pre tabindex="0"><code><span class="k">sudo</span> caddy validate --config /etc/caddy/Caddyfile
+<span class="k">sudo</span> systemctl reload caddy</code></pre></div>
+<p>Then allow ports 80 and 443 only from <a href="https://www.cloudflare.com/ips/">Cloudflare&rsquo;s published address ranges</a> instead of from everywhere:</p>
+<div class="cb"><div class="cb-bar"><span>Terminal (on the server)</span><button type="button" class="copy" aria-label="Copy the firewall lock to Cloudflare">Copy</button></div><pre tabindex="0"><code><span class="k">sudo</span> ufw delete allow 80/tcp
+<span class="k">sudo</span> ufw delete allow 443/tcp
+<span class="k">for</span> ip in $(curl -s https://www.cloudflare.com/ips-v4; echo; curl -s https://www.cloudflare.com/ips-v6); do
+  <span class="k">sudo</span> ufw allow from "$ip" to any port 80,443 proto tcp
+<span class="k">done</span>
+<span class="k">sudo</span> ufw status numbered</code></pre></div>
+<div class="callout warn" role="note"><strong class="cl">Keep the list current</strong><div>Cloudflare&rsquo;s ranges change now and then. Re-run the loop every few months, or on a schedule. Cloudflare also cuts a request that sends nothing for 100 seconds with a 524 error; chat answers stream tokens so they are fine.</div></div></div>
+
+<div class="sub" role="group" aria-labelledby="xff"><h3 id="xff"><span class="n">7.3</span>The visitor&rsquo;s address: <code>RAG_TRUST_PROXY_HEADERS</code> and <code>RAG_TRUSTED_PROXY_HOPS</code><a class="anchor" href="#xff" aria-label="Link to The visitor's address">#</a></h3>
+<p>The engine limits how fast one visitor can use a customer&rsquo;s chat widget, and it records the address of every sign-in and audited action. Behind a proxy, every request seems to come from the proxy, so the engine has to be told whose address to believe. Two settings decide it:</p>
+<ul>
+<li><code>RAG_TRUST_PROXY_HEADERS=false</code> (the default): the engine ignores <code>X-Forwarded-For</code> completely and uses the address that connected. Behind a proxy that is the proxy, so every visitor shares one limit. (The old name <code>RAG_WIDGET_TRUST_PROXY_HEADERS</code> still works.)</li>
+<li><code>RAG_TRUST_PROXY_HEADERS=true</code>: the engine reads <code>X-Forwarded-For</code>, a list of addresses in which every proxy <strong>appends</strong> the address it saw connect. The visitor&rsquo;s own entries come first and can be forged, so the engine reads from the <strong>right</strong>: <code>RAG_TRUSTED_PROXY_HOPS</code> entries from the end (1 to 10, default 1). Entries before that are never looked at, so a visitor who sends a fake <code>X-Forwarded-For</code> gains nothing.</li>
+</ul>
+<p><code>RAG_TRUSTED_PROXY_HOPS</code> is the number of proxies you run in front of the engine, counting the one that talks to it. If the header is missing, shorter than that number, or the entry is not an IP address, the engine falls back to the address that connected, so a wrong setting fails safe rather than open.</p>
+<div class="table-wrap"><table><thead><tr><th>In front of the engine</th><th>What the engine receives</th><th><code>RAG_TRUSTED_PROXY_HOPS</code></th></tr></thead><tbody>
+<tr><td>Caddy or Nginx only (the configurations on this page)</td><td>One entry: the visitor&rsquo;s address</td><td><code>1</code></td></tr>
+<tr><td>Cloudflare, then Caddy (the Cloudflare configuration above)</td><td>One entry: Caddy copies <code>CF-Connecting-IP</code> into it</td><td><code>1</code></td></tr>
+<tr><td>Cloudflare, then Nginx that appends (<code>$proxy_add_x_forwarded_for</code>)</td><td>Visitor&rsquo;s address, then Cloudflare&rsquo;s</td><td><code>2</code></td></tr>
+<tr><td>Cloudflare, then Nginx that sets <code>X-Forwarded-For $http_cf_connecting_ip</code></td><td>One entry: the visitor&rsquo;s address</td><td><code>1</code></td></tr>
+</tbody></table></div>
+<p>Check it instead of guessing. Turn the settings on, sign in from your phone on mobile data (not your own Wi-Fi), then open the dashboard&rsquo;s audit log as the operator: the sign-in row must show your phone&rsquo;s public address. If it shows the proxy&rsquo;s or a Cloudflare address, the hop count is too high or the proxy is not setting the header; if it shows an address you did not use, the count is too low. Raise or lower <code>RAG_TRUSTED_PROXY_HOPS</code> by one and recreate the containers.</p>
+<div class="callout warn" role="note"><strong class="cl">Cloudflare and the real visitor</strong><div>The engine does not read <code>CF-Connecting-IP</code>. It is trustworthy only because the firewall in 7.2 lets nothing but Cloudflare reach your proxy. If you skip that lock, anyone can send their own <code>CF-Connecting-IP</code> straight to the server.</div></div>
+<p>The same two settings also decide the address stored in sign-in sessions, the sign-in and sign-up limits and the audit log, so they matter beyond the widget. Set <code>RAG_TRUST_PROXY_HEADERS=true</code> only when a proxy like these is in front. If you ever expose the engine&rsquo;s port directly, set it back to <code>false</code>.</p></div>
+
+<div class="sub" role="group" aria-labelledby="applyenv"><h3 id="applyenv"><span class="n">7.4</span>Apply the settings and test<a class="anchor" href="#applyenv" aria-label="Link to Apply the settings and test">#</a></h3>
+<p>Changing <code>.env</code> needs the containers recreated. Then check from your own computer, not the server:</p>
+<div class="cb"><div class="cb-bar"><span>Terminal (on the server)</span><button type="button" class="copy" aria-label="Copy recreate command">Copy</button></div><pre tabindex="0"><code><span class="k">docker</span> compose up -d --build</code></pre></div>
+<div class="cb"><div class="cb-bar"><span>Terminal (your own computer)</span><button type="button" class="copy" aria-label="Copy the HTTPS checks">Copy</button></div><pre tabindex="0"><code><span class="k">curl</span> -fsS https://chat.yourbusiness.in/api/v1/health/ready
+<span class="k">curl</span> -sI https://app.yourbusiness.in | head -1
+<span class="c"># the docs are hidden in production; this must be 404:</span>
+<span class="k">curl</span> -s -o /dev/null -w "%{http_code}\n" https://chat.yourbusiness.in/docs</code></pre></div>
+<p>Open <code>https://app.yourbusiness.in</code> in a browser. It should show the sign-in page with a padlock. If the page loads but sign-in fails with a CORS error, the dashboard&rsquo;s origin is missing from <code>RAG_CORS_ORIGINS</code> (see troubleshooting).</p></div>
+<p class="top"><a href="#top">Back to top</a></p></section>
+
+<section class="s" id="sec-website" aria-labelledby="website"><h2 id="website"><span class="n">Optional</span>Your own public website<a class="anchor" href="#website" aria-label="Link to section Your own public website">#</a></h2>
+<p>The engine can serve a website for your brand: a home page, pricing, features, about and contact. It is off until you publish it from <strong>Public website</strong> in the dashboard and switch it on. These are the server-side parts.</p>
+<div class="sub" role="group" aria-labelledby="website-domain"><h3 id="website-domain"><span class="n">&middot;</span>Domain and DNS<a class="anchor" href="#website-domain" aria-label="Link to Domain and DNS">#</a></h3>
+<p>Use the same name you point at the server in step 4.1 (for example <code>www.yourbusiness.in</code>). Type it, starting with <code>https://</code>, as the website's address under <strong>Public website</strong>. If you leave it empty the engine uses <code>RAG_PUBLIC_URL</code>. Links, the sitemap and share pictures always use that address and never the one a visitor happened to type.</p></div>
+<div class="sub" role="group" aria-labelledby="website-routes"><h3 id="website-routes"><span class="n">&middot;</span>The website at <code>/</code>, the dashboard at <code>/app</code><a class="anchor" href="#website-routes" aria-label="Link to The website at the root, the dashboard at app">#</a></h3>
+<p>The installer's Caddy already sends the root and the website paths to the engine and keeps the dashboard at <code>/app</code>, so you change nothing. Old dashboard addresses keep working. If you use Nginx or another proxy, send <code>/</code>, <code>/pricing</code>, <code>/features</code>, <code>/about</code>, <code>/contact</code>, <code>/hi</code>, <code>/hi-latn</code>, <code>/robots.txt</code>, <code>/sitemap.xml</code> and <code>/_landing</code> to the engine, and fall back to the dashboard when the engine answers 404 with the header <code>X-Cob-Landing: off</code>.</p></div>
+<div class="sub" role="group" aria-labelledby="website-off"><h3 id="website-off"><span class="n">&middot;</span>Turning it off<a class="anchor" href="#website-off" aria-label="Link to Turning it off">#</a></h3>
+<p>Switch off <strong>Show the website to visitors</strong>. The website paths answer "off" at once and your address opens the dashboard, as it did before. Nothing is deleted.</p></div>
+</section>
+
+<section class="s" id="sec-checklist" aria-labelledby="checklist"><h2 id="checklist"><span class="n">08</span>Production checklist<a class="anchor" href="#checklist" aria-label="Link to section Production checklist">#</a></h2>
+<ol class="steps">
+<li><strong>Secrets stay secret.</strong> Lock the file: <code>chmod 600 .env</code>. Never commit it, paste it into a chat, or e-mail it. The wizard generated the admin key, session secret, database, Valkey and Qdrant passwords for you.</li>
+<li><strong>Back up <code>RAG_ENCRYPTION_KEY</code> now.</strong> Copy that one line from <code>.env</code> into your password manager. See the warning below.</li>
+<li><strong>Confirm production mode.</strong> <code>RAG_ENV=prod</code>, and the <code>/docs</code> check in section 7.4 returned 404.</li>
+<li><strong>Test e-mail.</strong> Send a test message with your admin key (paste it where it says; do not save it in a file):
+<div class="cb"><div class="cb-bar"><span>Terminal (your own computer)</span><button type="button" class="copy" aria-label="Copy the SMTP test">Copy</button></div><pre tabindex="0"><code><span class="k">curl</span> -X POST https://chat.yourbusiness.in/api/v1/admin/smtp/test \
+  -H "X-API-Key: PASTE_YOUR_RAG_ADMIN_API_KEY" \
+  -H "Content-Type: application/json" \
+  -d '{"to":"you@yourbusiness.in"}'</code></pre></div>
+It answers <code>{"sent":true,...}</code> when the message was handed to your SMTP server, or the SMTP code and error class when it was not.</li>
+<li><strong>Create the super admin.</strong> The app does it on its first start, using <code>RAG_SUPERADMIN_EMAIL</code>. With SMTP set up, a set-password link arrives by e-mail; it lasts 24 hours. To print it on the console instead, or to get a fresh one:
+<div class="cb"><div class="cb-bar"><span>Terminal (on the server)</span><button type="button" class="copy" aria-label="Copy the bootstrap commands">Copy</button></div><pre tabindex="0"><code><span class="c"># was a link printed at first start?</span>
+<span class="k">docker</span> compose logs app | grep -A6 "ONE-TIME SET-PASSWORD LINK"
+<span class="c"># issue a new one and print it here</span>
+<span class="k">docker</span> compose exec app python -m callobuzz_rag.accounts.bootstrap --resend --print-link</code></pre></div></li>
+<li><strong>Sign in</strong> at <code>https://app.yourbusiness.in</code> and set your password.</li>
+<li><strong>Onboard a first customer.</strong> Follow section 7 of the <a href="guide.html#flow">step-by-step guide</a>: create a customer, a knowledge base, upload a document, ask a question, add the website widget. Test the widget from a real page on that customer&rsquo;s domain.</li>
+<li><strong>Set up backups</strong> (section 9) before the customer adds anything you cannot re-upload.</li>
+</ol>
+<div class="callout danger" role="note"><strong class="cl">Lose this key, lose the keys</strong><div><code>RAG_ENCRYPTION_KEY</code> encrypts each knowledge base&rsquo;s stored AI-provider keys. Without it those keys cannot be read and every customer would have to enter theirs again. A backup of the database does not help: the key is not in it. Keep a copy of <code>.env</code>, or at least this line, somewhere that is not this server. Keep <code>RAG_SESSION_SECRET</code> too, or everyone is signed out.</div></div>
+<p class="top"><a href="#top">Back to top</a></p></section>
+
+<section class="s" id="sec-backups" aria-labelledby="backups"><h2 id="backups"><span class="n">09</span>Backups<a class="anchor" href="#backups" aria-label="Link to section Backups">#</a></h2>
+<!-- L4 install -->
+<div class="callout tip" role="note"><strong class="cl">With the installer: one command</strong><div>If you installed with <code>deploy/install.sh</code>, a backup is <code>sudo bash /opt/cob-rag/current/deploy/backup.sh</code>. It takes the database, the uploaded files (unless you use your own S3 provider), the crawler&rsquo;s data, the search index and the settings file, writes a checksum list, and keeps the last 7 days (<code>--keep-days N</code> changes that). A nightly one is already set up. To restore: <code>sudo bash /opt/cob-rag/current/deploy/restore.sh /opt/cob-rag/backups/&lt;the backup&gt;</code>. It checks the checksums, refuses a backup from a newer version (<code>--force</code> overrides), asks you to type <code>restore</code>, and puts the data back; add <code>--with-env</code> to restore the settings file too. If you did not use the installer, or want to know how it works, read on: this is doing it by hand.</div></div>
+<!-- /L4 install -->
+<p>A server can vanish: a failed disk, a deleted instance, a bad update. A backup you have never restored is a hope, not a backup, so this section ends with a restore drill. Four things hold your data:</p>
+<div class="table-wrap"><table><thead><tr><th>What</th><th>Where it lives</th><th>How it is backed up</th></tr></thead><tbody>
+<tr><td data-label="What">Customers, knowledge bases, document text, chunks, accounts, keys</td><td data-label="Where it lives">Postgres (<code>pgdata</code> volume)</td><td data-label="How it is backed up"><code>pg_dump</code></td></tr>
+<tr><td data-label="What">Search vectors</td><td data-label="Where it lives">Qdrant (<code>qdrant</code> volume)</td><td data-label="How it is backed up">Snapshots through its API. They can also be rebuilt from Postgres, slowly.</td></tr>
+<tr><td data-label="What">The uploaded original files</td><td data-label="Where it lives">The <code>files</code> volume (a folder on the server), or your own S3 provider</td><td data-label="How it is backed up">A tar copy of the folder. With an external S3 provider, use its own versioning or replication.</td></tr>
+<tr><td data-label="What">Configuration and secrets</td><td data-label="Where it lives"><code>.env</code></td><td data-label="How it is backed up">A copy, kept encrypted. Includes <code>RAG_ENCRYPTION_KEY</code>.</td></tr>
+</tbody></table></div>
+<div class="sub" role="group" aria-labelledby="bk-script"><h3 id="bk-script"><span class="n">9.1</span>The backup script<a class="anchor" href="#bk-script" aria-label="Link to The backup script">#</a></h3>
+<p>This script runs on the server as <code>deploy</code>. It reads the keys it needs from your <code>.env</code> at run time, so nothing is copied into the script.</p>
+<div class="cb"><div class="cb-bar"><span>/home/deploy/backup.sh</span><button type="button" class="copy" aria-label="Copy the backup script">Copy</button></div><pre tabindex="0"><code><span class="c">#!/usr/bin/env bash</span>
+<span class="c"># Daily backup of cob-rag-engine: Postgres, Qdrant, uploaded files and .env</span>
+set -euo pipefail
+
+APP=/home/deploy/cob-rag-engine
+BACKUPS=/home/deploy/backups
+OUT="$BACKUPS/$(date +%F)"
+KEEP_DAYS=14
+
+mkdir -p "$OUT"
+cd "$APP"
+env_value() { grep "^$1=" .env | cut -d= -f2-; }
+
+<span class="c"># 1. Postgres (a compressed dump you can restore with pg_restore)</span>
+docker compose exec -T postgres pg_dump -U rag -d rag_kernel -Fc &gt; "$OUT/postgres.dump"
+
+<span class="c"># 2. Qdrant: one snapshot per collection, downloaded, then deleted from the server</span>
+QKEY=$(env_value RAG_QDRANT_API_KEY)
+QURL=http://127.0.0.1:6333
+for c in $(curl -fsS -H "api-key: $QKEY" "$QURL/collections" | grep -o '"name":"[^"]*"' | cut -d'"' -f4); do
+  snap=$(curl -fsS -X POST -H "api-key: $QKEY" "$QURL/collections/$c/snapshots" | grep -o '"name":"[^"]*"' | head -1 | cut -d'"' -f4)
+  curl -fsS -H "api-key: $QKEY" -o "$OUT/qdrant-$c.snapshot" "$QURL/collections/$c/snapshots/$snap"
+  curl -fsS -X DELETE -H "api-key: $QKEY" "$QURL/collections/$c/snapshots/$snap" &gt; /dev/null
+done
+
+<span class="c"># 3. Uploaded files: the folder inside the app container, as one tar file</span>
+docker compose exec -T app tar cf - -C /var/lib/cob-rag/files . &gt; "$OUT/files.tar"
+
+<span class="c"># 4. Configuration and secrets</span>
+cp .env "$OUT/env"
+chmod 600 "$OUT/env"
+
+<span class="c"># 5. Keep two weeks of dated backups on this machine</span>
+find "$BACKUPS" -maxdepth 1 -type d -name '20*' -mtime +"$KEEP_DAYS" -exec rm -r {} +
+
+<span class="c"># 6. Copy it OFF this machine. Uncomment one line after you set it up.</span>
+<span class="c"># rclone sync "$BACKUPS" yourremote:cob-rag-backups</span>
+<span class="c"># rsync -a --delete "$BACKUPS/" backup-user@other-server:cob-rag-backups/</span>
+echo "backup done: $OUT"</code></pre></div>
+<div class="cb"><div class="cb-bar"><span>Terminal (on the server)</span><button type="button" class="copy" aria-label="Copy the commands that enable the backup script">Copy</button></div><pre tabindex="0"><code><span class="k">nano</span> /home/deploy/backup.sh     <span class="c"># paste the script</span>
+<span class="k">chmod</span> +x /home/deploy/backup.sh
+/home/deploy/backup.sh               <span class="c"># run it once and read the output</span>
+<span class="k">ls</span> -lh /home/deploy/backups/*/</code></pre></div>
+<div class="callout danger" role="note"><strong class="cl">A backup on the same server is not a backup</strong><div>If the server is deleted, the backups go with it. Step 6 matters: copy to another machine or a storage bucket at another provider. The folder holds <code>.env</code>, so encrypt it on the way out (for example with rclone&rsquo;s <code>crypt</code> remote). Also turn on your provider&rsquo;s own server snapshots as a second layer.</div></div>
+<p>If you chose an external S3 provider (<code>RAG_STORAGE_PROVIDER=s3</code>) instead of files on the server, delete step 3 and rely on that provider&rsquo;s versioning or replication.</p></div>
+<div class="sub" role="group" aria-labelledby="bk-cron"><h3 id="bk-cron"><span class="n">9.2</span>Run it every night<a class="anchor" href="#bk-cron" aria-label="Link to Run it every night">#</a></h3>
+<p>Servers usually keep UTC time. Set India time first, so &ldquo;2:30 in the morning&rdquo; means 2:30 in the morning for you:</p>
+<div class="cb"><div class="cb-bar"><span>Terminal (on the server)</span><button type="button" class="copy" aria-label="Copy the cron setup commands">Copy</button></div><pre tabindex="0"><code><span class="k">sudo</span> timedatectl set-timezone Asia/Kolkata
+<span class="k">crontab</span> -e</code></pre></div>
+<div class="cb"><div class="cb-bar"><span>crontab (as deploy)</span><button type="button" class="copy" aria-label="Copy the cron line">Copy</button></div><pre tabindex="0"><code>30 2 * * * /home/deploy/backup.sh &gt;&gt; /home/deploy/backup.log 2&gt;&amp;1</code></pre></div>
+<p>Check <code>/home/deploy/backup.log</code> the next morning, and set an alert if a backup does not run: a free service such as Healthchecks.io works by having the script call a URL when it succeeds.</p></div>
+<div class="sub" role="group" aria-labelledby="bk-restore"><h3 id="bk-restore"><span class="n">9.3</span>The restore drill<a class="anchor" href="#bk-restore" aria-label="Link to The restore drill">#</a></h3>
+<p>Do this once on a spare server before you need it, and write down how long it took. On the spare: do sections 4 to 6 (so you have Docker, the code and a running stack), then put the backed-up <code>env</code> file in place as <code>.env</code> <em>before</em> starting. A different <code>RAG_ENCRYPTION_KEY</code> would make stored AI keys unreadable.</p>
+<ol class="steps">
+<li><strong>Stop everything that writes</strong>, keeping the datastores running:
+<div class="cb"><div class="cb-bar"><span>Terminal (in cob-rag-engine)</span><button type="button" class="copy" aria-label="Copy the stop command">Copy</button></div><pre tabindex="0"><code><span class="k">docker</span> compose stop app worker mailer celery-beat</code></pre></div></li>
+<li><strong>Restore Postgres.</strong>
+<div class="cb"><div class="cb-bar"><span>Terminal (in cob-rag-engine)</span><button type="button" class="copy" aria-label="Copy the Postgres restore commands">Copy</button></div><pre tabindex="0"><code><span class="k">docker</span> compose cp /home/deploy/backups/2026-10-02/postgres.dump postgres:/tmp/postgres.dump
+<span class="k">docker</span> compose exec -T postgres pg_restore -U rag -d rag_kernel --clean --if-exists --no-owner /tmp/postgres.dump</code></pre></div>
+Use your own backup date in the folder name.</li>
+<li><strong>Restore the files.</strong> Unpack the tar file into the files volume:
+<div class="cb"><div class="cb-bar"><span>Terminal (in cob-rag-engine)</span><button type="button" class="copy" aria-label="Copy the file restore command">Copy</button></div><pre tabindex="0"><code><span class="k">docker</span> compose run --rm --no-deps -T --entrypoint tar app xf - -C /var/lib/cob-rag/files &lt; /home/deploy/backups/2026-10-02/files.tar</code></pre></div>
+(With an external S3 provider this step does not apply: restore from that provider&rsquo;s own versions.)</li>
+<li><strong>Restore the vectors.</strong> Either upload each snapshot, or rebuild from Postgres once the stack is running (step 5):
+<div class="cb"><div class="cb-bar"><span>Terminal (in cob-rag-engine)</span><button type="button" class="copy" aria-label="Copy the Qdrant restore command">Copy</button></div><pre tabindex="0"><code><span class="c"># upload one snapshot (repeat per collection)</span>
+<span class="k">curl</span> -fsS -X POST -H "api-key: YOUR_RAG_QDRANT_API_KEY" \
+  -F "snapshot=@/home/deploy/backups/2026-10-02/qdrant-COLLECTION.snapshot" \
+  "http://127.0.0.1:6333/collections/COLLECTION/snapshots/upload?priority=snapshot"</code></pre></div>
+<div class="cb"><div class="cb-bar"><span>Terminal (in cob-rag-engine)</span><button type="button" class="copy" aria-label="Copy the vector rebuild command">Copy</button></div><pre tabindex="0"><code><span class="c"># or rebuild a knowledge base's vectors from Postgres (run without --apply first for a dry run)</span>
+<span class="k">docker</span> compose exec app python -m callobuzz_rag.retrieval.reindex --apply --rebuild --corpus KNOWLEDGE_BASE_ID</code></pre></div>
+A rebuild drops that knowledge base&rsquo;s collection and writes it again, so its searches return nothing until it finishes. It cannot restore document metadata for documents ingested by engine versions before 0.2.</li>
+<li><strong>Start and check.</strong> Bring everything up, then ask a real question in the dashboard&rsquo;s playground and open a cited source:
+<div class="cb"><div class="cb-bar"><span>Terminal (in cob-rag-engine)</span><button type="button" class="copy" aria-label="Copy the restart and health commands">Copy</button></div><pre tabindex="0"><code><span class="k">docker</span> compose up -d
+<span class="k">curl</span> -fsS http://127.0.0.1:8000/api/v1/health/ready</code></pre></div></li>
+</ol>
+<p>The Qdrant upload step is Qdrant&rsquo;s own snapshot feature; its <a href="https://qdrant.tech/documentation/concepts/snapshots/">snapshot documentation</a> covers the details and version limits. Qdrant here is <code>v1.13.2</code>; restore into the same version.</p></div>
+<p class="top"><a href="#top">Back to top</a></p></section>
+
+<section class="s" id="sec-updates" aria-labelledby="updates"><h2 id="updates"><span class="n">10</span>Updates and rollback<a class="anchor" href="#updates" aria-label="Link to section Updates and rollback">#</a></h2>
+<!-- L4 install -->
+<div class="callout tip" role="note"><strong class="cl">With the installer: one command</strong><div>Get the new version (a release zip, or a fresh clone of the repository in a separate folder), then run <code>sudo bash /opt/cob-rag/current/deploy/upgrade.sh cob-rag-engine-new.zip</code> (a zip or an unzipped folder). It takes a backup, builds the new version while the old one keeps answering, updates the settings file with any new settings, updates the database, switches, and checks the engine is healthy. If anything fails after the backup, it prints the exact command that puts the old version and its data back: <code>sudo bash /opt/cob-rag/releases/&lt;old version&gt;/deploy/upgrade.sh --rollback</code> (it asks you to type <code>rollback</code>). Add <code>--dry-run</code> to see the steps first. The text below is doing it by hand.</div></div>
+<!-- /L4 install -->
+<p>Updating is: back up, fetch the new code, rebuild. The app container runs <code>alembic upgrade head</code> before it starts serving, so database migrations apply on their own. Read <code>CHANGELOG.md</code> first. If your copy ran without a licence key or on an older paid-licence tier, customer billing was off even with <code>RAG_BILLING_ENABLED=true</code>; after this upgrade it is on, so set it to <code>false</code> in your settings file before you upgrade if you do not charge your businesses; an update occasionally changes what Docker creates, and the changelog says so.</p>
+<div class="cb"><div class="cb-bar"><span>Terminal (on the server)</span><button type="button" class="copy" aria-label="Copy the update commands">Copy</button></div><pre tabindex="0"><code><span class="k">cd</span> /home/deploy/cob-rag-engine
+/home/deploy/backup.sh
+<span class="k">git</span> checkout main
+<span class="k">git</span> pull
+<span class="k">docker</span> compose up -d --build
+<span class="c"># confirm the migrations ran (a failure prints "ERROR: Alembic migration failed!")</span>
+<span class="k">docker</span> compose logs app | grep -E "Migrations completed|Alembic migration failed"
+<span class="k">curl</span> -fsS http://127.0.0.1:8000/api/v1/health/ready</code></pre></div>
+<p data-when="hw:gpu">With a GPU, use the same <code>-f docker-compose.yml -f docker-compose.gpu.yml</code> pair on the <code>up</code> command as in section 6.</p>
+<p>COB, the built-in assistant, re-reads its own documentation after every update: the app queues one sync on start, the worker ingests only the pages that changed, and the <strong>COB docs</strong> card on Engine info shows when it is done. If it ever sticks, press <strong>Resync</strong> there.</p>
+<div class="sub" role="group" aria-labelledby="rollback"><h3 id="rollback"><span class="n">10.1</span>Roll back<a class="anchor" href="#rollback" aria-label="Link to Roll back">#</a></h3>
+<p>Releases are tagged. To go back to one, check out its tag and rebuild:</p>
+<div class="cb"><div class="cb-bar"><span>Terminal (on the server)</span><button type="button" class="copy" aria-label="Copy the rollback commands">Copy</button></div><pre tabindex="0"><code><span class="k">cd</span> /home/deploy/cob-rag-engine
+<span class="k">git</span> fetch --tags
+<span class="k">git</span> tag --list
+<span class="k">git</span> checkout v0.2.0
+<span class="k">docker</span> compose up -d --build</code></pre></div>
+<div class="callout warn" role="note"><strong class="cl">Code goes back; the database does not</strong><div>A rollback restores old code, but migrations only move forward. If the newer release changed the database layout, the old code may not run against it. In that case restore the backup you took just before updating (section 9.3). That is the reason the update steps start with <code>backup.sh</code>.</div></div>
+<p>To free disk after updates, remove old images: <code>docker image prune -f</code>.</p></div>
+<p class="top"><a href="#top">Back to top</a></p></section>
+
+<section class="s" id="sec-cicd" aria-labelledby="cicd"><h2 id="cicd"><span class="n">11</span>Automatic deploys with GitHub Actions<a class="anchor" href="#cicd" aria-label="Link to section Automatic deploys with GitHub Actions">#</a></h2>
+<p>Once updating by hand is routine, you can let GitHub do it: every push to <code>main</code>, or every version tag, runs the tests, then updates the server and checks it is healthy. This page shows the workflow file; it is not part of the repository, and you add it to <strong>your own</strong> private copy of the repository.</p>
+<div class="callout tip" role="note"><strong class="cl">Do it by hand first</strong><div>Run sections 5 to 10 by hand at least once. A pipeline automates a procedure you already trust.</div></div>
+<div data-when="ci:none"><p><strong>You chose &ldquo;By hand&rdquo;,</strong> so you can skip to section 12. Switch the choice above, or turn on &ldquo;Show all options&rdquo;, to read this section.</p></div>
+
+<div class="sub" role="group" aria-labelledby="ci-how" data-when="ci:runner|ssh"><h3 id="ci-how"><span class="n">11.1</span>How it fits together<a class="anchor" href="#ci-how" aria-label="Link to How it fits together">#</a></h3>
+<ul>
+<li>The <strong>tests</strong> run on a GitHub-hosted machine, so they never touch your server.</li>
+<li>The <strong>deploy</strong> job runs on your server (self-hosted runner) or reaches it over SSH. It uses the clone in <code>/home/deploy/cob-rag-engine</code> and the <code>.env</code> already there, so <strong>your secrets never go into GitHub</strong> on the runner path.</li>
+<li>The job takes a backup, fetches the exact commit that triggered it, runs <code>docker compose up -d --build</code>, checks the migrations reached the latest version, and waits for a healthy answer. If any step fails, the job fails and you are told.</li>
+<li>To <strong>roll back</strong>, run the workflow again from an older tag (Actions, Run workflow, choose the tag).</li>
+</ul></div>
+
+<div class="sub" role="group" aria-labelledby="ci-runner" data-when="ci:runner"><h3 id="ci-runner"><span class="n">11.2</span>Install the runner on the server<a class="anchor" href="#ci-runner" aria-label="Link to Install the runner on the server">#</a></h3>
+<p>A self-hosted runner is a small program on your server that asks GitHub &ldquo;is there a job for me?&rdquo; over an outgoing connection. Nothing needs to be opened in the firewall. GitHub&rsquo;s own <a href="https://docs.github.com/en/actions/hosting-your-own-runners/managing-self-hosted-runners/adding-self-hosted-runners">instructions for adding a runner</a> are the source of truth; the steps are:</p>
+<ol class="steps">
+<li>In your repository on GitHub, open <strong>Settings, Actions, Runners, New self-hosted runner</strong>, choose <strong>Linux</strong> and the architecture of your server. GitHub shows the exact download and unpack commands for the current runner version. Run those on the server <strong>as <code>deploy</code></strong>, in <code>/home/deploy/actions-runner</code>. (The configure step refuses to run as root.)</li>
+<li>Register it with the token that page shows (it expires within the hour). The <code>cob-prod</code> label is what the workflow asks for:
+<div class="cb"><div class="cb-bar"><span>Terminal (on the server, in actions-runner)</span><button type="button" class="copy" aria-label="Copy the runner register command">Copy</button></div><pre tabindex="0"><code>./config.sh --url https://github.com/YOURNAME/cob-rag-engine --token TOKEN_FROM_THE_GITHUB_PAGE --labels cob-prod --name prod-vps</code></pre></div></li>
+<li>Run it as a service so it survives reboots:
+<div class="cb"><div class="cb-bar"><span>Terminal (on the server, in actions-runner)</span><button type="button" class="copy" aria-label="Copy the runner service commands">Copy</button></div><pre tabindex="0"><code><span class="k">sudo</span> ./svc.sh install deploy
+<span class="k">sudo</span> ./svc.sh start
+<span class="k">sudo</span> ./svc.sh status</code></pre></div></li>
+<li>In GitHub, open <strong>Settings, Environments, New environment</strong>, name it <code>production</code>, add yourself under <strong>Required reviewers</strong>, and limit <strong>Deployment branches and tags</strong> to <code>main</code> and <code>v*</code>. Each deploy then waits for your click.</li>
+<li>Create <code>.github/workflows/deploy.yml</code> in your repository with the workflow file in the next step, and push it.</li>
+</ol></div>
+
+<div class="sub" role="group" aria-labelledby="ci-file" data-when="ci:runner"><h3 id="ci-file"><span class="n">11.3</span>The workflow, with a runner on the server<a class="anchor" href="#ci-file" aria-label="Link to The workflow, with a runner on the server">#</a></h3>
+<p>This is a complete file. The GitHub Actions in it are written with version tags, like the repository&rsquo;s own <code>ci.yml</code>; see the notes below about pinning them.</p>
+<div class="cb"><div class="cb-bar"><span>.github/workflows/deploy.yml</span><button type="button" class="copy" aria-label="Copy the deploy workflow">Copy</button></div><pre tabindex="0"><code><span class="c"># Add this to YOUR repository. It is an example, not a file in cob-rag-engine.</span>
+name: Deploy to production
+
+on:
+  push:
+    branches: [main]
+    tags: ["v*"]
+  workflow_dispatch:           <span class="c"># Run workflow button; also how you roll back to a tag</span>
+
+<span class="c"># One deploy at a time, and never cancel one that is half finished.</span>
+concurrency:
+  group: production-deploy
+  cancel-in-progress: false
+
+permissions:
+  contents: read
+
+jobs:
+  test:
+    name: Tests
+    runs-on: ubuntu-latest     <span class="c"># GitHub's machine, not your server</span>
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@v4          <span class="c"># pin to a full commit SHA (see the notes)</span>
+      - uses: actions/setup-python@v5      <span class="c"># pin to a full commit SHA</span>
+        with:
+          python-version: "3.12"
+          cache: pip
+          cache-dependency-path: pyproject.toml
+      - name: Install
+        run: |
+          python -m pip install --upgrade pip
+          pip install -e ".[dev]"
+      - name: Unit tests
+        run: pytest -q
+
+  deploy:
+    name: Deploy
+    needs: test
+    runs-on: [self-hosted, linux, cob-prod]
+    environment: production    <span class="c"># required reviewers apply here</span>
+    timeout-minutes: 45
+    env:
+      APP_DIR: /home/deploy/cob-rag-engine
+      HEALTH_URL: http://127.0.0.1:8000/api/v1/health/ready
+      DEPLOY_SHA: ${{ github.sha }}
+    steps:
+      - name: Back up first
+        run: /home/deploy/backup.sh
+
+      - name: Fetch the exact commit
+        run: |
+          cd "$APP_DIR"
+          git fetch --tags origin
+          git checkout --detach "$DEPLOY_SHA"
+
+      - name: Build and start
+        run: |
+          cd "$APP_DIR"
+          docker compose up -d --build
+          <span class="c"># GPU server: docker compose -f docker-compose.yml -f docker-compose.gpu.yml up -d --build</span>
+
+      - name: Check the migrations reached the latest version
+        run: |
+          cd "$APP_DIR"
+          docker compose exec -T app alembic current | grep "(head)"
+
+      - name: Wait for a healthy engine
+        run: |
+          for i in $(seq 1 60); do
+            if curl -fsS "$HEALTH_URL" &gt; /dev/null; then
+              echo "healthy"
+              exit 0
+            fi
+            echo "waiting ($i/60)"
+            sleep 5
+          done
+          cd "$APP_DIR"
+          docker compose ps
+          docker compose logs --tail=100 app
+          exit 1
+
+      - name: Remove old images
+        run: docker image prune -f</code></pre></div>
+<p>The health step calls <code>/api/v1/health/ready</code>, which answers 503 until Postgres, Valkey and Qdrant all respond, so <code>curl -f</code> keeps waiting and the job fails if the engine never becomes ready.</p></div>
+
+<div class="sub" role="group" aria-labelledby="ci-ssh" data-when="ci:ssh"><h3 id="ci-ssh"><span class="n">11.4</span>The alternative: GitHub-hosted runner and SSH<a class="anchor" href="#ci-ssh" aria-label="Link to The alternative: GitHub-hosted runner and SSH">#</a></h3>
+<p>No runner on your server: a GitHub-hosted machine signs in over SSH and runs the same steps. The cost is that SSH (port 22) must be reachable from GitHub&rsquo;s changing address ranges, so allow key logins only and turn off password logins (<code>PasswordAuthentication no</code> in <code>/etc/ssh/sshd_config</code>).</p>
+<ol class="steps">
+<li>On your own computer, make a key used for nothing else, with no passphrase:
+<div class="cb"><div class="cb-bar"><span>Terminal (your own computer)</span><button type="button" class="copy" aria-label="Copy the key generation commands">Copy</button></div><pre tabindex="0"><code><span class="k">ssh-keygen</span> -t ed25519 -f cob-deploy-key -C github-deploy -N ""
+<span class="k">ssh-keyscan</span> -t ed25519 chat.yourbusiness.in</code></pre></div></li>
+<li>Append the contents of <code>cob-deploy-key.pub</code> to <code>/home/deploy/.ssh/authorized_keys</code> on the server.</li>
+<li>In GitHub, <strong>Settings, Environments, New environment</strong>, named <code>production</code>, with required reviewers. Add four <strong>environment secrets</strong>: <code>DEPLOY_HOST</code> (<code>chat.yourbusiness.in</code>), <code>DEPLOY_USER</code> (<code>deploy</code>), <code>DEPLOY_SSH_KEY</code> (the private key file&rsquo;s contents) and <code>DEPLOY_KNOWN_HOSTS</code> (the <code>ssh-keyscan</code> line; compare its fingerprint with the server&rsquo;s first).</li>
+<li>Create <code>.github/workflows/deploy.yml</code> in your repository with this complete file:
+<div class="cb"><div class="cb-bar"><span>.github/workflows/deploy.yml</span><button type="button" class="copy" aria-label="Copy the SSH deploy workflow">Copy</button></div><pre tabindex="0"><code><span class="c"># Add this to YOUR repository. It is an example, not a file in cob-rag-engine.</span>
+name: Deploy to production over SSH
+
+on:
+  push:
+    branches: [main]
+    tags: ["v*"]
+  workflow_dispatch:
+
+concurrency:
+  group: production-deploy
+  cancel-in-progress: false
+
+permissions:
+  contents: read
+
+jobs:
+  test:
+    name: Tests
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@v4          <span class="c"># pin to a full commit SHA (see the notes)</span>
+      - uses: actions/setup-python@v5      <span class="c"># pin to a full commit SHA</span>
+        with:
+          python-version: "3.12"
+          cache: pip
+          cache-dependency-path: pyproject.toml
+      - name: Install
+        run: |
+          python -m pip install --upgrade pip
+          pip install -e ".[dev]"
+      - name: Unit tests
+        run: pytest -q
+
+  deploy:
+    name: Deploy over SSH
+    needs: test
+    runs-on: ubuntu-latest
+    environment: production
+    timeout-minutes: 45
+    steps:
+      - name: Prepare SSH
+        env:
+          SSH_KEY: ${{ secrets.DEPLOY_SSH_KEY }}
+          KNOWN_HOSTS: ${{ secrets.DEPLOY_KNOWN_HOSTS }}
+        run: |
+          install -m 700 -d ~/.ssh
+          printf '%s\n' "$SSH_KEY" &gt; ~/.ssh/deploy_key
+          chmod 600 ~/.ssh/deploy_key
+          printf '%s\n' "$KNOWN_HOSTS" &gt; ~/.ssh/known_hosts
+
+      - name: Deploy
+        env:
+          DEPLOY_SHA: ${{ github.sha }}
+          DEPLOY_TARGET: ${{ secrets.DEPLOY_USER }}@${{ secrets.DEPLOY_HOST }}
+        run: |
+          ssh -i ~/.ssh/deploy_key "$DEPLOY_TARGET" bash -s -- "$DEPLOY_SHA" &lt;&lt;'REMOTE'
+          set -euo pipefail
+          cd /home/deploy/cob-rag-engine
+          /home/deploy/backup.sh
+          git fetch --tags origin
+          git checkout --detach "$1"
+          docker compose up -d --build
+          docker compose exec -T app alembic current | grep "(head)"
+          for i in $(seq 1 60); do
+            if curl -fsS http://127.0.0.1:8000/api/v1/health/ready &gt; /dev/null; then
+              echo "healthy"
+              exit 0
+            fi
+            sleep 5
+          done
+          docker compose ps
+          docker compose logs --tail=100 app
+          exit 1
+          REMOTE</code></pre></div></li>
+</ol></div>
+
+<div class="sub" role="group" aria-labelledby="ci-sec" data-when="ci:runner|ssh"><h3 id="ci-sec"><span class="n">11.5</span>Security notes<a class="anchor" href="#ci-sec" aria-label="Link to Security notes">#</a></h3>
+<div class="callout danger" role="note"><strong class="cl">A self-hosted runner runs whatever the workflow says, as <code>deploy</code></strong><div>And <code>deploy</code> is in the <code>docker</code> group, which is as good as root on the server. Use a <strong>private repository</strong>. On a public repository, anyone can open a pull request, and a workflow that runs on pull requests would run their code on your server. This workflow only runs on pushes, tags and a manual click, never on <code>pull_request</code>; keep it that way.</div></div>
+<ul>
+<li><strong>Require approval for outside contributors</strong> to run workflows (Settings, Actions, General) if your deploy repository is ever public. Better: keep it private and copy each new release into it.</li>
+<li><strong>Protect the triggers.</strong> Only people you trust should be able to push to <code>main</code> or create <code>v*</code> tags. Turn on branch protection and tag rules; the <code>production</code> environment&rsquo;s reviewers are the last gate.</li>
+<li><strong>Pin actions.</strong> A version tag such as <code>actions/checkout@v4</code> can be moved by whoever owns it. Replace each with the full commit SHA of the release you reviewed, with the tag in a comment, and update on purpose. See GitHub&rsquo;s <a href="https://docs.github.com/en/actions/security-guides/security-hardening-for-github-actions">security hardening guide</a>.</li>
+<li><strong>Least privilege.</strong> The workflow sets <code>permissions: contents: read</code>. Do not add write permissions you do not use.</li>
+<li><strong>Secrets.</strong> On the runner path, the server&rsquo;s <code>.env</code> never leaves the server. On the SSH path, keep the four secrets in the <code>production</code> <em>environment</em>, not repository-wide, so only an approved deploy can read them. Never print them with <code>echo</code>.</li>
+<li><strong>Pass values through <code>env:</code></strong>, as the workflow does, instead of pasting <code>${{ ... }}</code> into a <code>run:</code> script, so a branch or tag name cannot inject commands.</li>
+<li><strong>The runner machine is production.</strong> Do not run other repositories&rsquo; jobs on it.</li>
+</ul></div>
+<p class="top"><a href="#top">Back to top</a></p></section>
+
+<section class="s" id="sec-monitoring" aria-labelledby="monitoring"><h2 id="monitoring"><span class="n">12</span>Monitoring<a class="anchor" href="#monitoring" aria-label="Link to section Monitoring">#</a></h2>
+<p>You need to hear about trouble before a customer tells you. Three habits cover most of it.</p>
+<div class="sub" role="group" aria-labelledby="mon-cmd"><h3 id="mon-cmd"><span class="n">12.1</span>Look at the server<a class="anchor" href="#mon-cmd" aria-label="Link to Look at the server">#</a></h3>
+<div class="cb"><div class="cb-bar"><span>Terminal (on the server, in cob-rag-engine)</span><button type="button" class="copy" aria-label="Copy the monitoring commands">Copy</button></div><pre tabindex="0"><code><span class="c"># which containers run, and are they healthy?</span>
+<span class="k">docker</span> compose ps
+<span class="c"># recent errors from the engine, the ingest worker and the mailer</span>
+<span class="k">docker</span> compose logs --since 1h app worker mailer | grep -i -E "error|traceback"
+<span class="c"># memory and CPU per container</span>
+<span class="k">docker</span> stats --no-stream
+<span class="c"># disk: the machine, then Docker</span>
+<span class="k">df</span> -h /
+<span class="k">docker</span> system df
+<span class="k">free</span> -h</code></pre></div>
+<p>Logs are rotated for you: each container keeps at most three files of 10 MB.</p></div>
+<div class="sub" role="group" aria-labelledby="mon-up"><h3 id="mon-up"><span class="n">12.2</span>Have something watch from outside<a class="anchor" href="#mon-up" aria-label="Link to Have something watch from outside">#</a></h3>
+<p>Point a free uptime monitor (UptimeRobot, Better Stack, Healthchecks.io and others) at <code>https://chat.yourbusiness.in/api/v1/health/ready</code> every minute and alert on anything but HTTP 200: that address answers 503 when Postgres, Valkey or Qdrant is down, so a plain status check is enough. Add a second monitor for <code>https://app.yourbusiness.in</code>, and an alert for disk above 80 percent.</p></div>
+<div class="sub" role="group" aria-labelledby="mon-health"><h3 id="mon-health"><span class="n">12.3</span>Read the health answer<a class="anchor" href="#mon-health" aria-label="Link to Read the health answer">#</a></h3>
+<p>The answer lists each service as <code>true</code> or <code>false</code>: <code>api</code>, <code>postgres</code>, <code>redis</code>, <code>qdrant</code> and <code>storage</code> (the last checks that the files folder, or the S3 bucket, is usable). The one that is <code>false</code> is where to look: <code>docker compose logs &lt;that service&gt;</code>. <code>/health/ready</code> gives the same list without <code>storage</code>, changes the status code, and calls the overall status <code>ready</code> or <code>not_ready</code>.</p></div>
+<p class="top"><a href="#top">Back to top</a></p></section>
+
+<section class="s" id="sec-whatsapp" aria-labelledby="whatsapp"><h2 id="whatsapp"><span class="n">13</span>Connect WhatsApp (Meta app)<a class="anchor" href="#whatsapp" aria-label="Link to section Connect WhatsApp (Meta app)">#</a></h2><p>The WhatsApp channel is off until you give the engine your own Meta app. This section is only needed if you offer WhatsApp. Every engine operator registers their own app, so nothing here is shared with anyone else, and Meta&rsquo;s review is on you, not on the software.</p><div class="sub" role="group" aria-labelledby="wa-app"><h3 id="wa-app"><span class="n">13.1</span>Register the Meta app<a class="anchor" href="#wa-app" aria-label="Link to Register the Meta app">#</a></h3><p>In <a href="https://developers.facebook.com/">Meta for Developers</a> create an app of type <em>Business</em> and add the <strong>WhatsApp</strong> product. Note the <strong>App ID</strong> and <strong>App Secret</strong>. In Meta Business Settings complete <em>Business Verification</em>. To offer Embedded Signup to businesses, become a <em>Tech Provider</em> and pass App Review for <code>whatsapp_business_management</code> and <code>whatsapp_business_messaging</code>. Meta limits a new Tech Provider to about 10 numbers a week and raises it to 200 a week once approved. Until then you can still connect numbers by hand. Then create a Facebook Login for Business configuration of the WhatsApp Embedded Signup type (version 4), add your dashboard&rsquo;s address to the allowed domains and note its <strong>Configuration ID</strong>. Check Meta&rsquo;s current documentation for the exact screens, which change.</p></div><div class="sub" role="group" aria-labelledby="wa-webhook"><h3 id="wa-webhook"><span class="n">13.2</span>Point the webhook at the engine<a class="anchor" href="#wa-webhook" aria-label="Link to Point the webhook at the engine">#</a></h3><p>In the app&rsquo;s WhatsApp configuration set the callback URL to <code>https://api.example.com/api/v1/public/whatsapp/webhook</code> (your engine&rsquo;s public address, over HTTPS) and the verify token to the value you choose below. Subscribe to <code>messages</code>, and to <code>smb_message_echoes</code> if you want businesses to use their number in the WhatsApp Business app as well. The engine checks Meta&rsquo;s signature (<code>X-Hub-Signature-256</code>) on the raw body of every delivery with your app secret and answers 401 to anything else (the one-time verify request with a wrong token is the only 403).</p></div><div class="sub" role="group" aria-labelledby="wa-env"><h3 id="wa-env"><span class="n">13.3</span>Settings in .env<a class="anchor" href="#wa-env" aria-label="Link to Settings in .env">#</a></h3><p>Put these in <code>.env</code> (all start with <code>RAG_WHATSAPP_</code>), then restart the app, worker and beat:</p><div class="cb"><div class="cb-bar"><span>.env</span><button type="button" class="copy" aria-label="Copy the WhatsApp settings">Copy</button></div><pre tabindex="0"><code>RAG_WHATSAPP_ENABLED=true
+RAG_WHATSAPP_APP_ID=your-app-id
+RAG_WHATSAPP_APP_SECRET=your-app-secret
+RAG_WHATSAPP_VERIFY_TOKEN=a-long-random-string
+RAG_WHATSAPP_CONFIG_ID=your-embedded-signup-configuration-id
+RAG_WHATSAPP_GRAPH_VERSION=v23.0</code></pre></div><p>The engine refuses to start with <code>RAG_WHATSAPP_ENABLED=true</code> and a missing app id, secret or verify token. It only talks to <code>graph.facebook.com</code> over HTTPS at that version. Check <code>/api/v1/info</code>: <code>features.whatsapp.enabled</code> is <code>true</code>. Then tick <strong>WhatsApp included</strong> on the plans that should have it.</p></div><div class="sub" role="group" aria-labelledby="wa-connect-number"><h3 id="wa-connect-number"><span class="n">13.4</span>Connect a number and check it<a class="anchor" href="#wa-connect-number" aria-label="Link to Connect a number and check it">#</a></h3><p>A workspace owner connects with <strong>Connect with Meta</strong> on the WhatsApp page. To connect for them, open the customer, <strong>Knowledge bases</strong>, <strong>Connect WhatsApp for this business</strong> and paste the phone number ID, the WhatsApp Business Account ID and a permanent token. Then send a message to the number: the chat appears on the WhatsApp page within seconds. If it does not, <strong>Check the connection</strong> on that page, and make sure the worker is running (it answers) and the callback URL is reachable from the internet. Set your fee rates under <strong>Sign-up &amp; branding</strong>; they start at zero. Meta&rsquo;s own prices are on Meta&rsquo;s current price list.</p></div><p class="top"><a href="#top">Back to top</a></p></section><section class="s" id="sec-troubleshooting" aria-labelledby="troubleshooting"><h2 id="troubleshooting"><span class="n">14</span>Troubleshooting<a class="anchor" href="#troubleshooting" aria-label="Link to section Troubleshooting">#</a></h2>
+<p>Each item reads symptom, why it happens, fix. Start with <code>docker compose ps</code> and <code>docker compose logs &lt;service&gt;</code>; they answer most questions. Problems with the local install itself are in the <a href="guide.html#troubleshooting">guide&rsquo;s troubleshooting</a>.</p>
+
+<div class="sub" role="group" aria-labelledby="t-cert"><h3 id="t-cert"><span class="n">14.1</span>No HTTPS certificate<a class="anchor" href="#t-cert" aria-label="Link to No HTTPS certificate">#</a></h3><div class="ts">
+<div class="ts-row ts-s"><span class="ts-k">Symptom</span><div>The browser says the connection is not private, or Caddy&rsquo;s log shows a failed certificate request.</div></div>
+<div class="ts-row ts-w"><span class="ts-k">Why</span><div>The domain does not point at the server yet, port 80 or 443 is closed, or (with Cloudflare) the orange cloud was switched on before the certificate was issued.</div></div>
+<div class="ts-row ts-f"><span class="ts-k">Fix</span><div>Check DNS with <code>nslookup chat.yourbusiness.in</code>, the firewall with <code>sudo ufw status</code>, and the log with <code>sudo journalctl -u caddy --no-pager -n 50</code> (Nginx: <code>sudo certbot certificates</code>). Wait a few minutes after a DNS change and retry.</div></div></div></div>
+
+<div class="sub" role="group" aria-labelledby="t-cors"><h3 id="t-cors"><span class="n">14.2</span>The dashboard loads but sign-in fails<a class="anchor" href="#t-cors" aria-label="Link to The dashboard loads but sign-in fails">#</a></h3><div class="ts">
+<div class="ts-row ts-s"><span class="ts-k">Symptom</span><div>The browser console says &ldquo;blocked by CORS policy&rdquo;, or the sign-in button spins and then shows a network error.</div></div>
+<div class="ts-row ts-w"><span class="ts-k">Why</span><div>The dashboard&rsquo;s own address is not in <code>RAG_CORS_ORIGINS</code> (written exactly: scheme and host, no trailing slash), or <code>RAG_DASHBOARD_ENGINE_URL</code> points somewhere the browser cannot reach.</div></div>
+<div class="ts-row ts-f"><span class="ts-k">Fix</span><div>Correct both in <code>.env</code> (section 5.2), then <code>docker compose up -d --build</code>. For the Scraper page, <code>SCRAPER_CORS_ORIGINS</code> and <code>RAG_DASHBOARD_SCRAPER_URL</code> work the same way.</div></div></div></div>
+
+<div class="sub" role="group" aria-labelledby="t-502"><h3 id="t-502"><span class="n">14.3</span>502 Bad Gateway<a class="anchor" href="#t-502" aria-label="Link to 502 Bad Gateway">#</a></h3><div class="ts">
+<div class="ts-row ts-s"><span class="ts-k">Symptom</span><div>The address answers with a 502 or 503 from the proxy.</div></div>
+<div class="ts-row ts-w"><span class="ts-k">Why</span><div>The proxy is fine but the container behind it is not up: still starting (the app has a 60-second start period), restarting, or the proxy points at the wrong port.</div></div>
+<div class="ts-row ts-f"><span class="ts-k">Fix</span><div><code>docker compose ps</code>, then <code>docker compose logs --tail=100 app</code>. From the server, <code>curl http://127.0.0.1:8000/api/v1/health/ready</code> must work before the proxy can. Ports: engine 8000, dashboard 8090, scraper 8001.</div></div></div></div>
+
+<div class="sub" role="group" aria-labelledby="t-prod"><h3 id="t-prod"><span class="n">14.4</span>The engine will not start in production<a class="anchor" href="#t-prod" aria-label="Link to The engine will not start in production">#</a></h3><div class="ts">
+<div class="ts-row ts-s"><span class="ts-k">Symptom</span><div>The app restarts again and again; its log says <code>RAG_EMAIL_PROVIDER=log is refused when RAG_ENV=prod</code>.</div></div>
+<div class="ts-row ts-w"><span class="ts-k">Why</span><div>The development e-mail provider writes verification codes into the log, so production refuses it.</div></div>
+<div class="ts-row ts-f"><span class="ts-k">Fix</span><div>Set <code>RAG_SMTP_HOST</code>, <code>RAG_SMTP_FROM</code> and the other SMTP settings (section 5.3) and remove <code>RAG_EMAIL_PROVIDER=log</code>. A wildcard <code>RAG_CORS_ORIGINS</code> is not fatal: production ignores it and allows no browser origin, which breaks the dashboard until you list its origin.</div></div></div></div>
+
+<div class="sub" role="group" aria-labelledby="t-mail"><h3 id="t-mail"><span class="n">14.5</span>E-mails do not arrive<a class="anchor" href="#t-mail" aria-label="Link to E-mails do not arrive">#</a></h3><div class="ts">
+<div class="ts-row ts-s"><span class="ts-k">Symptom</span><div>No sign-in code, invitation or reset message.</div></div>
+<div class="ts-row ts-w"><span class="ts-k">Why</span><div>Wrong SMTP login or port, a sender address the service has not verified, or the message went to spam (missing SPF and DKIM).</div></div>
+<div class="ts-row ts-f"><span class="ts-k">Fix</span><div>Run the SMTP test from section 8 and read its error, then <code>docker compose logs mailer</code>. Transient SMTP errors are retried automatically; permanent ones are logged with the SMTP code only. Verify the sender domain at your mail service and add its DNS records.</div></div></div></div>
+
+<div class="sub" role="group" aria-labelledby="t-413"><h3 id="t-413"><span class="n">14.6</span>Uploads fail with 413<a class="anchor" href="#t-413" aria-label="Link to Uploads fail with 413">#</a></h3><div class="ts">
+<div class="ts-row ts-s"><span class="ts-k">Symptom</span><div>A document upload fails at once with &ldquo;413 Request Entity Too Large&rdquo;.</div></div>
+<div class="ts-row ts-w"><span class="ts-k">Why</span><div>Nginx allows 1 MB by default. The engine itself allows 50 MB (<code>RAG_MAX_UPLOAD_BYTES</code>), and a plan may set less.</div></div>
+<div class="ts-row ts-f"><span class="ts-k">Fix</span><div>Set <code>client_max_body_size 50m;</code> in the <code>chat.yourbusiness.in</code> server block, then <code>sudo nginx -t</code> and <code>sudo systemctl reload nginx</code>.</div></div></div></div>
+
+<div class="sub" role="group" aria-labelledby="t-rate"><h3 id="t-rate"><span class="n">14.7</span>The widget says &ldquo;too many requests&rdquo; for everyone<a class="anchor" href="#t-rate" aria-label="Link to The widget says too many requests for everyone">#</a></h3><div class="ts">
+<div class="ts-row ts-s"><span class="ts-k">Symptom</span><div>One visitor&rsquo;s messages use up the limit for all visitors, or one visitor can send unlimited messages.</div></div>
+<div class="ts-row ts-w"><span class="ts-k">Why</span><div>Behind a proxy with <code>RAG_WIDGET_TRUST_PROXY_HEADERS=false</code> every visitor looks like the proxy. The opposite fault is the setting on with a proxy that appends to <code>X-Forwarded-For</code> instead of replacing it.</div></div>
+<div class="ts-row ts-f"><span class="ts-k">Fix</span><div>Set it to <code>true</code> and use the proxy settings in section 7, which replace the header. Recreate the containers with <code>docker compose up -d</code>.</div></div></div></div>
+
+<div class="sub" role="group" aria-labelledby="t-oom"><h3 id="t-oom"><span class="n">14.8</span>Containers are killed or the server freezes<a class="anchor" href="#t-oom" aria-label="Link to Containers are killed or the server freezes">#</a></h3><div class="ts">
+<div class="ts-row ts-s"><span class="ts-k">Symptom</span><div>Containers restart by themselves, builds die, or SSH stops answering during a build or a big import.</div></div>
+<div class="ts-row ts-w"><span class="ts-k">Why</span><div>Out of memory. Each API worker holds its own models, the re-ranker adds about 2.3 GB, and building the images needs memory too.</div></div>
+<div class="ts-row ts-f"><span class="ts-k">Fix</span><div>Confirm with <code>sudo dmesg | grep -i "out of memory"</code>. Add swap (section 2), keep <code>RAG_API_WORKERS=1</code>, keep the re-ranker off on CPU, lower <code>RAG_WORKER_CONCURRENCY</code>, or rent the next size up.</div></div></div></div>
+
+<div class="sub" role="group" aria-labelledby="t-mig"><h3 id="t-mig"><span class="n">14.9</span>An update fails during migration<a class="anchor" href="#t-mig" aria-label="Link to An update fails during migration">#</a></h3><div class="ts">
+<div class="ts-row ts-s"><span class="ts-k">Symptom</span><div><code>docker compose logs app</code> ends with <code>ERROR: Alembic migration failed!</code> and the app keeps restarting.</div></div>
+<div class="ts-row ts-w"><span class="ts-k">Why</span><div>A database migration could not apply, for instance because of a conflict in your data.</div></div>
+<div class="ts-row ts-f"><span class="ts-k">Fix</span><div>Read the lines above the error; they name the cause. If you cannot resolve it, go back to the old tag (section 10.1) and restore the backup you took before the update (section 9.3), then open an issue with the log.</div></div></div></div>
+
+<div class="sub" role="group" aria-labelledby="t-disk"><h3 id="t-disk"><span class="n">14.10</span>The disk is full<a class="anchor" href="#t-disk" aria-label="Link to The disk is full">#</a></h3><div class="ts">
+<div class="ts-row ts-s"><span class="ts-k">Symptom</span><div>Writes fail, builds stop, Postgres or Qdrant errors mention space.</div></div>
+<div class="ts-row ts-w"><span class="ts-k">Why</span><div>Old images and build cache from updates, local backups, or real growth in documents and vectors.</div></div>
+<div class="ts-row ts-f"><span class="ts-k">Fix</span><div><code>docker system df</code> shows where it went. <code>docker image prune -f</code> removes unused images. Lower <code>KEEP_DAYS</code> in the backup script, copy backups off the server, and grow the disk at your provider if data is the cause.</div></div></div></div>
+
+<div class="sub" role="group" aria-labelledby="t-ci"><h3 id="t-ci"><span class="n">14.11</span>The deploy job never starts<a class="anchor" href="#t-ci" aria-label="Link to The deploy job never starts">#</a></h3><div class="ts">
+<div class="ts-row ts-s"><span class="ts-k">Symptom</span><div>The deploy job waits for a runner, or waits for approval.</div></div>
+<div class="ts-row ts-w"><span class="ts-k">Why</span><div>The runner service is stopped or offline, its labels do not match <code>[self-hosted, linux, cob-prod]</code>, or the <code>production</code> environment is waiting for a reviewer.</div></div>
+<div class="ts-row ts-f"><span class="ts-k">Fix</span><div>On the server, in <code>actions-runner</code>, run <code>sudo ./svc.sh status</code> and restart it with <code>sudo ./svc.sh start</code>. Check <strong>Settings, Actions, Runners</strong> shows it as idle. Then approve the pending deployment on the run&rsquo;s page.</div></div></div></div>
+
+<p class="top"><a href="#top">Back to top</a></p></section>
+<!-- L5a demo -->
+<section class="s" id="sec-demo" aria-labelledby="demo"><h2 id="demo"><span class="n">15</span>Run a public demo<a class="anchor" href="#demo" aria-label="Link to section Run a public demo">#</a></h2>
+<p>A demo is a copy of the product that anyone can try without signing up. It is for showing the product to clients, or for a live preview on your own website. You turn it on with one setting. This section is optional: skip it if you only run the product for your own businesses.</p>
+
+<div class="sub" role="group" aria-labelledby="demo-what"><h3 id="demo-what"><span class="n">15.1</span>What demo mode does<a class="anchor" href="#demo-what" aria-label="Link to What demo mode does">#</a></h3>
+<ul>
+<li>It prints two sign-ins on the sign-in page: one for the platform owner and one for the owner of a made-up business, Nirmal Family Clinic in Pune. Visitors click <strong>Use</strong> and sign in.</li>
+<li>The clinic is ready to use. Its assistant answers in English and Hindi from five short documents and six questions with answers.</li>
+<li>It switches off everything that deletes, hides a secret, sends something out or costs money: deleting, API keys, e-mail settings, WhatsApp, top-ups, plans, webhooks and password or e-mail changes. A visitor who tries one sees one friendly sentence.</li>
+<li>It sends nothing out. No e-mail, no WhatsApp message and no webhook leaves the server.</li>
+<li>It puts a hard daily limit on the whole demo and a smaller one on each visitor, so one person cannot use it all. When a limit is used up, the visitor gets a polite message, not an error. Everyone can see how many demo answers are left today.</li>
+<li>Every night it puts everything back exactly as it was, so a visitor who changes things leaves nothing behind.</li>
+</ul></div>
+
+<div class="sub" role="group" aria-labelledby="demo-not"><h3 id="demo-not"><span class="n">15.2</span>What it does not do<a class="anchor" href="#demo-not" aria-label="Link to What it does not do">#</a></h3>
+<p>A demo copy has every feature, like any other copy. The demo only refuses the changes listed above.</p>
+<div class="callout warn" role="note"><strong class="cl">Visitors can see each other</strong><div>Everything a visitor types, uploads or changes can be seen by the next visitor until the nightly reset. The password is public on purpose. Never put a real customer&rsquo;s data into a demo.</div></div></div>
+
+<div class="sub" role="group" aria-labelledby="demo-on"><h3 id="demo-on"><span class="n">15.3</span>Turn it on<a class="anchor" href="#demo-on" aria-label="Link to Turn it on">#</a></h3>
+<p>Use a separate server for a demo, not the one your customers use. Add these lines to <code>.env</code>. The platform owner signs in with the address you already set as <code>RAG_SUPERADMIN_EMAIL</code>, so that line must be there too.</p>
+<div class="cb"><div class="cb-bar"><span>.env</span><button type="button" class="copy" aria-label="Copy the demo settings">Copy</button></div><pre tabindex="0"><code>RAG_DEMO_MODE=true
+RAG_DEMO_OWNER_EMAIL=owner@nirmalclinic.example.com
+RAG_DEMO_PASSWORD=choose-a-long-password-for-visitors
+RAG_DEMO_RESET_AT_UTC=21:30
+RAG_DEMO_ANSWERS_PER_DAY=300
+RAG_DEMO_ANSWERS_PER_VISITOR_PER_DAY=15
+RAG_DEMO_MODEL_CALLS_PER_DAY=1200</code></pre></div>
+<p>The password is used by both sign-ins and is shown to every visitor. The owner address must be different from <code>RAG_SUPERADMIN_EMAIL</code>. <code>RAG_DEMO_RESET_AT_UTC</code> is the time of the nightly reset in UTC; 21:30 UTC is 03:00 in India. The three daily limits are explained in &ldquo;Keeping the cost small&rdquo; below; each takes a number from 1 to 100000.</p>
+<p>Then recreate the containers:</p>
+<div class="cb"><div class="cb-bar"><span>Terminal (on the server)</span><button type="button" class="copy" aria-label="Copy the restart command">Copy</button></div><pre tabindex="0"><code>docker compose up -d</code></pre></div>
+<p>The engine refuses to start when something is missing and names it, for example <code>RAG_DEMO_PASSWORD</code>. Set the model key (<code>RAG_LLM_API_KEY</code>) too, or the assistant cannot answer. Two minutes after the first start the demo builds itself. Allow about ten minutes for the documents to be learned, then open the sign-in page: it shows the two sign-ins.</p></div>
+
+<div class="sub" role="group" aria-labelledby="demo-limits"><h3 id="demo-limits"><span class="n">15.4</span>Keeping the cost small<a class="anchor" href="#demo-limits" aria-label="Link to Keeping the cost small">#</a></h3>
+<p>Every limit starts again when the nightly reset runs (<code>RAG_DEMO_RESET_AT_UTC</code>), so a message that says &ldquo;resets at 21:30 UTC (03:00 IST)&rdquo; is true for the data and for the limits. Four limits work together:</p>
+<ul>
+<li><strong>One visitor:</strong> <code>RAG_DEMO_ANSWERS_PER_VISITOR_PER_DAY</code> (default 15) is how many answers one visitor gets a day. A visitor is a keyed hash of the address the engine sees, plus the signed-in user. No address is stored. Both demo sign-ins are shared, so the address does most of the work: people behind one office or school network share one quota, and one person who uses both sign-ins gets two. Behind a reverse proxy, set <code>RAG_TRUST_PROXY_HEADERS</code> and <code>RAG_TRUSTED_PROXY_HOPS</code> correctly, or every visitor looks like the proxy.</li>
+<li><strong>The whole demo:</strong> <code>RAG_DEMO_ANSWERS_PER_DAY</code> (default 300) is how many answers the demo gives in a day. Only answers that call the AI model count: small talk the rules answer, cached answers and &ldquo;talk to a person&rdquo; requests are free and not counted. It covers the website widget, the dashboard playground and preview, conversations and COB.</li>
+<li><strong>Model calls:</strong> <code>RAG_DEMO_MODEL_CALLS_PER_DAY</code> (default 1200) is a hard stop under the answer limits. One answer is about four calls (label, rewrite, answer, fact check), so the default fits 300 answers with room for the playground and setup help.</li>
+<li><strong>Money:</strong> the demo plan allows 300 questions a day for the clinic and 40 questions a day to COB, and the engine stops the demo&rsquo;s own AI key at about two US dollars a day.</li>
+</ul>
+<p>When a visitor has used their answers they read, as a normal assistant message with no model call: &ldquo;You&rsquo;ve used today&rsquo;s demo questions (15). The demo resets at 21:30 UTC (03:00 IST). Come back tomorrow, or install your own copy to try it without limits.&rdquo; When the whole demo is used up, everyone reads &ldquo;Today&rsquo;s demo answers are all used up&rdquo; with the same reset time. The dashboard banner and the sign-in page show &ldquo;X of Y demo answers left today&rdquo;, and the numbers (never addresses) are in <code>GET /api/v1/public/branding</code> and <code>GET /api/v1/admin/demo</code>. If the counters cannot be read (Redis is down), the demo stops answering with a plain &ldquo;cannot answer right now&rdquo; message instead of spending without a limit.</p></div>
+
+<div class="sub" role="group" aria-labelledby="demo-reset"><h3 id="demo-reset"><span class="n">15.5</span>The nightly reset, and doing it by hand<a class="anchor" href="#demo-reset" aria-label="Link to The nightly reset, and doing it by hand">#</a></h3>
+<p>The reset runs by itself at <code>RAG_DEMO_RESET_AT_UTC</code>. It also runs after a start when no reset has finished in the last 25 hours, which is how a new demo server fills itself. To reset now, or to see how the last reset went, run these on the server:</p>
+<div class="cb"><div class="cb-bar"><span>Terminal (on the server)</span><button type="button" class="copy" aria-label="Copy the demo commands">Copy</button></div><pre tabindex="0"><code>docker compose exec app python -m callobuzz_rag.demo status
+docker compose exec app python -m callobuzz_rag.demo reset --wait</code></pre></div>
+<p><code>status</code> shows the last good reset, the next one, today&rsquo;s answers and today&rsquo;s model calls. <code>reset --wait</code> waits until the reset is done. Both finish with exit code 0 when all is well, 1 when something failed and 2 when demo mode is off. When a reset fails, the message names the step it stopped at; run it again, and if it fails at the same step, read <code>docker compose logs app</code> around that time.</p></div>
+
+<div class="sub" role="group" aria-labelledby="demo-frame"><h3 id="demo-frame"><span class="n">15.6</span>Showing the dashboard inside another site<a class="anchor" href="#demo-frame" aria-label="Link to Showing the dashboard inside another site">#</a></h3>
+<p>By default the dashboard refuses to be shown inside any other website. That is a safety feature, and it is right for every normal install. For a live preview on another website, allow that site&rsquo;s address in <code>.env</code>:</p>
+<div class="cb"><div class="cb-bar"><span>.env</span><button type="button" class="copy" aria-label="Copy the frame setting">Copy</button></div><pre tabindex="0"><code>RAG_FRAME_ANCESTORS=self https://demo.example.com</code></pre></div>
+<p>Write <code>self</code> and <code>none</code> without quote marks. Every other item must start with <code>https://</code> and be a site name, with an optional port, like <code>https://demo.yourbusiness.in</code>. <code>https://*.yourbusiness.in</code> allows every sub-site. Then recreate the dashboard:</p>
+<div class="cb"><div class="cb-bar"><span>Terminal (on the server)</span><button type="button" class="copy" aria-label="Copy the dashboard restart command">Copy</button></div><pre tabindex="0"><code>docker compose up -d dashboard</code></pre></div>
+<p>A wrong value stops the dashboard from starting and the message names <code>RAG_FRAME_ANCESTORS</code>. If the preview shows a blank frame, check that the value is exactly as above and that you recreated the dashboard. Leave the setting empty on a normal install.</p></div>
+<p class="top"><a href="#top">Back to top</a></p></section>
+<!-- /L5a demo -->
+<!-- P3 legal -->
+<section class="s" id="sec-legal" aria-labelledby="legal"><h2 id="legal"><span class="n">16</span>Legal pages<a class="anchor" href="#legal" aria-label="Link to section Legal pages">#</a></h2>
+<p>Before you take money or personal data from a business you need a few public pages. The engine ships a plain-language template for each, written for India, and a screen where you fill in your details, edit the text and publish versions. Nothing is public until you publish it. This section is optional: skip it if you run the product only for your own businesses.</p>
+
+<div class="callout warn" role="note"><strong class="cl">Have a lawyer read every page</strong><div>The templates are a starting point, not legal advice. Each one starts with a reminder, and the publish button asks you to confirm that the page was reviewed.</div></div>
+
+<div class="sub" role="group" aria-labelledby="legal-pages"><h3 id="legal-pages"><span class="n">16.1</span>The eight pages<a class="anchor" href="#legal-pages" aria-label="Link to The eight pages">#</a></h3>
+<ul>
+<li><strong>Terms of Service</strong>: what you offer, accounts, plans and top-ups, renewal and cancelling, price changes, fair use, what happens when an account is suspended, your liability, and the courts of your city.</li>
+<li><strong>Privacy Notice</strong>: written for the Digital Personal Data Protection Act, 2023. It says what data you collect and why, that you are the data fiduciary for your own customers&rsquo; accounts and a data processor for the visitors of the businesses that use the product, who else sees data, how long you keep it, a person&rsquo;s rights and the 90-day answer, and breaches.</li>
+<li><strong>Refund and Cancellation Policy</strong>, with real day counts: unused balance back within 7 working days, failed or duplicate payments back within 5 to 7 working days.</li>
+<li><strong>Shipping and Delivery Policy</strong>: it is a digital service, delivered online, and nothing is shipped.</li>
+<li><strong>Acceptable Use Policy</strong>, <strong>Data Processing Addendum</strong> (you as processor for visitors&rsquo; data, with a 48-hour breach notice), <strong>Sub-processors</strong> (a table you edit to list the companies you really use) and <strong>Grievance Officer</strong> (a name, an e-mail and an address, an answer within 48 hours and a resolution within 30 days).</li>
+</ul></div>
+
+<div class="sub" role="group" aria-labelledby="legal-publish"><h3 id="legal-publish"><span class="n">16.2</span>Fill in, edit, publish<a class="anchor" href="#legal-publish" aria-label="Link to Fill in, edit, publish">#</a></h3>
+<ol>
+<li>Sign in as the platform owner and open <strong>Legal pages</strong>. Under <strong>Your details</strong> fill in the grievance officer, the city whose courts the Terms name and your website. Your company&rsquo;s legal name and address are the Billing details.</li>
+<li>Open a page, read the template, change what does not fit your business, and choose <strong>Save draft</strong>. The preview shows how it will look. A word in double braces, such as your company name, is filled in when you publish; the editor lists any detail that is still missing.</li>
+<li>Choose <strong>Publish</strong>, add a note such as &ldquo;First version&rdquo;, tick that the page was reviewed and confirm. A published version never changes: publishing again makes the next version and the old one stays on record.</li>
+</ol>
+<p>Each page is then a plain web page at <code>https://your-address/legal/terms</code>, <code>/legal/privacy</code>, <code>/legal/refunds</code>, <code>/legal/delivery</code>, <code>/legal/acceptable-use</code>, <code>/legal/dpa</code>, <code>/legal/sub-processors</code> and <code>/legal/grievance</code>. They open without signing in and without JavaScript. If you use the proxy from this guide, <code>/legal/*</code> already goes to the engine.</p></div>
+
+<div class="sub" role="group" aria-labelledby="legal-where"><h3 id="legal-where"><span class="n">16.3</span>Where the pages show up<a class="anchor" href="#legal-where" aria-label="Link to Where the pages show up">#</a></h3>
+<ul>
+<li><strong>Sign-up.</strong> Once both the Terms and the Privacy notice are published, the sign-up form asks people to tick that they agree, and the engine records which version each person accepted. With only one of the two published, sign-up works as before. The <strong>Who accepted</strong> tab lists everyone and downloads a CSV.</li>
+<li><strong>Footers.</strong> The published pages are linked under the sign-in and sign-up pages and under every signed-in page. A switch under <strong>Your details</strong> turns that off.</li>
+<li><strong>The chat widget.</strong> Its footer shows a <strong>Privacy</strong> link: the business&rsquo;s own privacy policy if it set one (it is the data fiduciary for its visitors), otherwise your Privacy notice. The lead consent notice uses the same link.</li>
+</ul></div>
+
+<div class="sub" role="group" aria-labelledby="legal-gateway"><h3 id="legal-gateway"><span class="n">16.4</span>Before you ask a payment gateway to check your site<a class="anchor" href="#legal-gateway" aria-label="Link to Before you ask a payment gateway to check your site">#</a></h3>
+<p>Razorpay checks your website for six pages: About us, Contact us, Pricing details, Terms and conditions, Privacy policy and a Refunds policy. The Terms, Privacy and Refund pages above cover three of them; the Delivery policy and the Grievance Officer page round them out, and About, Contact and Pricing belong on your own website. The pages must be live, at an address a person can open, before you submit your site. Use the same name and address in the pages as in your account details.</p>
+<p>Most duties of the Digital Personal Data Protection Rules apply from 13 May 2027. The templates are written for them now, so you do not have to change them later.</p></div>
+<p class="top"><a href="#top">Back to top</a></p></section>
+<!-- /P3 legal -->
+<!-- P1 payments -->
+<section class="s" id="sec-payments" aria-labelledby="payments"><h2 id="payments"><span class="n">17</span>Take online payments<a class="anchor" href="#payments" aria-label="Link to section Take online payments">#</a></h2>
+<p>Your customers can add money to their balance, pay their plan fee or buy an add-on themselves, with UPI, a card or net banking, through Razorpay. The money reaches their balance within seconds and you do not type a top-up. This section is optional: until you switch it on, customers keep using <strong>Request top-up</strong>.</p>
+
+<div class="callout warn" role="note"><strong class="cl">Start in Test mode</strong><div>Razorpay gives you test keys (they start with <code>rzp_test_</code>) as soon as you sign up. No real money moves in Test mode, and you can try everything below before your business verification (KYC) is finished.</div></div>
+
+<div class="sub" role="group" aria-labelledby="pay-razorpay"><h3 id="pay-razorpay"><span class="n">17.1</span>In Razorpay<a class="anchor" href="#pay-razorpay" aria-label="Link to In Razorpay">#</a></h3>
+<ol>
+<li>Create an account at razorpay.com and, for real money, finish the KYC. Make sure your website shows the pages Razorpay checks (see section 16, <a href="#legal-gateway">Before you ask a payment gateway to check your site</a>).</li>
+<li>Under <strong>Account &amp; Settings → API Keys</strong> generate a key. Copy the <strong>Key Id</strong> and the <strong>Key Secret</strong> now: Razorpay shows the secret once.</li>
+<li>Under <strong>Payment Capture</strong> choose <strong>Automatic</strong>.</li>
+</ol></div>
+
+<div class="sub" role="group" aria-labelledby="pay-engine"><h3 id="pay-engine"><span class="n">17.2</span>In your dashboard<a class="anchor" href="#pay-engine" aria-label="Link to In your dashboard">#</a></h3>
+<ol>
+<li>Sign in as the platform owner. Open <strong>Billing → Tax</strong> and fill in your company&rsquo;s name, address and state, and your GST number if you have one. The GST number&rsquo;s state must be your company&rsquo;s state.</li>
+<li>Open <strong>Billing → Payments</strong>, choose <strong>Razorpay</strong>, paste the Key Id and Key Secret, choose a webhook secret (any long random text) and write it in the <strong>Webhook secret</strong> box. Choose <strong>Save payment settings</strong>, then <strong>Test connection</strong>. The keys are stored encrypted and the page never shows them again.</li>
+<li>The page shows your <strong>Webhook address</strong>. In Razorpay open <strong>Account &amp; Settings → Webhooks → Add new webhook</strong>, paste the address, type the same webhook secret, tick the events listed on the page (payment captured, payment failed, order paid, refund processed, refund failed) and save.</li>
+<li>Sign in as a customer&rsquo;s owner, open <strong>Plan &amp; billing</strong>, choose <strong>Add money</strong> and pay a small amount with Razorpay&rsquo;s test card or UPI details. The balance should grow within a few seconds.</li>
+</ol>
+<p>If you prefer to keep the keys out of the dashboard, set <code>RAG_PAYMENTS_PROVIDER=razorpay</code>, <code>RAG_RAZORPAY_KEY_ID</code>, <code>RAG_RAZORPAY_KEY_SECRET</code> and <code>RAG_RAZORPAY_WEBHOOK_SECRET</code> in <code>.env</code> and recreate the services. A value in <code>.env</code> wins over the dashboard, and the page says so. The webhook address must be reachable from the internet over https, so use your real domain and not <code>localhost</code>.</p></div>
+
+<div class="sub" role="group" aria-labelledby="pay-gst"><h3 id="pay-gst"><span class="n">17.3</span>GST, refunds and fees<a class="anchor" href="#pay-gst" aria-label="Link to GST, refunds and fees">#</a></h3>
+<ul>
+<li><strong>GST.</strong> A customer in your state pays CGST and SGST (9% each); a customer in another state pays IGST (18%). The balance receives the amount before GST. Without a GST number the payment carries no tax. Check the rate and your obligations with your accountant: the engine records the split, and you file the returns.</li>
+<li><strong>Refunds.</strong> Open the payment under <strong>Billing → Payments</strong> and choose <strong>Refund…</strong>. The amount comes out of the customer&rsquo;s unused balance and goes back to the way they paid, within 180 days. If Razorpay refuses, the balance is put back.</li>
+<li><strong>Fees.</strong> Razorpay&rsquo;s fee is copied onto each payment after settlement and shown in the <strong>P&amp;L</strong> as <strong>Gateway fees</strong>. Customers never see it.</li>
+<li><strong>If a message from Razorpay is lost</strong> the engine finds the payment itself within five minutes, and every night it checks Razorpay&rsquo;s settlement report. <strong>Deliveries that need attention</strong> on the Payments tab lists anything stuck, with a <strong>Retry</strong> button.</li>
+</ul></div>
+<p class="top"><a href="#top">Back to top</a></p></section>
+<!-- /P1 payments -->
+<!-- P2 invoices -->
+<section class="s" id="sec-invoices" aria-labelledby="invoices"><h2 id="invoices"><span class="n">18</span>GST invoices<a class="anchor" href="#invoices" aria-label="Link to section GST invoices">#</a></h2>
+<p>Every online payment (section 17) produces a GST tax invoice at that moment, and every refund a credit note. You do not type or number anything. This section tells you what to set once, and what to keep.</p>
+
+<div class="sub" role="group" aria-labelledby="inv-setup"><h3 id="inv-setup"><span class="n">18.1</span>Set up your seller details<a class="anchor" href="#inv-setup" aria-label="Link to Set up your seller details">#</a></h3>
+<ol>
+<li>Open <strong>Billing &rarr; Tax</strong> as the platform owner. Fill in your company&rsquo;s legal name, address and state, and your <strong>GST number</strong> if you are registered. The number&rsquo;s state must be the company&rsquo;s state.</li>
+<li><strong>SAC code.</strong> The default <code>998315</code> (hosting and IT infrastructure provisioning) suits a hosted chatbot service; a different code can be set per service add-on. Ask your accountant which code fits what you sell.</li>
+<li><strong>Invoice prefix</strong> (for example <code>CB</code>) and <strong>credit note prefix</strong> (<code>CN</code>), up to four letters or digits. A number looks like <code>CB/26-27/00001</code> and the series restarts every 1 April. Changing a prefix during the year starts a fresh counter, and numbers stay unique because the prefix is part of the number.</li>
+<li>Choose whether your listed prices <strong>include GST</strong>. When they do not (the usual case), the dashboard shows the total with GST next to every price.</li>
+</ol></div>
+
+<div class="sub" role="group" aria-labelledby="inv-kinds"><h3 id="inv-kinds"><span class="n">18.2</span>Which document you get<a class="anchor" href="#inv-kinds" aria-label="Link to Which document you get">#</a></h3>
+<ul>
+<li><strong>With a GST number:</strong> a <em>Tax Invoice</em>. A customer in your state pays CGST 9% + SGST 9%; a customer in another state pays IGST 18% (the place of supply is the customer&rsquo;s GST state, else the state they entered).</li>
+<li><strong>Without a GST number:</strong> a <em>Bill of Supply</em> with no tax lines.</li>
+<li><strong>A customer outside India</strong> is an export. Fill in your <strong>LUT number</strong> (and its end date) in Billing &rarr; Tax and the invoice carries the standard wording &ldquo;Supply meant for export under Letter of Undertaking without payment of integrated tax&rdquo; with no tax. Without a valid LUT, 18% IGST is charged. File your LUT for the financial year with your accountant before the first export.</li>
+<li><strong>Refunds</strong> produce a <em>Credit Note</em> with the same tax split, naming the original invoice. After <strong>30 November following the invoice&rsquo;s financial year</strong> none can be issued; the refund dialog warns you first, and the GST already paid stays paid.</li>
+<li><strong>Not invoiced by the engine:</strong> top-ups you record by hand (bank transfers). Record those in your accounting tool.</li>
+</ul></div>
+
+<div class="sub" role="group" aria-labelledby="inv-keep"><h3 id="inv-keep"><span class="n">18.3</span>Keep them for eight years<a class="anchor" href="#inv-keep" aria-label="Link to Keep them for eight years">#</a></h3>
+<p>An issued invoice cannot be changed or deleted: a database trigger refuses it, and a correction is a credit note. The records live in two places, and your backups must cover both for at least <strong>eight years</strong>: the <code>tax_documents</code> table in PostgreSQL, and the PDFs in object storage under <code>billing/tax-documents/</code> (the storage cleanup command never touches that folder). The records stay even after a customer&rsquo;s workspace is deleted. A nightly check (R7 in <strong>Billing &rarr; Accounts &rarr; Books check</strong>) tells you if a payment ever has no invoice.</p></div>
+
+<div class="sub" role="group" aria-labelledby="inv-ca"><h3 id="inv-ca"><span class="n">18.4</span>For your accountant<a class="anchor" href="#inv-ca" aria-label="Link to For your accountant">#</a></h3>
+<p>Open <strong>Billing &rarr; Invoices</strong>, pick the month and choose <strong>Download CSV for your accountant</strong>: one row per document with the buyer, B2B or B2C, place of supply, SAC, taxable value, CGST, SGST, IGST, total, the original invoice (for a credit note) and the payment reference. Questions to ask your accountant once:</p>
+<ol>
+<li>SAC 998315 or 997331 for the hosted subscription, and 998314 for setup.</li>
+<li>Is an invoice at each wallet top-up (an advance) acceptable, or do you need a receipt voucher plus an invoice?</li>
+<li>Is &ldquo;computer-generated invoice&rdquo; (without a signature image) enough on electronic invoices?</li>
+<li>A credit note for a refund of unused balance that was invoiced months ago.</li>
+<li>A lost chargeback: credit note or not.</li>
+<li>Reverse charge on foreign vendors such as your AI and hosting providers, and the monthly routine.</li>
+<li>Filing the LUT for this financial year, even before the first export customer.</li>
+<li>The B2C invoice-wise threshold in GSTR-1, and whether the CSV columns suit their tool.</li>
+</ol></div>
+
+<div class="callout warn" role="note"><strong class="cl">E-invoicing is not built</strong><div>Above &#8377;5 crore of annual turnover you must report each invoice to the government&rsquo;s portal (IRN, e-invoicing). This engine does not do that. Below that turnover you do not need it.</div></div>
+<p class="top"><a href="#top">Back to top</a></p></section>
+<!-- /P2 invoices -->
+  </main>
+</div>
+<div id="live" class="sr-only" role="status" aria-live="polite"></div>
+<footer>
+  <div class="wrap foot">
+    <div class="foot-mast">
+      <p class="foot-name">cob-rag-engine by Callobuzz</p>
+      <p>Open source under AGPL-3.0. The client libraries and the widget scripts are under MIT. A commercial licence is available on request: <a href="https://callobuzz.com/contact">contact Callobuzz</a>.</p>
+    </div>
+    <ul class="foot-links">
+      <li><a href="getting-started.html">Get started</a></li>
+      <li><a href="guide.html">Guide</a></li>
+      <li><a href="deploy.html">Deploy</a></li>
+      <li><a href="requirements.html">Requirements</a></li>
+      <li><a href="benchmarks.html">Benchmarks</a></li>
+      <li><a href="support.html">Support</a></li>
+      <li><a href="https://callobuzz.github.io/cob-rag-mcp">cob-rag-mcp</a></li>
+      <li><a href="https://github.com/callobuzz/cob-rag-engine">GitHub</a></li>
+      <li><a href="https://callobuzz.com/open-source">Callobuzz open source</a></li>
+      <li><a href="mailto:callobuzz@gmail.com?subject=cob-rag-engine%20security%20report">Report a security issue</a></li>
+    </ul>
+  </div>
+</footer>
+<script>
+(function(){
+'use strict';
+var root=document.documentElement;
+function $$(s,r){return Array.prototype.slice.call((r||document).querySelectorAll(s));}
+
+/* ---- providers: rendered from window.COB_PROVIDERS (edit the data block at the top of the page) ---- */
+function cell(tr,label,child,cls){
+  var td=document.createElement('td');td.setAttribute('data-label',label);if(cls){td.className=cls;}
+  if(typeof child==='string'){td.textContent=child;}else{td.appendChild(child);}
+  tr.appendChild(td);
+}
+function link(href,text,label){
+  var a=document.createElement('a');a.href=href;a.textContent=text;a.rel='noopener';a.setAttribute('aria-label',label);return a;
+}
+function providerTable(list){
+  var wrap=document.createElement('div');wrap.className='table-wrap';
+  var t=document.createElement('table'),head=document.createElement('thead'),hr=document.createElement('tr');
+  ['Provider','In India','Regions','Good to know','Links'].forEach(function(h){var th=document.createElement('th');th.textContent=h;hr.appendChild(th);});
+  head.appendChild(hr);t.appendChild(head);
+  var body=document.createElement('tbody');
+  list.forEach(function(p){
+    var tr=document.createElement('tr');
+    cell(tr,'Provider',p.name,'prov-name');
+    cell(tr,'In India',p.india||'');
+    cell(tr,'Regions',p.regions||'');
+    cell(tr,'Good to know',p.note||'');
+    var links=document.createElement('span');links.className='prov-links';
+    links.appendChild(link(p.url,'Open','Open '+p.name));
+    if(p.pricing){links.appendChild(link(p.pricing,'Pricing','Pricing for '+p.name));}
+    cell(tr,'Links',links);
+    body.appendChild(tr);
+  });
+  t.appendChild(body);wrap.appendChild(t);return wrap;
+}
+(function(){
+  var all=window.COB_PROVIDERS||[];
+  [['prov-cpu','cpu'],['prov-gpu','gpu']].forEach(function(p){
+    var host=document.getElementById(p[0]);if(!host)return;
+    var rows=all.filter(function(x){return x.kind===p[1];});
+    if(rows.length){host.appendChild(providerTable(rows));}
+  });
+})();
+
+/* ---- copy buttons (same component as the guide) ---- */
+var live=document.getElementById('live'),timers=new WeakMap();
+function say(msg){live.textContent='';window.setTimeout(function(){live.textContent=msg;},30);}
+function fallbackCopy(text){
+  return new Promise(function(res,rej){
+    var ta=document.createElement('textarea');ta.value=text;ta.setAttribute('readonly','');
+    ta.style.cssText='position:fixed;top:0;left:0;opacity:0;';document.body.appendChild(ta);ta.select();
+    var ok=false;try{ok=document.execCommand('copy');}catch(e){}
+    document.body.removeChild(ta);ok?res():rej(new Error('copy failed'));
+  });
+}
+function copyText(text){
+  if(navigator.clipboard&&window.isSecureContext){return navigator.clipboard.writeText(text).catch(function(){return fallbackCopy(text);});}
+  return fallbackCopy(text);
+}
+function flash(btn,cls,label){
+  btn.textContent=label;btn.classList.remove('is-done','is-fail');btn.classList.add(cls);
+  window.clearTimeout(timers.get(btn));
+  timers.set(btn,window.setTimeout(function(){btn.textContent='Copy';btn.classList.remove('is-done','is-fail');},2200));
+}
+document.addEventListener('click',function(e){
+  var btn=e.target.closest('.copy');if(!btn)return;
+  var text=btn.closest('.cb').querySelector('code').textContent.replace(/\n$/,'');
+  btn.setAttribute('data-copied',text);
+  copyText(text).then(function(){flash(btn,'is-done','Copied');say('Copied to clipboard');},
+    function(){flash(btn,'is-fail','Failed');say('Copy failed. Select the text and copy it by hand.');});
+});
+
+/* ---- your setup: three choices that decide which blocks show ---- */
+var KEY='cob-deploy-setup';
+var DEF={hw:'cpu',proxy:'caddy',ci:'runner'};
+var NAMES={hw:{cpu:'CPU server',gpu:'NVIDIA GPU server'},proxy:{caddy:'Caddy',nginx:'Nginx',cf:'Cloudflare + Caddy'},ci:{runner:'self-hosted runner',ssh:'deploy over SSH',none:'deploy by hand'}};
+var COND={hw:{cpu:'a CPU server',gpu:'an NVIDIA GPU server'},proxy:{caddy:'Caddy',nginx:'Nginx',cf:'Cloudflare'},ci:{runner:'a runner on the server',ssh:'GitHub Actions over SSH',none:'deploying by hand'}};
+var state={hw:DEF.hw,proxy:DEF.proxy,ci:DEF.ci},all=false;
+function valid(k,v){return NAMES[k]&&Object.prototype.hasOwnProperty.call(NAMES[k],v);}
+try{var saved=JSON.parse(localStorage.getItem(KEY)||'null');if(saved){Object.keys(DEF).forEach(function(k){if(valid(k,saved[k])){state[k]=saved[k];}});}}catch(e){}
+function save(){try{localStorage.setItem(KEY,JSON.stringify(state));}catch(e){}}
+var whenEls=$$('[data-when]');
+whenEls.forEach(function(el){
+  var parts=el.getAttribute('data-when').split(':'),k=parts[0],vs=parts[1].split('|');
+  el.setAttribute('data-cond',vs.map(function(v){return COND[k][v];}).join(' or '));
+});
+function matches(el){
+  var parts=el.getAttribute('data-when').split(':');
+  return parts[1].split('|').indexOf(state[parts[0]])!==-1;
+}
+function renumber(){
+  $$('section.s').forEach(function(sec){
+    var h2n=sec.querySelector('h2 .n');if(!h2n)return;
+    var base=parseInt(h2n.textContent,10);if(isNaN(base))return;
+    var i=0;
+    $$('.sub > h3 .n',sec).forEach(function(n){
+      var sub=n.closest('.sub');if(sub.hidden)return;
+      i++;n.textContent=base+'.'+i;
+    });
+  });
+}
+var sumEl=document.getElementById('setup-summary'),tocSum=document.getElementById('toc-summary');
+function apply(){
+  whenEls.forEach(function(el){el.hidden=!all&&!matches(el);});
+  root.classList.toggle('all',all);
+  $$('#setup-form input[type=radio]').forEach(function(r){r.checked=state[r.name]===r.value;});
+  var s=NAMES.hw[state.hw]+' · '+NAMES.proxy[state.proxy]+' · '+NAMES.ci[state.ci];
+  if(all){s='Everything (all options shown)';}
+  if(sumEl){sumEl.textContent=s;}
+  if(tocSum){tocSum.textContent=s;}
+  renumber();
+  refreshHeads();
+}
+var form=document.getElementById('setup-form');
+if(form){
+  form.addEventListener('change',function(e){
+    var t=e.target;
+    if(t.type==='radio'&&valid(t.name,t.value)){state[t.name]=t.value;save();apply();say('Showing the page for '+sumEl.textContent);}
+  });
+  form.addEventListener('submit',function(e){e.preventDefault();});
+}
+var allBox=document.getElementById('showall');
+if(allBox){allBox.addEventListener('change',function(){all=allBox.checked;apply();});}
+var resetBtn=document.getElementById('setup-reset');
+if(resetBtn){resetBtn.addEventListener('click',function(){
+  state={hw:DEF.hw,proxy:DEF.proxy,ci:DEF.ci};all=false;if(allBox){allBox.checked=false;}
+  try{localStorage.removeItem(KEY);}catch(e){}
+  apply();say('Setup reset');
+});}
+var editBtn=document.getElementById('setup-edit'),body=document.getElementById('setup-body');
+function openPanel(open){
+  if(!editBtn||!body)return;
+  body.hidden=!open;editBtn.setAttribute('aria-expanded',open?'true':'false');editBtn.textContent=open?'Done':'Edit';
+}
+if(editBtn){editBtn.addEventListener('click',function(){openPanel(body.hidden);});}
+
+/* ---- contents: mobile menu and scroll spy ---- */
+var det=document.querySelector('.toc details'),mq=window.matchMedia('(min-width: 961px)');
+function syncMenu(){if(mq.matches&&det){det.open=true;}}
+syncMenu();
+if(mq.addEventListener){mq.addEventListener('change',syncMenu);}
+var links={};$$('.toc a[data-id]').forEach(function(a){links[a.getAttribute('data-id')]=a;});
+var heads=[],activeId=null;
+function refreshHeads(){heads=$$('.prose h2[id]');activeId=null;mark();}
+function mark(){
+  if(!heads.length)return;
+  var line=(parseFloat(getComputedStyle(root).scrollPaddingTop)||88)+16,act=heads[0];
+  for(var i=0;i<heads.length;i++){if(heads[i].getBoundingClientRect().top<=line){act=heads[i];}else{break;}}
+  if(window.innerHeight+window.pageYOffset>=document.documentElement.scrollHeight-4){act=heads[heads.length-1];}
+  if(act.id===activeId)return;
+  activeId=act.id;
+  $$('.toc a[aria-current]').forEach(function(a){a.removeAttribute('aria-current');});
+  var a=links[act.id];if(a){a.setAttribute('aria-current','location');}
+}
+var tick=false;
+window.addEventListener('scroll',function(){if(tick)return;tick=true;window.setTimeout(function(){tick=false;mark();},40);},{passive:true});
+window.addEventListener('hashchange',function(){window.setTimeout(mark,60);});
+window.addEventListener('resize',mark);
+window.addEventListener('load',mark);
+
+apply();
+})();
+</script>
+</body>
+</html>

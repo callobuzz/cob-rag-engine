@@ -1,0 +1,306 @@
+@import "tailwindcss";
+@import "tw-animate-css";
+
+@import "@fontsource/schibsted-grotesk/500.css";
+@import "@fontsource/schibsted-grotesk/600.css";
+@import "@fontsource/schibsted-grotesk/700.css";
+@import "@fontsource/schibsted-grotesk/800.css";
+@import "@fontsource/red-hat-text/400.css";
+@import "@fontsource/red-hat-text/500.css";
+@import "@fontsource/red-hat-text/600.css";
+@import "@fontsource/jetbrains-mono/400.css";
+@import "@fontsource/jetbrains-mono/500.css";
+
+@custom-variant dark (&:is(.dark *));
+
+/*
+ * Tokens copied from the approved mockup (docs/internal/mockups/dashboard-mockup.html:13-43)
+ * and renamed to shadcn names. Light is :root, dark is .dark; both are designed, not inverted.
+ * src/lib/branding/contrast.test.ts checks every text/background pair for WCAG AA.
+ */
+:root {
+	color-scheme: light;
+	--radius: 10px;
+	--radius-sm-token: 7px;
+	--radius-lg-token: 14px;
+	--t: 160ms;
+	--ease: cubic-bezier(0.2, 0.8, 0.2, 1);
+
+	--background: #f5f7fb; /* --bg */
+	--muted: #eef2f8; /* --bg-2 */
+	--card: #ffffff; /* --panel */
+	--popover: #ffffff;
+	--secondary: #f4f7fb; /* --panel-2 */
+	--accent: #edf2f9; /* --hover */
+	--border: #e2e8f0; /* --line */
+	--input: #cbd5e1; /* --line-strong */
+	--foreground: #0b1726; /* --text */
+	--foreground-2: #3a4a5e; /* --text-2 */
+	--muted-foreground: #5b6b7f; /* --text-3 */
+	--card-foreground: var(--foreground);
+	--popover-foreground: var(--foreground);
+	--secondary-foreground: var(--foreground);
+	--accent-foreground: var(--foreground);
+	--primary: #1a5fc4; /* --blue #1f6fe0, darkened for AA (also on its soft tint over --bg-2) */
+	--primary-foreground: #ffffff; /* --blue-ink */
+	--primary-soft: rgba(31, 111, 224, 0.1);
+	--ring: #1a5fc4;
+	--info: #0e7490; /* --cyan */
+	--warning: #955a06; /* --amber #a16207, darkened for AA on its soft tint */
+	--warning-soft: rgba(202, 138, 4, 0.1); /* mockup .12 */
+	--success: #137636; /* --green #15803d, darkened for AA on its soft tint */
+	--success-soft: rgba(21, 128, 61, 0.08); /* mockup .10 */
+	--destructive: #b8243a; /* --rose #c8293a, darkened for AA on its soft tint over --bg */
+	--destructive-soft: rgba(200, 41, 58, 0.09);
+	--violet: #6d28d9;
+	--violet-soft: rgba(109, 40, 217, 0.1);
+	--chart-1: #1f6fe0; /* --s-widget */
+	--chart-2: #0ea5c6; /* --s-api */
+	--chart-3: #7c3aed; /* --s-agents */
+	--chart-4: #0ea5c6; /* stream */
+	--chart-5: #6d28d9; /* conversations */
+	--shadow: 0 10px 30px -14px rgba(15, 23, 42, 0.25), 0 0 0 1px rgba(15, 23, 42, 0.04);
+
+	/* Operator brand; overwritten at runtime from GET /api/v1/public/branding. */
+	--brand: #2f8cff;
+	--brand-foreground: #04101f;
+	--brand-text-light: #1a5fc4;
+	--brand-text-dark: #5aa5ff;
+	--brand-text: var(--brand-text-light);
+	--brand-soft: color-mix(in srgb, var(--brand) 12%, transparent);
+}
+
+.dark {
+	color-scheme: dark;
+	--background: #07111d;
+	--muted: #0a1726;
+	--card: #0d1a2a;
+	--popover: #0d1a2a;
+	--secondary: #122235;
+	--accent: #16293f;
+	--border: #1c2f46;
+	--input: #2a4460;
+	--foreground: #eaf2fb;
+	--foreground-2: #a9bbcf;
+	--muted-foreground: #8093a9;
+	--primary: #2f8cff;
+	--primary-foreground: #04101f;
+	--primary-soft: rgba(47, 140, 255, 0.1); /* mockup .14; .10 keeps --primary text AA */
+	--ring: #2f8cff;
+	--info: #3fd8f5;
+	--warning: #f2b441;
+	--warning-soft: rgba(242, 180, 65, 0.13);
+	--success: #4ade9b;
+	--success-soft: rgba(74, 222, 155, 0.13);
+	--destructive: #ff7a85;
+	--destructive-soft: rgba(255, 122, 133, 0.13);
+	--violet: #a78bfa;
+	--violet-soft: rgba(167, 139, 250, 0.14);
+	--chart-1: #2f8cff;
+	--chart-2: #3fd8f5;
+	--chart-3: #a78bfa;
+	--chart-4: #3fd8f5;
+	--chart-5: #a78bfa;
+	--shadow: 0 12px 40px -12px rgba(0, 0, 0, 0.6), 0 0 0 1px rgba(255, 255, 255, 0.03);
+	--brand-text: var(--brand-text-dark);
+}
+
+@theme inline {
+	--color-background: var(--background);
+	--color-foreground: var(--foreground);
+	--color-foreground-2: var(--foreground-2);
+	--color-card: var(--card);
+	--color-card-foreground: var(--card-foreground);
+	--color-popover: var(--popover);
+	--color-popover-foreground: var(--popover-foreground);
+	--color-primary: var(--primary);
+	--color-primary-foreground: var(--primary-foreground);
+	--color-primary-soft: var(--primary-soft);
+	--color-secondary: var(--secondary);
+	--color-secondary-foreground: var(--secondary-foreground);
+	--color-muted: var(--muted);
+	--color-muted-foreground: var(--muted-foreground);
+	--color-accent: var(--accent);
+	--color-accent-foreground: var(--accent-foreground);
+	--color-destructive: var(--destructive);
+	--color-destructive-soft: var(--destructive-soft);
+	--color-info: var(--info);
+	--color-warning: var(--warning);
+	--color-warning-soft: var(--warning-soft);
+	--color-success: var(--success);
+	--color-success-soft: var(--success-soft);
+	--color-violet: var(--violet);
+	--color-violet-soft: var(--violet-soft);
+	--color-border: var(--border);
+	--color-input: var(--input);
+	--color-ring: var(--ring);
+	--color-chart-1: var(--chart-1);
+	--color-chart-2: var(--chart-2);
+	--color-chart-3: var(--chart-3);
+	--color-chart-4: var(--chart-4);
+	--color-chart-5: var(--chart-5);
+	--color-brand: var(--brand);
+	--color-brand-foreground: var(--brand-foreground);
+	--color-brand-text: var(--brand-text);
+	--color-brand-soft: var(--brand-soft);
+
+	--radius-sm: var(--radius-sm-token);
+	--radius-md: var(--radius);
+	--radius-lg: var(--radius-lg-token);
+	--radius-xl: var(--radius-lg-token);
+
+	--shadow-pop: var(--shadow);
+
+	--animate-shake: shake 0.36s var(--ease);
+	@keyframes shake {
+		0%,
+		100% {
+			transform: translateX(0);
+		}
+		25% {
+			transform: translateX(-6px);
+		}
+		75% {
+			transform: translateX(6px);
+		}
+	}
+
+	/* Playground streaming caret (mockup .caret); removed under reduced motion (D5). */
+	--animate-blink: blink 1s steps(2) infinite;
+	@keyframes blink {
+		50% {
+			opacity: 0;
+		}
+	}
+
+	--font-display: "Schibsted Grotesk", "Segoe UI", system-ui, sans-serif;
+	--font-sans: "Red Hat Text", "Segoe UI", system-ui, sans-serif;
+	--font-mono: "JetBrains Mono", Consolas, monospace;
+}
+
+@layer base {
+	* {
+		@apply border-border;
+	}
+	html,
+	body,
+	#root {
+		height: 100%;
+	}
+	/* The canvas colour covers the whole viewport (overscroll, short pages) in both themes. */
+	html {
+		background: var(--background);
+	}
+	body {
+		margin: 0;
+		background: var(--background);
+		color: var(--foreground);
+		font: 14px / 1.5 var(--font-sans);
+		-webkit-font-smoothing: antialiased;
+	}
+	h1,
+	h2,
+	h3 {
+		font-family: var(--font-display);
+		letter-spacing: -0.01em;
+		margin: 0;
+	}
+	code,
+	kbd,
+	.font-mono {
+		font-family: var(--font-mono);
+	}
+	code {
+		font-size: 12.5px;
+	}
+	:focus-visible {
+		outline: 2px solid var(--ring);
+		outline-offset: 2px;
+	}
+	/* Headings and <main> receive focus programmatically after navigation; they are not controls. */
+	[tabindex="-1"]:focus {
+		outline: none;
+	}
+	button:not(:disabled),
+	[role="button"]:not([aria-disabled="true"]) {
+		cursor: pointer;
+	}
+}
+
+@layer components {
+	/* Density: tables read data-density from <html>. */
+	.density-cell {
+		padding: 10px 16px;
+	}
+	html[data-density="compact"] .density-cell {
+		padding-top: 6px;
+		padding-bottom: 6px;
+	}
+
+	/* Auth side panel (mockup .signin-side + .auth-side), tinted by the operator colour. */
+	.auth-side {
+		background:
+			radial-gradient(60% 50% at 18% 12%, color-mix(in srgb, var(--brand) 38%, transparent), transparent 70%),
+			radial-gradient(50% 45% at 90% 90%, rgba(47, 140, 255, 0.14), transparent 70%), #04131a;
+		color: #eaf2fb;
+	}
+
+	.kbd {
+		font-family: var(--font-mono);
+		font-size: 11px;
+		padding: 1px 6px;
+		border-radius: 5px;
+		border: 1px solid var(--input);
+		color: var(--muted-foreground);
+		background: var(--secondary);
+	}
+
+	.nav-label {
+		font-family: var(--font-mono);
+		font-size: 10.5px;
+		letter-spacing: 0.1em;
+		text-transform: uppercase;
+		color: var(--muted-foreground);
+	}
+
+	/* Mockup .table.stack-sm: rows become cards under 600px. */
+	@media (max-width: 600px) {
+		.stack-sm thead {
+			display: none;
+		}
+		.stack-sm,
+		.stack-sm tbody,
+		.stack-sm tr,
+		.stack-sm td,
+		.stack-sm tbody th,
+		.stack-sm tfoot,
+		.stack-sm tfoot th {
+			display: block;
+		}
+		.stack-sm tr {
+			display: grid;
+			gap: 8px;
+			padding: 14px 16px;
+			border-bottom: 1px solid var(--border);
+		}
+		.stack-sm td,
+		.stack-sm tbody th,
+		.stack-sm tfoot th {
+			/* biome-ignore lint/complexity/noImportantStyles: must beat the density-cell utility */
+			padding: 0 !important;
+			/* biome-ignore lint/complexity/noImportantStyles: must beat the table border utility */
+			border: 0 !important;
+		}
+	}
+}
+
+@media (prefers-reduced-motion: reduce) {
+	*,
+	*::before,
+	*::after {
+		/* biome-ignore lint/complexity/noImportantStyles: reduced motion must win over every component */
+		transition: none !important;
+		/* biome-ignore lint/complexity/noImportantStyles: reduced motion must win over every component */
+		animation: none !important;
+	}
+}

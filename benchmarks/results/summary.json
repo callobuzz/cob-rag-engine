@@ -1,0 +1,248 @@
+{
+  "schema_version": 1,
+  "sections": [
+    {
+      "id": "beir",
+      "title": "Retrieval quality on BEIR (nDCG@10)",
+      "date": "2026-09-28",
+      "method": "Six public BEIR datasets, test split, official relevance judgements, through POST /api/v1/query/retrieve. Higher is better.",
+      "link": "https://callobuzz.github.io/cob-rag-engine/benchmarks.html#beir",
+      "columns": [
+        "SciFact",
+        "NFCorpus",
+        "ArguAna",
+        "SCIDOCS",
+        "FiQA",
+        "TREC-COVID",
+        "Mean"
+      ],
+      "rows": [
+        {
+          "name": "BM25 keyword search (BEIR paper)",
+          "values": [
+            "0.665",
+            "0.325",
+            "0.315",
+            "0.158",
+            "0.236",
+            "0.656",
+            "0.393"
+          ],
+          "highlight": false
+        },
+        {
+          "name": "bge-base-en-v1.5, published",
+          "values": [
+            "0.743",
+            "0.374",
+            "0.638",
+            "0.217",
+            "0.406",
+            "0.780",
+            "0.526"
+          ],
+          "highlight": false
+        },
+        {
+          "name": "Engine, dense only",
+          "values": [
+            "0.740",
+            "0.374",
+            "0.639",
+            "0.217",
+            "0.405",
+            "0.792",
+            "0.528"
+          ],
+          "highlight": false
+        },
+        {
+          "name": "Engine, hybrid, reciprocal-rank fusion",
+          "values": [
+            "0.736",
+            "0.365",
+            "0.560",
+            "0.198",
+            "0.370",
+            "0.802",
+            "0.505"
+          ],
+          "highlight": false
+        },
+        {
+          "name": "Engine, hybrid (the default)",
+          "values": [
+            "0.761",
+            "0.382",
+            "0.640",
+            "0.221",
+            "0.417",
+            "0.803",
+            "0.537"
+          ],
+          "highlight": true
+        },
+        {
+          "name": "Engine, hybrid + reranker",
+          "values": [
+            "0.755",
+            "0.368",
+            "0.529",
+            "0.201",
+            "0.430",
+            "0.852",
+            "0.523"
+          ],
+          "highlight": false
+        }
+      ]
+    },
+    {
+      "id": "documents",
+      "title": "Real documents",
+      "date": "2026-09-28",
+      "method": "Seven real-format files (typeset and scanned PDF, DOCX, XLSX, PPTX, HTML, Markdown) uploaded through POST /api/v1/ingest; 55 questions whose answers sit in prose, tables, cells, slides and a scanned page.",
+      "link": "https://callobuzz.github.io/cob-rag-engine/benchmarks.html#documents",
+      "columns": [
+        "hit@1",
+        "hit@5",
+        "MRR"
+      ],
+      "rows": [
+        {
+          "name": "Dense",
+          "values": [
+            "87%",
+            "100%",
+            "0.93"
+          ],
+          "highlight": false
+        },
+        {
+          "name": "Hybrid (the default)",
+          "values": [
+            "91%",
+            "100%",
+            "0.95"
+          ],
+          "highlight": true
+        },
+        {
+          "name": "Hybrid + reranker",
+          "values": [
+            "94%",
+            "100%",
+            "0.97"
+          ],
+          "highlight": false
+        }
+      ]
+    },
+    {
+      "id": "labels",
+      "title": "Assistant turn labels (thinking fast model)",
+      "date": "2026-10-03",
+      "method": "266 held-out turns in English, Hindi and Hinglish, each asked of the business it was written for (benchmarks/labels.py). The fast-model table compares models on the same turns.",
+      "link": "https://callobuzz.github.io/cob-rag-engine/benchmarks.html",
+      "columns": [
+        "openai/gpt-oss-120b",
+        "Bar"
+      ],
+      "rows": [
+        {
+          "name": "Overall accuracy",
+          "values": [
+            "96.6%",
+            "90%"
+          ],
+          "highlight": false
+        },
+        {
+          "name": "English / Hindi / Hinglish",
+          "values": [
+            "97.8% / 95.4% / 96.7%",
+            "85% each"
+          ],
+          "highlight": false
+        },
+        {
+          "name": "Business-question recall",
+          "values": [
+            "98.6%",
+            "97%"
+          ],
+          "highlight": false
+        },
+        {
+          "name": "Reply language",
+          "values": [
+            "100.0%",
+            "95%"
+          ],
+          "highlight": false
+        },
+        {
+          "name": "Label fallbacks",
+          "values": [
+            "4.3%",
+            "5%"
+          ],
+          "highlight": false
+        }
+      ]
+    },
+    {
+      "id": "ttft",
+      "title": "Time to first token",
+      "date": "2026-10-03",
+      "method": "In-process (benchmarks/ttft.py): label call 1520 ms (gpt-4.1-mini p50), search 77 ms, answer model's first token 800 ms. Before and after the answer starts while the label is pending (RAG_ASSISTANT_SPECULATIVE_ANSWER).",
+      "link": "https://callobuzz.github.io/cob-rag-engine/benchmarks.html",
+      "columns": [
+        "Before",
+        "After"
+      ],
+      "rows": [
+        {
+          "name": "smalltalk (rules)",
+          "values": [
+            "0 ms",
+            "0 ms"
+          ],
+          "highlight": false
+        },
+        {
+          "name": "business question",
+          "values": [
+            "2344 ms",
+            "1535 ms"
+          ],
+          "highlight": false
+        },
+        {
+          "name": "off-topic",
+          "values": [
+            "1530 ms",
+            "1531 ms"
+          ],
+          "highlight": false
+        },
+        {
+          "name": "human request",
+          "values": [
+            "1534 ms",
+            "1529 ms"
+          ],
+          "highlight": false
+        },
+        {
+          "name": "human request (rules)",
+          "values": [
+            "0 ms",
+            "0 ms"
+          ],
+          "highlight": false
+        }
+      ]
+    }
+  ]
+}

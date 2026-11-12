@@ -1,0 +1,151 @@
+{
+  "version": 1,
+  "notes": "Placeholder plans and add-ons for a hosted service: Free, Standard and Pro, an own-AI-key add-on, three services and three credit packs. Every amount is a placeholder in paise, GST not included: set your own in the plan editor and the add-on catalogue before you open sign-ups (the 'Placeholder price' badges go away when you do).",
+  "plans": [
+    {
+      "name": "Free",
+      "plan": {
+        "name": "Free",
+        "description": "Try it for nothing: a small monthly credit, no fee.",
+        "monthly_questions": null,
+        "byok_allowed": false,
+        "self_service": true,
+        "fair_use_limits": {"questions_per_hour": 60, "questions_per_day": 300}
+      },
+      "pricing": {
+        "currency": "INR",
+        "subscription_fee_minor": 0,
+        "billing_period": "monthly",
+        "usage_mode": "per_question",
+        "per_question_minor": 50,
+        "byok_mode": "free",
+        "payment_type": "prepaid",
+        "grace_minor": 0,
+        "included_credit_minor": 5000,
+        "included_credit_expires": true
+      }
+    },
+    {
+      "name": "Standard",
+      "plan": {
+        "name": "Standard",
+        "description": "For a growing business: a monthly fee with credit included.",
+        "monthly_questions": null,
+        "byok_allowed": false,
+        "self_service": true
+      },
+      "pricing": {
+        "currency": "INR",
+        "subscription_fee_minor": 99900,
+        "billing_period": "monthly",
+        "usage_mode": "per_question",
+        "per_question_minor": 50,
+        "byok_mode": "free",
+        "payment_type": "prepaid",
+        "grace_minor": 0,
+        "included_credit_minor": 50000,
+        "included_credit_expires": true
+      }
+    },
+    {
+      "name": "Pro",
+      "plan": {
+        "name": "Pro",
+        "description": "More credit, a lower price per answer, and your own AI key included.",
+        "monthly_questions": null,
+        "byok_allowed": true,
+        "self_service": true
+      },
+      "pricing": {
+        "currency": "INR",
+        "subscription_fee_minor": 499900,
+        "billing_period": "monthly",
+        "usage_mode": "per_question",
+        "per_question_minor": 40,
+        "byok_mode": "free",
+        "payment_type": "prepaid",
+        "grace_minor": 0,
+        "included_credit_minor": 300000,
+        "included_credit_expires": true
+      }
+    }
+  ],
+  "add_ons": [
+    {
+      "kind": "feature_unlock",
+      "name": "Use your own AI key",
+      "description": "Answer with your own AI provider key instead of using your balance. Renews each month.",
+      "currency": "INR",
+      "price_minor": 49900,
+      "feature": "byok",
+      "duration": "period",
+      "renews": true,
+      "sold_to_owners": true,
+      "placeholder": true
+    },
+    {
+      "kind": "service",
+      "name": "Website design + deploy (single page) with full support",
+      "description": "We design and publish a single-page website with your assistant on it, and support you for three months.",
+      "currency": "INR",
+      "price_minor": 1499900,
+      "includes_support_months": 3,
+      "sac_code": "998314",
+      "sold_to_owners": true,
+      "placeholder": true
+    },
+    {
+      "kind": "service",
+      "name": "Installation help",
+      "description": "We put the assistant on your website for you.",
+      "currency": "INR",
+      "price_minor": 199900,
+      "sac_code": "998313",
+      "sold_to_owners": true,
+      "placeholder": true
+    },
+    {
+      "kind": "service",
+      "name": "Priority support (monthly)",
+      "description": "Your questions to us are answered first. Renews each month.",
+      "currency": "INR",
+      "price_minor": 99900,
+      "renews": true,
+      "sac_code": "998313",
+      "sold_to_owners": true,
+      "placeholder": true
+    },
+    {
+      "kind": "credit_pack",
+      "name": "Credit pack ₹500",
+      "description": "Add ₹500 to your balance.",
+      "currency": "INR",
+      "price_minor": 50000,
+      "credit_minor": 50000,
+      "sold_to_owners": true,
+      "placeholder": true
+    },
+    {
+      "kind": "credit_pack",
+      "name": "Credit pack ₹1,000",
+      "description": "Add ₹1,000 to your balance, with 5% extra.",
+      "currency": "INR",
+      "price_minor": 100000,
+      "credit_minor": 100000,
+      "bonus_pct": 5,
+      "sold_to_owners": true,
+      "placeholder": true
+    },
+    {
+      "kind": "credit_pack",
+      "name": "Credit pack ₹5,000",
+      "description": "Add ₹5,000 to your balance, with 10% extra.",
+      "currency": "INR",
+      "price_minor": 500000,
+      "credit_minor": 500000,
+      "bonus_pct": 10,
+      "sold_to_owners": true,
+      "placeholder": true
+    }
+  ]
+}

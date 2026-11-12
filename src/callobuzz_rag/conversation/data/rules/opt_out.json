@@ -1,0 +1,25 @@
+{
+  "version": 1,
+  "stop": [
+    "^(please |pls |plz )?(stop|unsubscribe|opt ?out)( me)?( please| pls| plz)?( all)?( messages| messaging| texts)?$",
+    "^(please |pls |plz )?cancel( all)? (messages|messaging|texts|subscription)( please| pls| plz)?$",
+    "^(please |pls |plz )?(stop|don'?t|do not|dont) (messaging|texting|sending|message|text|send)( me)?( messages| anything)?( again| anymore| any more)?( please| pls| plz)?$",
+    "^(please |pls |plz )?stop (messaging|texting|sending|contacting) me( again| anymore)?( please| pls| plz)?$",
+    "^(please |pls |plz )?(band|bandh) (karo|kijiye|kardo|kar do)( ji)?( please| pls| plz)?$",
+    "^(please |pls |plz )?(roko|ruko|rok do)( please| pls| plz| ji)?$",
+    "^(mujhe |mujhko )?(message|msg|sms) (mat|na) (karo|bhejo|kijiye|karein|karna)( ji)?( please| pls| plz)?$",
+    "^(mujhe |mujhko )?(message|msg) (bhejna )?band (karo|kijiye|kardo|kar do)( ji)?( please| pls| plz)?$",
+    "^(रोकें|रोको|रुकें|रुको)$",
+    "^(बंद|बन्द) (करो|करें|कीजिए|कर दो)$",
+    "^(मुझे )?(मैसेज|संदेश|मेसेज) (मत|न) (करो|भेजो|करें|भेजें|कीजिए)$",
+    "^(please |pls |plz )?opt me out( please| pls| plz)?$",
+    "^(please |pls |plz )?stop (it|this|that)( now| please| pls| plz)?$",
+    "^(please |pls |plz )?(no more|no further) (messages|messaging|texts|msgs?|whatsapp)( please| pls| plz)?$",
+    "^(mujhe |mujhko )?(mat|na) (bhejo|bhejiye|bhejna|karo|karna|kijiye)( ji)?( please| pls| plz)?$"
+  ],
+  "start": [
+    "^(start|subscribe|resume|unstop)$",
+    "^(shuru|chalu) (karo|kijiye|kardo|kar do)( ji)?( please| pls| plz)?$",
+    "^(शुरू|चालू) (करो|करें|कीजिए|कर दो)$"
+  ]
+}

@@ -1,0 +1,66 @@
+{
+  "inter-tight": {
+    "latin": "fonts/inter-tight-latin.77fefe8ca1.woff2",
+    "latin-ext": "fonts/inter-tight-latin-ext.fd9beddaae.woff2"
+  },
+  "inter": {
+    "latin": "fonts/inter-latin.3100e775e8.woff2",
+    "latin-ext": "fonts/inter-latin-ext.34b9c504ca.woff2"
+  },
+  "geist": {
+    "latin": "fonts/geist-latin.19f9c92546.woff2",
+    "latin-ext": "fonts/geist-latin-ext.824f485b5d.woff2"
+  },
+  "geist-mono": {
+    "latin": "fonts/geist-mono-latin.684ad5b531.woff2",
+    "latin-ext": "fonts/geist-mono-latin-ext.1a189eb997.woff2"
+  },
+  "instrument-serif": {
+    "latin@400": "fonts/instrument-serif-latin-400.5eb09b5ac0.woff2",
+    "latin-ext@400": "fonts/instrument-serif-latin-ext-400.290e6267dd.woff2"
+  },
+  "fraunces": {
+    "latin": "fonts/fraunces-latin.7f9d191d99.woff2",
+    "latin-ext": "fonts/fraunces-latin-ext.a21ecfbf41.woff2"
+  },
+  "manrope": {
+    "latin": "fonts/manrope-latin.a30ddcd349.woff2",
+    "latin-ext": "fonts/manrope-latin-ext.3911b66d9f.woff2"
+  },
+  "bricolage-grotesque": {
+    "latin": "fonts/bricolage-grotesque-latin.a97804dc9f.woff2",
+    "latin-ext": "fonts/bricolage-grotesque-latin-ext.e808f16b56.woff2"
+  },
+  "dm-sans": {
+    "latin": "fonts/dm-sans-latin.9fea608a94.woff2",
+    "latin-ext": "fonts/dm-sans-latin-ext.a5d38fe99f.woff2"
+  },
+  "schibsted-grotesk": {
+    "latin@400": "fonts/schibsted-grotesk-latin-400.437cd97c80.woff2",
+    "latin@600": "fonts/schibsted-grotesk-latin-600.d00ac8735b.woff2",
+    "latin@700": "fonts/schibsted-grotesk-latin-700.d656a2dcc2.woff2",
+    "latin-ext@400": "fonts/schibsted-grotesk-latin-ext-400.d37d8b7c08.woff2",
+    "latin-ext@600": "fonts/schibsted-grotesk-latin-ext-600.5c1011a86e.woff2",
+    "latin-ext@700": "fonts/schibsted-grotesk-latin-ext-700.2f985c2c77.woff2"
+  },
+  "red-hat-text": {
+    "latin@400": "fonts/red-hat-text-latin-400.65129f7169.woff2",
+    "latin@600": "fonts/red-hat-text-latin-600.572fee3b7f.woff2",
+    "latin-ext@400": "fonts/red-hat-text-latin-ext-400.3bc003c1f3.woff2",
+    "latin-ext@600": "fonts/red-hat-text-latin-ext-600.0232b58bf4.woff2"
+  },
+  "noto-sans-devanagari": {
+    "devanagari": "fonts/noto-sans-devanagari-devanagari.3b3cae4d26.woff2"
+  },
+  "noto-serif-devanagari": {
+    "devanagari": "fonts/noto-serif-devanagari-devanagari.bab9ee27c0.woff2"
+  },
+  "mukta": {
+    "devanagari@400": "fonts/mukta-devanagari-400.afc56ae914.woff2",
+    "devanagari@600": "fonts/mukta-devanagari-600.872b98024f.woff2"
+  },
+  "hind": {
+    "devanagari@400": "fonts/hind-devanagari-400.6939ca4cd3.woff2",
+    "devanagari@600": "fonts/hind-devanagari-600.732a7089dc.woff2"
+  }
+}

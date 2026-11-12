@@ -1,0 +1,8 @@
+{% extends "_base.html" %}
+{% from "_macros.html" import button with context %}
+{% block content %}
+<p style="margin:0 0 12px;">Thank you. We received your payment of <strong>{{ amount }}</strong> for {{ tenant_name }}.</p>
+<p style="margin:0 0 12px;">{{ purpose_label }}. Your balance is now <strong>{{ balance }}</strong>.</p>
+<p style="margin:0 0 12px;">Your tax invoice will be in Plan &amp; billing.</p>
+{{ button(billing_url, "Open Plan & billing") }}
+{% endblock %}

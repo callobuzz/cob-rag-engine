@@ -1,0 +1,8 @@
+{% extends "_base.html" %}
+{% from "_macros.html" import code_box with context %}
+{% block content %}
+<p style="margin:0 0 12px;">Hi {{ name }},</p>
+<p style="margin:0 0 12px;">Enter this code to verify your e-mail address for {{ branding.product_name }}:</p>
+{{ code_box(code) }}
+<p style="margin:0 0 12px;">It expires in {{ minutes }} minutes. If you did not sign up, you can ignore this e-mail.</p>
+{% endblock %}

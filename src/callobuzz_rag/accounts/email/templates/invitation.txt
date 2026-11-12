@@ -1,0 +1,9 @@
+{% extends "_base.txt" %}
+{% block content %}
+{{ inviter_name }} invited you to join {{ tenant_name }} on {{ branding.product_name }} as {{ "an" if role == "owner" else "a" }} {{ role }}.
+
+Accept the invitation:
+{{ accept_url }}
+
+The invitation expires in {{ days }} days. If you were not expecting it, you can ignore this e-mail.
+{% endblock %}

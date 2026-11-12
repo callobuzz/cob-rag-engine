@@ -1,0 +1,50 @@
+{
+  "version": 3,
+  "buying_intent": {
+    "en": [
+      "(i want to|i'?d like to|i wish to|how (do|can) i|can i) (book|buy|order|enrol|enroll|join|purchase|schedule|reserve|get a quote)",
+      "book (an |a )?(appointment|slot|test|visit|demo|table|consultation)",
+      "(send|give) me (a |the )?(quote|quotation)",
+      "i am interested in",
+      "(i'?ll|i will|we'?ll|we will) (take|buy|order|book) (it|them|this|that|these|those|the|one|two|\\d+)",
+      "(can|could|would) you (please )?(book|reserve|order)( me| us)? (a|an|the|my|our|two|three|four|five|\\d+|it|them|this|that)",
+      "please (book|reserve|order)",
+      "sign (me|us) up",
+      "(want|like|need|wish) to (place an order|make a booking|make a reservation|sign up|register|subscribe|enrol|enroll)",
+      "(we|i) (want|would like|wish) to (buy|purchase|order|book|subscribe)",
+      "(place|placing) (an|a) (\\w+ )?order",
+      "(send|share|email) (me |us )?(a |the )?(quote|quotation|estimate)( for| of)?"
+    ],
+    "hi": [
+      "बुक करना है",
+      "खरीदना है",
+      "एडमिशन लेना है",
+      "ऑर्डर करना है",
+      "अपॉइंटमेंट (चाहिए|लेना है)",
+      "बुक (करनी|करवाना|करवानी) है",
+      "बुक (कर|करवा) (दीजिए|दीजिये|दो|दें)",
+      "(बुक|ऑर्डर) करना चाहत(ा|ी|े) (हूँ|हूं|हैं)",
+      "खरीदना चाहत(ा|ी|े) (हूँ|हूं|हैं)",
+      "ले लूँगा|ले लूंगा|ले लूँगी|ले लूंगी",
+      "दाखिला (चाहिए|लेना है|करवाना है)",
+      "(कोटेशन|कोट) (चाहिए|भेजिए|भेजिये|भेज दीजिए|भेजें)",
+      "ऑर्डर (देना|करना) है",
+      "मंगवाना है"
+    ],
+    "hi-Latn": [
+      "(book|order|admission|appointment|enquiry|inquiry) (karna|karni|lena|leni) hai",
+      "(kharidna|lena|leni) hai",
+      "appointment chahiye",
+      "slot (book|chahiye)",
+      "book (karwani|karwana) hai",
+      "book (kar|karwa) (do|dijiye|dena|dijie)",
+      "(book|order) karna chaht(a|i|e) (hoon|hu|hun|hain)",
+      "kharidna chaht(a|i|e) (hoon|hu|hun|hain)",
+      "le (lunga|lungi)",
+      "admission (kar do|karwa do|chahiye)",
+      "(quote|quotation) (chahiye|bhej do|bhejiye|bhejo|bhej dijiye)",
+      "order (dena|karna) hai",
+      "mangwana hai"
+    ]
+  }
+}

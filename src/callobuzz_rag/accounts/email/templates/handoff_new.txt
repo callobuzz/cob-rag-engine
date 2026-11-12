@@ -1,0 +1,20 @@
+{% extends "_base.txt" %}
+{% block content %}
+A visitor of the {{ kb_name }} assistant{% if business_name %} of {{ business_name }}{% endif %} asked to talk to a person.
+
+{% if ref_code is defined and ref_code %}Reference:    {{ ref_code }}
+{% endif %}Visitor:      {{ visitor_label }}
+Way chosen:   {{ channel_label }}
+Why:          {{ reason_label }}
+Office hours: {{ office_open }}
+{% if phone %}Phone:        {{ phone }}
+{% endif %}{% if email %}E-mail:       {{ email }}
+{% endif %}Language:     {{ language }}
+{% if page_url %}Page:         {{ page_url }}
+{% endif %}
+Summary: {{ summary }}
+{% if question %}Last question: {{ question }}
+{% endif %}
+Open the handoff and the full chat:
+{{ transcript_url }}
+{% endblock %}

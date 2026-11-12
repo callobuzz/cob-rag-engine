@@ -1,0 +1,8 @@
+{% extends "_base.html" %}
+{% from "_macros.html" import button with context %}
+{% block content %}
+<p style="margin:0 0 12px;">Good news: the assistant of <strong>{{ business_name }}</strong> has finished reading <strong>{{ site }}</strong>.</p>
+<p style="margin:0 0 12px;">It learned <strong>{{ pages_learned }}</strong> page{{ "" if pages_learned == 1 else "s" }}{% if pages_skipped %} and left out {{ pages_skipped }} (login pages, copies of other pages and pages your website asked search engines not to read){% endif %}. Visitors can now ask it about what is on your website.</p>
+<p style="margin:0 0 12px;">You can see every page, read one again or leave one out in {{ product_name }}.</p>
+{{ button(knowledge_url, "See what it learned") }}
+{% endblock %}

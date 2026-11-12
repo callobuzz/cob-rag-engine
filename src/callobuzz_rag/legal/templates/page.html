@@ -1,0 +1,45 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="color-scheme" content="light dark">
+<title>{{ title }} · {{ product_name }}</title>
+<style>
+  :root { --bg: #ffffff; --fg: #1b1f24; --muted: #5b6470; --line: #e3e7ec; --accent: {{ accent }}; }
+  @media (prefers-color-scheme: dark) {
+    :root { --bg: #14171b; --fg: #e8ecf0; --muted: #9aa5b1; --line: #2a3038; }
+  }
+  * { box-sizing: border-box; }
+  body { margin: 0; background: var(--bg); color: var(--fg);
+         font: 16px/1.65 system-ui, -apple-system, "Segoe UI", Roboto, sans-serif; }
+  header, main, footer { max-width: 46rem; margin: 0 auto; padding: 0 16px; }
+  header { padding-top: 24px; padding-bottom: 8px; border-bottom: 1px solid var(--line); }
+  header a { color: var(--fg); font-weight: 600; text-decoration: none; }
+  .meta { color: var(--muted); font-size: 0.9rem; margin: 20px 0 0; }
+  main h1 { font-size: 1.9rem; line-height: 1.25; margin: 4px 0 8px; }
+  main h2 { font-size: 1.25rem; margin: 2rem 0 0.4rem; }
+  main a { color: var(--accent); }
+  main table { border-collapse: collapse; width: 100%; font-size: 0.95rem; display: block; overflow-x: auto; }
+  main th, main td { border: 1px solid var(--line); padding: 6px 10px; text-align: left; vertical-align: top; }
+  footer { padding-top: 24px; padding-bottom: 40px; margin-top: 40px; border-top: 1px solid var(--line);
+           color: var(--muted); font-size: 0.9rem; }
+  footer ul { list-style: none; padding: 0; margin: 0; display: flex; flex-wrap: wrap; gap: 6px 18px; }
+  footer a { color: var(--muted); }
+</style>
+</head>
+<body>
+<header><a href="/">{{ product_name }}</a></header>
+<main>
+  <p class="meta">Version {{ version }} &middot; Last updated {{ updated }}</p>
+  {{ body_html|safe }}
+</main>
+<footer>
+  <ul>
+  {% for page in pages %}
+    <li><a href="/legal/{{ page.slug }}"{% if page.slug == slug %} aria-current="page"{% endif %}>{{ page.title }}</a></li>
+  {% endfor %}
+  </ul>
+</footer>
+</body>
+</html>

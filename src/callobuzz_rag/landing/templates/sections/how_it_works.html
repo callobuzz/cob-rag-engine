@@ -1,0 +1,16 @@
+{% import "macros.html" as m with context %}
+<section class="section how-it-works" data-section="how_it_works" id="{{ s.id }}">
+  <div class="wrap">
+    {{ m.head(s) }}
+    <ol class="steps">
+      {% for step in s.steps %}
+      <li class="step" style="--i: {{ loop.index0 }}">
+        <span class="step-no" aria-hidden="true">{{ loop.index }}</span>
+        <h3>{{ step.title|t }}</h3>
+        <p>{{ step.text|t }}</p>
+      </li>
+      {% endfor %}
+    </ol>
+    {% if s.promise %}<p class="promise">{{ s.promise|t }}</p>{% endif %}
+  </div>
+</section>

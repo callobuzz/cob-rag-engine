@@ -1,0 +1,198 @@
+[
+  {
+    "name": "a small clinic fits the free plan",
+    "plans": [
+      {"key": "0:INR:monthly", "fee_minor": 0, "included_credit_minor": 0, "usage_mode": "included", "per_question_minor": 0, "question_cap": 100, "overage_charge_minor": null, "est_answer_minor": null},
+      {"key": "1:INR:monthly", "fee_minor": 99900, "included_credit_minor": 50000, "usage_mode": "per_question", "per_question_minor": 200, "question_cap": null, "overage_charge_minor": null, "est_answer_minor": null},
+      {"key": "2:INR:monthly", "fee_minor": 499900, "included_credit_minor": 300000, "usage_mode": "per_question", "per_question_minor": 150, "question_cap": null, "overage_charge_minor": null, "est_answer_minor": null}
+    ],
+    "questions": 50, "gst": false,
+    "expect": {"key": "0:INR:monthly", "monthly_minor": 0, "incl": 0}
+  },
+  {
+    "name": "one question above the free cap moves to the next plan",
+    "plans": [
+      {"key": "0:INR:monthly", "fee_minor": 0, "included_credit_minor": 0, "usage_mode": "included", "per_question_minor": 0, "question_cap": 100, "overage_charge_minor": null, "est_answer_minor": null},
+      {"key": "1:INR:monthly", "fee_minor": 99900, "included_credit_minor": 50000, "usage_mode": "per_question", "per_question_minor": 200, "question_cap": null, "overage_charge_minor": null, "est_answer_minor": null},
+      {"key": "2:INR:monthly", "fee_minor": 499900, "included_credit_minor": 300000, "usage_mode": "per_question", "per_question_minor": 150, "question_cap": null, "overage_charge_minor": null, "est_answer_minor": null}
+    ],
+    "questions": 101, "gst": false,
+    "expect": {"key": "1:INR:monthly", "monthly_minor": 99900, "incl": 99900}
+  },
+  {
+    "name": "usage beyond the included credit is added to the fee",
+    "plans": [
+      {"key": "1:INR:monthly", "fee_minor": 99900, "included_credit_minor": 50000, "usage_mode": "per_question", "per_question_minor": 200, "question_cap": null, "overage_charge_minor": null, "est_answer_minor": null},
+      {"key": "2:INR:monthly", "fee_minor": 499900, "included_credit_minor": 300000, "usage_mode": "per_question", "per_question_minor": 150, "question_cap": null, "overage_charge_minor": null, "est_answer_minor": null}
+    ],
+    "questions": 1000, "gst": false,
+    "expect": {"key": "1:INR:monthly", "monthly_minor": 249900, "incl": 249900}
+  },
+  {
+    "name": "two thousand questions",
+    "plans": [
+      {"key": "1:INR:monthly", "fee_minor": 99900, "included_credit_minor": 50000, "usage_mode": "per_question", "per_question_minor": 200, "question_cap": null, "overage_charge_minor": null, "est_answer_minor": null},
+      {"key": "2:INR:monthly", "fee_minor": 499900, "included_credit_minor": 300000, "usage_mode": "per_question", "per_question_minor": 150, "question_cap": null, "overage_charge_minor": null, "est_answer_minor": null}
+    ],
+    "questions": 2000, "gst": false,
+    "expect": {"key": "1:INR:monthly", "monthly_minor": 449900, "incl": 449900}
+  },
+  {
+    "name": "twenty-five hundred questions",
+    "plans": [
+      {"key": "1:INR:monthly", "fee_minor": 99900, "included_credit_minor": 50000, "usage_mode": "per_question", "per_question_minor": 200, "question_cap": null, "overage_charge_minor": null, "est_answer_minor": null},
+      {"key": "2:INR:monthly", "fee_minor": 499900, "included_credit_minor": 300000, "usage_mode": "per_question", "per_question_minor": 150, "question_cap": null, "overage_charge_minor": null, "est_answer_minor": null}
+    ],
+    "questions": 2500, "gst": false,
+    "expect": {"key": "1:INR:monthly", "monthly_minor": 549900, "incl": 549900}
+  },
+  {
+    "name": "an exact tie goes to the lower fee",
+    "plans": [
+      {"key": "1:INR:monthly", "fee_minor": 99900, "included_credit_minor": 50000, "usage_mode": "per_question", "per_question_minor": 200, "question_cap": null, "overage_charge_minor": null, "est_answer_minor": null},
+      {"key": "2:INR:monthly", "fee_minor": 499900, "included_credit_minor": 300000, "usage_mode": "per_question", "per_question_minor": 150, "question_cap": null, "overage_charge_minor": null, "est_answer_minor": null}
+    ],
+    "questions": 3000, "gst": false,
+    "expect": {"key": "1:INR:monthly", "monthly_minor": 649900, "incl": 649900}
+  },
+  {
+    "name": "a busy shop is cheaper on the bigger plan",
+    "plans": [
+      {"key": "1:INR:monthly", "fee_minor": 99900, "included_credit_minor": 50000, "usage_mode": "per_question", "per_question_minor": 200, "question_cap": null, "overage_charge_minor": null, "est_answer_minor": null},
+      {"key": "2:INR:monthly", "fee_minor": 499900, "included_credit_minor": 300000, "usage_mode": "per_question", "per_question_minor": 150, "question_cap": null, "overage_charge_minor": null, "est_answer_minor": null}
+    ],
+    "questions": 4000, "gst": false,
+    "expect": {"key": "2:INR:monthly", "monthly_minor": 799900, "incl": 799900}
+  },
+  {
+    "name": "GST is added on top and rounded to the paisa",
+    "plans": [
+      {"key": "1:INR:monthly", "fee_minor": 99900, "included_credit_minor": 50000, "usage_mode": "per_question", "per_question_minor": 200, "question_cap": null, "overage_charge_minor": null, "est_answer_minor": null}
+    ],
+    "questions": 1000, "gst": true,
+    "expect": {"key": "1:INR:monthly", "monthly_minor": 249900, "incl": 294882}
+  },
+  {
+    "name": "GST on nothing is nothing",
+    "plans": [
+      {"key": "0:INR:monthly", "fee_minor": 0, "included_credit_minor": 0, "usage_mode": "included", "per_question_minor": 0, "question_cap": null, "overage_charge_minor": null, "est_answer_minor": null}
+    ],
+    "questions": 0, "gst": true,
+    "expect": {"key": "0:INR:monthly", "monthly_minor": 0, "incl": 0}
+  },
+  {
+    "name": "the credit covers the usage exactly",
+    "plans": [
+      {"key": "1:INR:monthly", "fee_minor": 99900, "included_credit_minor": 50000, "usage_mode": "per_question", "per_question_minor": 200, "question_cap": null, "overage_charge_minor": null, "est_answer_minor": null}
+    ],
+    "questions": 250, "gst": false,
+    "expect": {"key": "1:INR:monthly", "monthly_minor": 99900, "incl": 99900}
+  },
+  {
+    "name": "a pay-for-what-you-use plan with an estimate",
+    "plans": [
+      {"key": "3:INR:monthly", "fee_minor": 199900, "included_credit_minor": 100000, "usage_mode": "cost_plus", "per_question_minor": 0, "question_cap": null, "overage_charge_minor": null, "est_answer_minor": 300}
+    ],
+    "questions": 1000, "gst": false,
+    "expect": {"key": "3:INR:monthly", "monthly_minor": 399900, "incl": 399900}
+  },
+  {
+    "name": "a pay-for-what-you-use plan without an estimate is never recommended",
+    "plans": [
+      {"key": "3:INR:monthly", "fee_minor": 199900, "included_credit_minor": 100000, "usage_mode": "cost_plus", "per_question_minor": 0, "question_cap": null, "overage_charge_minor": null, "est_answer_minor": null}
+    ],
+    "questions": 1000, "gst": false,
+    "expect": {"key": null}
+  },
+  {
+    "name": "beyond the cap an overage charge is added",
+    "plans": [
+      {"key": "4:INR:monthly", "fee_minor": 29900, "included_credit_minor": 0, "usage_mode": "per_question", "per_question_minor": 100, "question_cap": 500, "overage_charge_minor": 150, "est_answer_minor": null}
+    ],
+    "questions": 700, "gst": false,
+    "expect": {"key": "4:INR:monthly", "monthly_minor": 129900, "incl": 129900}
+  },
+  {
+    "name": "beyond the cap with no overage nothing fits",
+    "plans": [
+      {"key": "0:INR:monthly", "fee_minor": 0, "included_credit_minor": 0, "usage_mode": "included", "per_question_minor": 0, "question_cap": 100, "overage_charge_minor": null, "est_answer_minor": null}
+    ],
+    "questions": 101, "gst": false,
+    "expect": {"key": null}
+  },
+  {
+    "name": "a capped free plan is skipped, an overage plan is chosen",
+    "plans": [
+      {"key": "0:INR:monthly", "fee_minor": 0, "included_credit_minor": 0, "usage_mode": "included", "per_question_minor": 0, "question_cap": 100, "overage_charge_minor": null, "est_answer_minor": null},
+      {"key": "4:INR:monthly", "fee_minor": 29900, "included_credit_minor": 0, "usage_mode": "per_question", "per_question_minor": 100, "question_cap": 200, "overage_charge_minor": 100, "est_answer_minor": null}
+    ],
+    "questions": 300, "gst": false,
+    "expect": {"key": "4:INR:monthly", "monthly_minor": 69900, "incl": 69900}
+  },
+  {
+    "name": "identical plans go to the earlier card",
+    "plans": [
+      {"key": "0:INR:monthly", "fee_minor": 1000, "included_credit_minor": 0, "usage_mode": "included", "per_question_minor": 0, "question_cap": null, "overage_charge_minor": null, "est_answer_minor": null},
+      {"key": "1:INR:monthly", "fee_minor": 1000, "included_credit_minor": 0, "usage_mode": "included", "per_question_minor": 0, "question_cap": null, "overage_charge_minor": null, "est_answer_minor": null}
+    ],
+    "questions": 10, "gst": false,
+    "expect": {"key": "0:INR:monthly", "monthly_minor": 1000, "incl": 1000}
+  },
+  {
+    "name": "a paid plan with questions included stays at its fee",
+    "plans": [
+      {"key": "1:INR:monthly", "fee_minor": 49900, "included_credit_minor": 0, "usage_mode": "included", "per_question_minor": 0, "question_cap": null, "overage_charge_minor": null, "est_answer_minor": null}
+    ],
+    "questions": 100000, "gst": false,
+    "expect": {"key": "1:INR:monthly", "monthly_minor": 49900, "incl": 49900}
+  },
+  {
+    "name": "a yearly plan is shown by its monthly share",
+    "plans": [
+      {"key": "1:INR:yearly", "fee_minor": 83325, "included_credit_minor": 41666, "usage_mode": "per_question", "per_question_minor": 200, "question_cap": null, "overage_charge_minor": null, "est_answer_minor": null}
+    ],
+    "questions": 0, "gst": false,
+    "expect": {"key": "1:INR:yearly", "monthly_minor": 83325, "incl": 83325}
+  },
+  {
+    "name": "no questions still costs the fee",
+    "plans": [
+      {"key": "1:INR:monthly", "fee_minor": 99900, "included_credit_minor": 50000, "usage_mode": "per_question", "per_question_minor": 200, "question_cap": null, "overage_charge_minor": null, "est_answer_minor": null}
+    ],
+    "questions": 0, "gst": false,
+    "expect": {"key": "1:INR:monthly", "monthly_minor": 99900, "incl": 99900}
+  },
+  {
+    "name": "GST rounds half a paisa up",
+    "plans": [
+      {"key": "1:INR:monthly", "fee_minor": 25, "included_credit_minor": 0, "usage_mode": "included", "per_question_minor": 0, "question_cap": null, "overage_charge_minor": null, "est_answer_minor": null}
+    ],
+    "questions": 1, "gst": true,
+    "expect": {"key": "1:INR:monthly", "monthly_minor": 25, "incl": 30}
+  },
+  {
+    "name": "the cheaper plan wins over a pay-for-what-you-use plan",
+    "plans": [
+      {"key": "1:INR:monthly", "fee_minor": 99900, "included_credit_minor": 50000, "usage_mode": "per_question", "per_question_minor": 200, "question_cap": null, "overage_charge_minor": null, "est_answer_minor": null},
+      {"key": "3:INR:monthly", "fee_minor": 199900, "included_credit_minor": 100000, "usage_mode": "cost_plus", "per_question_minor": 0, "question_cap": null, "overage_charge_minor": null, "est_answer_minor": 300}
+    ],
+    "questions": 100, "gst": false,
+    "expect": {"key": "1:INR:monthly", "monthly_minor": 99900, "incl": 99900}
+  },
+  {
+    "name": "nothing fits, with GST",
+    "plans": [
+      {"key": "0:INR:monthly", "fee_minor": 0, "included_credit_minor": 0, "usage_mode": "included", "per_question_minor": 0, "question_cap": 10, "overage_charge_minor": null, "est_answer_minor": null}
+    ],
+    "questions": 11, "gst": true,
+    "expect": {"key": null}
+  },
+  {
+    "name": "dollar plans work the same way",
+    "plans": [
+      {"key": "0:USD:monthly", "fee_minor": 1900, "included_credit_minor": 1000, "usage_mode": "per_question", "per_question_minor": 3, "question_cap": null, "overage_charge_minor": null, "est_answer_minor": null}
+    ],
+    "questions": 500, "gst": false,
+    "expect": {"key": "0:USD:monthly", "monthly_minor": 2400, "incl": 2400}
+  }
+]

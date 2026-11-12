@@ -1,0 +1,107 @@
+{
+  "date": "2026-09-28",
+  "label": "cpu",
+  "health": {
+    "status": "ok",
+    "services": {
+      "api": true,
+      "postgres": true,
+      "redis": true,
+      "qdrant": true,
+      "minio": true
+    }
+  },
+  "embedding_model": "BAAI/bge-base-en-v1.5 (768-d, fp32)",
+  "datasets": [
+    {
+      "name": "nfcorpus",
+      "queries": 323,
+      "import": {
+        "records": 3633,
+        "created": 3633,
+        "updated": 0,
+        "unchanged": 0,
+        "chunks": 3649,
+        "seconds": 83.8
+      },
+      "footprint": [
+        {
+          "name": "callobuzz-rag-celery-beat-1",
+          "mem": "42.53MiB / 8.728GiB",
+          "cpu": "0.00%"
+        },
+        {
+          "name": "callobuzz-rag-app-1",
+          "mem": "1007MiB / 8.728GiB",
+          "cpu": "0.10%"
+        },
+        {
+          "name": "callobuzz-rag-worker-1",
+          "mem": "976.2MiB / 8.728GiB",
+          "cpu": "0.13%"
+        },
+        {
+          "name": "callobuzz-rag-tei-1",
+          "mem": "838.3MiB / 8.728GiB",
+          "cpu": "0.43%"
+        },
+        {
+          "name": "callobuzz-rag-redis-1",
+          "mem": "15.66MiB / 8.728GiB",
+          "cpu": "1.78%"
+        },
+        {
+          "name": "callobuzz-rag-qdrant-1",
+          "mem": "66.09MiB / 8.728GiB",
+          "cpu": "0.09%"
+        },
+        {
+          "name": "callobuzz-rag-dashboard-1",
+          "mem": "3.801MiB / 8.728GiB",
+          "cpu": "1.41%"
+        },
+        {
+          "name": "callobuzz-rag-postgres-1",
+          "mem": "203MiB / 8.728GiB",
+          "cpu": "1.78%"
+        },
+        {
+          "name": "callobuzz-rag-scraper-1",
+          "mem": "4.902MiB / 8.728GiB",
+          "cpu": "0.09%"
+        },
+        {
+          "name": "callobuzz-rag-minio-1",
+          "mem": "115.2MiB / 8.728GiB",
+          "cpu": "1.47%"
+        }
+      ],
+      "results": [
+        {
+          "config": "dense",
+          "queries": 323,
+          "ndcg@10": 0.3742,
+          "recall@100": 0.3365,
+          "recall_cap@100": 0.3519,
+          "mrr@10": 0.5657,
+          "docs_returned_median": 100,
+          "latency_ms_p50": 85,
+          "latency_ms_p95": 134,
+          "latency_queries": 50
+        },
+        {
+          "config": "hybrid",
+          "queries": 323,
+          "ndcg@10": 0.3818,
+          "recall@100": 0.3415,
+          "recall_cap@100": 0.3579,
+          "mrr@10": 0.5796,
+          "docs_returned_median": 100,
+          "latency_ms_p50": 80,
+          "latency_ms_p95": 96,
+          "latency_queries": 50
+        }
+      ]
+    }
+  ]
+}

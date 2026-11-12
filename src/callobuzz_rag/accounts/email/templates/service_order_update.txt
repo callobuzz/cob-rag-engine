@@ -1,0 +1,11 @@
+{% extends "_base.txt" %}
+{% block content %}
+{{ tenant_name }}: your order for {{ service_name }} is now {{ status_label }}.
+{% if public_note %}
+
+{{ public_note }}
+{% endif %}
+
+See your orders:
+{{ orders_url }}
+{% endblock %}

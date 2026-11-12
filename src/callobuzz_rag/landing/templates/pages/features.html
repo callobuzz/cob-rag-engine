@@ -1,0 +1,47 @@
+{% extends "base.html" %}
+{% import "macros.html" as m with context %}
+{% block main %}
+{% set f = c.features %}
+<section class="section page-head features-head">
+  <div class="wrap narrow">
+    <h1 class="display">{{ f.headline|t }}</h1>
+    {% if f.sub %}<p class="lead">{{ f.sub|t }}</p>{% endif %}
+  </div>
+</section>
+{% for group in f.groups %}
+<section class="section feature-group" id="group-{{ loop.index }}">
+  <div class="wrap">
+    <h2 class="section-title">{{ group.title|t }}</h2>
+    <ul class="tiles">
+      {% for item in group.items %}
+      <li class="tile">
+        {{ m.icon(item.icon) }}
+        <h3>{{ item.title|t }}</h3>
+        <p>{{ item.text|t }}</p>
+      </li>
+      {% endfor %}
+    </ul>
+  </div>
+</section>
+{% endfor %}
+{% if f.checklist %}
+<section class="section checklist" id="checklist">
+  <div class="wrap narrow">
+    <h2 class="section-title checklist-title">{{ ui.checklist_title }}</h2>
+    <ul class="faq-list">
+      {% for item in f.checklist %}
+      <li><strong>{{ item.q|t }}</strong> <span class="muted">{{ item.a|t }}</span></li>
+      {% endfor %}
+    </ul>
+  </div>
+</section>
+{% endif %}
+<section class="section final-cta">
+  <div class="wrap">
+    <p class="actions">
+      {% if env.signup_available %}<a class="btn btn-primary" href="/signup">{{ f.cta_label|t }}</a>{% endif %}
+      {% if c.pricing.enabled %}<a class="btn btn-ghost" href="{{ link('pricing') }}">{{ ui.see_pricing }}</a>{% endif %}
+    </p>
+  </div>
+</section>
+{% endblock %}

@@ -1,0 +1,18 @@
+<!doctype html>
+<html lang="en">
+	<head>
+		<meta charset="UTF-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1" />
+		<meta name="referrer" content="no-referrer" />
+		<link rel="icon" type="image/svg+xml" href="/favicon.svg" id="favicon" />
+		<title>Dashboard</title>
+		<!-- Order matters: theme first (no flash), then runtime config and Zod's flag, then the bundle. -->
+		<script src="/theme.js"></script>
+		<script src="/config.js"></script>
+		<script src="/zod-config.js"></script>
+	</head>
+	<body>
+		<div id="root"></div>
+		<script type="module" src="/src/main.tsx"></script>
+	</body>
+</html>

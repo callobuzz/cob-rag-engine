@@ -1,0 +1,16 @@
+{
+  "name": "Demo",
+  "description": "The plan of the live demo: enough to try everything, small enough to stay cheap.",
+  "max_knowledge_bases": 3,
+  "max_documents": 40,
+  "max_widget_keys": 2,
+  "monthly_questions": 3000,
+  "max_upload_mb": 10,
+  "website_pages_max": 50,
+  "fair_use_limits": {
+    "questions_per_day": 300,
+    "cob_questions_per_day": 40,
+    "uploads_per_day": 20,
+    "website_pages_per_day": 50
+  }
+}

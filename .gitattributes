@@ -1,0 +1,10 @@
+# LF everywhere, on every platform. Shell scripts and the Dockerfile break inside
+# Linux containers with CRLF, and mixed endings make noisy diffs.
+* text=auto eol=lf
+
+*.png binary
+*.jpg binary
+*.pdf binary
+*.docx binary
+*.wav binary
+*.mp3 binary

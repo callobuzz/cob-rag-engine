@@ -1,0 +1,43 @@
+{
+  "version": 3,
+  "greeting": {
+    "en": ["(hi+|hello+|hey+)( there)?", "hiya", "good (morning|afternoon|evening|day)", "greetings", "yo"],
+    "hi": ["नमस्ते", "नमस्कार", "हेलो", "हाय", "राम राम", "प्रणाम", "सुप्रभात", "सलाम"],
+    "hi-Latn": ["namaste", "namaskar", "namaskaar", "namastey", "ram ram", "pranam", "hello ji", "hi ji", "jai shree krishna", "jai shri krishna", "salaam", "salam", "sat sri akal", "suprabhat"]
+  },
+  "thanks": {
+    "en": ["thanks?( a lot| so much| very much)?", "thank you( so much| very much)?", "thx", "ty", "much appreciated", "great thanks", "ok thanks?", "okay thanks?", "that helps( a lot)?", "that helped( a lot)?", "this helps", "that'?s (really |very |so )?(helpful|useful|great|perfect)", "that was (really |very |so )?(helpful|useful|great)", "(very |really )?helpful", "(perfect|awesome|great|cool|nice|brilliant|wonderful|excellent)", "that answers (my|the) question", "that'?s what i needed", "understood", "makes sense", "i see", "noted", "appreciate it", "many thanks", "cheers", "thanks for (the )?(help|info|information|your help)", "thank you for (the )?(help|info|information|your help)"],
+    "hi": ["धन्यवाद", "शुक्रिया", "बहुत धन्यवाद", "बहुत शुक्रिया", "आपका धन्यवाद", "आपका शुक्रिया", "यह मददगार था", "यह मददगार है", "बहुत मददगार", "बहुत मदद मिली", "मदद मिली", "मदद के लिए धन्यवाद", "मदद के लिए शुक्रिया", "समझ गया", "समझ गई", "बहुत बढ़िया", "बढ़िया", "शानदार"],
+    "hi-Latn": ["dhanyavaad", "dhanyawad", "dhanyavad", "dhanyvaad", "shukriya", "shukria", "bahut shukriya", "bahut dhanyavaad", "bahut dhanyavad", "aapka shukriya", "aapka dhanyavaad", "thank you ji", "thanks ji", "yeh helpful tha", "ye helpful tha", "yeh madadgaar tha", "bahut madad mili", "madad mili", "madad ke liye shukriya", "madad ke liye dhanyavaad", "samajh gaya", "samajh gayi", "samajh aa gaya", "samajh aa gayi", "badhiya", "bahut badhiya", "badhiya hai", "mast", "zabardast", "shandar", "bahut helpful"]
+  },
+  "filler": {
+    "en": ["alright", "all right", "fine", "ok", "okay", "got it"],
+    "hi": ["ठीक है", "अच्छा", "ओके"],
+    "hi-Latn": ["theek hai", "thik hai", "acha", "accha", "achha", "ok", "okay"]
+  },
+  "acknowledgement": {
+    "en": ["ok+", "okay+", "k+", "hm+", "um+", "uh+", "yes", "yeah", "yep", "ya", "no", "nope", "nah", "sure", "alright", "all right", "fine"],
+    "hi": ["ठीक है", "ठीक", "अच्छा", "ओके", "हाँ", "हां", "जी", "जी हाँ", "जी हां", "नहीं", "हम्म+", "हूँ", "हूं"],
+    "hi-Latn": ["theek hai", "thik hai", "theek", "thik", "acha", "accha", "achha", "haan", "han", "haa", "ji", "ji haan", "nahi", "nahin", "hmm+", "ok", "okay"]
+  },
+  "bye": {
+    "en": ["bye+", "good ?night", "goodbye", "good bye", "see you( later)?", "ok bye( take care)?", "that'?s all", "take care"],
+    "hi": ["अलविदा", "शुभ रात्रि", "फिर मिलेंगे", "ठीक है बाय", "चलो बाय"],
+    "hi-Latn": ["alvida", "shubh ratri", "shubh raatri", "phir milenge", "chalo bye", "theek hai bye", "ok bye ji", "phir milte hain", "khuda hafiz"]
+  },
+  "how_are_you": {
+    "en": ["how are you( doing)?( today)?", "how r u", "how'?s it going", "how do you do", "how have you been", "how are things", "what'?s up", "sup", "hope you('?re| are) (doing )?(well|good|fine)"],
+    "hi": ["आप कैसे हैं", "आप कैसी हैं", "कैसे हैं आप", "कैसी हैं आप", "आप कैसे हो", "आप कैसी हो", "कैसे हो आप", "कैसी हो आप", "कैसे हो", "कैसी हो", "कैसे हैं", "क्या हाल है", "क्या हाल चाल है", "क्या हाल है आपका", "आपका क्या हाल है", "सब ठीक"],
+    "hi-Latn": ["kaise ho", "kaisi ho", "kaise hain", "kaisi hain", "aap kaise ho", "aap kaise hain", "aap kaisi ho", "aap kaisi hain", "kaise ho aap", "kaise hain aap", "kaisi ho aap", "kaisi hain aap", "kya haal hai", "kya hal hai", "kya haal chaal hai", "kya haal chal hai", "kya hal chal hai", "haal chaal kaisa hai", "aapka kya haal hai", "sab theek", "sab theek hai", "kaisa hai", "kaisa chal raha hai"]
+  },
+  "who_are_you": {
+    "en": ["who are you", "what are you", "what is your name", "what'?s your name", "who am i (talking|speaking) (to|with)"],
+    "hi": ["आप कौन हैं", "आप कौन हो", "तुम कौन हो", "कौन हो आप", "आपका नाम क्या है", "आप का नाम क्या है", "तुम्हारा नाम क्या है"],
+    "hi-Latn": ["aap kaun ho", "aap kaun hain", "aap kon ho", "aap kon hain", "kaun ho aap", "kaun hain aap", "tum kaun ho", "aapka naam kya hai", "aap ka naam kya hai", "tumhara naam kya hai"]
+  },
+  "are_you_bot": {
+    "en": ["are you (a |an )?(bot|robot|ai|human|real person|machine)", "is this (a |an )?(bot|ai|human)", "is this (a |an )?(automated|automatic) (chat|reply|response|message|service)", "am i (talking|chatting) (to|with) (a |an )?(bot|ai|human|person)"],
+    "hi": ["क्या आप (बॉट|रोबोट|इंसान) हैं", "क्या (यह|ये) (कोई )?(ऑटोमैटिक|ऑटोमेटेड) (चैट|जवाब|मैसेज) है", "क्या तुम (बॉट|रोबोट|इंसान) हो"],
+    "hi-Latn": ["kya (aap|tum) (bot|robot|insaan|insan|ai) (ho|hain)", "(ye|yeh) (automated|automatic) (chat|reply|jawab|message) hai( kya)?", "(aap|tum) (bot|robot|insaan) (ho|hain) kya"]
+  }
+}

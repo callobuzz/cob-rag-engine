@@ -1,0 +1,37 @@
+{% extends "_base.html" %}
+{% from "_macros.html" import button with context %}
+{% block content %}
+<p style="margin:0 0 12px;">Here is what your assistant did for <strong>{{ business_name }}</strong> in {{ month_label }}.</p>
+<p style="margin:0 0 4px;font-size:28px;font-weight:700;">{{ total }}</p>
+<p style="margin:0 0 16px;font-size:13px;color:#6a737d;">Estimated value, {% if saved_settings %}based on your settings{% else %}using suggested values for your kind of business{% endif %}.</p>
+<table role="presentation" cellpadding="0" cellspacing="0" border="0" style="width:100%;margin:0 0 16px;">
+{% for part in parts %}
+<tr><td style="padding:6px 0;border-bottom:1px solid #e6e8eb;"><strong>{{ part.label }}</strong><br><span style="font-size:13px;color:#6a737d;">{{ part.formula }}</span></td><td style="padding:6px 0;border-bottom:1px solid #e6e8eb;text-align:right;white-space:nowrap;">{{ part.amount }}</td></tr>
+{% endfor %}
+</table>
+<p style="margin:0 0 6px;"><strong>The numbers</strong></p>
+<ul style="margin:0 0 16px;padding-left:20px;">
+<li>{{ conversations }} conversations</li>
+<li>{{ answered }} questions answered without staff ({{ after_hours }} of them after hours)</li>
+<li>{{ leads_qualified }} {{ leads_label }}</li>
+<li>{{ handoffs }} requests to talk to a person, {{ bookings }} bookings requested</li>
+<li>First reply: {{ first_reply }}</li>
+</ul>
+{% if top_questions %}
+<p style="margin:0 0 6px;"><strong>What people asked most</strong></p>
+<ul style="margin:0 0 16px;padding-left:20px;">
+{% for q in top_questions[:5] %}<li>{{ q.question }} ({{ q.count }})</li>
+{% endfor %}
+</ul>
+{% endif %}
+{% if unanswered %}
+<p style="margin:0 0 6px;"><strong>Questions it could not answer</strong></p>
+<ul style="margin:0 0 16px;padding-left:20px;">
+{% for q in unanswered[:5] %}<li>{{ q.question }} ({{ q.count }})</li>
+{% endfor %}
+</ul>
+<p style="margin:0 0 12px;">Adding these answers to your knowledge base helps next month.</p>
+{% endif %}
+{{ button(report_url, "See the full report") }}
+<p style="margin:0 0 12px;font-size:13px;color:#6a737d;">{% if saved_settings %}These are estimates based on the values you set.{% else %}These are estimates using suggested values. Set your own for a closer number.{% endif %} <a href="{{ settings_url }}" style="color:#6a737d;">Change them any time.</a></p>
+{% endblock %}

@@ -1,0 +1,64 @@
+{
+  "date": "2026-09-28",
+  "label": "cpu",
+  "health": {
+    "status": "ok",
+    "services": {
+      "api": true,
+      "postgres": true,
+      "redis": true,
+      "qdrant": true,
+      "minio": true
+    }
+  },
+  "results": [
+    {
+      "config": "dense",
+      "questions": 40,
+      "documents": 8,
+      "hit@1": 0.875,
+      "hit@3": 0.95,
+      "hit@5": 1.0,
+      "mrr": 0.918,
+      "latency_ms_p50": 193,
+      "latency_ms_p95": 201,
+      "ingest_seconds_total": 8.1,
+      "ingest_seconds_per_doc": 1.0,
+      "misses": []
+    },
+    {
+      "config": "hybrid",
+      "questions": 40,
+      "documents": 8,
+      "hit@1": 0.875,
+      "hit@3": 0.925,
+      "hit@5": 0.95,
+      "mrr": 0.906,
+      "latency_ms_p50": 197,
+      "latency_ms_p95": 211,
+      "ingest_seconds_total": 8.1,
+      "ingest_seconds_per_doc": 1.0,
+      "misses": [
+        "Do you fix gear from other brands?",
+        "What do I need to reach the top loyalty tier?"
+      ]
+    },
+    {
+      "config": "hybrid+rerank",
+      "questions": 40,
+      "documents": 8,
+      "hit@1": 0.9,
+      "hit@3": 0.925,
+      "hit@5": 0.95,
+      "mrr": 0.919,
+      "latency_ms_p50": 3509,
+      "latency_ms_p95": 3852,
+      "ingest_seconds_total": 8.1,
+      "ingest_seconds_per_doc": 1.0,
+      "misses": [
+        "Do you fix gear from other brands?",
+        "What do I need to reach the top loyalty tier?"
+      ]
+    }
+  ]
+}

@@ -1,0 +1,22 @@
+{% import "macros.html" as m with context %}
+{% set labels = {"whatsapp": ui.whatsapp, "call": ui.call, "email": ui.email} %}
+{% set icons = {"whatsapp": "chat", "call": "phone", "email": "mail"} %}
+<section class="section human-handoff" data-section="human_handoff" id="{{ s.id }}">
+  <div class="wrap handoff-grid">
+    <div class="handoff-copy">{{ m.head(s) }}</div>
+    <div class="handoff-card" role="group">
+      <p class="handoff-ref">{{ ui.reference }}: <strong class="ref-code">{{ s.ref_code }}</strong></p>
+      <p class="bubble bubble-visitor handoff-prefill">{{ s.prefill|t }}</p>
+      <ul class="handoff-channels">
+        {% for channel in s.channels if channel != "whatsapp" or whatsapp_link %}
+        <li>
+          {% if channel == "whatsapp" %}<a class="btn btn-ghost" href="{{ whatsapp_link }}?text={{ (s.prefill|t)|urlencode }}">{{ m.icon(icons[channel]) }}{{ labels[channel] }}</a>
+          {% elif channel == "call" and phone_digits %}<a class="btn btn-ghost" href="tel:{{ phone_digits }}">{{ m.icon(icons[channel]) }}{{ labels[channel] }}</a>
+          {% elif channel == "email" and contact_email %}<a class="btn btn-ghost" href="mailto:{{ contact_email }}">{{ m.icon(icons[channel]) }}{{ labels[channel] }}</a>
+          {% else %}<span class="btn btn-ghost is-static">{{ m.icon(icons[channel]) }}{{ labels[channel] }}</span>{% endif %}
+        </li>
+        {% endfor %}
+      </ul>
+    </div>
+  </div>
+</section>

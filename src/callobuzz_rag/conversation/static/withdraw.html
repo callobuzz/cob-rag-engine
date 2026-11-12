@@ -1,0 +1,28 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="referrer" content="no-referrer">
+<title>Withdraw your consent</title>
+<style>
+body{font-family:system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;max-width:520px;margin:48px auto;padding:0 16px;color:#111827;background:#fff}
+h1{font-size:22px}p{line-height:1.55}
+button{background:#b91c1c;color:#fff;border:0;border-radius:8px;padding:11px 18px;font-size:15px;cursor:pointer}
+button:disabled{opacity:.5}.muted{color:#4b5563;font-size:14px}
+footer{margin-top:40px;font-size:12px}footer a{color:#4b5563}
+@media (prefers-color-scheme:dark){body{background:#0b0f19;color:#e5e7eb}.muted,footer a{color:#9ca3af}}
+</style>
+</head>
+<body>
+<main>
+<h1>Withdraw your consent <span lang="hi">/ सहमति वापस लें</span></h1>
+<p id="intro">This deletes the contact details you shared with the business through its website assistant, and the business can no longer use them.</p>
+<p lang="hi" class="muted">इससे वेबसाइट सहायक के ज़रिए आपकी दी गई संपर्क जानकारी मिट जाएगी, और व्यवसाय इसका उपयोग नहीं कर सकेगा।</p>
+<p><button id="confirm" type="button" disabled>Delete my details / मेरी जानकारी मिटाएँ</button></p>
+<p id="result" role="status" aria-live="polite"></p>
+</main>
+<footer>cob-rag-engine by Callobuzz</footer>
+<script src="/privacy/withdraw.js"></script>
+</body>
+</html>

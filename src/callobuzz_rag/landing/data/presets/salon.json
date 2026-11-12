@@ -1,0 +1,58 @@
+{
+  "key": "salon",
+  "name": "Salon",
+  "conversation": {
+    "assistant_name": ["Isha", "ईशा", "Isha"],
+    "business_name": ["Glow Studio, Indiranagar", "ग्लो स्टूडियो, इंदिरानगर", "Glow Studio, Indiranagar"],
+    "turns": [
+      {"role": "visitor", "text": ["Haircut aur facial ka price kya hai?", "हेयरकट और फेशियल का रेट क्या है?", "Haircut aur facial ka price kya hai?"]},
+      {"role": "assistant",
+       "text": ["A haircut starts at ₹600 and a basic facial at ₹1,200. Both together on weekdays are ₹1,500.",
+                "हेयरकट ₹600 से और बेसिक फेशियल ₹1,200 से शुरू होता है। हफ्ते के दिनों में दोनों साथ में ₹1,500 के हैं।",
+                "Haircut ₹600 se aur basic facial ₹1,200 se shuru hota hai. Hafte ke dinon mein dono saath mein ₹1,500 ke hain."],
+       "source": ["Price list, updated 1 Oct", "प्राइस लिस्ट, 1 अक्टूबर को अपडेट", "Price list, 1 Oct ko update hui"]},
+      {"role": "visitor", "text": ["Aaj shaam 6 baje koi slot khali hai?", "आज शाम 6 बजे कोई स्लॉट खाली है?", "Aaj shaam 6 baje koi slot khali hai?"]},
+      {"role": "assistant",
+       "text": ["I can not see today's bookings, so I will not guess. Share your number and the studio will confirm a slot.",
+                "मुझे आज की बुकिंग नहीं दिखतीं, इसलिए मैं अंदाज़ा नहीं लगाऊँगी। अपना नंबर दें, स्टूडियो स्लॉट पक्का करेगा।",
+                "Mujhe aaj ki bookings nahi dikhtin, isliye main andaza nahi lagaungi. Apna number dein, studio slot confirm karega."],
+       "source": ["Contact page", "संपर्क पेज", "Contact page"]}
+    ],
+    "lead": {"name": "Ananya R.", "phone_masked": "+91 90•••• 6642", "came_from": "website",
+             "looking_for": ["Haircut and facial, today evening", "हेयरकट और फेशियल, आज शाम", "Haircut aur facial, aaj shaam"],
+             "consent": ["Ananya agreed to be contacted by Glow Studio about this enquiry.", "अनन्या ने इस पूछताछ के लिए ग्लो स्टूडियो से संपर्क की सहमति दी।", "Ananya ne is enquiry ke liye Glow Studio se sampark ki sahmati di."]}
+  },
+  "pain_wall": {
+    "heading": ["Bookings are asked about at all hours.", "बुकिंग के सवाल हर वक्त आते हैं।", "Booking ke sawaal har waqt aate hain."],
+    "questions": [
+      {"text": ["Haircut ka price?", "हेयरकट का रेट?", "Haircut ka price?"], "channel": "website", "time": "20:30"},
+      {"text": ["Bridal package hai?", "ब्राइडल पैकेज है?", "Bridal package hai?"], "channel": "whatsapp", "time": "21:45"},
+      {"text": ["Kal slot milega?", "कल स्लॉट मिलेगा?", "Kal slot milega?"], "channel": "website", "time": "22:20"},
+      {"text": ["Sunday ko open ho?", "रविवार को खुले हो?", "Sunday ko open ho?"], "channel": "whatsapp", "time": "22:55"},
+      {"text": ["Parking hai?", "पार्किंग है?", "Parking hai?"], "channel": "website", "time": "23:25"}
+    ],
+    "punchline": ["While your hands are busy with a client, three other bookings are asking and waiting.", "जब आपके हाथ एक ग्राहक में लगे होते हैं, तीन और लोग पूछकर इंतज़ार कर रहे होते हैं।", "Jab aapke haath ek client mein lage hote hain, teen aur log poochkar intezaar kar rahe hote hain."]
+  },
+  "languages": {"samples": [
+    {"lang": "en", "question": "Do you do bridal makeup?", "answer": "Yes. Bridal packages start at ₹15,000 and need a trial a week before."},
+    {"lang": "hi", "question": "क्या आप ब्राइडल मेकअप करते हैं?", "answer": "हाँ। ब्राइडल पैकेज ₹15,000 से शुरू होते हैं और एक हफ्ता पहले ट्रायल ज़रूरी है।"},
+    {"lang": "hi-Latn", "question": "Kya aap bridal makeup karte hain?", "answer": "Haan. Bridal packages ₹15,000 se shuru hote hain aur ek hafta pehle trial zaroori hai."}
+  ]},
+  "whatsapp_journey": {"chapters": [
+    {"time": "23:42", "title": ["A late-night question", "देर रात का सवाल", "Der raat ka sawaal"], "messages": [
+      {"from": "visitor", "text": ["Price list bhej do.", "प्राइस लिस्ट भेज दो।", "Price list bhej do."]},
+      {"from": "assistant", "text": ["Here is our price list.", "ये रही हमारी प्राइस लिस्ट।", "Yeh rahi hamari price list."], "attachment": ["Price list, PDF", "प्राइस लिस्ट, PDF", "Price list, PDF"]}]},
+    {"time": "07:30", "title": ["The lead is waiting", "सुबह लीड तैयार है", "Subah lead taiyaar hai"], "messages": [
+      {"from": "assistant", "text": ["New lead: Ananya R. wants a haircut and facial this evening.", "नया लीड: अनन्या आर. को आज शाम हेयरकट और फेशियल चाहिए।", "Naya lead: Ananya R. ko aaj shaam haircut aur facial chahiye."]}]},
+    {"time": "09:10", "title": ["You step in", "आप जवाब देते हैं", "Aap jawab dete hain"], "messages": [
+      {"from": "owner", "text": ["Hi Ananya, 6:30 pm today is free. Shall I book it?", "नमस्ते अनन्या, आज शाम 6:30 बजे का स्लॉट खाली है। बुक कर दूँ?", "Namaste Ananya, aaj shaam 6:30 baje ka slot khali hai. Book kar doon?"]}]},
+    {"time": "11:00", "title": ["Booked", "बुकिंग पक्की", "Booking pakki"], "messages": [
+      {"from": "visitor", "text": ["Yes please, see you at 6:30.", "हाँ कर दीजिए, 6:30 पर मिलते हैं।", "Haan kar dijiye, 6:30 par milte hain."]}]}
+  ]},
+  "faq": {"items": [
+    {"q": ["Can it book a slot on its own?", "क्या यह खुद स्लॉट बुक कर देगा?", "Kya yeh khud slot book kar dega?"],
+     "a": ["It takes the name and number with consent, and you confirm the slot yourself. It never promises a time it cannot see.", "यह सहमति से नाम और नंबर लेता है, और स्लॉट आप खुद पक्का करते हैं। जो समय यह देख नहीं सकता, उसका वादा नहीं करता।", "Yeh sahmati se naam aur number leta hai, aur slot aap khud pakka karte hain. Jo time yeh dekh nahi sakta, uska vaada nahi karta."]},
+    {"q": ["Will it work on Instagram too?", "क्या यह इंस्टाग्राम पर भी चलेगा?", "Kya yeh Instagram par bhi chalega?"],
+     "a": ["It lives on your website and, if your plan includes it, on your own WhatsApp number.", "यह आपकी वेबसाइट पर रहता है, और अगर आपके प्लान में हो तो आपके अपने व्हाट्सऐप नंबर पर भी।", "Yeh aapki website par rehta hai, aur agar aapke plan mein ho to aapke apne WhatsApp number par bhi."]}
+  ]}
+}

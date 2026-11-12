@@ -1,0 +1,32 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1000 360" width="1000" height="360" role="img" aria-labelledby="t d" font-family="'IBM Plex Sans', 'Segoe UI', system-ui, -apple-system, sans-serif">
+  <title id="t">Ingestion and query pipelines</title>
+  <desc id="d">Documents are parsed, chunked, enriched, embedded and stored. Questions go through understanding, hybrid search, fusion, reranking, diversity, context assembly, generation and validation.</desc>
+  <defs><marker id="a" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto"><path d="M0 0 10 5 0 10z" fill="#94a3b8"/></marker></defs>
+  <rect width="1000" height="360" rx="20" fill="#f8fafc"/>
+  <text x="32" y="44" font-size="13" font-weight="700" fill="#0f766e" letter-spacing=".08em">INGEST · async worker</text>
+  <g font-size="13" font-weight="600" fill="#0f172a">
+    <rect x="32" y="62" width="120" height="58" rx="10" fill="#ecfdf5" stroke="#a7f3d0"/><text x="92" y="88" text-anchor="middle">Upload</text><text x="92" y="106" text-anchor="middle" font-size="10.5" font-weight="400" fill="#475569">PDF · DOCX · HTML · audio</text>
+    <rect x="186" y="62" width="120" height="58" rx="10" fill="#ecfdf5" stroke="#a7f3d0"/><text x="246" y="88" text-anchor="middle">Parse</text><text x="246" y="106" text-anchor="middle" font-size="10.5" font-weight="400" fill="#475569">Docling · Whisper</text>
+    <rect x="340" y="62" width="120" height="58" rx="10" fill="#ecfdf5" stroke="#a7f3d0"/><text x="400" y="88" text-anchor="middle">Chunk</text><text x="400" y="106" text-anchor="middle" font-size="10.5" font-weight="400" fill="#475569">structure-aware</text>
+    <rect x="494" y="62" width="120" height="58" rx="10" fill="#ecfdf5" stroke="#a7f3d0"/><text x="554" y="88" text-anchor="middle">Enrich</text><text x="554" y="106" text-anchor="middle" font-size="10.5" font-weight="400" fill="#475569">keywords · language</text>
+    <rect x="648" y="62" width="120" height="58" rx="10" fill="#ecfdf5" stroke="#a7f3d0"/><text x="708" y="88" text-anchor="middle">Embed</text><text x="708" y="106" text-anchor="middle" font-size="10.5" font-weight="400" fill="#475569">dense + BM25 sparse</text>
+    <rect x="802" y="62" width="166" height="58" rx="10" fill="#0f766e"/><text x="885" y="88" text-anchor="middle" fill="#fff">Store &amp; version</text><text x="885" y="106" text-anchor="middle" font-size="10.5" font-weight="400" fill="#ccfbf1">Qdrant · Postgres · S3</text>
+  </g>
+  <g stroke="#94a3b8" stroke-width="2" marker-end="url(#a)"><path d="M152 91h32"/><path d="M306 91h32"/><path d="M460 91h32"/><path d="M614 91h32"/><path d="M768 91h32"/></g>
+
+  <text x="32" y="176" font-size="13" font-weight="700" fill="#4f46e5" letter-spacing=".08em">ASK · per request, per-corpus config</text>
+  <g font-size="12.5" font-weight="600" fill="#0f172a">
+    <rect x="32" y="194" width="104" height="58" rx="10" fill="#eef2ff" stroke="#c7d2fe"/><text x="84" y="220" text-anchor="middle">Question</text><text x="84" y="238" text-anchor="middle" font-size="10.5" font-weight="400" fill="#475569">+ chat history</text>
+    <rect x="152" y="194" width="104" height="58" rx="10" fill="#eef2ff" stroke="#c7d2fe"/><text x="204" y="220" text-anchor="middle">Understand</text><text x="204" y="238" text-anchor="middle" font-size="10.5" font-weight="400" fill="#475569">classify · HyDE</text>
+    <rect x="272" y="194" width="104" height="58" rx="10" fill="#eef2ff" stroke="#c7d2fe"/><text x="324" y="220" text-anchor="middle">Hybrid search</text><text x="324" y="238" text-anchor="middle" font-size="10.5" font-weight="400" fill="#475569">dense + BM25</text>
+    <rect x="392" y="194" width="104" height="58" rx="10" fill="#eef2ff" stroke="#c7d2fe"/><text x="444" y="220" text-anchor="middle">Score fusion</text><text x="444" y="238" text-anchor="middle" font-size="10.5" font-weight="400" fill="#475569">0.75 dense + BM25</text>
+    <rect x="512" y="194" width="104" height="58" rx="10" fill="#eef2ff" stroke="#c7d2fe"/><text x="564" y="220" text-anchor="middle">Rerank (opt-in)</text><text x="564" y="238" text-anchor="middle" font-size="10.5" font-weight="400" fill="#475569">cross-encoder / LLM</text>
+    <rect x="632" y="194" width="104" height="58" rx="10" fill="#eef2ff" stroke="#c7d2fe"/><text x="684" y="220" text-anchor="middle">MMR · decay</text><text x="684" y="238" text-anchor="middle" font-size="10.5" font-weight="400" fill="#475569">diverse, fresh</text>
+    <rect x="752" y="194" width="104" height="58" rx="10" fill="#eef2ff" stroke="#c7d2fe"/><text x="804" y="220" text-anchor="middle">Generate</text><text x="804" y="238" text-anchor="middle" font-size="10.5" font-weight="400" fill="#475569">any LLM · stream</text>
+    <rect x="872" y="194" width="96" height="58" rx="10" fill="#4f46e5"/><text x="920" y="220" text-anchor="middle" fill="#fff">Validate</text><text x="920" y="238" text-anchor="middle" font-size="10.5" font-weight="400" fill="#e0e7ff">confidence</text>
+  </g>
+  <g stroke="#94a3b8" stroke-width="2" marker-end="url(#a)"><path d="M136 223h14"/><path d="M256 223h14"/><path d="M376 223h14"/><path d="M496 223h14"/><path d="M616 223h14"/><path d="M736 223h14"/><path d="M856 223h14"/></g>
+  <rect x="32" y="278" width="936" height="54" rx="12" fill="#fff" stroke="#e2e8f0"/>
+  <text x="52" y="302" font-size="13" font-weight="700" fill="#0f172a">Answer with citations</text>
+  <text x="52" y="321" font-size="12" fill="#475569">Every stage is switchable per corpus, and every model is swappable: local or hosted LLM, embeddings and reranker.</text>
+</svg>

@@ -1,0 +1,26 @@
+{
+  "run": "smoke-gpt41mini",
+  "harness_version": "1.0.0",
+  "started": "2026-10-03T18:30:28.839+00:00",
+  "updated": "2026-10-03T18:30:34.132+00:00",
+  "status": "complete",
+  "stop_reason": null,
+  "budget_usd": 0.05,
+  "spend_usd": 0.002596,
+  "reserved_usd": 0.0,
+  "retries": 0,
+  "models": {
+    "openai/gpt-4.1-mini|off": {
+      "model": "openai/gpt-4.1-mini",
+      "variant": "off",
+      "total": 5,
+      "done": 5,
+      "errors": 0,
+      "failures": 0,
+      "retries": 0,
+      "spend_usd": 0.002596,
+      "status": "complete",
+      "reason": null
+    }
+  }
+}

@@ -1,0 +1,9 @@
+{% extends "_base.txt" %}
+{% block content %}
+You can pay {{ amount }} for {{ tenant_name }} online with UPI, card or net banking.
+
+{{ purpose_label }}. This link works until {{ expires_on }}.
+
+Pay now:
+{{ pay_url }}
+{% endblock %}

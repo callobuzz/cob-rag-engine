@@ -1,0 +1,15 @@
+{% extends "_base.txt" %}
+{% block content %}
+The plan for {{ business_name }} on {{ product_name }} ({{ plan_name }}) renews on {{ renews_on }}.
+
+{{ amount }} will be charged from your balance on that day{% if included %}, and {{ included }} of credit is added for the new period{% endif %}.
+{% if new_price %}
+
+Your new price applies from this renewal. We told you about the change in advance; you can see it on your plan page.
+{% endif %}
+
+Make sure your balance can cover it so your assistant keeps answering without a break.
+
+Plan and billing:
+{{ billing_url }}
+{% endblock %}

@@ -1,0 +1,13 @@
+{% extends "_base.html" %}
+{% from "_macros.html" import button with context %}
+{% block content %}
+<p style="margin:0 0 12px;">
+{% if payment_type == "postpaid" %}
+<strong>{{ tenant_name }}</strong> has used most of its credit on {{ branding.product_name }}: <strong>{{ balance }}</strong> is left{% if level_pct %} (under {{ level_pct }}% of the limit){% endif %}.
+{% else %}
+The balance of <strong>{{ tenant_name }}</strong> on {{ branding.product_name }} is running low: <strong>{{ balance }}</strong> is left{% if level_pct %} (under {{ level_pct }}% of your last top-up){% endif %}.
+{% endif %}
+</p>
+<p style="margin:0 0 12px;">When it runs out, your assistant stops answering questions (visitors are shown your contact options instead) until you top up.</p>
+{{ button(billing_url, "Plan and billing") }}
+{% endblock %}

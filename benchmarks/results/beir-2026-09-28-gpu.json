@@ -1,0 +1,869 @@
+{
+  "date": "2026-09-28",
+  "label": "gpu",
+  "health": {
+    "status": "ok",
+    "services": {
+      "api": true,
+      "postgres": true,
+      "redis": true,
+      "qdrant": true,
+      "minio": true
+    }
+  },
+  "embedding_model": "engine default",
+  "datasets": [
+    {
+      "name": "scifact",
+      "queries": 300,
+      "import": {
+        "records": 5183,
+        "created": 5183,
+        "updated": 0,
+        "unchanged": 0,
+        "chunks": 5203,
+        "seconds": 70.8
+      },
+      "footprint": [
+        {
+          "name": "callobuzz-rag-celery-beat-1",
+          "mem": "27.8MiB / 8.728GiB",
+          "cpu": "0.00%"
+        },
+        {
+          "name": "callobuzz-rag-app-1",
+          "mem": "1.722GiB / 8.728GiB",
+          "cpu": "0.15%"
+        },
+        {
+          "name": "callobuzz-rag-worker-1",
+          "mem": "1.685GiB / 8.728GiB",
+          "cpu": "0.09%"
+        },
+        {
+          "name": "callobuzz-rag-tei-1",
+          "mem": "323.8MiB / 8.728GiB",
+          "cpu": "0.18%"
+        },
+        {
+          "name": "callobuzz-rag-redis-1",
+          "mem": "15.25MiB / 8.728GiB",
+          "cpu": "0.22%"
+        },
+        {
+          "name": "callobuzz-rag-qdrant-1",
+          "mem": "275.7MiB / 8.728GiB",
+          "cpu": "1.68%"
+        },
+        {
+          "name": "callobuzz-rag-dashboard-1",
+          "mem": "3.074MiB / 8.728GiB",
+          "cpu": "0.00%"
+        },
+        {
+          "name": "callobuzz-rag-postgres-1",
+          "mem": "348.6MiB / 8.728GiB",
+          "cpu": "0.08%"
+        },
+        {
+          "name": "callobuzz-rag-scraper-1",
+          "mem": "4.848MiB / 8.728GiB",
+          "cpu": "0.09%"
+        },
+        {
+          "name": "callobuzz-rag-minio-1",
+          "mem": "113.3MiB / 8.728GiB",
+          "cpu": "0.04%"
+        }
+      ],
+      "results": [
+        {
+          "config": "hybrid(rrf)",
+          "queries": 300,
+          "ndcg@10": 0.7358,
+          "recall@100": 0.9733,
+          "recall_cap@100": 0.9733,
+          "mrr@10": 0.7013,
+          "docs_returned_median": 100.0,
+          "latency_ms_p50": 231,
+          "latency_ms_p95": 254,
+          "latency_queries": 100
+        },
+        {
+          "config": "hybrid+rerank",
+          "queries": 300,
+          "ndcg@10": 0.7468,
+          "recall@100": 0.8636,
+          "recall_cap@100": 0.8636,
+          "mrr@10": 0.7173,
+          "docs_returned_median": 10.0,
+          "latency_ms_p50": 652,
+          "latency_ms_p95": 790,
+          "latency_queries": 50
+        },
+        {
+          "config": "hybrid+rerank(fusion-order)",
+          "queries": 300,
+          "ndcg@10": 0.7546,
+          "recall@100": 0.8636,
+          "recall_cap@100": 0.8636,
+          "mrr@10": 0.726,
+          "docs_returned_median": 10.0,
+          "latency_ms_p50": 652,
+          "latency_ms_p95": 790,
+          "latency_queries": 50
+        },
+        {
+          "config": "hybrid@final_k=10",
+          "queries": 300,
+          "ndcg@10": 0.7613,
+          "recall@100": 0.8859,
+          "recall_cap@100": 0.8859,
+          "mrr@10": 0.729,
+          "docs_returned_median": 10.0,
+          "latency_ms_p50": null,
+          "latency_ms_p95": null,
+          "latency_queries": 0
+        },
+        {
+          "config": "hybrid+mmr@final_k=10",
+          "queries": 300,
+          "ndcg@10": 0.7609,
+          "recall@100": 0.8852,
+          "recall_cap@100": 0.8852,
+          "mrr@10": 0.729,
+          "docs_returned_median": 10.0,
+          "latency_ms_p50": null,
+          "latency_ms_p95": null,
+          "latency_queries": 0
+        },
+        {
+          "config": "dense",
+          "queries": 300,
+          "ndcg@10": 0.7403,
+          "recall@100": 0.9633,
+          "recall_cap@100": 0.9633,
+          "mrr@10": 0.7033,
+          "docs_returned_median": 100.0,
+          "latency_ms_p50": 61,
+          "latency_ms_p95": 76,
+          "latency_queries": 100
+        },
+        {
+          "config": "hybrid",
+          "queries": 300,
+          "ndcg@10": 0.7613,
+          "recall@100": 0.976,
+          "recall_cap@100": 0.976,
+          "mrr@10": 0.729,
+          "docs_returned_median": 100.0,
+          "latency_ms_p50": 66,
+          "latency_ms_p95": 82,
+          "latency_queries": 100
+        }
+      ]
+    },
+    {
+      "name": "nfcorpus",
+      "queries": 323,
+      "import": {
+        "records": 3633,
+        "created": 3633,
+        "updated": 0,
+        "unchanged": 0,
+        "chunks": 3649,
+        "seconds": 83.8
+      },
+      "footprint": [
+        {
+          "name": "callobuzz-rag-celery-beat-1",
+          "mem": "51.57MiB / 8.728GiB",
+          "cpu": "0.00%"
+        },
+        {
+          "name": "callobuzz-rag-app-1",
+          "mem": "1.037GiB / 8.728GiB",
+          "cpu": "63.68%"
+        },
+        {
+          "name": "callobuzz-rag-worker-1",
+          "mem": "63.51MiB / 8.728GiB",
+          "cpu": "6.38%"
+        },
+        {
+          "name": "callobuzz-rag-tei-1",
+          "mem": "837.9MiB / 8.728GiB",
+          "cpu": "0.16%"
+        },
+        {
+          "name": "callobuzz-rag-redis-1",
+          "mem": "15.86MiB / 8.728GiB",
+          "cpu": "0.27%"
+        },
+        {
+          "name": "callobuzz-rag-qdrant-1",
+          "mem": "250.3MiB / 8.728GiB",
+          "cpu": "1.73%"
+        },
+        {
+          "name": "callobuzz-rag-dashboard-1",
+          "mem": "3.012MiB / 8.728GiB",
+          "cpu": "0.00%"
+        },
+        {
+          "name": "callobuzz-rag-postgres-1",
+          "mem": "120.6MiB / 8.728GiB",
+          "cpu": "0.00%"
+        },
+        {
+          "name": "callobuzz-rag-scraper-1",
+          "mem": "4.691MiB / 8.728GiB",
+          "cpu": "0.09%"
+        },
+        {
+          "name": "callobuzz-rag-minio-1",
+          "mem": "97.56MiB / 8.728GiB",
+          "cpu": "0.03%"
+        }
+      ],
+      "results": [
+        {
+          "config": "hybrid(rrf)",
+          "queries": 323,
+          "ndcg@10": 0.3652,
+          "recall@100": 0.3274,
+          "recall_cap@100": 0.3432,
+          "mrr@10": 0.5719,
+          "docs_returned_median": 100,
+          "latency_ms_p50": 230,
+          "latency_ms_p95": 239,
+          "latency_queries": 100
+        },
+        {
+          "config": "hybrid+rerank",
+          "queries": 323,
+          "ndcg@10": 0.3571,
+          "recall@100": 0.1786,
+          "recall_cap@100": 0.181,
+          "mrr@10": 0.5588,
+          "docs_returned_median": 10,
+          "latency_ms_p50": 651,
+          "latency_ms_p95": 725,
+          "latency_queries": 50
+        },
+        {
+          "config": "hybrid+rerank(fusion-order)",
+          "queries": 323,
+          "ndcg@10": 0.3681,
+          "recall@100": 0.1786,
+          "recall_cap@100": 0.181,
+          "mrr@10": 0.5833,
+          "docs_returned_median": 10,
+          "latency_ms_p50": 651,
+          "latency_ms_p95": 725,
+          "latency_queries": 50
+        },
+        {
+          "config": "hybrid@final_k=10",
+          "queries": 323,
+          "ndcg@10": 0.3818,
+          "recall@100": 0.1845,
+          "recall_cap@100": 0.187,
+          "mrr@10": 0.5796,
+          "docs_returned_median": 10,
+          "latency_ms_p50": null,
+          "latency_ms_p95": null,
+          "latency_queries": 0
+        },
+        {
+          "config": "hybrid+mmr@final_k=10",
+          "queries": 323,
+          "ndcg@10": 0.3797,
+          "recall@100": 0.1831,
+          "recall_cap@100": 0.1856,
+          "mrr@10": 0.5797,
+          "docs_returned_median": 10,
+          "latency_ms_p50": null,
+          "latency_ms_p95": null,
+          "latency_queries": 0
+        },
+        {
+          "config": "dense",
+          "queries": 323,
+          "ndcg@10": 0.3742,
+          "recall@100": 0.3365,
+          "recall_cap@100": 0.3519,
+          "mrr@10": 0.5657,
+          "docs_returned_median": 100,
+          "latency_ms_p50": 64,
+          "latency_ms_p95": 84,
+          "latency_queries": 100
+        },
+        {
+          "config": "hybrid",
+          "queries": 323,
+          "ndcg@10": 0.3818,
+          "recall@100": 0.3415,
+          "recall_cap@100": 0.3579,
+          "mrr@10": 0.5796,
+          "docs_returned_median": 100,
+          "latency_ms_p50": 67,
+          "latency_ms_p95": 74,
+          "latency_queries": 100
+        }
+      ]
+    },
+    {
+      "name": "arguana",
+      "queries": 1406,
+      "import": {
+        "records": 8674,
+        "created": 8674,
+        "updated": 0,
+        "unchanged": 0,
+        "chunks": 8686,
+        "seconds": 77.8
+      },
+      "footprint": [
+        {
+          "name": "callobuzz-rag-app-1",
+          "mem": "1.425GiB / 8.728GiB",
+          "cpu": "0.15%"
+        },
+        {
+          "name": "callobuzz-rag-worker-1",
+          "mem": "1015MiB / 8.728GiB",
+          "cpu": "0.03%"
+        },
+        {
+          "name": "callobuzz-rag-celery-beat-1",
+          "mem": "25.56MiB / 8.728GiB",
+          "cpu": "0.00%"
+        },
+        {
+          "name": "callobuzz-rag-tei-1",
+          "mem": "44.76MiB / 8.728GiB",
+          "cpu": "0.21%"
+        },
+        {
+          "name": "callobuzz-rag-redis-1",
+          "mem": "14.33MiB / 8.728GiB",
+          "cpu": "0.32%"
+        },
+        {
+          "name": "callobuzz-rag-qdrant-1",
+          "mem": "948.8MiB / 8.728GiB",
+          "cpu": "0.19%"
+        },
+        {
+          "name": "callobuzz-rag-dashboard-1",
+          "mem": "3.477MiB / 8.728GiB",
+          "cpu": "0.00%"
+        },
+        {
+          "name": "callobuzz-rag-postgres-1",
+          "mem": "447MiB / 8.728GiB",
+          "cpu": "1.88%"
+        },
+        {
+          "name": "callobuzz-rag-scraper-1",
+          "mem": "5.434MiB / 8.728GiB",
+          "cpu": "0.10%"
+        },
+        {
+          "name": "callobuzz-rag-minio-1",
+          "mem": "110.2MiB / 8.728GiB",
+          "cpu": "0.01%"
+        }
+      ],
+      "results": [
+        {
+          "config": "hybrid(rrf)",
+          "queries": 1406,
+          "ndcg@10": 0.5603,
+          "recall@100": 0.9893,
+          "recall_cap@100": 0.9893,
+          "mrr@10": 0.4731,
+          "docs_returned_median": 99.0,
+          "latency_ms_p50": null,
+          "latency_ms_p95": null,
+          "latency_queries": 0
+        },
+        {
+          "config": "hybrid+rerank",
+          "queries": 1406,
+          "ndcg@10": 0.4282,
+          "recall@100": 0.6515,
+          "recall_cap@100": 0.6515,
+          "mrr@10": 0.3584,
+          "docs_returned_median": 9.0,
+          "latency_ms_p50": 607,
+          "latency_ms_p95": 1020,
+          "latency_queries": 50
+        },
+        {
+          "config": "hybrid+rerank(fusion-order)",
+          "queries": 1406,
+          "ndcg@10": 0.5288,
+          "recall@100": 0.6515,
+          "recall_cap@100": 0.6515,
+          "mrr@10": 0.4882,
+          "docs_returned_median": 9.0,
+          "latency_ms_p50": 607,
+          "latency_ms_p95": 1020,
+          "latency_queries": 50
+        },
+        {
+          "config": "dense",
+          "queries": 1406,
+          "ndcg@10": 0.6389,
+          "recall@100": 0.9929,
+          "recall_cap@100": 0.9929,
+          "mrr@10": 0.5592,
+          "docs_returned_median": 99.0,
+          "latency_ms_p50": 56,
+          "latency_ms_p95": 71,
+          "latency_queries": 100
+        },
+        {
+          "config": "hybrid",
+          "queries": 1406,
+          "ndcg@10": 0.6401,
+          "recall@100": 0.9915,
+          "recall_cap@100": 0.9915,
+          "mrr@10": 0.5564,
+          "docs_returned_median": 99.0,
+          "latency_ms_p50": 60,
+          "latency_ms_p95": 70,
+          "latency_queries": 100
+        }
+      ]
+    },
+    {
+      "name": "scidocs",
+      "queries": 1000,
+      "import": {
+        "records": 25657,
+        "created": 25657,
+        "updated": 0,
+        "unchanged": 0,
+        "chunks": 25987,
+        "seconds": 293.6
+      },
+      "footprint": [
+        {
+          "name": "callobuzz-rag-celery-beat-1",
+          "mem": "48.63MiB / 8.728GiB",
+          "cpu": "0.00%"
+        },
+        {
+          "name": "callobuzz-rag-app-1",
+          "mem": "2.808GiB / 8.728GiB",
+          "cpu": "0.15%"
+        },
+        {
+          "name": "callobuzz-rag-worker-1",
+          "mem": "161MiB / 8.728GiB",
+          "cpu": "0.12%"
+        },
+        {
+          "name": "callobuzz-rag-tei-1",
+          "mem": "758.9MiB / 8.728GiB",
+          "cpu": "0.20%"
+        },
+        {
+          "name": "callobuzz-rag-redis-1",
+          "mem": "11.81MiB / 8.728GiB",
+          "cpu": "0.38%"
+        },
+        {
+          "name": "callobuzz-rag-qdrant-1",
+          "mem": "179.2MiB / 8.728GiB",
+          "cpu": "1.80%"
+        },
+        {
+          "name": "callobuzz-rag-dashboard-1",
+          "mem": "3.195MiB / 8.728GiB",
+          "cpu": "0.00%"
+        },
+        {
+          "name": "callobuzz-rag-postgres-1",
+          "mem": "126.4MiB / 8.728GiB",
+          "cpu": "0.00%"
+        },
+        {
+          "name": "callobuzz-rag-scraper-1",
+          "mem": "4.805MiB / 8.728GiB",
+          "cpu": "0.10%"
+        },
+        {
+          "name": "callobuzz-rag-minio-1",
+          "mem": "115.2MiB / 8.728GiB",
+          "cpu": "0.03%"
+        }
+      ],
+      "results": [
+        {
+          "config": "hybrid(rrf)",
+          "queries": 1000,
+          "ndcg@10": 0.1982,
+          "recall@100": 0.4685,
+          "recall_cap@100": 0.4685,
+          "mrr@10": 0.3399,
+          "docs_returned_median": 100.0,
+          "latency_ms_p50": 241,
+          "latency_ms_p95": 257,
+          "latency_queries": 100
+        },
+        {
+          "config": "hybrid+rerank",
+          "queries": 1000,
+          "ndcg@10": 0.1828,
+          "recall@100": 0.2,
+          "recall_cap@100": 0.2,
+          "mrr@10": 0.3055,
+          "docs_returned_median": 10.0,
+          "latency_ms_p50": 556,
+          "latency_ms_p95": 640,
+          "latency_queries": 50
+        },
+        {
+          "config": "hybrid+rerank(fusion-order)",
+          "queries": 1000,
+          "ndcg@10": 0.2013,
+          "recall@100": 0.2,
+          "recall_cap@100": 0.2,
+          "mrr@10": 0.3576,
+          "docs_returned_median": 10.0,
+          "latency_ms_p50": 556,
+          "latency_ms_p95": 640,
+          "latency_queries": 50
+        },
+        {
+          "config": "dense",
+          "queries": 1000,
+          "ndcg@10": 0.2169,
+          "recall@100": 0.4947,
+          "recall_cap@100": 0.4947,
+          "mrr@10": 0.3585,
+          "docs_returned_median": 100.0,
+          "latency_ms_p50": 67,
+          "latency_ms_p95": 88,
+          "latency_queries": 100
+        },
+        {
+          "config": "hybrid",
+          "queries": 1000,
+          "ndcg@10": 0.2208,
+          "recall@100": 0.4821,
+          "recall_cap@100": 0.4821,
+          "mrr@10": 0.3706,
+          "docs_returned_median": 100.0,
+          "latency_ms_p50": 80,
+          "latency_ms_p95": 89,
+          "latency_queries": 100
+        }
+      ]
+    },
+    {
+      "name": "fiqa",
+      "queries": 648,
+      "import": {
+        "records": 57600,
+        "created": 57600,
+        "updated": 0,
+        "unchanged": 0,
+        "chunks": 58161,
+        "seconds": 540.2
+      },
+      "footprint": [
+        {
+          "name": "callobuzz-rag-app-1",
+          "mem": "1.476GiB / 8.728GiB",
+          "cpu": "0.20%"
+        },
+        {
+          "name": "callobuzz-rag-worker-1",
+          "mem": "1.115GiB / 8.728GiB",
+          "cpu": "0.08%"
+        },
+        {
+          "name": "callobuzz-rag-celery-beat-1",
+          "mem": "25.86MiB / 8.728GiB",
+          "cpu": "0.00%"
+        },
+        {
+          "name": "callobuzz-rag-tei-1",
+          "mem": "41.82MiB / 8.728GiB",
+          "cpu": "0.25%"
+        },
+        {
+          "name": "callobuzz-rag-redis-1",
+          "mem": "15.33MiB / 8.728GiB",
+          "cpu": "2.00%"
+        },
+        {
+          "name": "callobuzz-rag-qdrant-1",
+          "mem": "838.7MiB / 8.728GiB",
+          "cpu": "1.73%"
+        },
+        {
+          "name": "callobuzz-rag-dashboard-1",
+          "mem": "3.484MiB / 8.728GiB",
+          "cpu": "0.00%"
+        },
+        {
+          "name": "callobuzz-rag-postgres-1",
+          "mem": "476.1MiB / 8.728GiB",
+          "cpu": "0.02%"
+        },
+        {
+          "name": "callobuzz-rag-scraper-1",
+          "mem": "5.309MiB / 8.728GiB",
+          "cpu": "0.11%"
+        },
+        {
+          "name": "callobuzz-rag-minio-1",
+          "mem": "98.86MiB / 8.728GiB",
+          "cpu": "0.02%"
+        }
+      ],
+      "results": [
+        {
+          "config": "hybrid(rrf)",
+          "queries": 648,
+          "ndcg@10": 0.3701,
+          "recall@100": 0.7157,
+          "recall_cap@100": 0.7157,
+          "mrr@10": 0.4404,
+          "docs_returned_median": 99.0,
+          "latency_ms_p50": 233,
+          "latency_ms_p95": 252,
+          "latency_queries": 100
+        },
+        {
+          "config": "hybrid+rerank",
+          "queries": 648,
+          "ndcg@10": 0.4344,
+          "recall@100": 0.5012,
+          "recall_cap@100": 0.5012,
+          "mrr@10": 0.5238,
+          "docs_returned_median": 10.0,
+          "latency_ms_p50": 578,
+          "latency_ms_p95": 679,
+          "latency_queries": 50
+        },
+        {
+          "config": "hybrid+rerank(fusion-order)",
+          "queries": 648,
+          "ndcg@10": 0.4299,
+          "recall@100": 0.5012,
+          "recall_cap@100": 0.5012,
+          "mrr@10": 0.5129,
+          "docs_returned_median": 10.0,
+          "latency_ms_p50": 578,
+          "latency_ms_p95": 679,
+          "latency_queries": 50
+        },
+        {
+          "config": "hybrid@final_k=10",
+          "queries": 648,
+          "ndcg@10": 0.4171,
+          "recall@100": 0.4986,
+          "recall_cap@100": 0.4986,
+          "mrr@10": 0.4939,
+          "docs_returned_median": 10.0,
+          "latency_ms_p50": null,
+          "latency_ms_p95": null,
+          "latency_queries": 0
+        },
+        {
+          "config": "hybrid+mmr@final_k=10",
+          "queries": 648,
+          "ndcg@10": 0.4155,
+          "recall@100": 0.4937,
+          "recall_cap@100": 0.4937,
+          "mrr@10": 0.4931,
+          "docs_returned_median": 10.0,
+          "latency_ms_p50": null,
+          "latency_ms_p95": null,
+          "latency_queries": 0
+        },
+        {
+          "config": "dense",
+          "queries": 648,
+          "ndcg@10": 0.4046,
+          "recall@100": 0.7394,
+          "recall_cap@100": 0.7394,
+          "mrr@10": 0.4835,
+          "docs_returned_median": 99.0,
+          "latency_ms_p50": 61,
+          "latency_ms_p95": 76,
+          "latency_queries": 100
+        },
+        {
+          "config": "hybrid",
+          "queries": 648,
+          "ndcg@10": 0.4172,
+          "recall@100": 0.7343,
+          "recall_cap@100": 0.7343,
+          "mrr@10": 0.4939,
+          "docs_returned_median": 99.0,
+          "latency_ms_p50": 72,
+          "latency_ms_p95": 83,
+          "latency_queries": 100
+        }
+      ]
+    },
+    {
+      "name": "trec-covid",
+      "queries": 50,
+      "import": {
+        "records": 171331,
+        "created": 13331,
+        "updated": 0,
+        "unchanged": 158000,
+        "chunks": 13407,
+        "seconds": 238.6
+      },
+      "footprint": [
+        {
+          "name": "callobuzz-rag-app-1",
+          "mem": "1.016GiB / 8.728GiB",
+          "cpu": "0.13%"
+        },
+        {
+          "name": "callobuzz-rag-worker-1",
+          "mem": "1.215GiB / 8.728GiB",
+          "cpu": "0.03%"
+        },
+        {
+          "name": "callobuzz-rag-celery-beat-1",
+          "mem": "27.14MiB / 8.728GiB",
+          "cpu": "0.00%"
+        },
+        {
+          "name": "callobuzz-rag-tei-1",
+          "mem": "46.97MiB / 8.728GiB",
+          "cpu": "0.18%"
+        },
+        {
+          "name": "callobuzz-rag-redis-1",
+          "mem": "16.09MiB / 8.728GiB",
+          "cpu": "0.25%"
+        },
+        {
+          "name": "callobuzz-rag-qdrant-1",
+          "mem": "716MiB / 8.728GiB",
+          "cpu": "0.11%"
+        },
+        {
+          "name": "callobuzz-rag-dashboard-1",
+          "mem": "3.609MiB / 8.728GiB",
+          "cpu": "0.00%"
+        },
+        {
+          "name": "callobuzz-rag-postgres-1",
+          "mem": "562.5MiB / 8.728GiB",
+          "cpu": "1.84%"
+        },
+        {
+          "name": "callobuzz-rag-scraper-1",
+          "mem": "5.242MiB / 8.728GiB",
+          "cpu": "0.09%"
+        },
+        {
+          "name": "callobuzz-rag-minio-1",
+          "mem": "115.9MiB / 8.728GiB",
+          "cpu": "0.02%"
+        }
+      ],
+      "results": [
+        {
+          "config": "hybrid(rrf)",
+          "queries": 50,
+          "ndcg@10": 0.8016,
+          "recall@100": 0.1458,
+          "recall_cap@100": 0.603,
+          "mrr@10": 0.9467,
+          "docs_returned_median": 100.0,
+          "latency_ms_p50": 279,
+          "latency_ms_p95": 323,
+          "latency_queries": 50
+        },
+        {
+          "config": "hybrid+rerank",
+          "queries": 50,
+          "ndcg@10": 0.8393,
+          "recall@100": 0.0231,
+          "recall_cap@100": 0.0892,
+          "mrr@10": 0.95,
+          "docs_returned_median": 10.0,
+          "latency_ms_p50": 621,
+          "latency_ms_p95": 733,
+          "latency_queries": 50
+        },
+        {
+          "config": "hybrid+rerank(fusion-order)",
+          "queries": 50,
+          "ndcg@10": 0.8523,
+          "recall@100": 0.0231,
+          "recall_cap@100": 0.0892,
+          "mrr@10": 0.97,
+          "docs_returned_median": 10.0,
+          "latency_ms_p50": 621,
+          "latency_ms_p95": 733,
+          "latency_queries": 50
+        },
+        {
+          "config": "hybrid@final_k=10",
+          "queries": 50,
+          "ndcg@10": 0.8001,
+          "recall@100": 0.0227,
+          "recall_cap@100": 0.0842,
+          "mrr@10": 0.9367,
+          "docs_returned_median": 10.0,
+          "latency_ms_p50": null,
+          "latency_ms_p95": null,
+          "latency_queries": 0
+        },
+        {
+          "config": "hybrid+mmr@final_k=10",
+          "queries": 50,
+          "ndcg@10": 0.7912,
+          "recall@100": 0.0219,
+          "recall_cap@100": 0.0834,
+          "mrr@10": 0.9367,
+          "docs_returned_median": 10.0,
+          "latency_ms_p50": null,
+          "latency_ms_p95": null,
+          "latency_queries": 0
+        },
+        {
+          "config": "dense",
+          "queries": 50,
+          "ndcg@10": 0.7921,
+          "recall@100": 0.1395,
+          "recall_cap@100": 0.5904,
+          "mrr@10": 0.9267,
+          "docs_returned_median": 100.0,
+          "latency_ms_p50": 71,
+          "latency_ms_p95": 94,
+          "latency_queries": 50
+        },
+        {
+          "config": "hybrid",
+          "queries": 50,
+          "ndcg@10": 0.8031,
+          "recall@100": 0.1473,
+          "recall_cap@100": 0.61,
+          "mrr@10": 0.9367,
+          "docs_returned_median": 100.0,
+          "latency_ms_p50": 71,
+          "latency_ms_p95": 80,
+          "latency_queries": 50
+        }
+      ]
+    }
+  ]
+}

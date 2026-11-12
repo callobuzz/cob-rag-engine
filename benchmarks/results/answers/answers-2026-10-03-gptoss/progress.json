@@ -1,0 +1,26 @@
+{
+  "run": "answers-2026-10-03-gptoss",
+  "harness_version": "1.1.0",
+  "started": "2026-10-03T18:05:45.836+00:00",
+  "updated": "2026-10-03T18:06:41.676+00:00",
+  "status": "complete",
+  "stop_reason": null,
+  "budget_usd": 0.2,
+  "spend_usd": 0.00805,
+  "reserved_usd": 0.0,
+  "retries": 0,
+  "models": {
+    "openai/gpt-oss-120b|low": {
+      "model": "openai/gpt-oss-120b",
+      "variant": "low",
+      "total": 94,
+      "done": 94,
+      "errors": 5,
+      "failures": 0,
+      "retries": 0,
+      "spend_usd": 0.00805,
+      "status": "skipped_fail_fast",
+      "reason": "5 of the first 5 items failed; the model x variant was skipped (see errors.jsonl and rail_failures in answers.jsonl)"
+    }
+  }
+}

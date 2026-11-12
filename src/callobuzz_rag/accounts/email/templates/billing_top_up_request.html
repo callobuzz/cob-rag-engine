@@ -1,0 +1,12 @@
+{% extends "_base.html" %}
+{% from "_macros.html" import button with context %}
+{% block content %}
+<p style="margin:0 0 12px;"><strong>{{ tenant_name }}</strong> asked to top up their balance{% if amount %} by <strong>{{ amount }}</strong>{% endif %}.</p>
+<p style="margin:0 0 12px;">Asked by {{ owner_name }}{% if owner_email %} ({{ owner_email }}){% endif %}.</p>
+{% if note %}
+<p style="margin:0 0 4px;">Their note:</p>
+<p style="margin:0 0 12px;padding:8px 12px;border-left:3px solid #dfe3ea;white-space:pre-wrap;">{{ note }}</p>
+{% endif %}
+<p style="margin:0 0 12px;">Add the money once you have received it; answers resume as soon as the balance allows.</p>
+{{ button(account_url, "Open their billing") }}
+{% endblock %}

@@ -1,0 +1,9 @@
+{% extends "_base.txt" %}
+{% block content %}
+Thank you. We received your payment of {{ amount }} for {{ tenant_name }}.
+
+{{ purpose_label }}. Your balance is now {{ balance }}.
+
+Your tax invoice will be in Plan & billing:
+{{ billing_url }}
+{% endblock %}

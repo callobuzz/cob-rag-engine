@@ -1,0 +1,9 @@
+{% extends "_base.txt" %}
+{% block content %}
+{{ tenant_name }}: {{ add_on_name }} has ended.
+
+{{ reason }}
+
+Plan & billing:
+{{ shop_url }}
+{% endblock %}

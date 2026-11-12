@@ -1,0 +1,58 @@
+{
+  "key": "coaching",
+  "name": "Coaching classes",
+  "conversation": {
+    "assistant_name": ["Disha", "दिशा", "Disha"],
+    "business_name": ["Bright Path Classes, Kota", "ब्राइट पाथ क्लासेस, कोटा", "Bright Path Classes, Kota"],
+    "turns": [
+      {"role": "visitor", "text": ["Class 11 JEE batch ki fees kitni hai? Batch kab shuru hoga?", "क्लास 11 JEE बैच की फीस कितनी है? बैच कब शुरू होगा?", "Class 11 JEE batch ki fees kitni hai? Batch kab shuru hoga?"]},
+      {"role": "assistant",
+       "text": ["The Class 11 JEE batch is ₹1,20,000 for the year, payable in 3 instalments. The next batch starts on 6 April.",
+                "क्लास 11 JEE बैच की फीस साल की ₹1,20,000 है, जो 3 किस्तों में दी जा सकती है। अगला बैच 6 अप्रैल से शुरू होगा।",
+                "Class 11 JEE batch ki fees saal ki ₹1,20,000 hai, jo 3 kiston mein di ja sakti hai. Agla batch 6 April se shuru hoga."],
+       "source": ["Batch fees page, updated 1 Oct", "बैच फीस पेज, 1 अक्टूबर को अपडेट", "Batch fees page, 1 Oct ko update hua"]},
+      {"role": "visitor", "text": ["Mere bete ko scholarship milegi kya?", "मेरे बेटे को स्कॉलरशिप मिलेगी क्या?", "Mere bete ko scholarship milegi kya?"]},
+      {"role": "assistant",
+       "text": ["A scholarship depends on the entrance test result, which I can not see. Share your number and a counsellor will call you.",
+                "स्कॉलरशिप एंट्रेंस टेस्ट के नतीजे पर निर्भर है, जो मुझे नहीं दिखता। अपना नंबर दें, काउंसलर आपको फ़ोन करेंगे।",
+                "Scholarship entrance test ke result par nirbhar hai, jo mujhe nahi dikhta. Apna number dein, counsellor aapko phone karenge."],
+       "source": ["Contact page", "संपर्क पेज", "Contact page"]}
+    ],
+    "lead": {"name": "Sunita P.", "phone_masked": "+91 94•••• 8821", "came_from": "website",
+             "looking_for": ["Class 11 JEE, scholarship call", "क्लास 11 JEE, स्कॉलरशिप पर कॉल", "Class 11 JEE, scholarship par call"],
+             "consent": ["Sunita agreed to be contacted by Bright Path Classes about this enquiry.", "सुनीता ने इस पूछताछ के लिए ब्राइट पाथ क्लासेस से संपर्क की सहमति दी।", "Sunita ne is enquiry ke liye Bright Path Classes se sampark ki sahmati di."]}
+  },
+  "pain_wall": {
+    "heading": ["Parents ask at night, after the day's work.", "माता-पिता रात को पूछते हैं, दिन के काम के बाद।", "Mata-pita raat ko poochte hain, din ke kaam ke baad."],
+    "questions": [
+      {"text": ["JEE batch ki fees?", "JEE बैच की फीस?", "JEE batch ki fees?"], "channel": "website", "time": "21:40"},
+      {"text": ["Hostel hai kya?", "हॉस्टल है क्या?", "Hostel hai kya?"], "channel": "whatsapp", "time": "22:05"},
+      {"text": ["Demo class kab hai?", "डेमो क्लास कब है?", "Demo class kab hai?"], "channel": "website", "time": "22:45"},
+      {"text": ["Scholarship milti hai?", "स्कॉलरशिप मिलती है?", "Scholarship milti hai?"], "channel": "whatsapp", "time": "23:10"},
+      {"text": ["Batch timing kya hai?", "बैच का समय क्या है?", "Batch timing kya hai?"], "channel": "website", "time": "23:35"}
+    ],
+    "punchline": ["An unanswered parent at 9 pm is a seat that fills at another institute.", "रात 9 बजे बिना जवाब का अभिभावक किसी और संस्थान की भरती हुई सीट है।", "Raat 9 baje bina jawab ka parent kisi aur institute ki bharti hui seat hai."]
+  },
+  "languages": {"samples": [
+    {"lang": "en", "question": "Is there a demo class before I pay?", "answer": "Yes. A free demo class runs every Saturday at 11 am."},
+    {"lang": "hi", "question": "पैसे देने से पहले डेमो क्लास मिलती है?", "answer": "हाँ। हर शनिवार सुबह 11 बजे मुफ़्त डेमो क्लास होती है।"},
+    {"lang": "hi-Latn", "question": "Paise dene se pehle demo class milti hai?", "answer": "Haan. Har Saturday subah 11 baje free demo class hoti hai."}
+  ]},
+  "whatsapp_journey": {"chapters": [
+    {"time": "23:42", "title": ["A parent's late question", "माता-पिता का देर रात सवाल", "Parent ka der raat sawaal"], "messages": [
+      {"from": "visitor", "text": ["Fees ka structure bhej do.", "फीस का स्ट्रक्चर भेज दो।", "Fees ka structure bhej do."]},
+      {"from": "assistant", "text": ["Here is the fee structure.", "ये रहा फीस का स्ट्रक्चर।", "Yeh raha fees ka structure."], "attachment": ["Fee structure, PDF", "फीस स्ट्रक्चर, PDF", "Fee structure, PDF"]}]},
+    {"time": "07:30", "title": ["The lead is waiting", "सुबह लीड तैयार है", "Subah lead taiyaar hai"], "messages": [
+      {"from": "assistant", "text": ["New lead: Sunita P. wants a scholarship call for Class 11.", "नया लीड: सुनीता पी. को क्लास 11 के लिए स्कॉलरशिप पर कॉल चाहिए।", "Naya lead: Sunita P. ko Class 11 ke liye scholarship par call chahiye."]}]},
+    {"time": "09:10", "title": ["The counsellor steps in", "काउंसलर जवाब देते हैं", "Counsellor jawab dete hain"], "messages": [
+      {"from": "owner", "text": ["Hello, this is Bright Path Classes. Can we call you at 11 am?", "नमस्ते, ब्राइट पाथ क्लासेस से बोल रहे हैं। क्या हम सुबह 11 बजे फ़ोन करें?", "Namaste, Bright Path Classes se bol rahe hain. Kya hum subah 11 baje phone karein?"]}]},
+    {"time": "11:00", "title": ["Demo class booked", "डेमो क्लास बुक", "Demo class book"], "messages": [
+      {"from": "visitor", "text": ["Yes, we will come on Saturday.", "हाँ, हम शनिवार को आएँगे।", "Haan, hum Saturday ko aayenge."]}]}
+  ]},
+  "faq": {"items": [
+    {"q": ["Can it promise a seat or a rank?", "क्या यह सीट या रैंक का वादा करेगा?", "Kya yeh seat ya rank ka vaada karega?"],
+     "a": ["No. It shares only what your pages say, such as fees, batches and timings. It does not promise results.", "नहीं। यह सिर्फ वही बताता है जो आपके पेजों पर है, जैसे फीस, बैच और समय। यह नतीजों का वादा नहीं करता।", "Nahi. Yeh sirf wahi batata hai jo aapke pages par hai, jaise fees, batch aur timing. Yeh results ka vaada nahi karta."]},
+    {"q": ["Will it answer in Hindi for parents?", "क्या यह माता-पिता को हिंदी में जवाब देगा?", "Kya yeh parents ko Hindi mein jawab dega?"],
+     "a": ["Yes. It replies in English, Hindi or Hinglish, in the language the parent used.", "हाँ। माता-पिता जिस भाषा में लिखें, यह अंग्रेज़ी, हिंदी या हिंग्लिश में उसी में जवाब देता है।", "Haan. Parent jis bhasha mein likhe, yeh English, Hindi ya Hinglish mein usi mein jawab deta hai."]}
+  ]}
+}

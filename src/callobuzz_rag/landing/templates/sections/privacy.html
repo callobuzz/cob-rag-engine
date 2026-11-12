@@ -1,0 +1,9 @@
+{% import "macros.html" as m with context %}
+<section class="section privacy" data-section="privacy" id="{{ s.id }}">
+  <div class="wrap">
+    {{ m.head(s) }}
+    <ul class="sentences">
+      {% for sentence in s.sentences %}<li style="--i: {{ loop.index0 }}">{{ m.icon("check") }}<span>{{ sentence|t }}</span></li>{% endfor %}
+    </ul>
+  </div>
+</section>

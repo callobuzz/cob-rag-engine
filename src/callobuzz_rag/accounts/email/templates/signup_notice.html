@@ -1,0 +1,11 @@
+{% extends "_base.html" %}
+{% from "_macros.html" import button with context %}
+{% block content %}
+<p style="margin:0 0 12px;">A new workspace is waiting for your approval:</p>
+<table role="presentation" cellpadding="0" cellspacing="0" border="0" style="margin:0 0 12px;font-size:15px;">
+<tr><td style="padding:2px 16px 2px 0;color:#6a737d;">Business</td><td style="padding:2px 0;"><strong>{{ tenant_name }}</strong></td></tr>
+<tr><td style="padding:2px 16px 2px 0;color:#6a737d;">Owner</td><td style="padding:2px 0;">{{ owner_name }}</td></tr>
+<tr><td style="padding:2px 16px 2px 0;color:#6a737d;">E-mail</td><td style="padding:2px 0;">{{ owner_email }}</td></tr>
+</table>
+{{ button(customers_url, "Review it on the Customers page") }}
+{% endblock %}

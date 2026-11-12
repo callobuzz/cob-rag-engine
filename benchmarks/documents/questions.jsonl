@@ -1,0 +1,55 @@
+{"q": "How long is a full-time store shift?", "file": "employee-handbook.pdf", "facts": ["8.5 hours"], "kind": "pdf text"}
+{"q": "When are shift rotas published?", "file": "employee-handbook.pdf", "facts": ["every Thursday"], "kind": "pdf text"}
+{"q": "What time do warehouse staff start work?", "file": "employee-handbook.pdf", "facts": ["6:45 am"], "kind": "pdf text"}
+{"q": "How many days a week can head office staff work from home?", "file": "employee-handbook.pdf", "facts": ["2 days per week"], "kind": "pdf text"}
+{"q": "What are the core hours at head office?", "file": "employee-handbook.pdf", "facts": ["10:00 to 15:30"], "kind": "pdf text"}
+{"q": "What is the overtime rate on public holidays?", "file": "employee-handbook.pdf", "facts": ["2 times the base rate"], "kind": "pdf text"}
+{"q": "How long is parental leave for the primary carer?", "file": "employee-handbook.pdf", "facts": ["18 weeks"], "kind": "pdf text"}
+{"q": "How many days of bereavement leave do I get?", "file": "employee-handbook.pdf", "facts": ["5 days for immediate family"], "kind": "pdf text"}
+{"q": "What is the yearly uniform allowance?", "file": "employee-handbook.pdf", "facts": ["180 dollars"], "kind": "pdf text"}
+{"q": "What discount do employees get on full-price gear?", "file": "employee-handbook.pdf", "facts": ["35 percent"], "kind": "pdf text"}
+{"q": "Is there a limit on how much I can buy with the staff discount?", "file": "employee-handbook.pdf", "facts": ["2,500"], "kind": "pdf text"}
+{"q": "How often are climbing ropes in the demo area inspected?", "file": "employee-handbook.pdf", "facts": ["every 90 days"], "kind": "pdf text"}
+{"q": "How often does a forklift licence have to be renewed?", "file": "employee-handbook.pdf", "facts": ["every 3 years"], "kind": "pdf text"}
+{"q": "What is the speed limit in the warehouse?", "file": "employee-handbook.pdf", "facts": ["8 km/h"], "kind": "pdf text"}
+{"q": "Which form do I use to report a safety incident?", "file": "employee-handbook.pdf", "facts": ["HS-12"], "kind": "pdf text"}
+{"q": "What mileage rate is paid for driving my own car for work?", "file": "employee-handbook.pdf", "facts": ["0.42 dollars per kilometre"], "kind": "pdf text"}
+{"q": "What is the hotel limit per night in a capital city?", "file": "employee-handbook.pdf", "facts": ["240 dollars"], "kind": "pdf text"}
+{"q": "How old can an expense claim be before it is not paid?", "file": "employee-handbook.pdf", "facts": ["60 days"], "kind": "pdf text"}
+{"q": "How many annual leave days do I get after 3 years of service?", "file": "employee-handbook.pdf", "facts": ["2 to 5", "23"], "kind": "pdf table"}
+{"q": "How many leave days can a new starter carry over?", "file": "employee-handbook.pdf", "facts": ["Less than 2", "3 days"], "kind": "pdf table"}
+{"q": "How much annual leave do I get after 6 years?", "file": "employee-handbook.pdf", "facts": ["More than 5", "26"], "kind": "pdf table"}
+{"q": "What is the cutoff time for same-day dispatch?", "file": "shipping-policy.docx", "facts": ["2 pm"], "kind": "docx text"}
+{"q": "Above what order value is shipping free?", "file": "shipping-policy.docx", "facts": ["150 dollars"], "kind": "docx text"}
+{"q": "How many gas canisters can be shipped in one order?", "file": "shipping-policy.docx", "facts": ["maximum 4 per order"], "kind": "docx text"}
+{"q": "Where is the returns centre?", "file": "shipping-policy.docx", "facts": ["Unit 9, Ridgeway Park"], "kind": "docx text"}
+{"q": "How quickly are postal returns processed?", "file": "shipping-policy.docx", "facts": ["within 7 days"], "kind": "docx text"}
+{"q": "How long does delivery to regional towns take?", "file": "shipping-policy.docx", "facts": ["Regional towns", "3-4 business days"], "kind": "docx table"}
+{"q": "What is the standard fee to ship to remote areas and islands?", "file": "shipping-policy.docx", "facts": ["Remote areas and islands", "19.95"], "kind": "docx table"}
+{"q": "Which delivery zone covers metro areas and what does it cost?", "file": "shipping-policy.docx", "facts": ["Zone A", "Metro areas", "6.95"], "kind": "docx table"}
+{"q": "How much does the Basecamp Dome 3 tent cost?", "file": "product-catalog.xlsx", "facts": ["Basecamp Dome 3", "429"], "kind": "spreadsheet"}
+{"q": "How heavy is the Ridge Lite 2?", "file": "product-catalog.xlsx", "facts": ["Ridge Lite 2", "1.4"], "kind": "spreadsheet"}
+{"q": "What is the SKU of the Solo Bivvy?", "file": "product-catalog.xlsx", "facts": ["Solo Bivvy", "TN-1107"], "kind": "spreadsheet"}
+{"q": "Is the Family Cabin 6 in stock?", "file": "product-catalog.xlsx", "facts": ["Family Cabin 6"], "kind": "spreadsheet"}
+{"q": "What is the comfort rating of the Expedition -25 bag?", "file": "product-catalog.xlsx", "facts": ["Expedition -25", "-25 C"], "kind": "spreadsheet"}
+{"q": "Which sleeping bag has synthetic fill and what does it cost?", "file": "product-catalog.xlsx", "facts": ["Summer Synthetic", "129"], "kind": "spreadsheet"}
+{"q": "What fill does the Alpine Down -10 use?", "file": "product-catalog.xlsx", "facts": ["Alpine Down -10", "800 fill down"], "kind": "spreadsheet"}
+{"q": "How long is the warranty on tents?", "file": "warranty-faq.html", "facts": ["7-year warranty"], "kind": "html"}
+{"q": "Are sleeping bags covered by warranty, and for how long?", "file": "warranty-faq.html", "facts": ["covered for 3 years"], "kind": "html"}
+{"q": "How much does it cost to resole boots?", "file": "warranty-faq.html", "facts": ["65 dollars"], "kind": "html"}
+{"q": "Which form starts an online warranty claim?", "file": "warranty-faq.html", "facts": ["W-3"], "kind": "html"}
+{"q": "How long does it take to assess a warranty claim?", "file": "warranty-faq.html", "facts": ["10 business days"], "kind": "html"}
+{"q": "Can you repair gear made by other brands?", "file": "warranty-faq.html", "facts": ["any brand"], "kind": "html"}
+{"q": "Which release added offline checkout?", "file": "release-notes.md", "facts": ["4.2.0", "offline checkout"], "kind": "markdown"}
+{"q": "How long can the till keep working without a network?", "file": "release-notes.md", "facts": ["72 hours"], "kind": "markdown"}
+{"q": "What ticket fixed the multi-buy rounding error?", "file": "release-notes.md", "facts": ["POS-1167"], "kind": "markdown"}
+{"q": "How long is a click-and-collect locker reservation held?", "file": "release-notes.md", "facts": ["48 hours"], "kind": "markdown"}
+{"q": "Which ticket added the gift card balance to receipts?", "file": "release-notes.md", "facts": ["POS-1204"], "kind": "markdown"}
+{"q": "When does payroll run?", "file": "onboarding-slides.pptx", "facts": ["25th"], "kind": "slides"}
+{"q": "What do new staff do on day 2 of their first week?", "file": "onboarding-slides.pptx", "facts": ["product training on tents"], "kind": "slides"}
+{"q": "How many training modules are there and when are they due?", "file": "onboarding-slides.pptx", "facts": ["12 modules"], "kind": "slides"}
+{"q": "What app do we use for rotas?", "file": "onboarding-slides.pptx", "facts": ["StaffHub"], "kind": "slides"}
+{"q": "What is the new stockroom alarm code?", "file": "store-notice-scanned.pdf", "facts": ["4471"], "kind": "scanned pdf (OCR)"}
+{"q": "On which days do deliveries arrive?", "file": "store-notice-scanned.pdf", "facts": ["Tuesdays and Fridays"], "kind": "scanned pdf (OCR)"}
+{"q": "Where is the fire assembly point now?", "file": "store-notice-scanned.pdf", "facts": ["P2"], "kind": "scanned pdf (OCR)"}
+{"q": "What is the facilities desk extension?", "file": "store-notice-scanned.pdf", "facts": ["2206"], "kind": "scanned pdf (OCR)"}

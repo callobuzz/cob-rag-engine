@@ -1,0 +1,15 @@
+{% extends "_base.txt" %}
+{% block content %}
+{% if reactivated %}
+{{ tenant_name }} is active again on {{ branding.product_name }}. Everything is where you left it.
+{% else %}
+You're in: {{ tenant_name }} is now active on {{ branding.product_name }}.
+{% endif %}
+{% if plan_name %}
+
+Your plan: {{ plan_name }}.
+{% endif %}
+
+Sign in:
+{{ login_url }}
+{% endblock %}

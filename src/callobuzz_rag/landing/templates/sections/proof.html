@@ -1,0 +1,23 @@
+{% import "macros.html" as m with context %}
+<section class="section proof" data-section="proof" id="{{ s.id }}">
+  <div class="wrap">
+    {{ m.head(s) }}
+    {% if s.cases %}
+    <ul class="cases">
+      {% for case in s.cases %}
+      <li class="case">
+        <p class="case-number">{{ case.number }}</p>
+        <blockquote>{{ case.quote|t }}</blockquote>
+        <p class="case-name">{{ case.name }}</p>
+        <p class="case-method">{{ case.method|t }}</p>
+      </li>
+      {% endfor %}
+    </ul>
+    {% endif %}
+    {% if s.gallery %}
+    <ul class="gallery">
+      {% for item in s.gallery %}<li><a class="btn btn-ghost" href="{{ item.href }}" rel="noopener">{{ item.label|t }}{{ m.icon("arrow") }}</a></li>{% endfor %}
+    </ul>
+    {% endif %}
+  </div>
+</section>

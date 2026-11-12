@@ -1,0 +1,9 @@
+{% extends "_base.txt" %}
+{% block content %}
+{{ tenant_name }}: a payment needs a look.
+
+{{ reason }}
+
+Open payments:
+{{ payments_url }}
+{% endblock %}

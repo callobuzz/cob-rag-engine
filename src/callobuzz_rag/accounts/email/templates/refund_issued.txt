@@ -1,0 +1,9 @@
+{% extends "_base.txt" %}
+{% block content %}
+We refunded {{ amount }} to the way you paid, for {{ tenant_name }}.
+
+It usually reaches your bank in 5 to 7 working days. The amount was taken off your balance when we started the refund.
+
+Plan & billing:
+{{ billing_url }}
+{% endblock %}

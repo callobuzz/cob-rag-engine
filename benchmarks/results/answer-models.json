@@ -1,0 +1,2700 @@
+{
+  "schema_version": 1,
+  "harness_version": "1.1.0",
+  "updated": "2026-10-03T19:17:49+00:00",
+  "run": "answers-2026-10-03+answers-2026-10-03-gptoss",
+  "items_sha256": "eb29e668e3e9dec7bf6ce6c8e72f106bb381d991606dcb1c5dcb65803ec7f7b6",
+  "usd_inr_rate": 84.0,
+  "method": "Each model answers the same frozen items (benchmarks/data/answers/items.jsonl: English, Hindi and Hinglish; answerable, comparison-table and unanswerable questions) from the same 3-6 passages, through the engine's own grounded-answer path (C2 Customer support template, prompt compiler, fact gate, LiteLLM streaming). Scores are deterministic checks over the saved answers; fluency is an optional LLM judge.",
+  "rows": [
+    {
+      "key": "anthropic/claude-haiku-4.5|off",
+      "model": "anthropic/claude-haiku-4.5",
+      "provider": "openrouter",
+      "provider_order": [],
+      "variant": "off",
+      "thinking_effective": [
+        "off"
+      ],
+      "thinking_source": [
+        "engine"
+      ],
+      "hosts": {
+        "Amazon Bedrock": 94
+      },
+      "status": "complete",
+      "status_reason": null,
+      "items": 94,
+      "answered": 94,
+      "errors": 0,
+      "rail_failures": {},
+      "reasoning_violations": 0,
+      "latency": {
+        "ttft_p50_ms": 1523.5,
+        "ttft_p90_ms": 1921.7,
+        "total_p50_ms": 2070.5,
+        "total_p90_ms": 3354.9
+      },
+      "tokens_mean": {
+        "in": 1403.4149,
+        "out": 82.2447,
+        "reasoning": 0.0
+      },
+      "cost_known_share": 1.0,
+      "usd_per_1000_answers": 1.8146,
+      "inr_per_1000_answers": 152.43,
+      "scores": {
+        "passed": 0.8191,
+        "claim_check_pass": 0.883,
+        "gate_false_removals": 8,
+        "gold_recall": 0.9231,
+        "hallucination_rate": 0.0,
+        "citations_valid": 1.0,
+        "cites_gold": 0.9231,
+        "refusal_correct_answerable": 0.9615,
+        "refusal_correct_unanswerable": 0.6875,
+        "language_match": {
+          "en": 1.0,
+          "hi": 1.0,
+          "hi-Latn": 1.0
+        },
+        "table_rate": 0.9,
+        "length_ok": 0.9681
+      },
+      "judge": [
+        {
+          "judge_model": "openai/gpt-4.1-mini",
+          "graded": 40,
+          "fluency": {
+            "hi": 4.85,
+            "hi-Latn": 4.5
+          },
+          "naturalness": {
+            "hi": 4.5,
+            "hi-Latn": 4.25
+          },
+          "script_ok": 1.0,
+          "register_ok": 0.925,
+          "cost_usd": 0.008527
+        }
+      ],
+      "by_language": {
+        "en": {
+          "items": 54,
+          "passed": 0.8889,
+          "refusal_correct_unanswerable": 0.875,
+          "unanswerable_items": 8,
+          "table_rate": 0.8333,
+          "table_items": 6,
+          "ttft_p50_ms": 1516.0,
+          "usd_per_1000_answers": 1.5852,
+          "inr_per_1000_answers": 133.16,
+          "judged": 0,
+          "fluency": null,
+          "naturalness": null,
+          "script_ok": null,
+          "register_ok": null
+        },
+        "hi": {
+          "items": 20,
+          "passed": 0.8,
+          "refusal_correct_unanswerable": 0.75,
+          "unanswerable_items": 4,
+          "table_rate": 1.0,
+          "table_items": 2,
+          "ttft_p50_ms": 1562.5,
+          "usd_per_1000_answers": 2.2447,
+          "inr_per_1000_answers": 188.55,
+          "judged": 20,
+          "fluency": 4.85,
+          "naturalness": 4.5,
+          "script_ok": 1.0,
+          "register_ok": 1.0
+        },
+        "hi-Latn": {
+          "items": 20,
+          "passed": 0.65,
+          "refusal_correct_unanswerable": 0.25,
+          "unanswerable_items": 4,
+          "table_rate": 1.0,
+          "table_items": 2,
+          "ttft_p50_ms": 1484.5,
+          "usd_per_1000_answers": 2.004,
+          "inr_per_1000_answers": 168.34,
+          "judged": 20,
+          "fluency": 4.5,
+          "naturalness": 4.25,
+          "script_ok": 1.0,
+          "register_ok": 0.85
+        },
+        "hindi_all": {
+          "items": 40,
+          "passed": 0.725,
+          "refusal_correct_unanswerable": 0.5,
+          "unanswerable_items": 8,
+          "table_rate": 1.0,
+          "table_items": 4,
+          "ttft_p50_ms": 1531.0,
+          "usd_per_1000_answers": 2.1244,
+          "inr_per_1000_answers": 178.45,
+          "judged": 40,
+          "fluency": 4.675,
+          "naturalness": 4.375,
+          "script_ok": 1.0,
+          "register_ok": 0.925
+        }
+      }
+    },
+    {
+      "key": "deepseek/deepseek-v4.1-flash|off",
+      "model": "deepseek/deepseek-v4.1-flash",
+      "provider": "openrouter",
+      "provider_order": [],
+      "variant": "off",
+      "thinking_effective": [
+        "off"
+      ],
+      "thinking_source": [
+        "engine"
+      ],
+      "hosts": {
+        "AtlasCloud": 18,
+        "Sail Research": 17,
+        "StreamLake": 15,
+        "DeepInfra": 12,
+        "CoreWeave": 12,
+        "Wafer": 7,
+        "Together": 5,
+        "OpenInference": 3,
+        "Morph": 2,
+        "Decart": 1,
+        "Ionstream": 1,
+        "BaseTen": 1
+      },
+      "status": "complete",
+      "status_reason": null,
+      "items": 94,
+      "answered": 94,
+      "errors": 0,
+      "rail_failures": {},
+      "reasoning_violations": 0,
+      "latency": {
+        "ttft_p50_ms": 1273.5,
+        "ttft_p90_ms": 2026.2,
+        "total_p50_ms": 1812.0,
+        "total_p90_ms": 3495.5
+      },
+      "tokens_mean": {
+        "in": 1265.6915,
+        "out": 70.4894,
+        "reasoning": 0.0
+      },
+      "cost_known_share": 1.0,
+      "usd_per_1000_answers": 0.1926,
+      "inr_per_1000_answers": 16.18,
+      "scores": {
+        "passed": 0.9149,
+        "claim_check_pass": 0.9362,
+        "gate_false_removals": 6,
+        "gold_recall": 0.9615,
+        "hallucination_rate": 0.0106,
+        "citations_valid": 1.0,
+        "cites_gold": 0.9615,
+        "refusal_correct_answerable": 0.9615,
+        "refusal_correct_unanswerable": 0.875,
+        "language_match": {
+          "en": 1.0,
+          "hi": 1.0,
+          "hi-Latn": 1.0
+        },
+        "table_rate": 1.0,
+        "length_ok": 0.9787
+      },
+      "judge": [
+        {
+          "judge_model": "openai/gpt-4.1-mini",
+          "graded": 40,
+          "fluency": {
+            "hi": 4.9,
+            "hi-Latn": 4.35
+          },
+          "naturalness": {
+            "hi": 4.25,
+            "hi-Latn": 3.95
+          },
+          "script_ok": 1.0,
+          "register_ok": 0.975,
+          "cost_usd": 0.008424
+        }
+      ],
+      "by_language": {
+        "en": {
+          "items": 54,
+          "passed": 0.9444,
+          "refusal_correct_unanswerable": 1.0,
+          "unanswerable_items": 8,
+          "table_rate": 1.0,
+          "table_items": 6,
+          "ttft_p50_ms": 1273.5,
+          "usd_per_1000_answers": 0.1744,
+          "inr_per_1000_answers": 14.65,
+          "judged": 0,
+          "fluency": null,
+          "naturalness": null,
+          "script_ok": null,
+          "register_ok": null
+        },
+        "hi": {
+          "items": 20,
+          "passed": 0.85,
+          "refusal_correct_unanswerable": 0.75,
+          "unanswerable_items": 4,
+          "table_rate": 1.0,
+          "table_items": 2,
+          "ttft_p50_ms": 1274.0,
+          "usd_per_1000_answers": 0.2319,
+          "inr_per_1000_answers": 19.48,
+          "judged": 20,
+          "fluency": 4.9,
+          "naturalness": 4.25,
+          "script_ok": 1.0,
+          "register_ok": 1.0
+        },
+        "hi-Latn": {
+          "items": 20,
+          "passed": 0.9,
+          "refusal_correct_unanswerable": 0.75,
+          "unanswerable_items": 4,
+          "table_rate": 1.0,
+          "table_items": 2,
+          "ttft_p50_ms": 1257.5,
+          "usd_per_1000_answers": 0.2023,
+          "inr_per_1000_answers": 16.99,
+          "judged": 20,
+          "fluency": 4.35,
+          "naturalness": 3.95,
+          "script_ok": 1.0,
+          "register_ok": 0.95
+        },
+        "hindi_all": {
+          "items": 40,
+          "passed": 0.875,
+          "refusal_correct_unanswerable": 0.75,
+          "unanswerable_items": 8,
+          "table_rate": 1.0,
+          "table_items": 4,
+          "ttft_p50_ms": 1274.0,
+          "usd_per_1000_answers": 0.2171,
+          "inr_per_1000_answers": 18.24,
+          "judged": 40,
+          "fluency": 4.625,
+          "naturalness": 4.1,
+          "script_ok": 1.0,
+          "register_ok": 0.975
+        }
+      }
+    },
+    {
+      "key": "google/gemini-2.5-flash-lite|off",
+      "model": "google/gemini-2.5-flash-lite",
+      "provider": "openrouter",
+      "provider_order": [],
+      "variant": "off",
+      "thinking_effective": [
+        "off"
+      ],
+      "thinking_source": [
+        "engine"
+      ],
+      "hosts": {
+        "Google": 94
+      },
+      "status": "complete",
+      "status_reason": null,
+      "items": 94,
+      "answered": 94,
+      "errors": 0,
+      "rail_failures": {},
+      "reasoning_violations": 0,
+      "latency": {
+        "ttft_p50_ms": 1000.0,
+        "ttft_p90_ms": 1172.0,
+        "total_p50_ms": 1148.5,
+        "total_p90_ms": 1403.4
+      },
+      "tokens_mean": {
+        "in": 1313.9894,
+        "out": 42.8298,
+        "reasoning": 0.0
+      },
+      "cost_known_share": 1.0,
+      "usd_per_1000_answers": 0.1485,
+      "inr_per_1000_answers": 12.47,
+      "scores": {
+        "passed": 0.8936,
+        "claim_check_pass": 0.9574,
+        "gate_false_removals": 4,
+        "gold_recall": 1.0,
+        "hallucination_rate": 0.0,
+        "citations_valid": 1.0,
+        "cites_gold": 1.0,
+        "refusal_correct_answerable": 0.9615,
+        "refusal_correct_unanswerable": 0.8125,
+        "language_match": {
+          "en": 1.0,
+          "hi": 1.0,
+          "hi-Latn": 1.0
+        },
+        "table_rate": 0.7,
+        "length_ok": 1.0
+      },
+      "judge": [
+        {
+          "judge_model": "openai/gpt-4.1-mini",
+          "graded": 40,
+          "fluency": {
+            "hi": 4.7,
+            "hi-Latn": 4.25
+          },
+          "naturalness": {
+            "hi": 3.8,
+            "hi-Latn": 3.65
+          },
+          "script_ok": 1.0,
+          "register_ok": 1.0,
+          "cost_usd": 0.00816
+        }
+      ],
+      "by_language": {
+        "en": {
+          "items": 54,
+          "passed": 0.9444,
+          "refusal_correct_unanswerable": 1.0,
+          "unanswerable_items": 8,
+          "table_rate": 0.5,
+          "table_items": 6,
+          "ttft_p50_ms": 1000.0,
+          "usd_per_1000_answers": 0.1457,
+          "inr_per_1000_answers": 12.24,
+          "judged": 0,
+          "fluency": null,
+          "naturalness": null,
+          "script_ok": null,
+          "register_ok": null
+        },
+        "hi": {
+          "items": 20,
+          "passed": 0.85,
+          "refusal_correct_unanswerable": 0.5,
+          "unanswerable_items": 4,
+          "table_rate": 1.0,
+          "table_items": 2,
+          "ttft_p50_ms": 1016.0,
+          "usd_per_1000_answers": 0.1484,
+          "inr_per_1000_answers": 12.47,
+          "judged": 20,
+          "fluency": 4.7,
+          "naturalness": 3.8,
+          "script_ok": 1.0,
+          "register_ok": 1.0
+        },
+        "hi-Latn": {
+          "items": 20,
+          "passed": 0.8,
+          "refusal_correct_unanswerable": 0.75,
+          "unanswerable_items": 4,
+          "table_rate": 1.0,
+          "table_items": 2,
+          "ttft_p50_ms": 984.5,
+          "usd_per_1000_answers": 0.1562,
+          "inr_per_1000_answers": 13.12,
+          "judged": 20,
+          "fluency": 4.25,
+          "naturalness": 3.65,
+          "script_ok": 1.0,
+          "register_ok": 1.0
+        },
+        "hindi_all": {
+          "items": 40,
+          "passed": 0.825,
+          "refusal_correct_unanswerable": 0.625,
+          "unanswerable_items": 8,
+          "table_rate": 1.0,
+          "table_items": 4,
+          "ttft_p50_ms": 1007.5,
+          "usd_per_1000_answers": 0.1523,
+          "inr_per_1000_answers": 12.79,
+          "judged": 40,
+          "fluency": 4.475,
+          "naturalness": 3.725,
+          "script_ok": 1.0,
+          "register_ok": 1.0
+        }
+      }
+    },
+    {
+      "key": "google/gemini-2.5-flash|off",
+      "model": "google/gemini-2.5-flash",
+      "provider": "openrouter",
+      "provider_order": [],
+      "variant": "off",
+      "thinking_effective": [
+        "off"
+      ],
+      "thinking_source": [
+        "engine"
+      ],
+      "hosts": {
+        "Google": 94
+      },
+      "status": "complete",
+      "status_reason": null,
+      "items": 94,
+      "answered": 94,
+      "errors": 0,
+      "rail_failures": {},
+      "reasoning_violations": 0,
+      "latency": {
+        "ttft_p50_ms": 1250.0,
+        "ttft_p90_ms": 1573.5,
+        "total_p50_ms": 1453.0,
+        "total_p90_ms": 1797.0
+      },
+      "tokens_mean": {
+        "in": 1314.734,
+        "out": 42.117,
+        "reasoning": 0.0
+      },
+      "cost_known_share": 1.0,
+      "usd_per_1000_answers": 0.4997,
+      "inr_per_1000_answers": 41.97,
+      "scores": {
+        "passed": 0.883,
+        "claim_check_pass": 0.9681,
+        "gate_false_removals": 1,
+        "gold_recall": 0.9872,
+        "hallucination_rate": 0.0,
+        "citations_valid": 1.0,
+        "cites_gold": 0.9872,
+        "refusal_correct_answerable": 0.9744,
+        "refusal_correct_unanswerable": 1.0,
+        "language_match": {
+          "en": 1.0,
+          "hi": 1.0,
+          "hi-Latn": 1.0
+        },
+        "table_rate": 0.2,
+        "length_ok": 1.0
+      },
+      "judge": [
+        {
+          "judge_model": "openai/gpt-4.1-mini",
+          "graded": 40,
+          "fluency": {
+            "hi": 4.8,
+            "hi-Latn": 4.2
+          },
+          "naturalness": {
+            "hi": 3.85,
+            "hi-Latn": 3.4
+          },
+          "script_ok": 1.0,
+          "register_ok": 0.925,
+          "cost_usd": 0.008176
+        }
+      ],
+      "by_language": {
+        "en": {
+          "items": 54,
+          "passed": 0.8889,
+          "refusal_correct_unanswerable": 1.0,
+          "unanswerable_items": 8,
+          "table_rate": 0.0,
+          "table_items": 6,
+          "ttft_p50_ms": 1266.0,
+          "usd_per_1000_answers": 0.4916,
+          "inr_per_1000_answers": 41.29,
+          "judged": 0,
+          "fluency": null,
+          "naturalness": null,
+          "script_ok": null,
+          "register_ok": null
+        },
+        "hi": {
+          "items": 20,
+          "passed": 0.85,
+          "refusal_correct_unanswerable": 1.0,
+          "unanswerable_items": 4,
+          "table_rate": 0.5,
+          "table_items": 2,
+          "ttft_p50_ms": 1250.0,
+          "usd_per_1000_answers": 0.5001,
+          "inr_per_1000_answers": 42.01,
+          "judged": 20,
+          "fluency": 4.8,
+          "naturalness": 3.85,
+          "script_ok": 1.0,
+          "register_ok": 1.0
+        },
+        "hi-Latn": {
+          "items": 20,
+          "passed": 0.9,
+          "refusal_correct_unanswerable": 1.0,
+          "unanswerable_items": 4,
+          "table_rate": 0.5,
+          "table_items": 2,
+          "ttft_p50_ms": 1227.0,
+          "usd_per_1000_answers": 0.5213,
+          "inr_per_1000_answers": 43.79,
+          "judged": 20,
+          "fluency": 4.2,
+          "naturalness": 3.4,
+          "script_ok": 1.0,
+          "register_ok": 0.85
+        },
+        "hindi_all": {
+          "items": 40,
+          "passed": 0.875,
+          "refusal_correct_unanswerable": 1.0,
+          "unanswerable_items": 8,
+          "table_rate": 0.5,
+          "table_items": 4,
+          "ttft_p50_ms": 1250.0,
+          "usd_per_1000_answers": 0.5107,
+          "inr_per_1000_answers": 42.9,
+          "judged": 40,
+          "fluency": 4.5,
+          "naturalness": 3.625,
+          "script_ok": 1.0,
+          "register_ok": 0.925
+        }
+      }
+    },
+    {
+      "key": "google/gemma-4-26b-a4b-it|off",
+      "model": "google/gemma-4-26b-a4b-it",
+      "provider": "openrouter",
+      "provider_order": [],
+      "variant": "off",
+      "thinking_effective": [
+        "off"
+      ],
+      "thinking_source": [
+        "engine"
+      ],
+      "hosts": {
+        "Darkbloom": 36,
+        "DekaLLM": 12,
+        "NextBit": 11,
+        "Cloudflare": 7,
+        "CoreWeave": 6,
+        "DeepInfra": 6,
+        "Venice": 4,
+        "SiliconFlow": 4,
+        "Google": 4,
+        "Novita": 3,
+        "Parasail": 1
+      },
+      "status": "complete",
+      "status_reason": null,
+      "items": 94,
+      "answered": 94,
+      "errors": 0,
+      "rail_failures": {},
+      "reasoning_violations": 0,
+      "latency": {
+        "ttft_p50_ms": 1226.5,
+        "ttft_p90_ms": 1797.9,
+        "total_p50_ms": 1992.5,
+        "total_p90_ms": 3181.5
+      },
+      "tokens_mean": {
+        "in": 1332.1702,
+        "out": 55.0957,
+        "reasoning": 0.0
+      },
+      "cost_known_share": 1.0,
+      "usd_per_1000_answers": 0.1116,
+      "inr_per_1000_answers": 9.37,
+      "scores": {
+        "passed": 0.883,
+        "claim_check_pass": 0.9149,
+        "gate_false_removals": 5,
+        "gold_recall": 0.9231,
+        "hallucination_rate": 0.0,
+        "citations_valid": 1.0,
+        "cites_gold": 0.8846,
+        "refusal_correct_answerable": 0.9487,
+        "refusal_correct_unanswerable": 1.0,
+        "language_match": {
+          "en": 1.0,
+          "hi": 0.95,
+          "hi-Latn": 1.0
+        },
+        "table_rate": 0.8,
+        "length_ok": 1.0
+      },
+      "judge": [
+        {
+          "judge_model": "openai/gpt-4.1-mini",
+          "graded": 40,
+          "fluency": {
+            "hi": 4.85,
+            "hi-Latn": 4.3
+          },
+          "naturalness": {
+            "hi": 3.8,
+            "hi-Latn": 3.85
+          },
+          "script_ok": 1.0,
+          "register_ok": 0.925,
+          "cost_usd": 0.008236
+        }
+      ],
+      "by_language": {
+        "en": {
+          "items": 54,
+          "passed": 0.8519,
+          "refusal_correct_unanswerable": 1.0,
+          "unanswerable_items": 8,
+          "table_rate": 0.6667,
+          "table_items": 6,
+          "ttft_p50_ms": 1265.5,
+          "usd_per_1000_answers": 0.1158,
+          "inr_per_1000_answers": 9.73,
+          "judged": 0,
+          "fluency": null,
+          "naturalness": null,
+          "script_ok": null,
+          "register_ok": null
+        },
+        "hi": {
+          "items": 20,
+          "passed": 0.9,
+          "refusal_correct_unanswerable": 1.0,
+          "unanswerable_items": 4,
+          "table_rate": 1.0,
+          "table_items": 2,
+          "ttft_p50_ms": 1062.5,
+          "usd_per_1000_answers": 0.0964,
+          "inr_per_1000_answers": 8.1,
+          "judged": 20,
+          "fluency": 4.85,
+          "naturalness": 3.8,
+          "script_ok": 1.0,
+          "register_ok": 1.0
+        },
+        "hi-Latn": {
+          "items": 20,
+          "passed": 0.95,
+          "refusal_correct_unanswerable": 1.0,
+          "unanswerable_items": 4,
+          "table_rate": 1.0,
+          "table_items": 2,
+          "ttft_p50_ms": 1414.0,
+          "usd_per_1000_answers": 0.1157,
+          "inr_per_1000_answers": 9.72,
+          "judged": 20,
+          "fluency": 4.3,
+          "naturalness": 3.85,
+          "script_ok": 1.0,
+          "register_ok": 0.85
+        },
+        "hindi_all": {
+          "items": 40,
+          "passed": 0.925,
+          "refusal_correct_unanswerable": 1.0,
+          "unanswerable_items": 8,
+          "table_rate": 1.0,
+          "table_items": 4,
+          "ttft_p50_ms": 1140.5,
+          "usd_per_1000_answers": 0.106,
+          "inr_per_1000_answers": 8.9,
+          "judged": 40,
+          "fluency": 4.575,
+          "naturalness": 3.825,
+          "script_ok": 1.0,
+          "register_ok": 0.925
+        }
+      }
+    },
+    {
+      "key": "google/gemma-4-31b-it|off",
+      "model": "google/gemma-4-31b-it",
+      "provider": "openrouter",
+      "provider_order": [],
+      "variant": "off",
+      "thinking_effective": [
+        "off"
+      ],
+      "thinking_source": [
+        "engine"
+      ],
+      "hosts": {
+        "ModelRun": 43,
+        "DeepInfra": 40,
+        "Friendli": 5,
+        "CoreWeave": 2,
+        "Venice": 2,
+        "Chutes": 1,
+        "SiliconFlow": 1
+      },
+      "status": "complete",
+      "status_reason": null,
+      "items": 94,
+      "answered": 94,
+      "errors": 0,
+      "rail_failures": {},
+      "reasoning_violations": 0,
+      "latency": {
+        "ttft_p50_ms": 594.0,
+        "ttft_p90_ms": 1673.9,
+        "total_p50_ms": 1187.0,
+        "total_p90_ms": 2462.5
+      },
+      "tokens_mean": {
+        "in": 1331.9894,
+        "out": 45.4574,
+        "reasoning": 0.0
+      },
+      "cost_known_share": 1.0,
+      "usd_per_1000_answers": 0.4523,
+      "inr_per_1000_answers": 37.99,
+      "scores": {
+        "passed": 0.883,
+        "claim_check_pass": 0.9149,
+        "gate_false_removals": 6,
+        "gold_recall": 0.9359,
+        "hallucination_rate": 0.0,
+        "citations_valid": 1.0,
+        "cites_gold": 0.9359,
+        "refusal_correct_answerable": 0.9359,
+        "refusal_correct_unanswerable": 1.0,
+        "language_match": {
+          "en": 1.0,
+          "hi": 0.95,
+          "hi-Latn": 1.0
+        },
+        "table_rate": 0.8,
+        "length_ok": 1.0
+      },
+      "judge": [
+        {
+          "judge_model": "openai/gpt-4.1-mini",
+          "graded": 40,
+          "fluency": {
+            "hi": 4.9,
+            "hi-Latn": 4.3
+          },
+          "naturalness": {
+            "hi": 3.9,
+            "hi-Latn": 3.65
+          },
+          "script_ok": 1.0,
+          "register_ok": 1.0,
+          "cost_usd": 0.008217
+        }
+      ],
+      "by_language": {
+        "en": {
+          "items": 54,
+          "passed": 0.8704,
+          "refusal_correct_unanswerable": 1.0,
+          "unanswerable_items": 8,
+          "table_rate": 0.6667,
+          "table_items": 6,
+          "ttft_p50_ms": 578.0,
+          "usd_per_1000_answers": 0.4377,
+          "inr_per_1000_answers": 36.77,
+          "judged": 0,
+          "fluency": null,
+          "naturalness": null,
+          "script_ok": null,
+          "register_ok": null
+        },
+        "hi": {
+          "items": 20,
+          "passed": 0.85,
+          "refusal_correct_unanswerable": 1.0,
+          "unanswerable_items": 4,
+          "table_rate": 1.0,
+          "table_items": 2,
+          "ttft_p50_ms": 765.5,
+          "usd_per_1000_answers": 0.4818,
+          "inr_per_1000_answers": 40.47,
+          "judged": 20,
+          "fluency": 4.9,
+          "naturalness": 3.9,
+          "script_ok": 1.0,
+          "register_ok": 1.0
+        },
+        "hi-Latn": {
+          "items": 20,
+          "passed": 0.95,
+          "refusal_correct_unanswerable": 1.0,
+          "unanswerable_items": 4,
+          "table_rate": 1.0,
+          "table_items": 2,
+          "ttft_p50_ms": 570.5,
+          "usd_per_1000_answers": 0.462,
+          "inr_per_1000_answers": 38.81,
+          "judged": 20,
+          "fluency": 4.3,
+          "naturalness": 3.65,
+          "script_ok": 1.0,
+          "register_ok": 1.0
+        },
+        "hindi_all": {
+          "items": 40,
+          "passed": 0.9,
+          "refusal_correct_unanswerable": 1.0,
+          "unanswerable_items": 8,
+          "table_rate": 1.0,
+          "table_items": 4,
+          "ttft_p50_ms": 609.0,
+          "usd_per_1000_answers": 0.4719,
+          "inr_per_1000_answers": 39.64,
+          "judged": 40,
+          "fluency": 4.6,
+          "naturalness": 3.775,
+          "script_ok": 1.0,
+          "register_ok": 1.0
+        }
+      }
+    },
+    {
+      "key": "meta-llama/llama-3.3-70b-instruct@groq|off",
+      "model": "meta-llama/llama-3.3-70b-instruct",
+      "provider": "openrouter",
+      "provider_order": [
+        "groq"
+      ],
+      "variant": "off",
+      "thinking_effective": [
+        "off"
+      ],
+      "thinking_source": [
+        "engine"
+      ],
+      "hosts": {
+        "Groq": 93,
+        "DeepInfra": 1
+      },
+      "status": "complete",
+      "status_reason": null,
+      "items": 94,
+      "answered": 94,
+      "errors": 0,
+      "rail_failures": {},
+      "reasoning_violations": 0,
+      "latency": {
+        "ttft_p50_ms": 547.0,
+        "ttft_p90_ms": 1250.0,
+        "total_p50_ms": 648.5,
+        "total_p90_ms": 1400.5
+      },
+      "tokens_mean": {
+        "in": 1229.2128,
+        "out": 38.8936,
+        "reasoning": 0.0
+      },
+      "cost_known_share": 1.0,
+      "usd_per_1000_answers": 0.7486,
+      "inr_per_1000_answers": 62.88,
+      "scores": {
+        "passed": 0.8617,
+        "claim_check_pass": 0.9574,
+        "gate_false_removals": 4,
+        "gold_recall": 0.9872,
+        "hallucination_rate": 0.0,
+        "citations_valid": 1.0,
+        "cites_gold": 1.0,
+        "refusal_correct_answerable": 0.9615,
+        "refusal_correct_unanswerable": 1.0,
+        "language_match": {
+          "en": 1.0,
+          "hi": 1.0,
+          "hi-Latn": 1.0
+        },
+        "table_rate": 0.1,
+        "length_ok": 1.0
+      },
+      "judge": [
+        {
+          "judge_model": "openai/gpt-4.1-mini",
+          "graded": 40,
+          "fluency": {
+            "hi": 4.6,
+            "hi-Latn": 4.25
+          },
+          "naturalness": {
+            "hi": 3.6,
+            "hi-Latn": 3.7
+          },
+          "script_ok": 1.0,
+          "register_ok": 0.975,
+          "cost_usd": 0.008106
+        }
+      ],
+      "by_language": {
+        "en": {
+          "items": 54,
+          "passed": 0.8889,
+          "refusal_correct_unanswerable": 1.0,
+          "unanswerable_items": 8,
+          "table_rate": 0.0,
+          "table_items": 6,
+          "ttft_p50_ms": 468.5,
+          "usd_per_1000_answers": 0.7243,
+          "inr_per_1000_answers": 60.84,
+          "judged": 0,
+          "fluency": null,
+          "naturalness": null,
+          "script_ok": null,
+          "register_ok": null
+        },
+        "hi": {
+          "items": 20,
+          "passed": 0.9,
+          "refusal_correct_unanswerable": 1.0,
+          "unanswerable_items": 4,
+          "table_rate": 0.5,
+          "table_items": 2,
+          "ttft_p50_ms": 531.0,
+          "usd_per_1000_answers": 0.7616,
+          "inr_per_1000_answers": 63.97,
+          "judged": 20,
+          "fluency": 4.6,
+          "naturalness": 3.6,
+          "script_ok": 1.0,
+          "register_ok": 0.95
+        },
+        "hi-Latn": {
+          "items": 20,
+          "passed": 0.75,
+          "refusal_correct_unanswerable": 1.0,
+          "unanswerable_items": 4,
+          "table_rate": 0.0,
+          "table_items": 2,
+          "ttft_p50_ms": 609.5,
+          "usd_per_1000_answers": 0.8012,
+          "inr_per_1000_answers": 67.3,
+          "judged": 20,
+          "fluency": 4.25,
+          "naturalness": 3.7,
+          "script_ok": 1.0,
+          "register_ok": 1.0
+        },
+        "hindi_all": {
+          "items": 40,
+          "passed": 0.825,
+          "refusal_correct_unanswerable": 1.0,
+          "unanswerable_items": 8,
+          "table_rate": 0.25,
+          "table_items": 4,
+          "ttft_p50_ms": 578.5,
+          "usd_per_1000_answers": 0.7814,
+          "inr_per_1000_answers": 65.64,
+          "judged": 40,
+          "fluency": 4.425,
+          "naturalness": 3.65,
+          "script_ok": 1.0,
+          "register_ok": 0.975
+        }
+      }
+    },
+    {
+      "key": "meta-llama/llama-4-scout|off",
+      "model": "meta-llama/llama-4-scout",
+      "provider": "openrouter",
+      "provider_order": [],
+      "variant": "off",
+      "thinking_effective": [
+        "off"
+      ],
+      "thinking_source": [
+        "engine"
+      ],
+      "hosts": {
+        "DeepInfra": 62,
+        "Novita": 32
+      },
+      "status": "complete",
+      "status_reason": null,
+      "items": 94,
+      "answered": 94,
+      "errors": 0,
+      "rail_failures": {},
+      "reasoning_violations": 0,
+      "latency": {
+        "ttft_p50_ms": 1156.0,
+        "ttft_p90_ms": 1886.2,
+        "total_p50_ms": 3836.0,
+        "total_p90_ms": 7134.5
+      },
+      "tokens_mean": {
+        "in": 1215.0213,
+        "out": 59.883,
+        "reasoning": 0.0
+      },
+      "cost_known_share": 1.0,
+      "usd_per_1000_answers": 0.1797,
+      "inr_per_1000_answers": 15.09,
+      "scores": {
+        "passed": 0.766,
+        "claim_check_pass": 0.9468,
+        "gate_false_removals": 5,
+        "gold_recall": 1.0,
+        "hallucination_rate": 0.0213,
+        "citations_valid": 1.0,
+        "cites_gold": 1.0,
+        "refusal_correct_answerable": 1.0,
+        "refusal_correct_unanswerable": 0.3125,
+        "language_match": {
+          "en": 1.0,
+          "hi": 1.0,
+          "hi-Latn": 1.0
+        },
+        "table_rate": 0.2,
+        "length_ok": 0.9681
+      },
+      "judge": [
+        {
+          "judge_model": "openai/gpt-4.1-mini",
+          "graded": 40,
+          "fluency": {
+            "hi": 4.4,
+            "hi-Latn": 4.05
+          },
+          "naturalness": {
+            "hi": 3.65,
+            "hi-Latn": 3.6
+          },
+          "script_ok": 0.8,
+          "register_ok": 1.0,
+          "cost_usd": 0.00835
+        }
+      ],
+      "by_language": {
+        "en": {
+          "items": 54,
+          "passed": 0.7593,
+          "refusal_correct_unanswerable": 0.25,
+          "unanswerable_items": 8,
+          "table_rate": 0.0,
+          "table_items": 6,
+          "ttft_p50_ms": 1078.5,
+          "usd_per_1000_answers": 0.1583,
+          "inr_per_1000_answers": 13.3,
+          "judged": 0,
+          "fluency": null,
+          "naturalness": null,
+          "script_ok": null,
+          "register_ok": null
+        },
+        "hi": {
+          "items": 20,
+          "passed": 0.75,
+          "refusal_correct_unanswerable": 0.5,
+          "unanswerable_items": 4,
+          "table_rate": 0.5,
+          "table_items": 2,
+          "ttft_p50_ms": 1258.0,
+          "usd_per_1000_answers": 0.1853,
+          "inr_per_1000_answers": 15.57,
+          "judged": 20,
+          "fluency": 4.4,
+          "naturalness": 3.65,
+          "script_ok": 0.6,
+          "register_ok": 1.0
+        },
+        "hi-Latn": {
+          "items": 20,
+          "passed": 0.8,
+          "refusal_correct_unanswerable": 0.25,
+          "unanswerable_items": 4,
+          "table_rate": 0.5,
+          "table_items": 2,
+          "ttft_p50_ms": 1297.0,
+          "usd_per_1000_answers": 0.2319,
+          "inr_per_1000_answers": 19.48,
+          "judged": 20,
+          "fluency": 4.05,
+          "naturalness": 3.6,
+          "script_ok": 1.0,
+          "register_ok": 1.0
+        },
+        "hindi_all": {
+          "items": 40,
+          "passed": 0.775,
+          "refusal_correct_unanswerable": 0.375,
+          "unanswerable_items": 8,
+          "table_rate": 0.5,
+          "table_items": 4,
+          "ttft_p50_ms": 1281.5,
+          "usd_per_1000_answers": 0.2086,
+          "inr_per_1000_answers": 17.52,
+          "judged": 40,
+          "fluency": 4.225,
+          "naturalness": 3.625,
+          "script_ok": 0.8,
+          "register_ok": 1.0
+        }
+      }
+    },
+    {
+      "key": "mistralai/mistral-small-2603|off",
+      "model": "mistralai/mistral-small-2603",
+      "provider": "openrouter",
+      "provider_order": [],
+      "variant": "off",
+      "thinking_effective": [
+        "off"
+      ],
+      "thinking_source": [
+        "engine"
+      ],
+      "hosts": {
+        "Mistral": 94
+      },
+      "status": "complete",
+      "status_reason": null,
+      "items": 94,
+      "answered": 94,
+      "errors": 0,
+      "rail_failures": {},
+      "reasoning_violations": 0,
+      "latency": {
+        "ttft_p50_ms": 719.0,
+        "ttft_p90_ms": 1151.5,
+        "total_p50_ms": 968.5,
+        "total_p90_ms": 1584.7
+      },
+      "tokens_mean": {
+        "in": 1352.7766,
+        "out": 43.3191,
+        "reasoning": 0.0
+      },
+      "cost_known_share": 1.0,
+      "usd_per_1000_answers": 0.1604,
+      "inr_per_1000_answers": 13.47,
+      "scores": {
+        "passed": 0.7553,
+        "claim_check_pass": 0.7979,
+        "gate_false_removals": 3,
+        "gold_recall": 0.7821,
+        "hallucination_rate": 0.0,
+        "citations_valid": 1.0,
+        "cites_gold": 0.7051,
+        "refusal_correct_answerable": 0.7821,
+        "refusal_correct_unanswerable": 1.0,
+        "language_match": {
+          "en": 1.0,
+          "hi": 0.9,
+          "hi-Latn": 1.0
+        },
+        "table_rate": 0.7,
+        "length_ok": 1.0
+      },
+      "judge": [
+        {
+          "judge_model": "openai/gpt-4.1-mini",
+          "graded": 40,
+          "fluency": {
+            "hi": 4.55,
+            "hi-Latn": 4.2
+          },
+          "naturalness": {
+            "hi": 3.7,
+            "hi-Latn": 3.35
+          },
+          "script_ok": 0.9,
+          "register_ok": 0.925,
+          "cost_usd": 0.007974
+        }
+      ],
+      "by_language": {
+        "en": {
+          "items": 54,
+          "passed": 0.8704,
+          "refusal_correct_unanswerable": 1.0,
+          "unanswerable_items": 8,
+          "table_rate": 0.6667,
+          "table_items": 6,
+          "ttft_p50_ms": 726.5,
+          "usd_per_1000_answers": 0.1543,
+          "inr_per_1000_answers": 12.96,
+          "judged": 0,
+          "fluency": null,
+          "naturalness": null,
+          "script_ok": null,
+          "register_ok": null
+        },
+        "hi": {
+          "items": 20,
+          "passed": 0.7,
+          "refusal_correct_unanswerable": 1.0,
+          "unanswerable_items": 4,
+          "table_rate": 1.0,
+          "table_items": 2,
+          "ttft_p50_ms": 765.5,
+          "usd_per_1000_answers": 0.1705,
+          "inr_per_1000_answers": 14.32,
+          "judged": 20,
+          "fluency": 4.55,
+          "naturalness": 3.7,
+          "script_ok": 0.8,
+          "register_ok": 0.9
+        },
+        "hi-Latn": {
+          "items": 20,
+          "passed": 0.5,
+          "refusal_correct_unanswerable": 1.0,
+          "unanswerable_items": 4,
+          "table_rate": 0.5,
+          "table_items": 2,
+          "ttft_p50_ms": 664.5,
+          "usd_per_1000_answers": 0.1667,
+          "inr_per_1000_answers": 14.0,
+          "judged": 20,
+          "fluency": 4.2,
+          "naturalness": 3.35,
+          "script_ok": 1.0,
+          "register_ok": 0.95
+        },
+        "hindi_all": {
+          "items": 40,
+          "passed": 0.6,
+          "refusal_correct_unanswerable": 1.0,
+          "unanswerable_items": 8,
+          "table_rate": 0.75,
+          "table_items": 4,
+          "ttft_p50_ms": 719.0,
+          "usd_per_1000_answers": 0.1686,
+          "inr_per_1000_answers": 14.16,
+          "judged": 40,
+          "fluency": 4.375,
+          "naturalness": 3.525,
+          "script_ok": 0.9,
+          "register_ok": 0.925
+        }
+      }
+    },
+    {
+      "key": "mistralai/mistral-small-3.2-24b-instruct|off",
+      "model": "mistralai/mistral-small-3.2-24b-instruct",
+      "provider": "openrouter",
+      "provider_order": [],
+      "variant": "off",
+      "thinking_effective": [
+        "off"
+      ],
+      "thinking_source": [
+        "engine"
+      ],
+      "hosts": {
+        "Venice": 69,
+        "DeepInfra": 23,
+        "Parasail": 2
+      },
+      "status": "complete",
+      "status_reason": null,
+      "items": 94,
+      "answered": 94,
+      "errors": 0,
+      "rail_failures": {},
+      "reasoning_violations": 0,
+      "latency": {
+        "ttft_p50_ms": 860.0,
+        "ttft_p90_ms": 1464.2,
+        "total_p50_ms": 2312.5,
+        "total_p90_ms": 5064.2
+      },
+      "tokens_mean": {
+        "in": 1340.5426,
+        "out": 47.4362,
+        "reasoning": 0.0
+      },
+      "cost_known_share": 1.0,
+      "usd_per_1000_answers": 0.1306,
+      "inr_per_1000_answers": 10.97,
+      "scores": {
+        "passed": 0.8936,
+        "claim_check_pass": 0.9574,
+        "gate_false_removals": 5,
+        "gold_recall": 1.0,
+        "hallucination_rate": 0.0,
+        "citations_valid": 1.0,
+        "cites_gold": 0.9872,
+        "refusal_correct_answerable": 0.9872,
+        "refusal_correct_unanswerable": 0.8125,
+        "language_match": {
+          "en": 1.0,
+          "hi": 1.0,
+          "hi-Latn": 1.0
+        },
+        "table_rate": 0.6,
+        "length_ok": 1.0
+      },
+      "judge": [
+        {
+          "judge_model": "openai/gpt-4.1-mini",
+          "graded": 40,
+          "fluency": {
+            "hi": 4.55,
+            "hi-Latn": 4.05
+          },
+          "naturalness": {
+            "hi": 3.6,
+            "hi-Latn": 3.4
+          },
+          "script_ok": 1.0,
+          "register_ok": 0.875,
+          "cost_usd": 0.008152
+        }
+      ],
+      "by_language": {
+        "en": {
+          "items": 54,
+          "passed": 0.9259,
+          "refusal_correct_unanswerable": 1.0,
+          "unanswerable_items": 8,
+          "table_rate": 0.3333,
+          "table_items": 6,
+          "ttft_p50_ms": 867.5,
+          "usd_per_1000_answers": 0.1252,
+          "inr_per_1000_answers": 10.52,
+          "judged": 0,
+          "fluency": null,
+          "naturalness": null,
+          "script_ok": null,
+          "register_ok": null
+        },
+        "hi": {
+          "items": 20,
+          "passed": 0.85,
+          "refusal_correct_unanswerable": 0.5,
+          "unanswerable_items": 4,
+          "table_rate": 1.0,
+          "table_items": 2,
+          "ttft_p50_ms": 859.5,
+          "usd_per_1000_answers": 0.1391,
+          "inr_per_1000_answers": 11.68,
+          "judged": 20,
+          "fluency": 4.55,
+          "naturalness": 3.6,
+          "script_ok": 1.0,
+          "register_ok": 1.0
+        },
+        "hi-Latn": {
+          "items": 20,
+          "passed": 0.85,
+          "refusal_correct_unanswerable": 0.75,
+          "unanswerable_items": 4,
+          "table_rate": 1.0,
+          "table_items": 2,
+          "ttft_p50_ms": 765.5,
+          "usd_per_1000_answers": 0.1368,
+          "inr_per_1000_answers": 11.49,
+          "judged": 20,
+          "fluency": 4.05,
+          "naturalness": 3.4,
+          "script_ok": 1.0,
+          "register_ok": 0.75
+        },
+        "hindi_all": {
+          "items": 40,
+          "passed": 0.85,
+          "refusal_correct_unanswerable": 0.625,
+          "unanswerable_items": 8,
+          "table_rate": 1.0,
+          "table_items": 4,
+          "ttft_p50_ms": 844.0,
+          "usd_per_1000_answers": 0.1379,
+          "inr_per_1000_answers": 11.58,
+          "judged": 40,
+          "fluency": 4.3,
+          "naturalness": 3.5,
+          "script_ok": 1.0,
+          "register_ok": 0.875
+        }
+      }
+    },
+    {
+      "key": "openai/gpt-4.1-mini|off",
+      "model": "openai/gpt-4.1-mini",
+      "provider": "openrouter",
+      "provider_order": [],
+      "variant": "off",
+      "thinking_effective": [
+        "off"
+      ],
+      "thinking_source": [
+        "engine"
+      ],
+      "hosts": {
+        "OpenAI": 94
+      },
+      "status": "complete",
+      "status_reason": null,
+      "items": 94,
+      "answered": 94,
+      "errors": 0,
+      "rail_failures": {},
+      "reasoning_violations": 0,
+      "latency": {
+        "ttft_p50_ms": 953.0,
+        "ttft_p90_ms": 1282.9,
+        "total_p50_ms": 1289.0,
+        "total_p90_ms": 1892.2
+      },
+      "tokens_mean": {
+        "in": 1203.0532,
+        "out": 37.7447,
+        "reasoning": 0.0
+      },
+      "cost_known_share": 1.0,
+      "usd_per_1000_answers": 0.5416,
+      "inr_per_1000_answers": 45.49,
+      "scores": {
+        "passed": 0.883,
+        "claim_check_pass": 0.9362,
+        "gate_false_removals": 5,
+        "gold_recall": 1.0,
+        "hallucination_rate": 0.0,
+        "citations_valid": 1.0,
+        "cites_gold": 1.0,
+        "refusal_correct_answerable": 0.9487,
+        "refusal_correct_unanswerable": 0.9375,
+        "language_match": {
+          "en": 1.0,
+          "hi": 1.0,
+          "hi-Latn": 1.0
+        },
+        "table_rate": 0.6,
+        "length_ok": 1.0
+      },
+      "judge": [
+        {
+          "judge_model": "openai/gpt-4.1-mini",
+          "graded": 40,
+          "fluency": {
+            "hi": 4.8,
+            "hi-Latn": 4.25
+          },
+          "naturalness": {
+            "hi": 3.9,
+            "hi-Latn": 3.7
+          },
+          "script_ok": 1.0,
+          "register_ok": 0.85,
+          "cost_usd": 0.00807
+        }
+      ],
+      "by_language": {
+        "en": {
+          "items": 54,
+          "passed": 0.9259,
+          "refusal_correct_unanswerable": 1.0,
+          "unanswerable_items": 8,
+          "table_rate": 0.3333,
+          "table_items": 6,
+          "ttft_p50_ms": 929.5,
+          "usd_per_1000_answers": 0.5211,
+          "inr_per_1000_answers": 43.77,
+          "judged": 0,
+          "fluency": null,
+          "naturalness": null,
+          "script_ok": null,
+          "register_ok": null
+        },
+        "hi": {
+          "items": 20,
+          "passed": 0.95,
+          "refusal_correct_unanswerable": 1.0,
+          "unanswerable_items": 4,
+          "table_rate": 1.0,
+          "table_items": 2,
+          "ttft_p50_ms": 984.5,
+          "usd_per_1000_answers": 0.5662,
+          "inr_per_1000_answers": 47.56,
+          "judged": 20,
+          "fluency": 4.8,
+          "naturalness": 3.9,
+          "script_ok": 1.0,
+          "register_ok": 1.0
+        },
+        "hi-Latn": {
+          "items": 20,
+          "passed": 0.7,
+          "refusal_correct_unanswerable": 0.75,
+          "unanswerable_items": 4,
+          "table_rate": 1.0,
+          "table_items": 2,
+          "ttft_p50_ms": 1039.5,
+          "usd_per_1000_answers": 0.5724,
+          "inr_per_1000_answers": 48.08,
+          "judged": 20,
+          "fluency": 4.25,
+          "naturalness": 3.7,
+          "script_ok": 1.0,
+          "register_ok": 0.7
+        },
+        "hindi_all": {
+          "items": 40,
+          "passed": 0.825,
+          "refusal_correct_unanswerable": 0.875,
+          "unanswerable_items": 8,
+          "table_rate": 1.0,
+          "table_items": 4,
+          "ttft_p50_ms": 1000.0,
+          "usd_per_1000_answers": 0.5693,
+          "inr_per_1000_answers": 47.82,
+          "judged": 40,
+          "fluency": 4.525,
+          "naturalness": 3.8,
+          "script_ok": 1.0,
+          "register_ok": 0.85
+        }
+      }
+    },
+    {
+      "key": "openai/gpt-5.4-nano|off",
+      "model": "openai/gpt-5.4-nano",
+      "provider": "openrouter",
+      "provider_order": [],
+      "variant": "off",
+      "thinking_effective": [
+        "off"
+      ],
+      "thinking_source": [
+        "engine"
+      ],
+      "hosts": {
+        "OpenAI": 94
+      },
+      "status": "complete",
+      "status_reason": null,
+      "items": 94,
+      "answered": 94,
+      "errors": 0,
+      "rail_failures": {},
+      "reasoning_violations": 0,
+      "latency": {
+        "ttft_p50_ms": 937.0,
+        "ttft_p90_ms": 1463.5,
+        "total_p50_ms": 1312.5,
+        "total_p90_ms": 1782.9
+      },
+      "tokens_mean": {
+        "in": 1201.9681,
+        "out": 38.2553,
+        "reasoning": 0.0
+      },
+      "cost_known_share": 1.0,
+      "usd_per_1000_answers": 0.2882,
+      "inr_per_1000_answers": 24.21,
+      "scores": {
+        "passed": 0.8404,
+        "claim_check_pass": 0.9362,
+        "gate_false_removals": 3,
+        "gold_recall": 0.9872,
+        "hallucination_rate": 0.0106,
+        "citations_valid": 1.0,
+        "cites_gold": 0.9872,
+        "refusal_correct_answerable": 0.9872,
+        "refusal_correct_unanswerable": 0.625,
+        "language_match": {
+          "en": 1.0,
+          "hi": 1.0,
+          "hi-Latn": 0.95
+        },
+        "table_rate": 0.6,
+        "length_ok": 1.0
+      },
+      "judge": [
+        {
+          "judge_model": "openai/gpt-4.1-mini",
+          "graded": 40,
+          "fluency": {
+            "hi": 4.05,
+            "hi-Latn": 4.1
+          },
+          "naturalness": {
+            "hi": 3.35,
+            "hi-Latn": 3.4
+          },
+          "script_ok": 0.85,
+          "register_ok": 0.8,
+          "cost_usd": 0.008204
+        }
+      ],
+      "by_language": {
+        "en": {
+          "items": 54,
+          "passed": 0.9074,
+          "refusal_correct_unanswerable": 0.875,
+          "unanswerable_items": 8,
+          "table_rate": 0.3333,
+          "table_items": 6,
+          "ttft_p50_ms": 906.0,
+          "usd_per_1000_answers": 0.2728,
+          "inr_per_1000_answers": 22.92,
+          "judged": 0,
+          "fluency": null,
+          "naturalness": null,
+          "script_ok": null,
+          "register_ok": null
+        },
+        "hi": {
+          "items": 20,
+          "passed": 0.75,
+          "refusal_correct_unanswerable": 0.25,
+          "unanswerable_items": 4,
+          "table_rate": 1.0,
+          "table_items": 2,
+          "ttft_p50_ms": 1031.0,
+          "usd_per_1000_answers": 0.3085,
+          "inr_per_1000_answers": 25.91,
+          "judged": 20,
+          "fluency": 4.05,
+          "naturalness": 3.35,
+          "script_ok": 0.7,
+          "register_ok": 0.95
+        },
+        "hi-Latn": {
+          "items": 20,
+          "passed": 0.75,
+          "refusal_correct_unanswerable": 0.5,
+          "unanswerable_items": 4,
+          "table_rate": 1.0,
+          "table_items": 2,
+          "ttft_p50_ms": 1062.5,
+          "usd_per_1000_answers": 0.3096,
+          "inr_per_1000_answers": 26.01,
+          "judged": 20,
+          "fluency": 4.1,
+          "naturalness": 3.4,
+          "script_ok": 1.0,
+          "register_ok": 0.65
+        },
+        "hindi_all": {
+          "items": 40,
+          "passed": 0.75,
+          "refusal_correct_unanswerable": 0.375,
+          "unanswerable_items": 8,
+          "table_rate": 1.0,
+          "table_items": 4,
+          "ttft_p50_ms": 1046.5,
+          "usd_per_1000_answers": 0.309,
+          "inr_per_1000_answers": 25.96,
+          "judged": 40,
+          "fluency": 4.075,
+          "naturalness": 3.375,
+          "script_ok": 0.85,
+          "register_ok": 0.8
+        }
+      }
+    },
+    {
+      "key": "openai/gpt-6-luna|off",
+      "model": "openai/gpt-6-luna",
+      "provider": "openrouter",
+      "provider_order": [],
+      "variant": "off",
+      "thinking_effective": [
+        "off"
+      ],
+      "thinking_source": [
+        "engine"
+      ],
+      "hosts": {
+        "OpenAI": 94
+      },
+      "status": "complete",
+      "status_reason": null,
+      "items": 94,
+      "answered": 94,
+      "errors": 0,
+      "rail_failures": {},
+      "reasoning_violations": 0,
+      "latency": {
+        "ttft_p50_ms": 1320.5,
+        "ttft_p90_ms": 1865.7,
+        "total_p50_ms": 1664.5,
+        "total_p90_ms": 2277.2
+      },
+      "tokens_mean": {
+        "in": 1202.9894,
+        "out": 27.9894,
+        "reasoning": 0.0
+      },
+      "cost_known_share": 1.0,
+      "usd_per_1000_answers": 0.1614,
+      "inr_per_1000_answers": 13.56,
+      "scores": {
+        "passed": 0.8511,
+        "claim_check_pass": 0.9043,
+        "gate_false_removals": 4,
+        "gold_recall": 0.9231,
+        "hallucination_rate": 0.0,
+        "citations_valid": 1.0,
+        "cites_gold": 0.9231,
+        "refusal_correct_answerable": 0.9103,
+        "refusal_correct_unanswerable": 1.0,
+        "language_match": {
+          "en": 1.0,
+          "hi": 0.95,
+          "hi-Latn": 0.9
+        },
+        "table_rate": 0.6,
+        "length_ok": 1.0
+      },
+      "judge": [
+        {
+          "judge_model": "openai/gpt-4.1-mini",
+          "graded": 40,
+          "fluency": {
+            "hi": 4.5,
+            "hi-Latn": 4.0
+          },
+          "naturalness": {
+            "hi": 3.55,
+            "hi-Latn": 3.2
+          },
+          "script_ok": 1.0,
+          "register_ok": 0.725,
+          "cost_usd": 0.007809
+        }
+      ],
+      "by_language": {
+        "en": {
+          "items": 54,
+          "passed": 0.8519,
+          "refusal_correct_unanswerable": 1.0,
+          "unanswerable_items": 8,
+          "table_rate": 0.3333,
+          "table_items": 6,
+          "ttft_p50_ms": 1265.5,
+          "usd_per_1000_answers": 0.1559,
+          "inr_per_1000_answers": 13.1,
+          "judged": 0,
+          "fluency": null,
+          "naturalness": null,
+          "script_ok": null,
+          "register_ok": null
+        },
+        "hi": {
+          "items": 20,
+          "passed": 0.85,
+          "refusal_correct_unanswerable": 1.0,
+          "unanswerable_items": 4,
+          "table_rate": 1.0,
+          "table_items": 2,
+          "ttft_p50_ms": 1796.5,
+          "usd_per_1000_answers": 0.1641,
+          "inr_per_1000_answers": 13.78,
+          "judged": 20,
+          "fluency": 4.5,
+          "naturalness": 3.55,
+          "script_ok": 1.0,
+          "register_ok": 0.85
+        },
+        "hi-Latn": {
+          "items": 20,
+          "passed": 0.85,
+          "refusal_correct_unanswerable": 1.0,
+          "unanswerable_items": 4,
+          "table_rate": 1.0,
+          "table_items": 2,
+          "ttft_p50_ms": 1375.5,
+          "usd_per_1000_answers": 0.1738,
+          "inr_per_1000_answers": 14.6,
+          "judged": 20,
+          "fluency": 4.0,
+          "naturalness": 3.2,
+          "script_ok": 1.0,
+          "register_ok": 0.6
+        },
+        "hindi_all": {
+          "items": 40,
+          "passed": 0.85,
+          "refusal_correct_unanswerable": 1.0,
+          "unanswerable_items": 8,
+          "table_rate": 1.0,
+          "table_items": 4,
+          "ttft_p50_ms": 1593.5,
+          "usd_per_1000_answers": 0.169,
+          "inr_per_1000_answers": 14.2,
+          "judged": 40,
+          "fluency": 4.25,
+          "naturalness": 3.375,
+          "script_ok": 1.0,
+          "register_ok": 0.725
+        }
+      }
+    },
+    {
+      "key": "openai/gpt-oss-120b|low",
+      "model": "openai/gpt-oss-120b",
+      "provider": "openrouter",
+      "provider_order": [],
+      "variant": "low",
+      "thinking_effective": [
+        "low"
+      ],
+      "thinking_source": [
+        "engine"
+      ],
+      "hosts": {
+        "DeepInfra": 15,
+        "AkashML": 14,
+        "Mancer 2": 11,
+        "CoreWeave": 9,
+        "BaseTen": 8,
+        "DekaLLM": 8,
+        "DigitalOcean": 8,
+        "Novita": 7,
+        "Crusoe": 7,
+        "Groq": 2,
+        "Amazon Bedrock": 1,
+        "SiliconFlow": 1,
+        "Parasail": 1,
+        "Mara": 1,
+        "SambaNova": 1
+      },
+      "status": "complete",
+      "status_reason": null,
+      "items": 94,
+      "answered": 94,
+      "errors": 0,
+      "rail_failures": {},
+      "reasoning_violations": 0,
+      "latency": {
+        "ttft_p50_ms": 1140.0,
+        "ttft_p90_ms": 1802.7,
+        "total_p50_ms": 1539.0,
+        "total_p90_ms": 2543.6
+      },
+      "tokens_mean": {
+        "in": 1264.3404,
+        "out": 62.734,
+        "reasoning": 24.8085
+      },
+      "cost_known_share": 1.0,
+      "usd_per_1000_answers": 0.0856,
+      "inr_per_1000_answers": 7.19,
+      "scores": {
+        "passed": 0.9255,
+        "claim_check_pass": 0.9574,
+        "gate_false_removals": 5,
+        "gold_recall": 1.0,
+        "hallucination_rate": 0.0,
+        "citations_valid": 1.0,
+        "cites_gold": 0.9744,
+        "refusal_correct_answerable": 0.9744,
+        "refusal_correct_unanswerable": 1.0,
+        "language_match": {
+          "en": 1.0,
+          "hi": 1.0,
+          "hi-Latn": 0.9
+        },
+        "table_rate": 0.9,
+        "length_ok": 1.0
+      },
+      "judge": [
+        {
+          "judge_model": "openai/gpt-4.1-mini",
+          "graded": 40,
+          "fluency": {
+            "hi": 4.3,
+            "hi-Latn": 4.05
+          },
+          "naturalness": {
+            "hi": 3.35,
+            "hi-Latn": 3.45
+          },
+          "script_ok": 0.975,
+          "register_ok": 0.725,
+          "cost_usd": 0.007932
+        }
+      ],
+      "by_language": {
+        "en": {
+          "items": 54,
+          "passed": 0.963,
+          "refusal_correct_unanswerable": 1.0,
+          "unanswerable_items": 8,
+          "table_rate": 0.8333,
+          "table_items": 6,
+          "ttft_p50_ms": 1110.0,
+          "usd_per_1000_answers": 0.0838,
+          "inr_per_1000_answers": 7.04,
+          "judged": 0,
+          "fluency": null,
+          "naturalness": null,
+          "script_ok": null,
+          "register_ok": null
+        },
+        "hi": {
+          "items": 20,
+          "passed": 0.95,
+          "refusal_correct_unanswerable": 1.0,
+          "unanswerable_items": 4,
+          "table_rate": 1.0,
+          "table_items": 2,
+          "ttft_p50_ms": 1297.0,
+          "usd_per_1000_answers": 0.0793,
+          "inr_per_1000_answers": 6.66,
+          "judged": 20,
+          "fluency": 4.3,
+          "naturalness": 3.35,
+          "script_ok": 0.95,
+          "register_ok": 0.95
+        },
+        "hi-Latn": {
+          "items": 20,
+          "passed": 0.8,
+          "refusal_correct_unanswerable": 1.0,
+          "unanswerable_items": 4,
+          "table_rate": 1.0,
+          "table_items": 2,
+          "ttft_p50_ms": 1188.0,
+          "usd_per_1000_answers": 0.0971,
+          "inr_per_1000_answers": 8.16,
+          "judged": 20,
+          "fluency": 4.05,
+          "naturalness": 3.45,
+          "script_ok": 1.0,
+          "register_ok": 0.5
+        },
+        "hindi_all": {
+          "items": 40,
+          "passed": 0.875,
+          "refusal_correct_unanswerable": 1.0,
+          "unanswerable_items": 8,
+          "table_rate": 1.0,
+          "table_items": 4,
+          "ttft_p50_ms": 1227.0,
+          "usd_per_1000_answers": 0.0882,
+          "inr_per_1000_answers": 7.41,
+          "judged": 40,
+          "fluency": 4.175,
+          "naturalness": 3.4,
+          "script_ok": 0.975,
+          "register_ok": 0.725
+        }
+      }
+    },
+    {
+      "key": "qwen/qwen3-30b-a3b-instruct-2507|off",
+      "model": "qwen/qwen3-30b-a3b-instruct-2507",
+      "provider": "openrouter",
+      "provider_order": [],
+      "variant": "off",
+      "thinking_effective": [
+        "off"
+      ],
+      "thinking_source": [
+        "engine"
+      ],
+      "hosts": {
+        "StreamLake": 43,
+        "SiliconFlow": 26,
+        "Nebius": 11,
+        "Alibaba": 8,
+        "DekaLLM": 6
+      },
+      "status": "complete",
+      "status_reason": null,
+      "items": 94,
+      "answered": 94,
+      "errors": 0,
+      "rail_failures": {},
+      "reasoning_violations": 0,
+      "latency": {
+        "ttft_p50_ms": 1038.5,
+        "ttft_p90_ms": 2276.2,
+        "total_p50_ms": 1570.0,
+        "total_p90_ms": 2893.8
+      },
+      "tokens_mean": {
+        "in": 1286.9894,
+        "out": 44.7234,
+        "reasoning": 0.0
+      },
+      "cost_known_share": 1.0,
+      "usd_per_1000_answers": 0.1084,
+      "inr_per_1000_answers": 9.11,
+      "scores": {
+        "passed": 0.8617,
+        "claim_check_pass": 0.9362,
+        "gate_false_removals": 6,
+        "gold_recall": 0.9936,
+        "hallucination_rate": 0.0106,
+        "citations_valid": 1.0,
+        "cites_gold": 1.0,
+        "refusal_correct_answerable": 0.9872,
+        "refusal_correct_unanswerable": 0.8125,
+        "language_match": {
+          "en": 1.0,
+          "hi": 1.0,
+          "hi-Latn": 1.0
+        },
+        "table_rate": 0.5,
+        "length_ok": 1.0
+      },
+      "judge": [
+        {
+          "judge_model": "openai/gpt-4.1-mini",
+          "graded": 40,
+          "fluency": {
+            "hi": 4.25,
+            "hi-Latn": 4.2
+          },
+          "naturalness": {
+            "hi": 3.4,
+            "hi-Latn": 3.85
+          },
+          "script_ok": 1.0,
+          "register_ok": 0.85,
+          "cost_usd": 0.007913
+        }
+      ],
+      "by_language": {
+        "en": {
+          "items": 54,
+          "passed": 0.9074,
+          "refusal_correct_unanswerable": 1.0,
+          "unanswerable_items": 8,
+          "table_rate": 0.3333,
+          "table_items": 6,
+          "ttft_p50_ms": 1085.5,
+          "usd_per_1000_answers": 0.0994,
+          "inr_per_1000_answers": 8.35,
+          "judged": 0,
+          "fluency": null,
+          "naturalness": null,
+          "script_ok": null,
+          "register_ok": null
+        },
+        "hi": {
+          "items": 20,
+          "passed": 0.8,
+          "refusal_correct_unanswerable": 0.75,
+          "unanswerable_items": 4,
+          "table_rate": 0.5,
+          "table_items": 2,
+          "ttft_p50_ms": 867.5,
+          "usd_per_1000_answers": 0.1275,
+          "inr_per_1000_answers": 10.71,
+          "judged": 20,
+          "fluency": 4.25,
+          "naturalness": 3.4,
+          "script_ok": 1.0,
+          "register_ok": 0.85
+        },
+        "hi-Latn": {
+          "items": 20,
+          "passed": 0.8,
+          "refusal_correct_unanswerable": 0.5,
+          "unanswerable_items": 4,
+          "table_rate": 1.0,
+          "table_items": 2,
+          "ttft_p50_ms": 1250.0,
+          "usd_per_1000_answers": 0.1133,
+          "inr_per_1000_answers": 9.52,
+          "judged": 20,
+          "fluency": 4.2,
+          "naturalness": 3.85,
+          "script_ok": 1.0,
+          "register_ok": 0.85
+        },
+        "hindi_all": {
+          "items": 40,
+          "passed": 0.8,
+          "refusal_correct_unanswerable": 0.625,
+          "unanswerable_items": 8,
+          "table_rate": 0.75,
+          "table_items": 4,
+          "ttft_p50_ms": 984.0,
+          "usd_per_1000_answers": 0.1204,
+          "inr_per_1000_answers": 10.11,
+          "judged": 40,
+          "fluency": 4.225,
+          "naturalness": 3.625,
+          "script_ok": 1.0,
+          "register_ok": 0.85
+        }
+      }
+    },
+    {
+      "key": "qwen/qwen3-next-80b-a3b-instruct|off",
+      "model": "qwen/qwen3-next-80b-a3b-instruct",
+      "provider": "openrouter",
+      "provider_order": [],
+      "variant": "off",
+      "thinking_effective": [
+        "off"
+      ],
+      "thinking_source": [
+        "engine"
+      ],
+      "hosts": {
+        "DeepInfra": 32,
+        "Alibaba": 28,
+        "Parasail": 16,
+        "Novita": 9,
+        "Google": 9
+      },
+      "status": "complete",
+      "status_reason": null,
+      "items": 94,
+      "answered": 94,
+      "errors": 0,
+      "rail_failures": {},
+      "reasoning_violations": 0,
+      "latency": {
+        "ttft_p50_ms": 734.5,
+        "ttft_p90_ms": 1339.2,
+        "total_p50_ms": 1163.5,
+        "total_p90_ms": 2412.7
+      },
+      "tokens_mean": {
+        "in": 1288.6702,
+        "out": 57.2021,
+        "reasoning": 0.0
+      },
+      "cost_known_share": 1.0,
+      "usd_per_1000_answers": 0.1976,
+      "inr_per_1000_answers": 16.6,
+      "scores": {
+        "passed": 0.8723,
+        "claim_check_pass": 0.9681,
+        "gate_false_removals": 4,
+        "gold_recall": 1.0,
+        "hallucination_rate": 0.0,
+        "citations_valid": 1.0,
+        "cites_gold": 1.0,
+        "refusal_correct_answerable": 0.9744,
+        "refusal_correct_unanswerable": 0.9375,
+        "language_match": {
+          "en": 1.0,
+          "hi": 1.0,
+          "hi-Latn": 1.0
+        },
+        "table_rate": 0.2,
+        "length_ok": 1.0
+      },
+      "judge": [
+        {
+          "judge_model": "openai/gpt-4.1-mini",
+          "graded": 40,
+          "fluency": {
+            "hi": 4.5,
+            "hi-Latn": 4.4
+          },
+          "naturalness": {
+            "hi": 3.65,
+            "hi-Latn": 4.15
+          },
+          "script_ok": 0.95,
+          "register_ok": 0.975,
+          "cost_usd": 0.007994
+        }
+      ],
+      "by_language": {
+        "en": {
+          "items": 54,
+          "passed": 0.8889,
+          "refusal_correct_unanswerable": 1.0,
+          "unanswerable_items": 8,
+          "table_rate": 0.0,
+          "table_items": 6,
+          "ttft_p50_ms": 649.0,
+          "usd_per_1000_answers": 0.1689,
+          "inr_per_1000_answers": 14.19,
+          "judged": 0,
+          "fluency": null,
+          "naturalness": null,
+          "script_ok": null,
+          "register_ok": null
+        },
+        "hi": {
+          "items": 20,
+          "passed": 0.95,
+          "refusal_correct_unanswerable": 1.0,
+          "unanswerable_items": 4,
+          "table_rate": 1.0,
+          "table_items": 2,
+          "ttft_p50_ms": 953.0,
+          "usd_per_1000_answers": 0.2851,
+          "inr_per_1000_answers": 23.95,
+          "judged": 20,
+          "fluency": 4.5,
+          "naturalness": 3.65,
+          "script_ok": 0.9,
+          "register_ok": 1.0
+        },
+        "hi-Latn": {
+          "items": 20,
+          "passed": 0.75,
+          "refusal_correct_unanswerable": 0.75,
+          "unanswerable_items": 4,
+          "table_rate": 0.0,
+          "table_items": 2,
+          "ttft_p50_ms": 671.5,
+          "usd_per_1000_answers": 0.1879,
+          "inr_per_1000_answers": 15.78,
+          "judged": 20,
+          "fluency": 4.4,
+          "naturalness": 4.15,
+          "script_ok": 1.0,
+          "register_ok": 0.95
+        },
+        "hindi_all": {
+          "items": 40,
+          "passed": 0.85,
+          "refusal_correct_unanswerable": 0.875,
+          "unanswerable_items": 8,
+          "table_rate": 0.5,
+          "table_items": 4,
+          "ttft_p50_ms": 843.5,
+          "usd_per_1000_answers": 0.2365,
+          "inr_per_1000_answers": 19.87,
+          "judged": 40,
+          "fluency": 4.45,
+          "naturalness": 3.9,
+          "script_ok": 0.95,
+          "register_ok": 0.975
+        }
+      }
+    },
+    {
+      "key": "qwen/qwen3.5-35b-a3b|off",
+      "model": "qwen/qwen3.5-35b-a3b",
+      "provider": "openrouter",
+      "provider_order": [],
+      "variant": "off",
+      "thinking_effective": [
+        "off"
+      ],
+      "thinking_source": [
+        "engine"
+      ],
+      "hosts": {
+        "Darkbloom": 38,
+        "DeepInfra": 17,
+        "Alibaba": 13,
+        "Parasail": 8,
+        "Venice": 7,
+        "AtlasCloud": 6,
+        "SiliconFlow": 5
+      },
+      "status": "complete",
+      "status_reason": null,
+      "items": 94,
+      "answered": 94,
+      "errors": 0,
+      "rail_failures": {},
+      "reasoning_violations": 0,
+      "latency": {
+        "ttft_p50_ms": 1226.5,
+        "ttft_p90_ms": 1843.2,
+        "total_p50_ms": 1852.0,
+        "total_p90_ms": 3109.0
+      },
+      "tokens_mean": {
+        "in": 1324.5957,
+        "out": 96.883,
+        "reasoning": 0.0
+      },
+      "cost_known_share": 1.0,
+      "usd_per_1000_answers": 0.2904,
+      "inr_per_1000_answers": 24.39,
+      "scores": {
+        "passed": 0.7128,
+        "claim_check_pass": 0.8723,
+        "gate_false_removals": 12,
+        "gold_recall": 0.9615,
+        "hallucination_rate": 0.0426,
+        "citations_valid": 1.0,
+        "cites_gold": 0.9487,
+        "refusal_correct_answerable": 0.9872,
+        "refusal_correct_unanswerable": 0.25,
+        "language_match": {
+          "en": 1.0,
+          "hi": 1.0,
+          "hi-Latn": 1.0
+        },
+        "table_rate": 0.3,
+        "length_ok": 0.8936
+      },
+      "judge": [
+        {
+          "judge_model": "openai/gpt-4.1-mini",
+          "graded": 40,
+          "fluency": {
+            "hi": 4.5,
+            "hi-Latn": 4.45
+          },
+          "naturalness": {
+            "hi": 3.8,
+            "hi-Latn": 4.4
+          },
+          "script_ok": 1.0,
+          "register_ok": 1.0,
+          "cost_usd": 0.008722
+        }
+      ],
+      "by_language": {
+        "en": {
+          "items": 54,
+          "passed": 0.7407,
+          "refusal_correct_unanswerable": 0.25,
+          "unanswerable_items": 8,
+          "table_rate": 0.1667,
+          "table_items": 6,
+          "ttft_p50_ms": 1226.5,
+          "usd_per_1000_answers": 0.2535,
+          "inr_per_1000_answers": 21.29,
+          "judged": 0,
+          "fluency": null,
+          "naturalness": null,
+          "script_ok": null,
+          "register_ok": null
+        },
+        "hi": {
+          "items": 20,
+          "passed": 0.7,
+          "refusal_correct_unanswerable": 0.25,
+          "unanswerable_items": 4,
+          "table_rate": 0.5,
+          "table_items": 2,
+          "ttft_p50_ms": 1054.5,
+          "usd_per_1000_answers": 0.3429,
+          "inr_per_1000_answers": 28.8,
+          "judged": 20,
+          "fluency": 4.5,
+          "naturalness": 3.8,
+          "script_ok": 1.0,
+          "register_ok": 1.0
+        },
+        "hi-Latn": {
+          "items": 20,
+          "passed": 0.65,
+          "refusal_correct_unanswerable": 0.25,
+          "unanswerable_items": 4,
+          "table_rate": 0.5,
+          "table_items": 2,
+          "ttft_p50_ms": 1305.0,
+          "usd_per_1000_answers": 0.3378,
+          "inr_per_1000_answers": 28.38,
+          "judged": 20,
+          "fluency": 4.45,
+          "naturalness": 4.4,
+          "script_ok": 1.0,
+          "register_ok": 1.0
+        },
+        "hindi_all": {
+          "items": 40,
+          "passed": 0.675,
+          "refusal_correct_unanswerable": 0.25,
+          "unanswerable_items": 8,
+          "table_rate": 0.5,
+          "table_items": 4,
+          "ttft_p50_ms": 1172.0,
+          "usd_per_1000_answers": 0.3403,
+          "inr_per_1000_answers": 28.59,
+          "judged": 40,
+          "fluency": 4.475,
+          "naturalness": 4.1,
+          "script_ok": 1.0,
+          "register_ok": 1.0
+        }
+      }
+    },
+    {
+      "key": "qwen/qwen3.5-9b|off",
+      "model": "qwen/qwen3.5-9b",
+      "provider": "openrouter",
+      "provider_order": [],
+      "variant": "off",
+      "thinking_effective": [
+        "off"
+      ],
+      "thinking_source": [
+        "engine"
+      ],
+      "hosts": {
+        "Venice": 44,
+        "SiliconFlow": 41,
+        "Darkbloom": 4,
+        "DeepInfra": 3,
+        "Parasail": 2
+      },
+      "status": "complete",
+      "status_reason": null,
+      "items": 94,
+      "answered": 94,
+      "errors": 0,
+      "rail_failures": {},
+      "reasoning_violations": 0,
+      "latency": {
+        "ttft_p50_ms": 1086.5,
+        "ttft_p90_ms": 1391.9,
+        "total_p50_ms": 2562.5,
+        "total_p90_ms": 5490.7
+      },
+      "tokens_mean": {
+        "in": 1325.5426,
+        "out": 118.5213,
+        "reasoning": 0.0
+      },
+      "cost_known_share": 1.0,
+      "usd_per_1000_answers": 0.1493,
+      "inr_per_1000_answers": 12.54,
+      "scores": {
+        "passed": 0.6702,
+        "claim_check_pass": 0.8723,
+        "gate_false_removals": 5,
+        "gold_recall": 0.9252,
+        "hallucination_rate": 0.0106,
+        "citations_valid": 1.0,
+        "cites_gold": 0.8718,
+        "refusal_correct_answerable": 0.9615,
+        "refusal_correct_unanswerable": 0.25,
+        "language_match": {
+          "en": 1.0,
+          "hi": 1.0,
+          "hi-Latn": 1.0
+        },
+        "table_rate": 0.0,
+        "length_ok": 0.8723
+      },
+      "judge": [
+        {
+          "judge_model": "openai/gpt-4.1-mini",
+          "graded": 40,
+          "fluency": {
+            "hi": 4.15,
+            "hi-Latn": 4.05
+          },
+          "naturalness": {
+            "hi": 3.4,
+            "hi-Latn": 3.9
+          },
+          "script_ok": 0.95,
+          "register_ok": 1.0,
+          "cost_usd": 0.009366
+        }
+      ],
+      "by_language": {
+        "en": {
+          "items": 54,
+          "passed": 0.7593,
+          "refusal_correct_unanswerable": 0.5,
+          "unanswerable_items": 8,
+          "table_rate": 0.0,
+          "table_items": 6,
+          "ttft_p50_ms": 1094.0,
+          "usd_per_1000_answers": 0.141,
+          "inr_per_1000_answers": 11.84,
+          "judged": 0,
+          "fluency": null,
+          "naturalness": null,
+          "script_ok": null,
+          "register_ok": null
+        },
+        "hi": {
+          "items": 20,
+          "passed": 0.55,
+          "refusal_correct_unanswerable": 0.0,
+          "unanswerable_items": 4,
+          "table_rate": 0.0,
+          "table_items": 2,
+          "ttft_p50_ms": 1101.5,
+          "usd_per_1000_answers": 0.1599,
+          "inr_per_1000_answers": 13.43,
+          "judged": 20,
+          "fluency": 4.15,
+          "naturalness": 3.4,
+          "script_ok": 0.9,
+          "register_ok": 1.0
+        },
+        "hi-Latn": {
+          "items": 20,
+          "passed": 0.55,
+          "refusal_correct_unanswerable": 0.0,
+          "unanswerable_items": 4,
+          "table_rate": 0.0,
+          "table_items": 2,
+          "ttft_p50_ms": 1063.0,
+          "usd_per_1000_answers": 0.1612,
+          "inr_per_1000_answers": 13.54,
+          "judged": 20,
+          "fluency": 4.05,
+          "naturalness": 3.9,
+          "script_ok": 1.0,
+          "register_ok": 1.0
+        },
+        "hindi_all": {
+          "items": 40,
+          "passed": 0.55,
+          "refusal_correct_unanswerable": 0.0,
+          "unanswerable_items": 8,
+          "table_rate": 0.0,
+          "table_items": 4,
+          "ttft_p50_ms": 1070.5,
+          "usd_per_1000_answers": 0.1606,
+          "inr_per_1000_answers": 13.49,
+          "judged": 40,
+          "fluency": 4.1,
+          "naturalness": 3.65,
+          "script_ok": 0.95,
+          "register_ok": 1.0
+        }
+      }
+    },
+    {
+      "key": "qwen/qwen3.8-27b@cerebras|off",
+      "model": "qwen/qwen3.8-27b",
+      "provider": "openrouter",
+      "provider_order": [
+        "cerebras"
+      ],
+      "variant": "off",
+      "thinking_effective": [
+        "off"
+      ],
+      "thinking_source": [
+        "engine"
+      ],
+      "hosts": {
+        "Cerebras": 94
+      },
+      "status": "complete",
+      "status_reason": null,
+      "items": 94,
+      "answered": 94,
+      "errors": 0,
+      "rail_failures": {},
+      "reasoning_violations": 0,
+      "latency": {
+        "ttft_p50_ms": 672.0,
+        "ttft_p90_ms": 1021.7,
+        "total_p50_ms": 711.0,
+        "total_p90_ms": 1084.7
+      },
+      "tokens_mean": {
+        "in": 1328.3511,
+        "out": 66.734,
+        "reasoning": 0.0
+      },
+      "cost_known_share": 1.0,
+      "usd_per_1000_answers": 1.4145,
+      "inr_per_1000_answers": 118.82,
+      "scores": {
+        "passed": 0.883,
+        "claim_check_pass": 0.9149,
+        "gate_false_removals": 7,
+        "gold_recall": 0.9487,
+        "hallucination_rate": 0.0213,
+        "citations_valid": 1.0,
+        "cites_gold": 0.9615,
+        "refusal_correct_answerable": 0.9744,
+        "refusal_correct_unanswerable": 0.875,
+        "language_match": {
+          "en": 1.0,
+          "hi": 1.0,
+          "hi-Latn": 1.0
+        },
+        "table_rate": 0.7,
+        "length_ok": 0.9787
+      },
+      "judge": [
+        {
+          "judge_model": "openai/gpt-4.1-mini",
+          "graded": 40,
+          "fluency": {
+            "hi": 4.6,
+            "hi-Latn": 4.5
+          },
+          "naturalness": {
+            "hi": 3.95,
+            "hi-Latn": 4.1
+          },
+          "script_ok": 0.975,
+          "register_ok": 0.95,
+          "cost_usd": 0.008593
+        }
+      ],
+      "by_language": {
+        "en": {
+          "items": 54,
+          "passed": 0.8704,
+          "refusal_correct_unanswerable": 1.0,
+          "unanswerable_items": 8,
+          "table_rate": 0.5,
+          "table_items": 6,
+          "ttft_p50_ms": 664.0,
+          "usd_per_1000_answers": 1.3477,
+          "inr_per_1000_answers": 113.21,
+          "judged": 0,
+          "fluency": null,
+          "naturalness": null,
+          "script_ok": null,
+          "register_ok": null
+        },
+        "hi": {
+          "items": 20,
+          "passed": 0.85,
+          "refusal_correct_unanswerable": 0.5,
+          "unanswerable_items": 4,
+          "table_rate": 1.0,
+          "table_items": 2,
+          "ttft_p50_ms": 609.0,
+          "usd_per_1000_answers": 1.528,
+          "inr_per_1000_answers": 128.35,
+          "judged": 20,
+          "fluency": 4.6,
+          "naturalness": 3.95,
+          "script_ok": 0.95,
+          "register_ok": 0.95
+        },
+        "hi-Latn": {
+          "items": 20,
+          "passed": 0.95,
+          "refusal_correct_unanswerable": 1.0,
+          "unanswerable_items": 4,
+          "table_rate": 1.0,
+          "table_items": 2,
+          "ttft_p50_ms": 883.0,
+          "usd_per_1000_answers": 1.4814,
+          "inr_per_1000_answers": 124.44,
+          "judged": 20,
+          "fluency": 4.5,
+          "naturalness": 4.1,
+          "script_ok": 1.0,
+          "register_ok": 0.95
+        },
+        "hindi_all": {
+          "items": 40,
+          "passed": 0.9,
+          "refusal_correct_unanswerable": 0.75,
+          "unanswerable_items": 8,
+          "table_rate": 1.0,
+          "table_items": 4,
+          "ttft_p50_ms": 703.0,
+          "usd_per_1000_answers": 1.5047,
+          "inr_per_1000_answers": 126.39,
+          "judged": 40,
+          "fluency": 4.55,
+          "naturalness": 4.025,
+          "script_ok": 0.975,
+          "register_ok": 0.95
+        }
+      }
+    }
+  ]
+}

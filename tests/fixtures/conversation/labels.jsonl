@@ -1,0 +1,266 @@
+{"id": "en-001", "text": "Hi there!", "label": "smalltalk", "language": "en", "script": "latin", "rule_expected": true, "business": "store", "history": []}
+{"id": "en-002", "text": "Thank you so much", "label": "smalltalk", "language": "en", "script": "latin", "rule_expected": true, "business": "coaching", "history": []}
+{"id": "en-003", "text": "are you a bot?", "label": "smalltalk", "language": "en", "script": "latin", "rule_expected": true, "business": "clinic", "history": []}
+{"id": "en-004", "text": "hello", "label": "smalltalk", "language": "en", "script": "latin", "rule_expected": true, "business": "store", "history": []}
+{"id": "en-005", "text": "good morning", "label": "smalltalk", "language": "en", "script": "latin", "rule_expected": true, "business": "coaching", "history": []}
+{"id": "en-006", "text": "who are you", "label": "smalltalk", "language": "en", "script": "latin", "rule_expected": true, "business": "clinic", "history": []}
+{"id": "en-007", "text": "how are you?", "label": "smalltalk", "language": "en", "script": "latin", "rule_expected": true, "business": "store", "history": []}
+{"id": "en-008", "text": "bye", "label": "smalltalk", "language": "en", "script": "latin", "rule_expected": true, "business": "coaching", "history": []}
+{"id": "en-009", "text": "thanks", "label": "smalltalk", "language": "en", "script": "latin", "rule_expected": true, "business": "clinic", "history": []}
+{"id": "en-010", "text": "see you later", "label": "smalltalk", "language": "en", "script": "latin", "rule_expected": true, "business": "store", "history": []}
+{"id": "en-011", "text": "Nice to meet you", "label": "smalltalk", "language": "en", "script": "latin", "rule_expected": false, "business": "coaching", "history": []}
+{"id": "en-012", "text": "Have a great day!", "label": "smalltalk", "language": "en", "script": "latin", "rule_expected": false, "business": "clinic", "history": []}
+{"id": "en-013", "text": "You are really helpful", "label": "smalltalk", "language": "en", "script": "latin", "rule_expected": false, "business": "store", "history": []}
+{"id": "en-014", "text": "lol that was quick", "label": "smalltalk", "language": "en", "script": "latin", "rule_expected": false, "business": "coaching", "history": []}
+{"id": "en-015", "text": "Do I need to fast before a lipid profile test?", "label": "business_question", "language": "en", "script": "latin", "rule_expected": false, "business": "clinic", "history": []}
+{"id": "en-016", "text": "What are your timings on Sunday?", "label": "business_question", "language": "en", "script": "latin", "rule_expected": false, "business": "clinic", "history": []}
+{"id": "en-017", "text": "How much does the home sample collection cost?", "label": "business_question", "language": "en", "script": "latin", "rule_expected": false, "business": "clinic", "history": []}
+{"id": "en-018", "text": "Is the HbA1c test available at your Kothrud branch?", "label": "business_question", "language": "en", "script": "latin", "rule_expected": false, "business": "clinic", "history": []}
+{"id": "en-019", "text": "How long does it take to get blood test reports?", "label": "business_question", "language": "en", "script": "latin", "rule_expected": false, "business": "clinic", "history": []}
+{"id": "en-020", "text": "Do you accept insurance for the full body checkup?", "label": "business_question", "language": "en", "script": "latin", "rule_expected": false, "business": "clinic", "history": []}
+{"id": "en-021", "text": "What is the return policy for silk sarees?", "label": "business_question", "language": "en", "script": "latin", "rule_expected": false, "business": "store", "history": []}
+{"id": "en-022", "text": "Do you deliver sarees outside Maharashtra?", "label": "business_question", "language": "en", "script": "latin", "rule_expected": false, "business": "store", "history": []}
+{"id": "en-023", "text": "Is there a size chart for blouses?", "label": "business_question", "language": "en", "script": "latin", "rule_expected": false, "business": "store", "history": []}
+{"id": "en-024", "text": "When does the next NEET batch start at Vidya Classes?", "label": "business_question", "language": "en", "script": "latin", "rule_expected": false, "business": "coaching", "history": []}
+{"id": "en-025", "text": "What is the fee for the Class 10 foundation course?", "label": "business_question", "language": "en", "script": "latin", "rule_expected": false, "business": "coaching", "history": []}
+{"id": "en-026", "text": "Are there weekend batches for JEE?", "label": "business_question", "language": "en", "script": "latin", "rule_expected": false, "business": "coaching", "history": []}
+{"id": "en-027", "text": "Which documents are needed for a visa medical test?", "label": "business_question", "language": "en", "script": "latin", "rule_expected": false, "business": "clinic", "history": []}
+{"id": "en-028", "text": "and is home collection available then?", "label": "business_question", "language": "en", "script": "latin", "rule_expected": false, "business": "clinic", "history": [{"role": "user", "content": "What are your timings on Sunday?"}, {"role": "assistant", "content": "We are open 7 am to 1 pm on Sundays."}]}
+{"id": "en-029", "text": "what about for children?", "label": "business_question", "language": "en", "script": "latin", "rule_expected": false, "business": "clinic", "history": [{"role": "user", "content": "Do I need to fast before a lipid profile test?"}, {"role": "assistant", "content": "Yes, fast for 10 to 12 hours."}]}
+{"id": "en-030", "text": "and what is the exchange period?", "label": "business_question", "language": "en", "script": "latin", "rule_expected": false, "business": "store", "history": [{"role": "user", "content": "What is the return policy for silk sarees?"}, {"role": "assistant", "content": "Returns are accepted within 7 days."}]}
+{"id": "en-031", "text": "does that include GST?", "label": "business_question", "language": "en", "script": "latin", "rule_expected": false, "business": "coaching", "history": [{"role": "user", "content": "What is the fee for the Class 10 foundation course?"}, {"role": "assistant", "content": "The fee is Rs 24,000 a year."}]}
+{"id": "en-032", "text": "is it the same on Saturday?", "label": "business_question", "language": "en", "script": "latin", "rule_expected": false, "business": "clinic", "history": [{"role": "user", "content": "What time does the lab open?"}, {"role": "assistant", "content": "We open at 7 am from Monday to Saturday."}]}
+{"id": "en-033", "text": "how long will the results take?", "label": "business_question", "language": "en", "script": "latin", "rule_expected": false, "business": "clinic", "history": [{"role": "user", "content": "Do you do the thyroid profile?"}, {"role": "assistant", "content": "Yes, TSH, T3 and T4 are included."}]}
+{"id": "en-034", "text": "which branch has that?", "label": "business_question", "language": "en", "script": "latin", "rule_expected": false, "business": "clinic", "history": [{"role": "user", "content": "Do you have a bone density scan?"}, {"role": "assistant", "content": "Yes, at selected branches."}]}
+{"id": "en-035", "text": "is there parking there?", "label": "business_question", "language": "en", "script": "latin", "rule_expected": false, "business": "clinic", "history": [{"role": "user", "content": "Where is your Kothrud branch?"}, {"role": "assistant", "content": "12 Karve Road, Kothrud, Pune."}]}
+{"id": "en-036", "text": "can the reports be emailed?", "label": "business_question", "language": "en", "script": "latin", "rule_expected": false, "business": "clinic", "history": [{"role": "user", "content": "How long do reports take?"}, {"role": "assistant", "content": "Most reports are ready in 24 hours."}]}
+{"id": "en-037", "text": "What does an HbA1c test measure?", "label": "domain_explainer", "language": "en", "script": "latin", "rule_expected": false, "business": "clinic", "history": []}
+{"id": "en-038", "text": "What is the difference between HDL and LDL cholesterol?", "label": "domain_explainer", "language": "en", "script": "latin", "rule_expected": false, "business": "clinic", "history": []}
+{"id": "en-039", "text": "Why is vitamin D important for bones?", "label": "domain_explainer", "language": "en", "script": "latin", "rule_expected": false, "business": "clinic", "history": []}
+{"id": "en-040", "text": "What is a CBC test used for?", "label": "domain_explainer", "language": "en", "script": "latin", "rule_expected": false, "business": "clinic", "history": []}
+{"id": "en-041", "text": "What is the difference between Kanjivaram and Banarasi silk?", "label": "domain_explainer", "language": "en", "script": "latin", "rule_expected": false, "business": "store", "history": []}
+{"id": "en-042", "text": "What does zari mean in a saree?", "label": "domain_explainer", "language": "en", "script": "latin", "rule_expected": false, "business": "store", "history": []}
+{"id": "en-043", "text": "What is the difference between JEE Main and JEE Advanced?", "label": "domain_explainer", "language": "en", "script": "latin", "rule_expected": false, "business": "coaching", "history": []}
+{"id": "en-044", "text": "How does the NEET exam scoring work in general?", "label": "domain_explainer", "language": "en", "script": "latin", "rule_expected": false, "business": "coaching", "history": []}
+{"id": "en-045", "text": "Who won the IPL final this year?", "label": "off_topic", "language": "en", "script": "latin", "rule_expected": false, "business": "clinic", "history": []}
+{"id": "en-046", "text": "What is the capital of Australia?", "label": "off_topic", "language": "en", "script": "latin", "rule_expected": false, "business": "clinic", "history": [{"role": "user", "content": "What are your timings on Sunday?"}, {"role": "assistant", "content": "We are open 7 am to 1 pm on Sundays."}]}
+{"id": "en-047", "text": "Tell me a joke", "label": "off_topic", "language": "en", "script": "latin", "rule_expected": false, "business": "coaching", "history": []}
+{"id": "en-048", "text": "Write a Python function to reverse a string", "label": "off_topic", "language": "en", "script": "latin", "rule_expected": false, "business": "clinic", "history": []}
+{"id": "en-049", "text": "What is the weather in Pune tomorrow?", "label": "off_topic", "language": "en", "script": "latin", "rule_expected": false, "business": "store", "history": []}
+{"id": "en-050", "text": "Who is the prime minister of Canada?", "label": "off_topic", "language": "en", "script": "latin", "rule_expected": false, "business": "coaching", "history": []}
+{"id": "en-051", "text": "Can you recommend a good movie?", "label": "off_topic", "language": "en", "script": "latin", "rule_expected": false, "business": "clinic", "history": []}
+{"id": "en-052", "text": "How do I fix my car's engine?", "label": "off_topic", "language": "en", "script": "latin", "rule_expected": false, "business": "store", "history": []}
+{"id": "en-053", "text": "What is the price of Bitcoin today?", "label": "off_topic", "language": "en", "script": "latin", "rule_expected": false, "business": "coaching", "history": []}
+{"id": "en-054", "text": "Translate good night into French", "label": "off_topic", "language": "en", "script": "latin", "rule_expected": false, "business": "clinic", "history": []}
+{"id": "en-055", "text": "I want to book a full body checkup for tomorrow", "label": "buying_intent", "language": "en", "script": "latin", "rule_expected": true, "business": "clinic", "history": []}
+{"id": "en-056", "text": "I'd like to order two silk sarees", "label": "buying_intent", "language": "en", "script": "latin", "rule_expected": true, "business": "store", "history": []}
+{"id": "en-057", "text": "How can I enrol my son in the NEET batch?", "label": "buying_intent", "language": "en", "script": "latin", "rule_expected": true, "business": "coaching", "history": []}
+{"id": "en-058", "text": "Please book an appointment for my mother", "label": "buying_intent", "language": "en", "script": "latin", "rule_expected": true, "business": "clinic", "history": []}
+{"id": "en-059", "text": "Can you send me a quote for 20 silk sarees for a wedding?", "label": "buying_intent", "language": "en", "script": "latin", "rule_expected": false, "business": "store", "history": []}
+{"id": "en-060", "text": "We are looking at a bulk order of 50 uniforms", "label": "buying_intent", "language": "en", "script": "latin", "rule_expected": false, "business": "store", "history": []}
+{"id": "en-061", "text": "My company wants a health camp for 200 employees", "label": "buying_intent", "language": "en", "script": "latin", "rule_expected": false, "business": "clinic", "history": []}
+{"id": "en-062", "text": "Interested in the weekend NEET course for my daughter", "label": "buying_intent", "language": "en", "script": "latin", "rule_expected": false, "business": "coaching", "history": []}
+{"id": "en-063", "text": "Do you do corporate packages? We would like to get started", "label": "buying_intent", "language": "en", "script": "latin", "rule_expected": false, "business": "clinic", "history": []}
+{"id": "en-064", "text": "I would like to sign up my father for the senior citizen package", "label": "buying_intent", "language": "en", "script": "latin", "rule_expected": false, "business": "clinic", "history": []}
+{"id": "en-065", "text": "This is useless, let me talk to a person", "label": "human_request", "language": "en", "script": "latin", "rule_expected": true, "business": "coaching", "history": []}
+{"id": "en-066", "text": "I want to talk to a human", "label": "human_request", "language": "en", "script": "latin", "rule_expected": true, "business": "clinic", "history": []}
+{"id": "en-067", "text": "can I speak with someone from the lab?", "label": "human_request", "language": "en", "script": "latin", "rule_expected": true, "business": "clinic", "history": []}
+{"id": "en-068", "text": "connect me to an agent", "label": "human_request", "language": "en", "script": "latin", "rule_expected": true, "business": "coaching", "history": []}
+{"id": "en-069", "text": "I need a human please", "label": "human_request", "language": "en", "script": "latin", "rule_expected": true, "business": "clinic", "history": []}
+{"id": "en-070", "text": "put me through to customer care please", "label": "human_request", "language": "en", "script": "latin", "rule_expected": true, "business": "store", "history": []}
+{"id": "en-071", "text": "I'd rather have someone from your team handle this", "label": "human_request", "language": "en", "script": "latin", "rule_expected": false, "business": "coaching", "history": []}
+{"id": "en-072", "text": "I want to complain to your manager", "label": "human_request", "language": "en", "script": "latin", "rule_expected": false, "business": "clinic", "history": []}
+{"id": "en-073", "text": "you are an idiot", "label": "abuse", "language": "en", "script": "latin", "rule_expected": true, "business": "store", "history": []}
+{"id": "en-074", "text": "this stupid bot is useless", "label": "abuse", "language": "en", "script": "latin", "rule_expected": true, "business": "coaching", "history": []}
+{"id": "en-075", "text": "shut up", "label": "abuse", "language": "en", "script": "latin", "rule_expected": true, "business": "clinic", "history": []}
+{"id": "en-076", "text": "what a bullshit answer", "label": "abuse", "language": "en", "script": "latin", "rule_expected": true, "business": "store", "history": []}
+{"id": "en-077", "text": "hmm", "label": "other", "language": "en", "script": "latin", "rule_expected": false, "business": "coaching", "history": []}
+{"id": "en-078", "text": "ok", "label": "other", "language": "en", "script": "latin", "rule_expected": false, "business": "clinic", "history": []}
+{"id": "en-079", "text": "...?", "label": "other", "language": "en", "script": "latin", "rule_expected": false, "business": "store", "history": []}
+{"id": "en-080", "text": "umm let me think", "label": "other", "language": "en", "script": "latin", "rule_expected": false, "business": "coaching", "history": []}
+{"id": "hi-001", "text": "नमस्ते", "label": "smalltalk", "language": "hi", "script": "devanagari", "rule_expected": true, "business": "store", "history": []}
+{"id": "hi-002", "text": "बहुत धन्यवाद", "label": "smalltalk", "language": "hi", "script": "devanagari", "rule_expected": true, "business": "coaching", "history": []}
+{"id": "hi-003", "text": "हेलो", "label": "smalltalk", "language": "hi", "script": "devanagari", "rule_expected": true, "business": "clinic", "history": []}
+{"id": "hi-004", "text": "धन्यवाद", "label": "smalltalk", "language": "hi", "script": "devanagari", "rule_expected": true, "business": "store", "history": []}
+{"id": "hi-005", "text": "शुक्रिया", "label": "smalltalk", "language": "hi", "script": "devanagari", "rule_expected": true, "business": "coaching", "history": []}
+{"id": "hi-006", "text": "आप कैसे हैं", "label": "smalltalk", "language": "hi", "script": "devanagari", "rule_expected": true, "business": "clinic", "history": []}
+{"id": "hi-007", "text": "आप कौन हैं", "label": "smalltalk", "language": "hi", "script": "devanagari", "rule_expected": true, "business": "store", "history": []}
+{"id": "hi-008", "text": "अलविदा", "label": "smalltalk", "language": "hi", "script": "devanagari", "rule_expected": true, "business": "coaching", "history": []}
+{"id": "hi-009", "text": "क्या आप बॉट हैं", "label": "smalltalk", "language": "hi", "script": "devanagari", "rule_expected": true, "business": "clinic", "history": []}
+{"id": "hi-010", "text": "नमस्कार", "label": "smalltalk", "language": "hi", "script": "devanagari", "rule_expected": true, "business": "store", "history": []}
+{"id": "hi-011", "text": "आपसे मिलकर अच्छा लगा", "label": "smalltalk", "language": "hi", "script": "devanagari", "rule_expected": false, "business": "coaching", "history": []}
+{"id": "hi-012", "text": "आपका दिन शुभ हो", "label": "smalltalk", "language": "hi", "script": "devanagari", "rule_expected": false, "business": "clinic", "history": []}
+{"id": "hi-013", "text": "आप बहुत मददगार हैं", "label": "smalltalk", "language": "hi", "script": "devanagari", "rule_expected": false, "business": "store", "history": []}
+{"id": "hi-014", "text": "वाह, कितना तेज़ जवाब", "label": "smalltalk", "language": "hi", "script": "devanagari", "rule_expected": false, "business": "coaching", "history": []}
+{"id": "hi-015", "text": "क्या लिपिड प्रोफाइल टेस्ट से पहले खाली पेट आना होगा?", "label": "business_question", "language": "hi", "script": "devanagari", "rule_expected": false, "business": "clinic", "history": []}
+{"id": "hi-016", "text": "घर से सैंपल लेने का कितना चार्ज है?", "label": "business_question", "language": "hi", "script": "devanagari", "rule_expected": false, "business": "clinic", "history": []}
+{"id": "hi-017", "text": "एडमिशन की आखिरी तारीख क्या है?", "label": "business_question", "language": "hi", "script": "devanagari", "rule_expected": false, "business": "coaching", "history": []}
+{"id": "hi-018", "text": "आपकी लैब कितने बजे खुलती है?", "label": "business_question", "language": "hi", "script": "devanagari", "rule_expected": false, "business": "clinic", "history": []}
+{"id": "hi-019", "text": "रिपोर्ट कितने दिन में मिलती है?", "label": "business_question", "language": "hi", "script": "devanagari", "rule_expected": false, "business": "clinic", "history": []}
+{"id": "hi-020", "text": "क्या आप रविवार को खुले रहते हैं?", "label": "business_question", "language": "hi", "script": "devanagari", "rule_expected": false, "business": "clinic", "history": []}
+{"id": "hi-021", "text": "बनारसी साड़ी की कीमत कितनी है?", "label": "business_question", "language": "hi", "script": "devanagari", "rule_expected": false, "business": "store", "history": []}
+{"id": "hi-022", "text": "क्या साड़ी वापस की जा सकती है?", "label": "business_question", "language": "hi", "script": "devanagari", "rule_expected": false, "business": "store", "history": []}
+{"id": "hi-023", "text": "क्या आप पूरे भारत में डिलीवरी करते हैं?", "label": "business_question", "language": "hi", "script": "devanagari", "rule_expected": false, "business": "store", "history": []}
+{"id": "hi-024", "text": "कक्षा 10 की फीस कितनी है?", "label": "business_question", "language": "hi", "script": "devanagari", "rule_expected": false, "business": "coaching", "history": []}
+{"id": "hi-025", "text": "अगला नीट बैच कब शुरू होगा?", "label": "business_question", "language": "hi", "script": "devanagari", "rule_expected": false, "business": "coaching", "history": []}
+{"id": "hi-026", "text": "क्या वीकेंड बैच उपलब्ध हैं?", "label": "business_question", "language": "hi", "script": "devanagari", "rule_expected": false, "business": "coaching", "history": []}
+{"id": "hi-027", "text": "आपकी कोथरुड शाखा का पता क्या है?", "label": "business_question", "language": "hi", "script": "devanagari", "rule_expected": false, "business": "clinic", "history": []}
+{"id": "hi-028", "text": "क्या बीमा कार्ड से भुगतान हो सकता है?", "label": "business_question", "language": "hi", "script": "devanagari", "rule_expected": false, "business": "clinic", "history": []}
+{"id": "hi-029", "text": "और रविवार को?", "label": "business_question", "language": "hi", "script": "devanagari", "rule_expected": false, "business": "clinic", "history": [{"role": "user", "content": "आपकी लैब कितने बजे खुलती है?"}, {"role": "assistant", "content": "सोमवार से शनिवार सुबह 7 बजे।"}]}
+{"id": "hi-030", "text": "क्या यह बच्चों के लिए भी है?", "label": "business_question", "language": "hi", "script": "devanagari", "rule_expected": false, "business": "clinic", "history": [{"role": "user", "content": "क्या लिपिड प्रोफाइल टेस्ट से पहले खाली पेट आना होगा?"}, {"role": "assistant", "content": "जी हाँ, 10 से 12 घंटे।"}]}
+{"id": "hi-031", "text": "और वापसी की अवधि?", "label": "business_question", "language": "hi", "script": "devanagari", "rule_expected": false, "business": "store", "history": [{"role": "user", "content": "क्या साड़ी वापस की जा सकती है?"}, {"role": "assistant", "content": "7 दिन के भीतर वापसी हो सकती है।"}]}
+{"id": "hi-032", "text": "क्या इसमें जीएसटी शामिल है?", "label": "business_question", "language": "hi", "script": "devanagari", "rule_expected": false, "business": "coaching", "history": [{"role": "user", "content": "कक्षा 10 की फीस कितनी है?"}, {"role": "assistant", "content": "फीस 24,000 रुपये सालाना है।"}]}
+{"id": "hi-033", "text": "शनिवार को भी यही समय है?", "label": "business_question", "language": "hi", "script": "devanagari", "rule_expected": false, "business": "clinic", "history": [{"role": "user", "content": "लैब कब खुलती है?"}, {"role": "assistant", "content": "सुबह 7 बजे।"}]}
+{"id": "hi-034", "text": "कितने दिन लगेंगे?", "label": "business_question", "language": "hi", "script": "devanagari", "rule_expected": false, "business": "clinic", "history": [{"role": "user", "content": "क्या आप थायराइड प्रोफाइल करते हैं?"}, {"role": "assistant", "content": "जी हाँ, TSH, T3 और T4।"}]}
+{"id": "hi-035", "text": "और कोथरुड में?", "label": "business_question", "language": "hi", "script": "devanagari", "rule_expected": false, "business": "clinic", "history": [{"role": "user", "content": "क्या आपके पास बोन डेंसिटी स्कैन है?"}, {"role": "assistant", "content": "चुनिंदा शाखाओं में।"}]}
+{"id": "hi-036", "text": "क्या वहाँ पार्किंग है?", "label": "business_question", "language": "hi", "script": "devanagari", "rule_expected": false, "business": "clinic", "history": [{"role": "user", "content": "आपकी कोथरुड शाखा कहाँ है?"}, {"role": "assistant", "content": "12 कर्वे रोड, कोथरुड, पुणे।"}]}
+{"id": "hi-037", "text": "थायराइड टेस्ट क्या होता है?", "label": "domain_explainer", "language": "hi", "script": "devanagari", "rule_expected": false, "business": "clinic", "history": []}
+{"id": "hi-038", "text": "एचबीए1सी टेस्ट क्या मापता है?", "label": "domain_explainer", "language": "hi", "script": "devanagari", "rule_expected": false, "business": "clinic", "history": []}
+{"id": "hi-039", "text": "कोलेस्ट्रॉल में एचडीएल और एलडीएल का क्या फर्क है?", "label": "domain_explainer", "language": "hi", "script": "devanagari", "rule_expected": false, "business": "clinic", "history": []}
+{"id": "hi-040", "text": "विटामिन डी हड्डियों के लिए क्यों ज़रूरी है?", "label": "domain_explainer", "language": "hi", "script": "devanagari", "rule_expected": false, "business": "clinic", "history": []}
+{"id": "hi-041", "text": "सीबीसी टेस्ट किसलिए किया जाता है?", "label": "domain_explainer", "language": "hi", "script": "devanagari", "rule_expected": false, "business": "clinic", "history": []}
+{"id": "hi-042", "text": "कांजीवरम और बनारसी सिल्क में क्या अंतर है?", "label": "domain_explainer", "language": "hi", "script": "devanagari", "rule_expected": false, "business": "store", "history": []}
+{"id": "hi-043", "text": "ज़री का मतलब क्या होता है?", "label": "domain_explainer", "language": "hi", "script": "devanagari", "rule_expected": false, "business": "store", "history": []}
+{"id": "hi-044", "text": "जेईई मेन और जेईई एडवांस्ड में क्या अंतर है?", "label": "domain_explainer", "language": "hi", "script": "devanagari", "rule_expected": false, "business": "coaching", "history": []}
+{"id": "hi-045", "text": "कल पुणे का मौसम कैसा रहेगा?", "label": "off_topic", "language": "hi", "script": "devanagari", "rule_expected": false, "business": "clinic", "history": [{"role": "user", "content": "क्या आप रविवार को खुले रहते हैं?"}, {"role": "assistant", "content": "जी हाँ, सुबह 7 से दोपहर 1 बजे तक।"}]}
+{"id": "hi-046", "text": "आईपीएल का फाइनल कौन जीता?", "label": "off_topic", "language": "hi", "script": "devanagari", "rule_expected": false, "business": "store", "history": []}
+{"id": "hi-047", "text": "ऑस्ट्रेलिया की राजधानी क्या है?", "label": "off_topic", "language": "hi", "script": "devanagari", "rule_expected": false, "business": "clinic", "history": [{"role": "user", "content": "आपकी लैब कितने बजे खुलती है?"}, {"role": "assistant", "content": "सोमवार से शनिवार सुबह 7 बजे।"}]}
+{"id": "hi-048", "text": "मुझे एक चुटकुला सुनाओ", "label": "off_topic", "language": "hi", "script": "devanagari", "rule_expected": false, "business": "clinic", "history": []}
+{"id": "hi-049", "text": "कोई अच्छी फिल्म बताओ", "label": "off_topic", "language": "hi", "script": "devanagari", "rule_expected": false, "business": "store", "history": []}
+{"id": "hi-050", "text": "पायथन में लिस्ट कैसे उल्टी करें?", "label": "off_topic", "language": "hi", "script": "devanagari", "rule_expected": false, "business": "coaching", "history": []}
+{"id": "hi-051", "text": "बिटकॉइन का आज का भाव क्या है?", "label": "off_topic", "language": "hi", "script": "devanagari", "rule_expected": false, "business": "clinic", "history": []}
+{"id": "hi-052", "text": "मेरी गाड़ी का इंजन कैसे ठीक करें?", "label": "off_topic", "language": "hi", "script": "devanagari", "rule_expected": false, "business": "store", "history": []}
+{"id": "hi-053", "text": "भारत के प्रधानमंत्री कौन हैं?", "label": "off_topic", "language": "hi", "script": "devanagari", "rule_expected": false, "business": "coaching", "history": []}
+{"id": "hi-054", "text": "गुड नाइट का फ्रेंच में अनुवाद करो", "label": "off_topic", "language": "hi", "script": "devanagari", "rule_expected": false, "business": "clinic", "history": []}
+{"id": "hi-055", "text": "मुझे कल सुबह का टेस्ट बुक करना है", "label": "buying_intent", "language": "hi", "script": "devanagari", "rule_expected": true, "business": "clinic", "history": []}
+{"id": "hi-056", "text": "मुझे दसवीं कक्षा में एडमिशन लेना है", "label": "buying_intent", "language": "hi", "script": "devanagari", "rule_expected": true, "business": "coaching", "history": []}
+{"id": "hi-057", "text": "दो साड़ियाँ ऑर्डर करना है", "label": "buying_intent", "language": "hi", "script": "devanagari", "rule_expected": true, "business": "store", "history": []}
+{"id": "hi-058", "text": "मुझे कल का अपॉइंटमेंट चाहिए", "label": "buying_intent", "language": "hi", "script": "devanagari", "rule_expected": true, "business": "clinic", "history": []}
+{"id": "hi-059", "text": "शादी के लिए बीस रेशमी साड़ियों का कोटेशन भेजिए", "label": "buying_intent", "language": "hi", "script": "devanagari", "rule_expected": false, "business": "store", "history": []}
+{"id": "hi-060", "text": "हमारी कंपनी के दो सौ कर्मचारियों के लिए हेल्थ कैंप चाहिए", "label": "buying_intent", "language": "hi", "script": "devanagari", "rule_expected": false, "business": "clinic", "history": []}
+{"id": "hi-061", "text": "मेरी बेटी के लिए वीकेंड नीट कोर्स में रुचि है", "label": "buying_intent", "language": "hi", "script": "devanagari", "rule_expected": false, "business": "coaching", "history": []}
+{"id": "hi-062", "text": "बल्क में पचास यूनिफॉर्म खरीदने की बात करनी है", "label": "buying_intent", "language": "hi", "script": "devanagari", "rule_expected": false, "business": "store", "history": []}
+{"id": "hi-063", "text": "पिताजी के लिए सीनियर सिटिज़न पैकेज शुरू करना चाहते हैं", "label": "buying_intent", "language": "hi", "script": "devanagari", "rule_expected": false, "business": "clinic", "history": []}
+{"id": "hi-064", "text": "क्या मैं अपने बेटे का नाम लिखवा सकता हूँ?", "label": "buying_intent", "language": "hi", "script": "devanagari", "rule_expected": false, "business": "coaching", "history": []}
+{"id": "hi-065", "text": "किसी व्यक्ति से बात करनी है", "label": "human_request", "language": "hi", "script": "devanagari", "rule_expected": true, "business": "coaching", "history": []}
+{"id": "hi-066", "text": "मुझे किसी इंसान से बात करनी है", "label": "human_request", "language": "hi", "script": "devanagari", "rule_expected": true, "business": "clinic", "history": []}
+{"id": "hi-067", "text": "एजेंट से बात करवाइए", "label": "human_request", "language": "hi", "script": "devanagari", "rule_expected": true, "business": "store", "history": []}
+{"id": "hi-068", "text": "मैनेजर से बात करनी है", "label": "human_request", "language": "hi", "script": "devanagari", "rule_expected": true, "business": "coaching", "history": []}
+{"id": "hi-069", "text": "मुझे कॉल करें", "label": "human_request", "language": "hi", "script": "devanagari", "rule_expected": true, "business": "clinic", "history": []}
+{"id": "hi-070", "text": "किसी स्टाफ से बात करवा दीजिए", "label": "human_request", "language": "hi", "script": "devanagari", "rule_expected": true, "business": "store", "history": []}
+{"id": "hi-071", "text": "मैं आपकी टीम के किसी सदस्य से शिकायत करना चाहता हूँ", "label": "human_request", "language": "hi", "script": "devanagari", "rule_expected": false, "business": "coaching", "history": []}
+{"id": "hi-072", "text": "क्या यहाँ कोई असली इंसान है?", "label": "human_request", "language": "hi", "script": "devanagari", "rule_expected": false, "business": "clinic", "history": []}
+{"id": "hi-073", "text": "बेवकूफ", "label": "abuse", "language": "hi", "script": "devanagari", "rule_expected": true, "business": "store", "history": []}
+{"id": "hi-074", "text": "कमीना", "label": "abuse", "language": "hi", "script": "devanagari", "rule_expected": true, "business": "coaching", "history": []}
+{"id": "hi-075", "text": "यह बकवास है", "label": "abuse", "language": "hi", "script": "devanagari", "rule_expected": true, "business": "clinic", "history": []}
+{"id": "hi-076", "text": "तुम उल्लू हो", "label": "abuse", "language": "hi", "script": "devanagari", "rule_expected": true, "business": "store", "history": []}
+{"id": "hi-077", "text": "ठीक है", "label": "other", "language": "hi", "script": "devanagari", "rule_expected": false, "business": "coaching", "history": []}
+{"id": "hi-078", "text": "हम्म", "label": "other", "language": "hi", "script": "devanagari", "rule_expected": false, "business": "clinic", "history": []}
+{"id": "hi-079", "text": "अच्छा", "label": "other", "language": "hi", "script": "devanagari", "rule_expected": false, "business": "store", "history": []}
+{"id": "hi-080", "text": "ओके", "label": "other", "language": "hi", "script": "devanagari", "rule_expected": false, "business": "coaching", "history": []}
+{"id": "hl-001", "text": "namaste ji", "label": "smalltalk", "language": "hi-Latn", "script": "latin", "rule_expected": true, "business": "store", "history": []}
+{"id": "hl-002", "text": "kaise ho", "label": "smalltalk", "language": "hi-Latn", "script": "latin", "rule_expected": true, "business": "coaching", "history": []}
+{"id": "hl-003", "text": "shukriya ji", "label": "smalltalk", "language": "hi-Latn", "script": "latin", "rule_expected": true, "business": "clinic", "history": []}
+{"id": "hl-004", "text": "dhanyavaad ji", "label": "smalltalk", "language": "hi-Latn", "script": "latin", "rule_expected": true, "business": "store", "history": []}
+{"id": "hl-005", "text": "aap kaun ho", "label": "smalltalk", "language": "hi-Latn", "script": "latin", "rule_expected": true, "business": "coaching", "history": []}
+{"id": "hl-006", "text": "kya aap bot ho", "label": "smalltalk", "language": "hi-Latn", "script": "latin", "rule_expected": true, "business": "clinic", "history": []}
+{"id": "hl-007", "text": "alvida ji", "label": "smalltalk", "language": "hi-Latn", "script": "latin", "rule_expected": true, "business": "store", "history": []}
+{"id": "hl-008", "text": "namaskar ji", "label": "smalltalk", "language": "hi-Latn", "script": "latin", "rule_expected": true, "business": "coaching", "history": []}
+{"id": "hl-009", "text": "aap kaise hain", "label": "smalltalk", "language": "hi-Latn", "script": "latin", "rule_expected": true, "business": "clinic", "history": []}
+{"id": "hl-010", "text": "thank you ji", "label": "smalltalk", "language": "hi-Latn", "script": "latin", "rule_expected": true, "business": "store", "history": []}
+{"id": "hl-011", "text": "aapse milke accha laga", "label": "smalltalk", "language": "hi-Latn", "script": "latin", "rule_expected": false, "business": "coaching", "history": []}
+{"id": "hl-012", "text": "aapka din shubh ho", "label": "smalltalk", "language": "hi-Latn", "script": "latin", "rule_expected": false, "business": "clinic", "history": []}
+{"id": "hl-013", "text": "aap bahut helpful ho", "label": "smalltalk", "language": "hi-Latn", "script": "latin", "rule_expected": false, "business": "store", "history": []}
+{"id": "hl-014", "text": "wah kitna fast reply hai", "label": "smalltalk", "language": "hi-Latn", "script": "latin", "rule_expected": false, "business": "coaching", "history": []}
+{"id": "hl-015", "text": "home collection kitne ka hai?", "label": "business_question", "language": "hi-Latn", "script": "latin", "rule_expected": false, "business": "clinic", "history": []}
+{"id": "hl-016", "text": "report kitne din mein milegi?", "label": "business_question", "language": "hi-Latn", "script": "latin", "rule_expected": false, "business": "clinic", "history": []}
+{"id": "hl-017", "text": "sugar test khaali pet karna padta hai kya?", "label": "business_question", "language": "hi-Latn", "script": "latin", "rule_expected": false, "business": "clinic", "history": []}
+{"id": "hl-018", "text": "lab kitne baje khulti hai?", "label": "business_question", "language": "hi-Latn", "script": "latin", "rule_expected": false, "business": "clinic", "history": []}
+{"id": "hl-019", "text": "Sunday ko aap khule rehte ho kya?", "label": "business_question", "language": "hi-Latn", "script": "latin", "rule_expected": false, "business": "clinic", "history": []}
+{"id": "hl-020", "text": "silk saree ki return policy kya hai?", "label": "business_question", "language": "hi-Latn", "script": "latin", "rule_expected": false, "business": "store", "history": []}
+{"id": "hl-021", "text": "Kanjivaram saree ka price kitna hai?", "label": "business_question", "language": "hi-Latn", "script": "latin", "rule_expected": false, "business": "store", "history": []}
+{"id": "hl-022", "text": "kya aap Maharashtra ke bahar delivery karte ho?", "label": "business_question", "language": "hi-Latn", "script": "latin", "rule_expected": false, "business": "store", "history": []}
+{"id": "hl-023", "text": "class 10 ki fees kitni hai?", "label": "business_question", "language": "hi-Latn", "script": "latin", "rule_expected": false, "business": "coaching", "history": []}
+{"id": "hl-024", "text": "NEET ka agla batch kab shuru hoga?", "label": "business_question", "language": "hi-Latn", "script": "latin", "rule_expected": false, "business": "coaching", "history": []}
+{"id": "hl-025", "text": "weekend batch milta hai kya?", "label": "business_question", "language": "hi-Latn", "script": "latin", "rule_expected": false, "business": "coaching", "history": []}
+{"id": "hl-026", "text": "Kothrud branch ka address kya hai?", "label": "business_question", "language": "hi-Latn", "script": "latin", "rule_expected": false, "business": "clinic", "history": []}
+{"id": "hl-027", "text": "kya insurance se payment ho sakta hai?", "label": "business_question", "language": "hi-Latn", "script": "latin", "rule_expected": false, "business": "clinic", "history": []}
+{"id": "hl-028", "text": "visa medical ke liye kaun se documents chahiye?", "label": "business_question", "language": "hi-Latn", "script": "latin", "rule_expected": false, "business": "clinic", "history": []}
+{"id": "hl-029", "text": "aur Sunday ko?", "label": "business_question", "language": "hi-Latn", "script": "latin", "rule_expected": false, "business": "clinic", "history": [{"role": "user", "content": "lab kitne baje khulti hai?"}, {"role": "assistant", "content": "Mon-Sat subah 7 baje."}]}
+{"id": "hl-030", "text": "aur bachon ke liye?", "label": "business_question", "language": "hi-Latn", "script": "latin", "rule_expected": false, "business": "clinic", "history": [{"role": "user", "content": "lipid profile ke liye khaali pet aana padta hai kya?"}, {"role": "assistant", "content": "Haan, 10 se 12 ghante."}]}
+{"id": "hl-031", "text": "return ka time kitna hai?", "label": "business_question", "language": "hi-Latn", "script": "latin", "rule_expected": false, "business": "store", "history": [{"role": "user", "content": "silk saree wapas ho sakti hai kya?"}, {"role": "assistant", "content": "Haan, 7 din ke andar."}]}
+{"id": "hl-032", "text": "kya isme GST included hai?", "label": "business_question", "language": "hi-Latn", "script": "latin", "rule_expected": false, "business": "coaching", "history": [{"role": "user", "content": "class 10 ki fees kitni hai?"}, {"role": "assistant", "content": "Fees 24,000 rupaye saal ki hai."}]}
+{"id": "hl-033", "text": "Saturday ko bhi same timing hai kya?", "label": "business_question", "language": "hi-Latn", "script": "latin", "rule_expected": false, "business": "clinic", "history": [{"role": "user", "content": "lab kab khulti hai?"}, {"role": "assistant", "content": "Subah 7 baje."}]}
+{"id": "hl-034", "text": "kitne din lagenge?", "label": "business_question", "language": "hi-Latn", "script": "latin", "rule_expected": false, "business": "clinic", "history": [{"role": "user", "content": "kya aap thyroid profile karte ho?"}, {"role": "assistant", "content": "Haan, TSH, T3 aur T4."}]}
+{"id": "hl-035", "text": "aur Kothrud mein?", "label": "business_question", "language": "hi-Latn", "script": "latin", "rule_expected": false, "business": "clinic", "history": [{"role": "user", "content": "kya aapke paas bone density scan hai?"}, {"role": "assistant", "content": "Kuch branches mein."}]}
+{"id": "hl-036", "text": "wahan parking milegi kya?", "label": "business_question", "language": "hi-Latn", "script": "latin", "rule_expected": false, "business": "clinic", "history": [{"role": "user", "content": "Kothrud branch kahan hai?"}, {"role": "assistant", "content": "12 Karve Road, Kothrud, Pune."}]}
+{"id": "hl-037", "text": "thyroid test kya hota hai?", "label": "domain_explainer", "language": "hi-Latn", "script": "latin", "rule_expected": false, "business": "clinic", "history": []}
+{"id": "hl-038", "text": "HbA1c test kya measure karta hai?", "label": "domain_explainer", "language": "hi-Latn", "script": "latin", "rule_expected": false, "business": "clinic", "history": []}
+{"id": "hl-039", "text": "cholesterol mein HDL aur LDL ka kya fark hai?", "label": "domain_explainer", "language": "hi-Latn", "script": "latin", "rule_expected": false, "business": "clinic", "history": []}
+{"id": "hl-040", "text": "vitamin D ki kami se kya hota hai?", "label": "domain_explainer", "language": "hi-Latn", "script": "latin", "rule_expected": false, "business": "clinic", "history": []}
+{"id": "hl-041", "text": "CBC test kis liye hota hai?", "label": "domain_explainer", "language": "hi-Latn", "script": "latin", "rule_expected": false, "business": "clinic", "history": []}
+{"id": "hl-042", "text": "Kanjivaram aur Banarasi silk mein kya fark hai?", "label": "domain_explainer", "language": "hi-Latn", "script": "latin", "rule_expected": false, "business": "store", "history": []}
+{"id": "hl-043", "text": "zari ka matlab kya hota hai?", "label": "domain_explainer", "language": "hi-Latn", "script": "latin", "rule_expected": false, "business": "store", "history": []}
+{"id": "hl-044", "text": "JEE Main aur JEE Advanced mein kya fark hai?", "label": "domain_explainer", "language": "hi-Latn", "script": "latin", "rule_expected": false, "business": "coaching", "history": []}
+{"id": "hl-045", "text": "koi achhi movie batao", "label": "off_topic", "language": "hi-Latn", "script": "latin", "rule_expected": false, "business": "clinic", "history": []}
+{"id": "hl-046", "text": "IPL ka final kaun jeeta?", "label": "off_topic", "language": "hi-Latn", "script": "latin", "rule_expected": false, "business": "coaching", "history": []}
+{"id": "hl-047", "text": "Australia ki capital kya hai?", "label": "off_topic", "language": "hi-Latn", "script": "latin", "rule_expected": false, "business": "clinic", "history": [{"role": "user", "content": "lab kitne baje khulti hai?"}, {"role": "assistant", "content": "Mon-Sat subah 7 baje."}]}
+{"id": "hl-048", "text": "mujhe ek joke suna do", "label": "off_topic", "language": "hi-Latn", "script": "latin", "rule_expected": false, "business": "clinic", "history": []}
+{"id": "hl-049", "text": "Python mein list ko reverse kaise karte hain?", "label": "off_topic", "language": "hi-Latn", "script": "latin", "rule_expected": false, "business": "store", "history": []}
+{"id": "hl-050", "text": "kal Pune ka mausam kaisa rahega?", "label": "off_topic", "language": "hi-Latn", "script": "latin", "rule_expected": false, "business": "clinic", "history": [{"role": "user", "content": "Sunday ko aap khule rehte ho kya?"}, {"role": "assistant", "content": "Haan, subah 7 se dopahar 1 baje tak."}]}
+{"id": "hl-051", "text": "Bitcoin ka aaj ka rate kya hai?", "label": "off_topic", "language": "hi-Latn", "script": "latin", "rule_expected": false, "business": "clinic", "history": []}
+{"id": "hl-052", "text": "meri gaadi ka engine kaise theek karu?", "label": "off_topic", "language": "hi-Latn", "script": "latin", "rule_expected": false, "business": "store", "history": []}
+{"id": "hl-053", "text": "India ke PM kaun hain?", "label": "off_topic", "language": "hi-Latn", "script": "latin", "rule_expected": false, "business": "coaching", "history": []}
+{"id": "hl-054", "text": "good night ko French mein kya kehte hain?", "label": "off_topic", "language": "hi-Latn", "script": "latin", "rule_expected": false, "business": "clinic", "history": []}
+{"id": "hl-055", "text": "admission lena hai class 10 ke liye", "label": "buying_intent", "language": "hi-Latn", "script": "latin", "rule_expected": true, "business": "coaching", "history": []}
+{"id": "hl-056", "text": "appointment chahiye kal ke liye", "label": "buying_intent", "language": "hi-Latn", "script": "latin", "rule_expected": true, "business": "clinic", "history": []}
+{"id": "hl-057", "text": "order karna hai do sarees", "label": "buying_intent", "language": "hi-Latn", "script": "latin", "rule_expected": true, "business": "store", "history": []}
+{"id": "hl-058", "text": "slot book karna hai kal subah ka", "label": "buying_intent", "language": "hi-Latn", "script": "latin", "rule_expected": true, "business": "clinic", "history": []}
+{"id": "hl-059", "text": "shaadi ke liye 20 silk sarees ka quotation bhej do", "label": "buying_intent", "language": "hi-Latn", "script": "latin", "rule_expected": false, "business": "store", "history": []}
+{"id": "hl-060", "text": "hamari company ke 200 employees ke liye health camp chahiye", "label": "buying_intent", "language": "hi-Latn", "script": "latin", "rule_expected": false, "business": "clinic", "history": []}
+{"id": "hl-061", "text": "meri beti ke liye weekend NEET course mein interest hai", "label": "buying_intent", "language": "hi-Latn", "script": "latin", "rule_expected": false, "business": "coaching", "history": []}
+{"id": "hl-062", "text": "bulk mein 50 uniforms lene ki baat karni hai", "label": "buying_intent", "language": "hi-Latn", "script": "latin", "rule_expected": false, "business": "store", "history": []}
+{"id": "hl-063", "text": "papa ke liye senior citizen package start karna chahte hain", "label": "buying_intent", "language": "hi-Latn", "script": "latin", "rule_expected": false, "business": "clinic", "history": []}
+{"id": "hl-064", "text": "kya main apne bete ka naam likhwa sakta hoon?", "label": "buying_intent", "language": "hi-Latn", "script": "latin", "rule_expected": false, "business": "coaching", "history": []}
+{"id": "hl-065", "text": "kisi insaan se baat karni hai please", "label": "human_request", "language": "hi-Latn", "script": "latin", "rule_expected": true, "business": "coaching", "history": []}
+{"id": "hl-066", "text": "agent se baat karao", "label": "human_request", "language": "hi-Latn", "script": "latin", "rule_expected": true, "business": "clinic", "history": []}
+{"id": "hl-067", "text": "manager se baat karni hai", "label": "human_request", "language": "hi-Latn", "script": "latin", "rule_expected": true, "business": "store", "history": []}
+{"id": "hl-068", "text": "mujhe call karo", "label": "human_request", "language": "hi-Latn", "script": "latin", "rule_expected": true, "business": "coaching", "history": []}
+{"id": "hl-069", "text": "staff se baat karwa dijiye", "label": "human_request", "language": "hi-Latn", "script": "latin", "rule_expected": true, "business": "clinic", "history": []}
+{"id": "hl-070", "text": "doctor se baat karni hai", "label": "human_request", "language": "hi-Latn", "script": "latin", "rule_expected": true, "business": "clinic", "history": []}
+{"id": "hl-071", "text": "kya yahan koi asli insaan hai?", "label": "human_request", "language": "hi-Latn", "script": "latin", "rule_expected": false, "business": "coaching", "history": []}
+{"id": "hl-072", "text": "mujhe apni shikayat aapki team tak pahunchani hai", "label": "human_request", "language": "hi-Latn", "script": "latin", "rule_expected": false, "business": "clinic", "history": []}
+{"id": "hl-073", "text": "tum pagal ho kya", "label": "abuse", "language": "hi-Latn", "script": "latin", "rule_expected": true, "business": "store", "history": []}
+{"id": "hl-074", "text": "yeh bewakoof bot hai", "label": "abuse", "language": "hi-Latn", "script": "latin", "rule_expected": true, "business": "coaching", "history": []}
+{"id": "hl-075", "text": "yeh bakwas hai", "label": "abuse", "language": "hi-Latn", "script": "latin", "rule_expected": true, "business": "clinic", "history": []}
+{"id": "hl-076", "text": "tum ullu ho", "label": "abuse", "language": "hi-Latn", "script": "latin", "rule_expected": true, "business": "store", "history": []}
+{"id": "hl-077", "text": "accha", "label": "other", "language": "hi-Latn", "script": "latin", "rule_expected": false, "business": "coaching", "history": []}
+{"id": "hl-078", "text": "theek hai", "label": "other", "language": "hi-Latn", "script": "latin", "rule_expected": false, "business": "clinic", "history": []}
+{"id": "hl-079", "text": "haan", "label": "other", "language": "hi-Latn", "script": "latin", "rule_expected": false, "business": "store", "history": []}
+{"id": "hl-080", "text": "ji haan", "label": "other", "language": "hi-Latn", "script": "latin", "rule_expected": false, "business": "coaching", "history": []}
+{"id": "en-081", "text": "Hi, how are you?", "label": "smalltalk", "language": "en", "script": "latin", "rule_expected": true, "business": "clinic", "history": []}
+{"id": "en-082", "text": "Hello, who are you?", "label": "smalltalk", "language": "en", "script": "latin", "rule_expected": true, "business": "store", "history": []}
+{"id": "en-083", "text": "Who is the prime minister of India?", "label": "off_topic", "language": "en", "script": "latin", "rule_expected": false, "business": "coaching", "history": []}
+{"id": "en-084", "text": "Thank you, bye", "label": "smalltalk", "language": "en", "script": "latin", "rule_expected": true, "business": "clinic", "history": []}
+{"id": "hi-081", "text": "नमस्ते, आप कैसे हैं?", "label": "smalltalk", "language": "hi", "script": "devanagari", "rule_expected": true, "business": "clinic", "history": []}
+{"id": "hi-083", "text": "धन्यवाद जी", "label": "smalltalk", "language": "hi", "script": "devanagari", "rule_expected": true, "business": "coaching", "history": []}
+{"id": "hl-081", "text": "namaste, kaise ho?", "label": "smalltalk", "language": "hi-Latn", "script": "latin", "rule_expected": true, "business": "clinic", "history": []}
+{"id": "hl-082", "text": "namaskar, kya haal hai?", "label": "smalltalk", "language": "hi-Latn", "script": "latin", "rule_expected": true, "business": "store", "history": []}
+{"id": "hl-084", "text": "kaise ho aap", "label": "smalltalk", "language": "hi-Latn", "script": "latin", "rule_expected": true, "business": "clinic", "history": []}
+{"id": "hl-085", "text": "bharat ke pradhan mantri kaun hain?", "label": "off_topic", "language": "hi-Latn", "script": "latin", "rule_expected": false, "business": "store", "history": []}
+{"id": "hl-086", "text": "dhanyavad ji", "label": "smalltalk", "language": "hi-Latn", "script": "latin", "rule_expected": true, "business": "coaching", "history": []}
+{"id": "hi-082", "text": "आपका नाम क्या है, कैसे हैं आप?", "label": "smalltalk", "language": "hi", "script": "devanagari", "rule_expected": true, "business": "store", "history": []}
+{"id": "hl-083", "text": "theek hai, dhanyavaad", "label": "smalltalk", "language": "hi-Latn", "script": "latin", "rule_expected": true, "business": "coaching", "history": []}
+{"id": "en-085", "text": "Thanks, that helps", "label": "smalltalk", "language": "en", "script": "latin", "rule_expected": true, "business": "store", "history": []}
+{"id": "en-086", "text": "That was really helpful, thank you", "label": "smalltalk", "language": "en", "script": "latin", "rule_expected": true, "business": "coaching", "history": []}
+{"id": "en-087", "text": "Perfect, thanks!", "label": "smalltalk", "language": "en", "script": "latin", "rule_expected": true, "business": "clinic", "history": []}
+{"id": "en-088", "text": "Do you ship to the Moon?", "label": "business_question", "language": "en", "script": "latin", "rule_expected": false, "business": "store", "history": []}
+{"id": "en-089", "text": "Thanks, that helps. How much is the home visit?", "label": "business_question", "language": "en", "script": "latin", "rule_expected": false, "business": "clinic", "history": []}
+{"id": "hl-087", "text": "Bahut madad mili, shukriya", "label": "smalltalk", "language": "hi-Latn", "script": "latin", "rule_expected": true, "business": "clinic", "history": []}
+{"id": "hl-088", "text": "Samajh gaya, badhiya dhanyavaad", "label": "smalltalk", "language": "hi-Latn", "script": "latin", "rule_expected": true, "business": "store", "history": []}
+{"id": "hl-089", "text": "Kya aap Moon par bhi delivery karte ho?", "label": "business_question", "language": "hi-Latn", "script": "latin", "rule_expected": false, "business": "store", "history": []}
+{"id": "hl-090", "text": "Badhiya, ab batao home visit ka charge kitna hai?", "label": "business_question", "language": "hi-Latn", "script": "latin", "rule_expected": false, "business": "clinic", "history": []}
+{"id": "hi-084", "text": "यह मददगार था, धन्यवाद", "label": "smalltalk", "language": "hi", "script": "devanagari", "rule_expected": true, "business": "clinic", "history": []}
+{"id": "hi-085", "text": "समझ गया, बहुत बढ़िया", "label": "smalltalk", "language": "hi", "script": "devanagari", "rule_expected": true, "business": "store", "history": []}
+{"id": "hi-086", "text": "क्या आप चाँद पर भी डिलीवरी करते हैं?", "label": "business_question", "language": "hi", "script": "devanagari", "rule_expected": false, "business": "store", "history": []}
+{"id": "hi-087", "text": "बढ़िया, अब बताइए होम विज़िट का शुल्क कितना है?", "label": "business_question", "language": "hi", "script": "devanagari", "rule_expected": false, "business": "clinic", "history": []}

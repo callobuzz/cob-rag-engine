@@ -1,0 +1,23 @@
+{
+  "_comment": "Suggested starting values for the value report, in minor units (paise / cents). lead = one qualified lead, handoff = one request to talk to a person, staff_hour = what an hour of staff time costs, minutes = minutes a person would have spent on one answered question. Editable by the owner; shown as suggestions only.",
+  "INR": {
+    "clinic": {"lead": 150000, "handoff": 80000, "staff_hour": 25000, "minutes": 3},
+    "store": {"lead": 60000, "handoff": 30000, "staff_hour": 20000, "minutes": 2},
+    "coaching": {"lead": 200000, "handoff": 50000, "staff_hour": 25000, "minutes": 4},
+    "real_estate": {"lead": 500000, "handoff": 150000, "staff_hour": 30000, "minutes": 5},
+    "restaurant": {"lead": 40000, "handoff": 25000, "staff_hour": 15000, "minutes": 2},
+    "saas": {"lead": 300000, "handoff": 100000, "staff_hour": 40000, "minutes": 4},
+    "government": {"lead": 0, "handoff": 0, "staff_hour": 25000, "minutes": 5},
+    "generic_support": {"lead": 100000, "handoff": 50000, "staff_hour": 25000, "minutes": 3}
+  },
+  "USD": {
+    "clinic": {"lead": 1800, "handoff": 1000, "staff_hour": 300, "minutes": 3},
+    "store": {"lead": 700, "handoff": 350, "staff_hour": 250, "minutes": 2},
+    "coaching": {"lead": 2400, "handoff": 600, "staff_hour": 300, "minutes": 4},
+    "real_estate": {"lead": 6000, "handoff": 1800, "staff_hour": 350, "minutes": 5},
+    "restaurant": {"lead": 500, "handoff": 300, "staff_hour": 180, "minutes": 2},
+    "saas": {"lead": 3600, "handoff": 1200, "staff_hour": 500, "minutes": 4},
+    "government": {"lead": 0, "handoff": 0, "staff_hour": 300, "minutes": 5},
+    "generic_support": {"lead": 1200, "handoff": 600, "staff_hour": 300, "minutes": 3}
+  }
+}

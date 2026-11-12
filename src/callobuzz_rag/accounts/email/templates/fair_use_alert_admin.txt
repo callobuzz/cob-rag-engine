@@ -1,0 +1,9 @@
+{% extends "_base.txt" %}
+{% block content %}
+{{ tenant_name }} reached {{ level_pct }}% of its {{ metric_label }} ({{ used }} of {{ limit }}).
+
+{{ what_happens }}
+
+Open the customer:
+{{ customer_url }}
+{% endblock %}

@@ -1,0 +1,80 @@
+# === Python ===
+__pycache__/
+*.py[cod]
+*.pyo
+*.egg-info/
+*.egg
+dist/
+build/
+# LP1 landing: the website's front-end build is generated and committed (the image has no Node)
+!/src/callobuzz_rag/landing/static/build/
+# /LP1 landing
+.eggs/
+*.whl
+
+# === Virtual Environments ===
+.env
+# Backups (.env.old_backup, the setup wizard's .env.backup-<timestamp>) hold secrets too.
+.env.*
+!.env.example
+.venv/
+venv/
+env/
+
+# === Databases ===
+*.db
+*.sqlite3
+
+# === Testing & Quality ===
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+htmlcov/
+.coverage
+.coverage.*
+coverage.xml
+*.cover
+
+# === IDE / Editor ===
+.idea/
+.vscode/
+*.swp
+*.swo
+*~
+.DS_Store
+Thumbs.db
+
+# === Claude / AI ===
+.claude/
+
+# === Git Worktrees ===
+.worktrees/
+
+# === Docker ===
+*.log
+
+# === Project-specific ===
+# Internal design notes, plans and audits: kept locally, never published.
+# Public docs live directly under docs/.
+docs/internal/
+docs/brainstorm/
+
+# Local tooling state
+.cob-anchor/
+
+# === Secrets & Keys ===
+*.pem
+*.key
+*.crt
+*.p12
+
+# Browser-automation screenshots and logs
+.playwright-mcp/
+
+# Benchmark downloads and per-run state
+benchmarks/.cache/
+benchmarks/results/answers/dry-run-*/
+
+# TanStack Router generator cache
+services/dashboard/.tanstack/
+/data/

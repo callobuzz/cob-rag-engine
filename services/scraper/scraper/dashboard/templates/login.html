@@ -1,0 +1,21 @@
+{% extends "base.html" %}
+{% block title %}Sign in — Callobuzz Scraper{% endblock %}
+{% block nav_right %}{% endblock %}
+{% block content %}
+<h2>Sign in</h2>
+<p>Enter an engine API key: the admin key, a tenant key (<code>tk_…</code>) or a corpus key (<code>ck_…</code>). You will see the scrape jobs that key owns.</p>
+{% if error %}<p role="alert"><strong>{{ error }}</strong></p>{% endif %}
+<form method="post" action="/login" id="login-form">
+    <input type="password" name="api_key" id="api_key" placeholder="API key" autocomplete="off" required>
+    <button type="submit">Sign in</button>
+</form>
+<script>
+// Server-rendered pages authenticate with an HttpOnly session cookie set by this
+// form; the page's buttons call the JSON API, which needs the key as a header,
+// so keep a copy for this tab only.
+sessionStorage.removeItem('scraperApiKey');
+document.getElementById('login-form').addEventListener('submit', () => {
+    sessionStorage.setItem('scraperApiKey', document.getElementById('api_key').value.trim());
+});
+</script>
+{% endblock %}

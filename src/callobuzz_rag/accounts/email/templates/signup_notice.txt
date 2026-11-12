@@ -1,0 +1,11 @@
+{% extends "_base.txt" %}
+{% block content %}
+A new workspace is waiting for your approval:
+
+Business: {{ tenant_name }}
+Owner:    {{ owner_name }}
+E-mail:   {{ owner_email }}
+
+Review it on the Customers page:
+{{ customers_url }}
+{% endblock %}

@@ -1,0 +1,62 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Widget preview — Summit Trail Outfitters (sample site)</title>
+<style>
+  :root { --ink:#1f2937; --muted:#6b7280; --line:#e5e7eb; --bg:#fafaf9; }
+  * { box-sizing:border-box; }
+  body { margin:0; font-family:system-ui,-apple-system,"Segoe UI",Roboto,sans-serif; color:var(--ink); background:var(--bg); }
+  .notice { background:#111827; color:#e5e7eb; font-size:13px; padding:10px 16px; text-align:center; }
+  .notice code { background:#374151; padding:1px 6px; border-radius:4px; }
+  header { display:flex; justify-content:space-between; align-items:center; padding:18px 32px; background:#fff; border-bottom:1px solid var(--line); }
+  header b { font-size:20px; letter-spacing:-.02em; }
+  nav a { margin-left:20px; color:var(--muted); text-decoration:none; font-size:14px; }
+  .hero { padding:72px 32px; max-width:980px; margin:0 auto; }
+  .hero h1 { font-size:44px; line-height:1.1; margin:0 0 16px; letter-spacing:-.03em; }
+  .hero p { font-size:18px; color:var(--muted); max-width:560px; }
+  .grid { display:grid; grid-template-columns:repeat(auto-fit,minmax(220px,1fr)); gap:16px; max-width:980px; margin:0 auto 80px; padding:0 32px; }
+  .item { background:#fff; border:1px solid var(--line); border-radius:14px; padding:20px; }
+  .item h3 { margin:0 0 6px; font-size:16px; }
+  .item p { margin:0; color:var(--muted); font-size:14px; }
+  .missing { max-width:640px; margin:40px auto; background:#fff7ed; border:1px solid #fed7aa; border-radius:12px; padding:20px; font-size:14px; }
+</style>
+</head>
+<body>
+<div class="notice" id="notice">
+  Sample website for previewing the chat widget. The widget key must list <code id="origin"></code> as an allowed site.
+</div>
+<header><b>Summit Trail Outfitters</b><nav><a href="#">Shop</a><a href="#">Returns</a><a href="#">Contact</a></nav></header>
+<section class="hero">
+  <h1>Gear for every trail.</h1>
+  <p>This page stands in for your customer's website. The chat bubble in the corner is the
+     real widget, answering from the corpus behind the key.</p>
+</section>
+<div class="grid">
+  <div class="item"><h3>Free returns</h3><p>Ask the assistant how returns work.</p></div>
+  <div class="item"><h3>Shipping</h3><p>Ask about delivery times and costs.</p></div>
+  <div class="item"><h3>Product help</h3><p>Ask anything your documents answer.</p></div>
+</div>
+<script src="config.js"></script>
+<script>
+  // Load the widget with ?key=pk_...&api=http://127.0.0.1:8000 (the dashboard's Preview link fills these in).
+  document.getElementById("origin").textContent = location.origin;
+  var params = new URLSearchParams(location.search);
+  var key = params.get("key");
+  var apiBase = params.get("api") || (globalThis.RAG_CONFIG && globalThis.RAG_CONFIG.ragUrl) || "http://127.0.0.1:8000";
+  if (!key) {
+    document.body.insertAdjacentHTML("beforeend",
+      '<div class="missing">No widget key given. Open this page from the dashboard\'s <b>Website Widget → Preview</b> button, or add <code>?key=pk_...</code> to the URL.</div>');
+  } else {
+    var s = document.createElement("script");
+    s.src = apiBase.replace(/\/+$/, "") + "/widget.js";
+    s.async = true;
+    s.setAttribute("data-key", key);
+    s.setAttribute("data-api", apiBase);
+    s.setAttribute("data-open", "true");
+    document.body.appendChild(s);
+  }
+</script>
+</body>
+</html>

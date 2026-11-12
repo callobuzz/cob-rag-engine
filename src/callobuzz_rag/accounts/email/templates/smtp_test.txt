@@ -1,0 +1,6 @@
+{% extends "_base.txt" %}
+{% block content %}
+This is a test e-mail from {{ branding.product_name }}, sent at {{ sent_at }}.
+
+If you can read it, outgoing e-mail works: verification codes, invitations and notices will be delivered.
+{% endblock %}

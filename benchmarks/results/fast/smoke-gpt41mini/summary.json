@@ -1,0 +1,56 @@
+{
+  "harness_version": "1.0.0",
+  "bars": {
+    "overall": 0.9,
+    "per_language": 0.85,
+    "business_recall": 0.97,
+    "reply_language": 0.95,
+    "max_fallback_rate": 0.05,
+    "default_max_p90_s": 1.0
+  },
+  "models": {
+    "openai/gpt-4.1-mini": {
+      "key": "openai/gpt-4.1-mini",
+      "model": "openai/gpt-4.1-mini",
+      "provider": "openrouter",
+      "provider_order": [],
+      "status": "complete",
+      "turns": 266,
+      "model_turns": 5,
+      "missing_turns": [],
+      "errors": 0,
+      "overall": 1.0,
+      "per_language": {
+        "en": 1.0,
+        "hi": 1.0,
+        "hi-Latn": 1.0
+      },
+      "business_recall": 1.0,
+      "reply_language": 1.0,
+      "fallback_rate": 0.0,
+      "fallback_reasons": {},
+      "latency_s": {
+        "p50": 1.68,
+        "p90": 1.71,
+        "p99": 1.71
+      },
+      "usd_total": 0.002596,
+      "usd_per_1000_labels": 0.519,
+      "inr_per_1000_labels": 43.61,
+      "cached_prompt_share": 0.0,
+      "reasoning_tokens": 0,
+      "thinking_effective": [
+        "off"
+      ],
+      "thinking_minimum_only": false,
+      "thinking_control_verified": true,
+      "reasoning_effort": null,
+      "hosts": {
+        "OpenAI": 5
+      },
+      "rail_failures": {},
+      "confusion": {},
+      "passes": true
+    }
+  }
+}

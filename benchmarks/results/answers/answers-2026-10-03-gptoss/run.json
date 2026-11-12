@@ -1,0 +1,16 @@
+{
+  "run": "answers-2026-10-03-gptoss",
+  "harness_version": "1.1.0",
+  "created": "2026-10-03T17:41:42.735+00:00",
+  "items_sha256": "eb29e668e3e9dec7bf6ce6c8e72f106bb381d991606dcb1c5dcb65803ec7f7b6",
+  "provider": "openrouter",
+  "temperature": 0.7,
+  "dry_run": false,
+  "smoke": false,
+  "models": [
+    "openai/gpt-oss-120b"
+  ],
+  "variants": [
+    "low"
+  ]
+}

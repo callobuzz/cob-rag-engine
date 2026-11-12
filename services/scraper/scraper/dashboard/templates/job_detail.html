@@ -1,0 +1,68 @@
+{% extends "base.html" %}
+{% block title %}Job {{ job.id[:8] }}{% endblock %}
+{% block content %}
+<h2>Job <code>{{ job.id[:8] }}...</code> <span class="badge badge-{{ job.status }}">{{ job.status }}</span></h2>
+<div class="stats">
+    <div class="stat">Pages: {{ job.pages_found }}</div>
+    <div class="stat">Verified: {{ counts.get('verified', 0) }}</div>
+    <div class="stat">Flagged: {{ counts.get('rejected', 0) }}</div>
+    <div class="stat">Approved: {{ counts.get('approved', 0) }}</div>
+    <div class="stat">Delivered: {{ counts.get('delivered', 0) }}</div>
+    <div class="stat">Failed: {{ counts.get('failed', 0) }}</div>
+</div>
+<div style="display: flex; gap: 0.5rem; margin-bottom: 1rem;">
+    <button type="button" id="approve-btn" class="outline">Approve All Verified</button>
+    <button type="button" id="deliver-btn">Deliver Approved</button>
+</div>
+<nav>
+    <ul>
+        <li><a href="/jobs/{{ job.id }}">All</a></li>
+        <li><a href="/jobs/{{ job.id }}?status=verified">Verified</a></li>
+        <li><a href="/jobs/{{ job.id }}?status=rejected">Flagged</a></li>
+        <li><a href="/jobs/{{ job.id }}?status=approved">Approved</a></li>
+        <li><a href="/jobs/{{ job.id }}?status=failed">Failed</a></li>
+        <li><a href="/jobs/{{ job.id }}?status=delivered">Delivered</a></li>
+    </ul>
+</nav>
+<table>
+    <thead><tr><th>Status</th><th>URL</th><th>Title</th><th>Words</th><th>Note</th><th></th></tr></thead>
+    <tbody>
+    {% for page in pages %}
+    <tr>
+        <td><span class="badge badge-{{ page.status }}">{{ page.status }}</span></td>
+        <td style="max-width:300px;overflow:hidden;text-overflow:ellipsis">{{ page.url }}</td>
+        <td>{{ page.title or '-' }}</td>
+        <td>{{ page.word_count }}</td>
+        <td>{{ page.delivery_error or page.rejection_reason or '-' }}</td>
+        <td><a href="/jobs/{{ job.id }}/pages/{{ page.id }}">View</a></td>
+    </tr>
+    {% endfor %}
+    </tbody>
+</table>
+<script>
+// The JSON API needs the engine key in X-API-Key. The sign-in page stored it in
+// sessionStorage (this tab only); ask again if it is missing.
+function apiKey() {
+    let key = sessionStorage.getItem('scraperApiKey');
+    if (!key) {
+        key = (prompt('Engine API key') || '').trim();
+        if (key) sessionStorage.setItem('scraperApiKey', key);
+    }
+    return key;
+}
+async function callApi(path, body) {
+    const headers = {'X-API-Key': apiKey()};
+    if (body !== undefined) headers['Content-Type'] = 'application/json';
+    const resp = await fetch(path, {method: 'POST', headers, body: body === undefined ? undefined : JSON.stringify(body)});
+    if (resp.status === 401) { sessionStorage.removeItem('scraperApiKey'); alert('Key not accepted.'); return false; }
+    if (!resp.ok) { alert('Request failed: HTTP ' + resp.status); return false; }
+    return true;
+}
+document.getElementById('approve-btn').addEventListener('click', async () => {
+    if (await callApi('/api/v1/jobs/{{ job.id }}/approve', {approve_all_verified: true})) location.reload();
+});
+document.getElementById('deliver-btn').addEventListener('click', async () => {
+    if (await callApi('/api/v1/jobs/{{ job.id }}/deliver')) location.reload();
+});
+</script>
+{% endblock %}

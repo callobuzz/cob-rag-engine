@@ -1,0 +1,187 @@
+{
+  "date": "2026-09-28",
+  "label": "gpu",
+  "ingest": [
+    {
+      "file": "employee-handbook.pdf",
+      "status": "completed",
+      "seconds": 4.5
+    },
+    {
+      "file": "onboarding-slides.pptx",
+      "status": "completed",
+      "seconds": 0.8
+    },
+    {
+      "file": "product-catalog.xlsx",
+      "status": "completed",
+      "seconds": 0.5
+    },
+    {
+      "file": "release-notes.md",
+      "status": "completed",
+      "seconds": 0.5
+    },
+    {
+      "file": "shipping-policy.docx",
+      "status": "completed",
+      "seconds": 0.5
+    },
+    {
+      "file": "store-notice-scanned.pdf",
+      "status": "completed",
+      "seconds": 7.0
+    },
+    {
+      "file": "warranty-faq.html",
+      "status": "completed",
+      "seconds": 0.6
+    }
+  ],
+  "results": [
+    {
+      "config": "dense",
+      "questions": 55,
+      "hit@1": 0.873,
+      "hit@3": 0.982,
+      "hit@5": 1.0,
+      "mrr": 0.929,
+      "latency_ms_p50": 16,
+      "by_kind": {
+        "pdf text": {
+          "n": 18,
+          "hit@5": 1.0
+        },
+        "pdf table": {
+          "n": 3,
+          "hit@5": 1.0
+        },
+        "docx text": {
+          "n": 5,
+          "hit@5": 1.0
+        },
+        "docx table": {
+          "n": 3,
+          "hit@5": 1.0
+        },
+        "spreadsheet": {
+          "n": 7,
+          "hit@5": 1.0
+        },
+        "html": {
+          "n": 6,
+          "hit@5": 1.0
+        },
+        "markdown": {
+          "n": 5,
+          "hit@5": 1.0
+        },
+        "slides": {
+          "n": 4,
+          "hit@5": 1.0
+        },
+        "scanned pdf (OCR)": {
+          "n": 4,
+          "hit@5": 1.0
+        }
+      },
+      "misses": []
+    },
+    {
+      "config": "hybrid",
+      "questions": 55,
+      "hit@1": 0.909,
+      "hit@3": 1.0,
+      "hit@5": 1.0,
+      "mrr": 0.955,
+      "latency_ms_p50": 17,
+      "by_kind": {
+        "pdf text": {
+          "n": 18,
+          "hit@5": 1.0
+        },
+        "pdf table": {
+          "n": 3,
+          "hit@5": 1.0
+        },
+        "docx text": {
+          "n": 5,
+          "hit@5": 1.0
+        },
+        "docx table": {
+          "n": 3,
+          "hit@5": 1.0
+        },
+        "spreadsheet": {
+          "n": 7,
+          "hit@5": 1.0
+        },
+        "html": {
+          "n": 6,
+          "hit@5": 1.0
+        },
+        "markdown": {
+          "n": 5,
+          "hit@5": 1.0
+        },
+        "slides": {
+          "n": 4,
+          "hit@5": 1.0
+        },
+        "scanned pdf (OCR)": {
+          "n": 4,
+          "hit@5": 1.0
+        }
+      },
+      "misses": []
+    },
+    {
+      "config": "hybrid+rerank",
+      "questions": 55,
+      "hit@1": 0.945,
+      "hit@3": 1.0,
+      "hit@5": 1.0,
+      "mrr": 0.973,
+      "latency_ms_p50": 83,
+      "by_kind": {
+        "pdf text": {
+          "n": 18,
+          "hit@5": 1.0
+        },
+        "pdf table": {
+          "n": 3,
+          "hit@5": 1.0
+        },
+        "docx text": {
+          "n": 5,
+          "hit@5": 1.0
+        },
+        "docx table": {
+          "n": 3,
+          "hit@5": 1.0
+        },
+        "spreadsheet": {
+          "n": 7,
+          "hit@5": 1.0
+        },
+        "html": {
+          "n": 6,
+          "hit@5": 1.0
+        },
+        "markdown": {
+          "n": 5,
+          "hit@5": 1.0
+        },
+        "slides": {
+          "n": 4,
+          "hit@5": 1.0
+        },
+        "scanned pdf (OCR)": {
+          "n": 4,
+          "hit@5": 1.0
+        }
+      },
+      "misses": []
+    }
+  ]
+}

@@ -1,0 +1,6 @@
+{% extends "_base.txt" %}
+{% block content %}
+Thank you for signing up {{ tenant_name }} for {{ branding.product_name }}. We couldn't activate this workspace.
+
+If you have questions, contact {{ branding.support_email or ("the " ~ branding.product_name ~ " team") }}.
+{% endblock %}

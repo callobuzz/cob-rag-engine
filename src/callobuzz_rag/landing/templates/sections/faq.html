@@ -1,0 +1,16 @@
+{% import "macros.html" as m with context %}
+{#- Without the WhatsApp channel on sale, a question that is about it is left out: the page
+    never promises what the plans do not sell. -#}
+<section class="section faq" data-section="faq" id="{{ s.id }}">
+  <div class="wrap narrow">
+    {{ m.head(s) }}
+    <div class="faq-list">
+      {% for item in s.items if env.whatsapp_on_sale or not ((item.q|t) ~ " " ~ (item.a|t)) is mentions_whatsapp %}
+      <details class="faq-item">
+        <summary>{{ item.q|t }}</summary>
+        <p>{{ item.a|t }}</p>
+      </details>
+      {% endfor %}
+    </div>
+  </div>
+</section>

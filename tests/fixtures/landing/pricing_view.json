@@ -1,0 +1,29 @@
+[
+  {
+    "name": "Free",
+    "description": "For a clinic or shop getting started",
+    "price": "Free",
+    "price_incl": null,
+    "credit": null,
+    "usage": "Questions are included in the plan",
+    "limits": [["Knowledge bases", "1"], ["Questions each month", "100"], ["Documents", "20"], ["Website chat widgets", "1"]]
+  },
+  {
+    "name": "Standard",
+    "description": "When leads matter as much as answers",
+    "price": "₹999 a month",
+    "price_incl": "₹1,178.82 a month incl. GST",
+    "credit": "₹500 of credit included every month",
+    "usage": "₹2 per question",
+    "limits": [["Knowledge bases", "3"], ["Questions each month", "Unlimited"], ["Documents", "500"], ["Website chat widgets", "3"]]
+  },
+  {
+    "name": "Pro",
+    "description": "For agencies and multi-branch businesses",
+    "price": "₹4,999 a month",
+    "price_incl": "₹5,898.82 a month incl. GST",
+    "credit": "₹3,000 of credit included every month",
+    "usage": "₹1.50 per question",
+    "limits": [["Knowledge bases", "20"], ["Questions each month", "Unlimited"], ["Documents", "Unlimited"], ["Website chat widgets", "20"]]
+  }
+]

@@ -1,0 +1,29 @@
+{% extends "base.html" %}
+{% block content %}
+<h2>Scrape Jobs</h2>
+{% if jobs %}
+<table>
+    <thead><tr>
+        <th>Status</th><th>Source</th><th>Pages</th>
+        <th>Verified</th><th>Flagged</th><th>Approved</th><th>Delivered</th><th>Created</th><th></th>
+    </tr></thead>
+    <tbody>
+    {% for job in jobs %}
+    <tr>
+        <td><span class="badge badge-{{ job.status }}">{{ job.status }}</span></td>
+        <td>{% if job.seed_urls|length > 1 %}{{ job.seed_urls|length }} URLs{% else %}{{ job.url }}{% endif %}{% if job.sitemap_url and job.seed_urls %} + sitemap{% endif %}</td>
+        <td>{{ job.pages_found }}</td>
+        <td>{{ job.counts.get('verified', 0) if job.counts else 0 }}</td>
+        <td>{{ job.counts.get('rejected', 0) if job.counts else 0 }}</td>
+        <td>{{ job.counts.get('approved', 0) if job.counts else 0 }}</td>
+        <td>{{ job.counts.get('delivered', 0) if job.counts else 0 }}</td>
+        <td>{{ job.created_at[:16] if job.created_at else '-' }}</td>
+        <td><a href="/jobs/{{ job.id }}" role="button" class="outline">View</a></td>
+    </tr>
+    {% endfor %}
+    </tbody>
+</table>
+{% else %}
+<p>No scrape jobs yet.</p>
+{% endif %}
+{% endblock %}

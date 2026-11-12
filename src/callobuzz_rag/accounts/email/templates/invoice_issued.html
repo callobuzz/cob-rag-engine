@@ -1,0 +1,7 @@
+{% extends "_base.html" %}
+{% from "_macros.html" import button with context %}
+{% block content %}
+<p style="margin:0 0 12px;">Your tax document <strong>{{ number }}</strong> for <strong>{{ total }}</strong> is ready for {{ tenant_name }}.</p>
+<p style="margin:0 0 12px;">You can download the PDF from Plan &amp; billing, under Tax invoices. Keep it for your GST records.</p>
+{{ button(invoices_url, "Open Plan & billing") }}
+{% endblock %}

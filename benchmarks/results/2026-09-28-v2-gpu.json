@@ -1,0 +1,58 @@
+{
+  "date": "2026-09-28",
+  "label": "v2-gpu",
+  "health": {
+    "status": "ok",
+    "services": {
+      "api": true,
+      "postgres": true,
+      "redis": true,
+      "qdrant": true,
+      "minio": true
+    }
+  },
+  "results": [
+    {
+      "config": "dense",
+      "questions": 40,
+      "documents": 8,
+      "hit@1": 0.925,
+      "hit@3": 1.0,
+      "hit@5": 1.0,
+      "mrr": 0.954,
+      "latency_ms_p50": 19,
+      "latency_ms_p95": 24,
+      "ingest_seconds_total": 36.0,
+      "ingest_seconds_per_doc": 4.5,
+      "misses": []
+    },
+    {
+      "config": "hybrid",
+      "questions": 40,
+      "documents": 8,
+      "hit@1": 0.925,
+      "hit@3": 1.0,
+      "hit@5": 1.0,
+      "mrr": 0.958,
+      "latency_ms_p50": 18,
+      "latency_ms_p95": 19,
+      "ingest_seconds_total": 5.4,
+      "ingest_seconds_per_doc": 0.7,
+      "misses": []
+    },
+    {
+      "config": "hybrid+rerank",
+      "questions": 40,
+      "documents": 8,
+      "hit@1": 0.925,
+      "hit@3": 1.0,
+      "hit@5": 1.0,
+      "mrr": 0.958,
+      "latency_ms_p50": 83,
+      "latency_ms_p95": 108,
+      "ingest_seconds_total": 4.4,
+      "ingest_seconds_per_doc": 0.5,
+      "misses": []
+    }
+  ]
+}

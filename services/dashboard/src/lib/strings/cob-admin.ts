@@ -1,0 +1,57 @@
+/**
+ * The COB admin page (COB9): the engine's built-in docs, and the pages the operator adds.
+ * Words: "COB" upper-case, "knowledge base", "audience" is shown as "Who can see it".
+ */
+export const cobAdminStrings = {
+	page: {
+		title: "COB",
+		lead: "What COB reads. The built-in pages come with the engine and update themselves; add your own pages next to them.",
+		tabsLabel: "COB documents",
+	},
+	tabs: { builtin: "Built-in docs", platform: "Platform docs" },
+	audience: {
+		label: "Who can see it",
+		admin: "Only you (operator)",
+		customer: "Your customers",
+		public: "Everyone, signed in or not",
+	},
+	builtin: {
+		note: "These pages ship with this version of the engine and cannot be edited. They are read again after every upgrade.",
+		caption: "Built-in COB pages",
+		empty: "COB has not read the built-in docs yet. Use Resync now.",
+		name: "Page",
+		audience: "Who can see it",
+		added: "Read",
+	},
+	platform: {
+		note: "Pages you add here are never changed by an upgrade. COB answers from them for the people you choose, and trusts the built-in pages if the two disagree about the product.",
+		caption: "Platform COB pages",
+		empty: "You have not added any pages yet. Add support hours, pricing or contacts, and COB can answer with them.",
+		name: "Page",
+		audience: "Who can see it",
+		added: "Added",
+		loadError: "Couldn't load the pages.",
+		upload: "Upload a file",
+		uploadHelp: "A document, PDF or text file.",
+		addNote: "Add text",
+		noteTitle: "Title",
+		noteText: "Text",
+		noteSave: "Add page",
+		noteTitleRequired: "Give the page a title.",
+		noteTextRequired: "Write something for COB to read.",
+		uploading: "Uploading {name}",
+		uploaded: "{name} added. COB can use it in a minute.",
+		noteAdded: "Page added. COB can use it in a minute.",
+		addFailed: "Couldn't add that.",
+		audienceChanged: "Now visible to: {who}",
+		audienceFailed: "Couldn't change who can see it.",
+		delete: "Delete",
+		deleteTitle: "Delete {name}?",
+		deleteBody: "COB will stop answering from this page. This can't be undone.",
+		deleteWord: "Type the page name to confirm",
+		deleteConfirm: "Delete page",
+		deleted: "{name} deleted.",
+		deleteFailed: "Couldn't delete that page.",
+		changeAudience: "Who can see {name}",
+	},
+};

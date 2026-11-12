@@ -1,0 +1,152 @@
+[build-system]
+requires = ["hatchling>=1.27"]
+build-backend = "hatchling.build"
+
+[project]
+name = "callobuzz-rag"
+version = "0.2.0"
+description = "Run an AI assistant business from one server: a self-hosted, multi-tenant engine for AI chat assistants that answer from each business's own documents and website."
+readme = "README.md"
+license = "AGPL-3.0-only"
+license-files = ["LICENSE", "THIRD_PARTY_NOTICES.txt"]
+authors = [{ name = "Callobuzz", email = "callobuzz@gmail.com" }]
+keywords = ["rag", "chatbot", "ai-assistant", "llm", "self-hosted", "multi-tenant", "whatsapp", "fastapi", "hindi", "knowledge-base"]
+requires-python = ">=3.12"
+classifiers = [
+    "Development Status :: 4 - Beta",
+    "Framework :: FastAPI",
+    "Intended Audience :: Developers",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.12",
+    "Topic :: Scientific/Engineering :: Artificial Intelligence",
+]
+dependencies = [
+    "fastapi>=0.115.0",
+    "markdown-it-py>=4,<5",  # P3 legal: the legal pages renderer
+    "reportlab>=4.2,<5",  # P2 invoices: the GST invoice PDFs
+    "anyio>=4.0",  # cancel-scope shielding for writes inside streamed responses
+    "uvicorn[standard]>=0.34.0",
+    "sqlalchemy[asyncio]>=2.0.36",
+    "asyncpg>=0.30.0",
+    "alembic>=1.14.0",
+    "pyyaml>=6.0",  # COB docs manifest
+    "pydantic>=2.10.0",
+    "pydantic-settings>=2.7.0",
+    "celery[redis]>=5.4.0",
+    "redis>=5.2.0",
+    "boto3>=1.35.0",
+    "qdrant-client>=1.13.0,<1.14.0",  # Must match Qdrant server v1.13.x in docker-compose
+    "docling>=2.75.0,<3.0",  # Pin to latest 2.x — API changed significantly since 2.15
+    "onnxruntime>=1.18",  # RapidOCR runs its bundled ONNX models (see docling_parser)
+    "lxml>=5.0",  # HTML pre-pass that strips page chrome (parsing/html_prestrip)
+    "httpx>=0.28.0",
+    "tiktoken>=0.8.0",
+    "python-multipart>=0.0.18",
+    "tenacity>=9.0.0",
+    "structlog>=24.0.0",
+    "langdetect>=1.0.9",
+    "rake-nltk>=1.0.6",
+    "nltk>=3.9",  # Snowball stemmer for the BM25 keyword index
+    "litellm>=1.40",
+    "sentence-transformers>=3.0",
+    "langfuse>=2.0,<3.0",
+    "celery-redbeat>=2.2.0",
+    "bertopic>=0.16.0,<1.0.0",
+    "optuna>=4.0.0,<5.0.0",
+    "bcrypt>=4.0",
+    "cryptography>=42.0",
+    "email-validator>=2.2",  # pydantic EmailStr (branding support e-mail; accounts)
+    "aiosmtplib>=3.0",  # transactional e-mail over SMTP (accounts)
+    "jinja2>=3.1",  # e-mail templates; also a transitive dependency, never relied on as one
+    "argon2-cffi>=23.1",  # argon2id password hashing (accounts); API keys stay bcrypt
+    "PyJWT>=2.9",  # HS256 access tokens for dashboard sessions (accounts)
+    "pillow>=10",  # assistant avatars are decoded and re-encoded here (onboarding)
+]
+
+[project.urls]
+Homepage = "https://callobuzz.github.io/cob-rag-engine/"
+Documentation = "https://callobuzz.github.io/cob-rag-engine/guide.html"
+Repository = "https://github.com/callobuzz/cob-rag-engine"
+Issues = "https://github.com/callobuzz/cob-rag-engine/issues"
+Changelog = "https://github.com/callobuzz/cob-rag-engine/blob/main/CHANGELOG.md"
+"Callobuzz open source" = "https://callobuzz.com/open-source"
+
+[project.optional-dependencies]
+dev = [
+    "pytest>=8.3.0",
+    "pytest-asyncio>=0.24.0",
+    "pytest-cov>=6.0.0",
+    "ruff>=0.8.0",
+    "mypy>=1.13.0",
+    "testcontainers[postgres,redis,minio]>=4.9.0",
+    "aiosmtpd>=1.4",  # local SMTP server for the e-mail integration test
+    "callobuzz-rag[eval]",  # the RAGAS tests need the evaluation add-on
+]
+# Answer-quality evaluation (faithfulness, context precision/recall). RAGAS brings LangChain,
+# so it is not in the default install: pip install 'cob-rag-engine[eval]' (Docker:
+# INSTALL_EVAL=true). Imports are deferred behind callobuzz_rag.evaluation.optional.
+eval = [
+    "ragas>=0.2.0,<0.3.0",
+    # Every ragas release up to 0.4.3 imports langchain_community.chat_models.vertexai
+    # at import time, and langchain-community 0.4.2 deleted that module: `import ragas`
+    # fails outright (vibrantlabsai/ragas#2745). 0.4.0/0.4.1 still ship it and already
+    # require langchain-core 1.x, like the rest of the resolved langchain stack.
+    "langchain-community>=0.4.0,<0.4.2",
+]
+# OCR engine for Hindi and other Indic scans (RAG_OCR_ENGINE=paddleocr). Apache-2.0. Pulls
+# PaddlePaddle (~200 MB CPU wheel) and pins numpy below 2.4 and opencv-contrib 4.10.
+ocr-paddle = [
+    "paddleocr>=3.7,<4.0",
+    "paddlepaddle>=3.3,<4.0",
+]
+observability = [
+    "opentelemetry-api>=1.20.0",
+]
+
+# Registers the PaddleOCR engine with Docling (parsing/paddle_ocr.py). Docling imports it only
+# when a pipeline sets allow_external_plugins, which RAG_OCR_ENGINE=paddleocr does.
+[project.entry-points.docling]
+callobuzz_rag_ocr = "callobuzz_rag.parsing.paddle_ocr"
+
+[tool.hatch.build.targets.wheel]
+packages = ["src/callobuzz_rag"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+asyncio_mode = "auto"
+python_files = "test_*.py"
+python_functions = "test_*"
+addopts = "-v --tb=short -m 'not integration and not slow'"
+markers = [
+    "integration: tests requiring Docker containers (testcontainers)",
+    "slow: tests that take a long time (e.g., Docling parsing)",
+    "assistant_on: route tests that exercise the conversation director",
+]
+
+[tool.ruff]
+target-version = "py312"
+line-length = 100
+src = ["src", "tests"]
+
+[tool.ruff.lint]
+select = ["E", "W", "F", "I", "N", "UP", "B", "SIM", "TC", "RUF"]
+ignore = ["E501", "TC003", "F821", "B008"]  # TC003: SQLAlchemy evaluates annotations at runtime; F821: forward-ref strings in Mapped[]; B008: FastAPI Depends/File/Form in defaults
+
+[tool.ruff.lint.isort]
+known-first-party = ["callobuzz_rag"]
+
+[tool.ruff.format]
+quote-style = "double"
+indent-style = "space"
+
+[tool.mypy]
+python_version = "3.12"
+strict = true
+warn_return_any = true
+warn_unused_configs = true
+plugins = ["pydantic.mypy"]
+
+[[tool.mypy.overrides]]
+module = ["celery.*", "lxml.*", "docling.*", "docling_core.*", "paddleocr.*", "paddle.*", "rapidocr.*", "tiktoken.*", "rake_nltk.*", "nltk.*", "langdetect.*", "structlog.*", "boto3.*", "botocore.*", "litellm.*", "sentence_transformers.*", "langfuse.*", "redbeat.*", "ragas.*", "datasets.*", "bertopic.*", "hdbscan.*", "umap.*", "sklearn.*", "optuna.*", "bcrypt.*", "yaml.*", "reportlab.*"]
+ignore_missing_imports = true
+follow_imports = "skip"

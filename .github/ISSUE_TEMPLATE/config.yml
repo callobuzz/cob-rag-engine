@@ -1,0 +1,8 @@
+blank_issues_enabled: false
+contact_links:
+  - name: Commercial licence or commercial support
+    url: https://callobuzz.com/contact
+    about: For a licence without the AGPL-3.0 conditions, or support by contract.
+  - name: Report a security problem
+    url: https://github.com/callobuzz/cob-rag-engine/security/policy
+    about: Do not open a public issue. Follow SECURITY.md and e-mail the maintainers.

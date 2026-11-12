@@ -1,0 +1,26 @@
+{
+  "run": "sweep-2026-10-04",
+  "harness_version": "1.0.0",
+  "started": "2026-10-03T18:51:06.883+00:00",
+  "updated": "2026-10-03T18:52:33.018+00:00",
+  "status": "complete",
+  "stop_reason": null,
+  "budget_usd": 1.8,
+  "spend_usd": 0.432741,
+  "reserved_usd": 0.0,
+  "retries": 0,
+  "models": {
+    "mistralai/mistral-small-3.2-24b-instruct|off": {
+      "model": "mistralai/mistral-small-3.2-24b-instruct",
+      "variant": "off",
+      "total": 162,
+      "done": 162,
+      "errors": 0,
+      "failures": 9,
+      "retries": 0,
+      "spend_usd": 0.01788,
+      "status": "complete",
+      "reason": null
+    }
+  }
+}

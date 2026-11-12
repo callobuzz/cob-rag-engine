@@ -1,0 +1,58 @@
+{
+  "key": "services",
+  "name": "Professional services",
+  "conversation": {
+    "assistant_name": ["Neel", "नील", "Neel"],
+    "business_name": ["Mehta & Co. Chartered Accountants, Ahmedabad", "मेहता एंड को. चार्टर्ड अकाउंटेंट्स, अहमदाबाद", "Mehta & Co. Chartered Accountants, Ahmedabad"],
+    "turns": [
+      {"role": "visitor", "text": ["GST filing ka monthly charge kitna hai?", "GST फाइलिंग का मासिक चार्ज कितना है?", "GST filing ka monthly charge kitna hai?"]},
+      {"role": "assistant",
+       "text": ["GST return filing is ₹1,500 a month for up to 100 invoices. Annual income tax filing for a salaried person is ₹2,500.",
+                "100 इनवॉइस तक GST रिटर्न फाइलिंग ₹1,500 प्रति माह है। नौकरीपेशा व्यक्ति की सालाना इनकम टैक्स फाइलिंग ₹2,500 की है।",
+                "100 invoices tak GST return filing ₹1,500 prati maah hai. Naukri-pesha vyakti ki saalana income tax filing ₹2,500 ki hai."],
+       "source": ["Services and fees, updated 3 Oct", "सेवाएँ और फीस, 3 अक्टूबर को अपडेट", "Services aur fees, 3 Oct ko update hui"]},
+      {"role": "visitor", "text": ["Mujhe notice aaya hai, kal baat ho sakti hai?", "मुझे नोटिस आया है, कल बात हो सकती है?", "Mujhe notice aaya hai, kal baat ho sakti hai?"]},
+      {"role": "assistant",
+       "text": ["I can not see the partners' calendar, so I will not guess. Share your number and the firm will call you tomorrow.",
+                "मुझे पार्टनर्स का कैलेंडर नहीं दिखता, इसलिए मैं अंदाज़ा नहीं लगाऊँगा। अपना नंबर दें, फर्म कल आपको फ़ोन करेगी।",
+                "Mujhe partners ka calendar nahi dikhta, isliye main andaza nahi lagaunga. Apna number dein, firm kal aapko phone karegi."],
+       "source": ["Contact page", "संपर्क पेज", "Contact page"]}
+    ],
+    "lead": {"name": "Vikram S.", "phone_masked": "+91 98•••• 7745", "came_from": "website",
+             "looking_for": ["Income tax notice, call tomorrow", "इनकम टैक्स नोटिस, कल कॉल", "Income tax notice, kal call"],
+             "consent": ["Vikram agreed to be contacted by Mehta & Co. about this enquiry.", "विक्रम ने इस पूछताछ के लिए मेहता एंड को. से संपर्क की सहमति दी।", "Vikram ne is enquiry ke liye Mehta & Co. se sampark ki sahmati di."]}
+  },
+  "pain_wall": {
+    "heading": ["Clients ask the same things every filing season.", "हर फाइलिंग सीज़न में ग्राहक वही बातें पूछते हैं।", "Har filing season mein client wahi baatein poochte hain."],
+    "questions": [
+      {"text": ["GST filing ka charge?", "GST फाइलिंग का चार्ज?", "GST filing ka charge?"], "channel": "website", "time": "20:10"},
+      {"text": ["ITR ki last date?", "ITR की आखिरी तारीख?", "ITR ki last date?"], "channel": "whatsapp", "time": "21:30"},
+      {"text": ["Kaun se documents chahiye?", "कौन से दस्तावेज़ चाहिए?", "Kaun se documents chahiye?"], "channel": "website", "time": "22:15"},
+      {"text": ["Notice aaya hai, kya karein?", "नोटिस आया है, क्या करें?", "Notice aaya hai, kya karein?"], "channel": "whatsapp", "time": "22:50"},
+      {"text": ["Company register karni hai", "कंपनी रजिस्टर करनी है", "Company register karni hai"], "channel": "website", "time": "23:30"}
+    ],
+    "punchline": ["Partners should spend the evening on clients, not on the same ten questions.", "पार्टनर्स की शाम ग्राहकों के लिए हो, उन्हीं दस सवालों के लिए नहीं।", "Partners ki shaam clients ke liye ho, unhi das sawaalon ke liye nahi."]
+  },
+  "languages": {"samples": [
+    {"lang": "en", "question": "Which documents do I need for ITR?", "answer": "Form 16, bank statements, and your investment proofs for the year."},
+    {"lang": "hi", "question": "ITR के लिए कौन से दस्तावेज़ चाहिए?", "answer": "फॉर्म 16, बैंक स्टेटमेंट और साल भर के निवेश के सबूत।"},
+    {"lang": "hi-Latn", "question": "ITR ke liye kaun se documents chahiye?", "answer": "Form 16, bank statements aur saal bhar ke investment ke saboot."}
+  ]},
+  "whatsapp_journey": {"chapters": [
+    {"time": "23:42", "title": ["A late-night question", "देर रात का सवाल", "Der raat ka sawaal"], "messages": [
+      {"from": "visitor", "text": ["Documents ki checklist bhej do.", "दस्तावेज़ों की चेकलिस्ट भेज दो।", "Documents ki checklist bhej do."]},
+      {"from": "assistant", "text": ["Here is the checklist for ITR.", "ये रही ITR की चेकलिस्ट।", "Yeh rahi ITR ki checklist."], "attachment": ["ITR checklist, PDF", "ITR चेकलिस्ट, PDF", "ITR checklist, PDF"]}]},
+    {"time": "07:30", "title": ["The lead is waiting", "सुबह लीड तैयार है", "Subah lead taiyaar hai"], "messages": [
+      {"from": "assistant", "text": ["New lead: Vikram S. got an income tax notice and wants a call.", "नया लीड: विक्रम एस. को इनकम टैक्स नोटिस आया है और वे कॉल चाहते हैं।", "Naya lead: Vikram S. ko income tax notice aaya hai aur woh call chahte hain."]}]},
+    {"time": "09:10", "title": ["The partner steps in", "पार्टनर जवाब देते हैं", "Partner jawab dete hain"], "messages": [
+      {"from": "owner", "text": ["Hello Vikram, this is Mehta & Co. Please send the notice and we will call at 11 am.", "नमस्ते विक्रम, मेहता एंड को. से बोल रहे हैं। नोटिस भेज दीजिए, हम सुबह 11 बजे फ़ोन करेंगे।", "Namaste Vikram, Mehta & Co. se bol rahe hain. Notice bhej dijiye, hum subah 11 baje phone karenge."]}]},
+    {"time": "11:00", "title": ["Sorted", "काम शुरू", "Kaam shuru"], "messages": [
+      {"from": "visitor", "text": ["Sent. Thank you for the quick reply.", "भेज दिया। जल्दी जवाब के लिए धन्यवाद।", "Bhej diya. Jaldi jawab ke liye dhanyavaad."]}]}
+  ]},
+  "faq": {"items": [
+    {"q": ["Will it give tax advice?", "क्या यह टैक्स की सलाह देगा?", "Kya yeh tax ki salah dega?"],
+     "a": ["No. It shares your fees, services and document lists from your own pages. For advice it connects the client to a partner.", "नहीं। यह आपके अपने पेजों से फीस, सेवाएँ और दस्तावेज़ों की सूची बताता है। सलाह के लिए यह ग्राहक को पार्टनर से जोड़ देता है।", "Nahi. Yeh aapke apne pages se fees, services aur documents ki list batata hai. Salah ke liye yeh client ko partner se jod deta hai."]},
+    {"q": ["Is client data safe?", "क्या ग्राहक की जानकारी सुरक्षित है?", "Kya client ki jaankari surakshit hai?"],
+     "a": ["Names and numbers are stored encrypted, and only with the client's consent. You can delete them whenever you like.", "नाम और नंबर एन्क्रिप्टेड रूप में रखे जाते हैं, और सिर्फ ग्राहक की सहमति से। आप जब चाहें इन्हें हटा सकते हैं।", "Naam aur number encrypted roop mein rakhe jaate hain, aur sirf client ki sahmati se. Aap jab chahein inhe hata sakte hain."]}
+  ]}
+}

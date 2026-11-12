@@ -1,0 +1,11 @@
+{% import "macros.html" as m with context %}
+<section class="section trust-strip" data-section="trust_strip" id="{{ s.id }}">
+  <div class="wrap">
+    {% if s.statement %}<p class="trust-statement">{{ s.statement|t }}</p>{% endif %}
+    {% if s.chips %}
+    <ul class="chips">
+      {% for chip in s.chips %}<li>{{ chip|t }}</li>{% endfor %}
+    </ul>
+    {% endif %}
+  </div>
+</section>

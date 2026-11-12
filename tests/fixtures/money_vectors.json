@@ -1,0 +1,30 @@
+{
+  "format": [
+    {"minor": 12345678, "currency": "INR", "text": "₹1,23,456.78"},
+    {"minor": 12345678, "currency": "USD", "text": "$123,456.78"},
+    {"minor": -1200, "currency": "INR", "text": "−₹12.00"},
+    {"minor": 5, "currency": "USD", "text": "$0.05"},
+    {"minor": 0, "currency": "INR", "text": "₹0.00"},
+    {"minor": 99999, "currency": "INR", "text": "₹999.99"},
+    {"minor": 100000, "currency": "INR", "text": "₹1,000.00"},
+    {"minor": 10000000, "currency": "INR", "text": "₹1,00,000.00"},
+    {"minor": 1000000000, "currency": "INR", "text": "₹1,00,00,000.00"},
+    {"minor": -123456789, "currency": "USD", "text": "−$1,234,567.89"}
+  ],
+  "parse": [
+    {"text": "1,234.5", "currency": "INR", "minor": 123450},
+    {"text": "₹ 10", "currency": "INR", "minor": 1000},
+    {"text": "0.1", "currency": "USD", "minor": 10},
+    {"text": "-3", "currency": "INR", "minor": -300},
+    {"text": "−₹12.00", "currency": "INR", "minor": -1200},
+    {"text": "$1,234,567.89", "currency": "USD", "minor": 123456789},
+    {"text": "1.005", "currency": "INR", "minor": null},
+    {"text": "1e3", "currency": "INR", "minor": null},
+    {"text": "NaN", "currency": "INR", "minor": null},
+    {"text": "inf", "currency": "INR", "minor": null},
+    {"text": "", "currency": "INR", "minor": null},
+    {"text": "1234567890123456", "currency": "INR", "minor": null},
+    {"text": "1.", "currency": "INR", "minor": null},
+    {"text": "--3", "currency": "INR", "minor": null}
+  ]
+}

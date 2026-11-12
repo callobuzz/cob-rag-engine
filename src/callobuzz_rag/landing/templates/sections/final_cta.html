@@ -1,0 +1,19 @@
+{% import "macros.html" as m with context %}
+<section class="section final-cta" data-section="final_cta" id="{{ s.id }}">
+  <div class="cta-bg" aria-hidden="true"></div>
+  <div class="wrap">
+    {% set hero = sections|selectattr("type", "equalto", "hero")|first %}
+    <div class="cta-chat" data-reveal>
+      <span class="narrator-who"><span class="narrator-dot" aria-hidden="true"></span>{{ hero.conversation.assistant_name|t }}</span>
+      <div class="bubble bubble-assistant cta-bubble">
+        <h2 class="cta-title">{{ s.bubble|t }}</h2>
+        {% if env.signup_available %}<a class="btn btn-primary" href="{{ hero.primary_href }}">{{ s.button_label|t }}{{ m.icon("arrow") }}</a>{% else %}<a class="btn btn-primary" href="{{ link('contact') }}">{{ ui.contact_us }}{{ m.icon("arrow") }}</a>{% endif %}
+      </div>
+    </div>
+    <p class="actions">
+      {% if env.signup_available %}<a class="btn btn-ghost" href="{{ hero.primary_href }}">{{ s.button_label|t }}</a>{% endif %}
+      {% if whatsapp_link and s.whatsapp_label %}<a class="btn btn-ghost contact-link" href="{{ whatsapp_link }}">{{ s.whatsapp_label|t }}</a>{% endif %}
+    </p>
+    {% if s.sub %}<p class="micro">{{ s.sub|t }}</p>{% endif %}
+  </div>
+</section>

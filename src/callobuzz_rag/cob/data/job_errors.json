@@ -1,0 +1,125 @@
+{
+  "notes": "An upload that failed, in plain words. `match` is a regex over the job's error code and message (case-blind); the first entry that matches wins; the last entry matches anything. `anchor` is the help page the person can read next.",
+  "entries": [
+    {
+      "id": "no_text",
+      "match": "no_text_found|readable text",
+      "anchor": "screens/add",
+      "what": {
+        "en": "The file has no readable text. It is probably a scanned PDF (a picture of a page).",
+        "hi": "फ़ाइल में पढ़ने लायक़ टेक्स्ट नहीं है। शायद यह स्कैन किया हुआ PDF है (पेज की तस्वीर)।",
+        "hi-Latn": "File mein padhne layak text nahi hai. Shayad yeh scanned PDF hai (page ki tasveer)."
+      },
+      "fix": {
+        "en": "Upload a text version of the file, or ask your platform administrator to turn on OCR.",
+        "hi": "फ़ाइल का टेक्स्ट वाला वर्शन अपलोड कीजिए, या अपने प्लेटफ़ॉर्म एडमिनिस्ट्रेटर से OCR चालू करने को कहिए।",
+        "hi-Latn": "File ka text wala version upload kijiye, ya apne platform administrator se OCR chalu karne ko kahiye."
+      }
+    },
+    {
+      "id": "document_limit",
+      "match": "document_limit_reached|document limit reached",
+      "anchor": "screens/plan",
+      "what": {
+        "en": "Your plan's document limit is full, so no more documents can be added.",
+        "hi": "आपके प्लान की दस्तावेज़ सीमा पूरी हो गई है, इसलिए और दस्तावेज़ नहीं जुड़ सकते।",
+        "hi-Latn": "Aapke plan ki document limit poori ho gayi hai, isliye aur documents nahi jud sakte."
+      },
+      "fix": {
+        "en": "Delete documents you no longer need, or ask for a bigger plan, then upload again.",
+        "hi": "जो दस्तावेज़ ज़रूरी नहीं हैं उन्हें हटाइए, या बड़ा प्लान माँगिए, फिर दोबारा अपलोड कीजिए।",
+        "hi-Latn": "Jo documents zaroori nahi hain unhe delete kijiye, ya bada plan maangiye, phir dobara upload kijiye."
+      }
+    },
+    {
+      "id": "too_large",
+      "match": "document_too_large|tokens of text",
+      "anchor": "screens/add",
+      "what": {
+        "en": "The file holds more text than one document may.",
+        "hi": "फ़ाइल में एक दस्तावेज़ की सीमा से ज़्यादा टेक्स्ट है।",
+        "hi-Latn": "File mein ek document ki limit se zyada text hai."
+      },
+      "fix": {
+        "en": "Split it into smaller files and upload them again.",
+        "hi": "इसे छोटी फ़ाइलों में बाँटकर दोबारा अपलोड कीजिए।",
+        "hi-Latn": "Ise chhoti files mein baantkar dobara upload kijiye."
+      }
+    },
+    {
+      "id": "unsupported",
+      "match": "unsupported|UnsupportedFormat",
+      "anchor": "screens/add",
+      "what": {
+        "en": "This type of file can't be read.",
+        "hi": "इस तरह की फ़ाइल पढ़ी नहीं जा सकती।",
+        "hi-Latn": "Is tarah ki file padhi nahi ja sakti."
+      },
+      "fix": {
+        "en": "Save it as a PDF, Word or plain text file and upload that.",
+        "hi": "इसे PDF, Word या सादे टेक्स्ट फ़ाइल के रूप में सेव करके अपलोड कीजिए।",
+        "hi-Latn": "Ise PDF, Word ya plain text file ke roop mein save karke upload kijiye."
+      }
+    },
+    {
+      "id": "corrupt",
+      "match": "failed to parse|corrupt|password|encrypted",
+      "anchor": "screens/add",
+      "what": {
+        "en": "The file looks damaged or is locked with a password.",
+        "hi": "फ़ाइल ख़राब लगती है या पासवर्ड से बंद है।",
+        "hi-Latn": "File kharab lagti hai ya password se band hai."
+      },
+      "fix": {
+        "en": "Open it on your computer, save a fresh copy without a password, and upload that.",
+        "hi": "इसे अपने कंप्यूटर पर खोलिए, बिना पासवर्ड की नई कॉपी सेव कीजिए और वही अपलोड कीजिए।",
+        "hi-Latn": "Ise apne computer par kholiye, bina password ki nayi copy save kijiye aur wahi upload kijiye."
+      }
+    },
+    {
+      "id": "audio",
+      "match": "transcri",
+      "anchor": "screens/add",
+      "what": {
+        "en": "The audio could not be turned into text.",
+        "hi": "ऑडियो को टेक्स्ट में नहीं बदला जा सका।",
+        "hi-Latn": "Audio ko text mein nahi badla ja saka."
+      },
+      "fix": {
+        "en": "Check that the recording is clear and is MP3, WAV, M4A or OGG, then upload again.",
+        "hi": "देखिए कि रिकॉर्डिंग साफ़ है और MP3, WAV, M4A या OGG है, फिर दोबारा अपलोड कीजिए।",
+        "hi-Latn": "Dekhiye ki recording saaf hai aur MP3, WAV, M4A ya OGG hai, phir dobara upload kijiye."
+      }
+    },
+    {
+      "id": "deleted",
+      "match": "deleted during ingestion",
+      "anchor": "screens/add",
+      "what": {
+        "en": "The document was deleted while it was still being added.",
+        "hi": "दस्तावेज़ जुड़ते समय ही हटा दिया गया।",
+        "hi-Latn": "Document judte samay hi hata diya gaya."
+      },
+      "fix": {
+        "en": "Upload it again if you still need it.",
+        "hi": "अगर अब भी ज़रूरत है तो दोबारा अपलोड कीजिए।",
+        "hi-Latn": "Agar ab bhi zaroorat hai to dobara upload kijiye."
+      }
+    },
+    {
+      "id": "other",
+      "match": ".*",
+      "anchor": "screens/add",
+      "what": {
+        "en": "Something went wrong while reading this file.",
+        "hi": "इस फ़ाइल को पढ़ते समय कुछ गड़बड़ हो गई।",
+        "hi-Latn": "Is file ko padhte samay kuch gadbad ho gayi."
+      },
+      "fix": {
+        "en": "Try uploading it again. If it keeps failing, tell your administrator what the details below say.",
+        "hi": "दोबारा अपलोड करके देखिए। फिर भी फेल हो तो नीचे लिखी जानकारी अपने एडमिनिस्ट्रेटर को बताइए।",
+        "hi-Latn": "Dobara upload karke dekhiye. Phir bhi fail ho to neeche likhi jaankari apne administrator ko bataiye."
+      }
+    }
+  ]
+}

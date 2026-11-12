@@ -1,0 +1,16 @@
+{% extends "_base.txt" %}
+{% block content %}
+{% if lower %}Good news: the price of the {{ plan_name }} plan for {{ business_name }} on {{ product_name }} is going down.{% else %}{{ product_name }} is changing the price of the {{ plan_name }} plan for {{ business_name }}. We are telling you before it happens, and nothing changes in your current billing period.{% endif %}
+
+The new price applies from your renewal on {{ effective_on }}.
+
+{% for line in changes %}
+- {{ line.label }}: {{ line.old }} -> {{ line.new }}
+{% endfor %}
+
+See your plan:
+{{ billing_url }}
+
+Questions about this? Contact {{ product_name }}:
+{{ support_url }}
+{% endblock %}

@@ -1,0 +1,123 @@
+<!doctype html>
+<html lang="en-IN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Widget preview · Anand Dental Care (sample site)</title>
+<!--
+  Sample website for previewing the chat widget (dashboard: Website widget → Preview).
+  Contract: /widget-demo.html?key=pk_...&api=http://127.0.0.1:8000
+  The page loads {api}/widget.js with data-key, data-api and data-open="true".
+  The clinic is made up; it stands in for a customer's own website.
+-->
+<style>
+  :root { --ink:#1c2430; --muted:#4d5866; --line:#e3e7ec; --bg:#f7f8f6; --brand:#0b6e63; --brand-ink:#ffffff; --soft:#e7f3f1; }
+  * { box-sizing:border-box; }
+  body { margin:0; font-family:system-ui,-apple-system,"Segoe UI",Roboto,"Noto Sans",sans-serif; color:var(--ink); background:var(--bg); line-height:1.5; }
+  a { color:var(--brand); }
+  .notice { background:#15202b; color:#e8edf2; font-size:13px; padding:9px 16px; text-align:center; }
+  .notice code { background:#2c3a48; color:#ffffff; padding:1px 6px; border-radius:4px; font-size:12px; overflow-wrap:anywhere; }
+  header { display:flex; flex-wrap:wrap; gap:10px 24px; justify-content:space-between; align-items:center; padding:16px 24px; background:#ffffff; border-bottom:1px solid var(--line); }
+  .brand { display:flex; align-items:center; gap:10px; font-weight:700; font-size:19px; letter-spacing:-.01em; color:var(--ink); text-decoration:none; }
+  .brand span { display:grid; place-items:center; width:34px; height:34px; border-radius:10px; background:var(--brand); color:var(--brand-ink); font-size:15px; }
+  nav ul { display:flex; flex-wrap:wrap; gap:4px 18px; list-style:none; margin:0; padding:0; }
+  nav a { color:var(--muted); text-decoration:none; font-size:14px; }
+  nav a:hover { color:var(--ink); text-decoration:underline; }
+  main { max-width:1040px; margin:0 auto; padding:0 24px 96px; }
+  .hero { padding:56px 0 36px; display:grid; gap:18px; }
+  .hero p.kicker { margin:0; font-size:13px; font-weight:600; color:var(--brand); text-transform:uppercase; letter-spacing:.06em; }
+  .hero h1 { font-size:40px; line-height:1.12; margin:0; letter-spacing:-.02em; max-width:640px; }
+  .hero p.lead { font-size:17px; color:var(--muted); max-width:580px; margin:0; }
+  .actions { display:flex; flex-wrap:wrap; gap:10px; }
+  .btn { display:inline-flex; align-items:center; gap:8px; padding:11px 18px; border-radius:10px; font-weight:600; font-size:15px; text-decoration:none; }
+  .btn-primary { background:var(--brand); color:var(--brand-ink); }
+  .btn-ghost { background:#ffffff; color:var(--ink); border:1px solid var(--line); }
+  h2 { font-size:22px; margin:36px 0 14px; letter-spacing:-.01em; }
+  .grid { display:grid; grid-template-columns:repeat(auto-fit,minmax(220px,1fr)); gap:14px; }
+  .card { background:#ffffff; border:1px solid var(--line); border-radius:14px; padding:18px; }
+  .card h3 { margin:0 0 4px; font-size:16px; }
+  .card p { margin:0; color:var(--muted); font-size:14px; }
+  .price { display:inline-block; margin-top:8px; font-weight:600; color:var(--ink); font-size:14px; }
+  table { width:100%; border-collapse:collapse; background:#ffffff; border:1px solid var(--line); border-radius:14px; overflow:hidden; font-size:14px; }
+  th, td { text-align:left; padding:10px 14px; border-bottom:1px solid var(--line); }
+  th { background:var(--soft); font-weight:600; }
+  tr:last-child td { border-bottom:0; }
+  .ask { background:var(--soft); border-radius:14px; padding:16px 18px; font-size:14px; color:var(--ink); }
+  .ask ul { margin:6px 0 0; padding-left:20px; }
+  footer { border-top:1px solid var(--line); background:#ffffff; padding:20px 24px; font-size:13px; color:var(--muted); text-align:center; }
+  .visually-hidden { position:absolute; width:1px; height:1px; overflow:hidden; clip:rect(0 0 0 0); white-space:nowrap; }
+  .missing { max-width:640px; margin:32px auto; background:#fff4e5; color:#5a3300; border:1px solid #f3c98b; border-radius:12px; padding:18px 20px; font-size:14px; }
+  @media (max-width:520px) { .hero h1 { font-size:30px; } header { padding:14px 16px; } main { padding:0 16px 96px; } }
+</style>
+</head>
+<body>
+<div class="notice" role="note">
+  Sample website for previewing the chat widget. The widget key must list <code id="origin">this address</code> as an allowed site.
+</div>
+<header>
+  <a class="brand" href="#top" aria-label="Anand Dental Care, home"><span aria-hidden="true">A</span>Anand Dental Care</a>
+  <nav aria-label="Clinic">
+    <ul>
+      <li><a href="#treatments">Treatments</a></li>
+      <li><a href="#timings">Timings</a></li>
+      <li><a href="#visit">Visit us</a></li>
+    </ul>
+  </nav>
+</header>
+<main id="top">
+  <section class="hero" aria-labelledby="hero-title">
+    <p class="kicker">Kothrud, Pune · since 2009</p>
+    <h1 id="hero-title">Gentle dental care for the whole family.</h1>
+    <p class="lead">Check-ups, cleaning, root canals, braces and implants at one clinic near Karishma Society.
+      This page stands in for a customer's website: the chat bubble in the corner is the real widget,
+      answering from the knowledge base behind the key.</p>
+    <div class="actions">
+      <a class="btn btn-primary" href="https://wa.me/919822012345" target="_blank" rel="noopener noreferrer">Book on WhatsApp</a>
+      <a class="btn btn-ghost" href="tel:+919822012345">Call +91 98220 12345</a>
+    </div>
+  </section>
+
+  <section aria-labelledby="treatments">
+    <h2 id="treatments">Treatments</h2>
+    <div class="grid">
+      <div class="card"><h3>Check-up and cleaning</h3><p>Scaling, polishing and a full check-up in one visit.</p><span class="price">from ₹800</span></div>
+      <div class="card"><h3>Root canal</h3><p>Single-sitting root canal treatment in most cases.</p><span class="price">from ₹4,500</span></div>
+      <div class="card"><h3>Braces and aligners</h3><p>Metal, ceramic and clear aligners, with monthly EMI.</p><span class="price">from ₹35,000</span></div>
+      <div class="card"><h3>Implants</h3><p>Consultation, CBCT scan and a written treatment plan.</p><span class="price">from ₹25,000</span></div>
+    </div>
+  </section>
+
+  <section aria-labelledby="timings">
+    <h2 id="timings">Timings</h2>
+    <table>
+      <caption class="visually-hidden">Clinic timings</caption>
+      <thead><tr><th scope="col">Day</th><th scope="col">Morning</th><th scope="col">Evening</th></tr></thead>
+      <tbody>
+        <tr><td>Monday to Saturday</td><td>9:30 am – 1:30 pm</td><td>5:00 pm – 9:00 pm</td></tr>
+        <tr><td>Sunday</td><td>10:00 am – 1:00 pm</td><td>Closed</td></tr>
+      </tbody>
+    </table>
+  </section>
+
+  <section aria-labelledby="visit">
+    <h2 id="visit">Visit us</h2>
+    <div class="grid">
+      <div class="card"><h3>Address</h3><p>2nd floor, Shivtirth Complex, Paud Road, Kothrud, Pune 411038</p></div>
+      <div class="card"><h3>Payments</h3><p>UPI, cards and cash. Most dental insurance accepted.</p></div>
+      <div class="ask">
+        <b>Try asking the assistant</b>
+        <ul>
+          <li>Is the clinic open on Sunday evening?</li>
+          <li>रूट कैनाल में कितना समय लगता है?</li>
+          <li>ब्रेसेससाठी EMI मिळेल का?</li>
+        </ul>
+      </div>
+    </div>
+  </section>
+</main>
+<footer>Anand Dental Care is a sample clinic for this preview. Phone numbers and prices are examples.</footer>
+
+<script src="config.js"></script>
+<script src="widget-demo.js"></script>
+</body>
+</html>

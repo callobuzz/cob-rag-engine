@@ -1,0 +1,81 @@
+{
+  "site": "Himalaya Gear Co",
+  "shared": {
+    "menu": "Home | Shop | Stores in Pune, Mumbai and Bengaluru | Warranty | Help | My account",
+    "cta": "Contact us today for a free site visit anywhere in Pune, Mumbai or Bengaluru.",
+    "disclaimer": "All prices are in Indian rupees and include GST. Offers are valid while stocks last, and the company may change terms without notice. E&OE.",
+    "newsletter": "Subscribe to our newsletter for service tips, new launches and festival offers."
+  },
+  "pages": [
+    {
+      "title": "Caring for a trekking tent",
+      "body": [
+        "Dry a tent completely before it goes back into its bag, even if that means pitching it in the garden for an afternoon. A tent packed damp grows mildew within a week and the coating on the fly starts to peel. Wipe the poles, shake out the grit and store the tent loose in a cotton sack.",
+        "Never wash a tent in a machine. Use a soft sponge, lukewarm water and a mild soap, and let it drip dry in the shade. Direct sun for long hours weakens nylon, so pitch under trees on summer treks in Himachal."
+      ]
+    },
+    {
+      "title": "Choosing trekking boots for the Western Ghats",
+      "body": [
+        "Monsoon treks in Sahyadri trails are wet from the first step to the last, so a boot with a gusseted tongue and a rubber toe cap matters more than a stiff sole. Choose a half size larger than your city shoes and try them in the evening, when feet are at their widest.",
+        "Break new boots in over three short walks before a long trek. Wear the socks you plan to trek in, lace the ankle firmly and leave the forefoot loose enough to wiggle your toes on the descent."
+      ]
+    },
+    {
+      "title": "Sleeping bag temperature ratings explained",
+      "body": [
+        "A comfort rating tells you the lowest temperature at which an average woman sleeps without shivering, while the limit rating is for an average man curled up in the cold. Buy by the comfort rating and add a liner if you sleep cold. The extreme rating is a survival figure, not a plan.",
+        "Down bags pack smaller and weigh less but lose warmth when wet. Synthetic fill keeps most of its warmth damp and dries fast, which makes it a sensible choice for the humid foothills."
+      ]
+    },
+    {
+      "title": "Lighting and fuelling a camp stove",
+      "body": [
+        "Screw the burner onto a gas canister only when the valve is shut, and check the seal by brushing a little soapy water over the join. Bubbles mean a leak. Light the stove in the open, never inside a tent, and keep the canister out of direct sun.",
+        "At altitude a butane blend struggles in the cold, so sleep with the canister in your jacket the night before. A windshield doubles the speed of a boil but must never wrap fully around the canister."
+      ]
+    },
+    {
+      "title": "Fitting a forty litre rucksack",
+      "body": [
+        "Measure your back length from the bump at the base of the neck to the top of the hip bones, then match it to the frame size. Tighten the hip belt first so the weight sits on your hips, then snug the shoulder straps and finally the load lifters at the top.",
+        "Pack heavy items close to your spine and in the middle of the bag, light things at the bottom and the rain cover in the lid pocket. A well fitted pack should let you swing your arms freely."
+      ]
+    },
+    {
+      "title": "Waterproof jackets and how they fail",
+      "body": [
+        "A hardshell keeps rain out only while its outer fabric still beads water. When the surface soaks through, the jacket feels clammy even though the membrane is intact. Wash it with a technical cleaner and tumble it warm to bring the water repellency back before reproofing.",
+        "Taped seams are the first place a cheap jacket leaks. Check the tape at the shoulders and under the hood, and avoid carrying a heavy rucksack on the same straps all day if the jacket has thin shoulders."
+      ]
+    },
+    {
+      "title": "Headlamps for night treks and cave visits",
+      "body": [
+        "Look for a lamp with a red mode, a lock switch and a battery gauge. Three hundred lumens is plenty for a trail, and a wide flood beam is kinder to your eyes than a narrow spot. Carry spare cells in a zip bag because cold drains them quickly.",
+        "On a caving trip use a lamp that is rated for splashes and fits snugly over a helmet. Switch it to its lowest mode while you walk and save the bright beam for route finding."
+      ]
+    },
+    {
+      "title": "Trekking poles for long descents",
+      "body": [
+        "Set the poles so your elbows are bent at a right angle on flat ground, then lengthen them by a few centimetres for the descent and shorten them for the climb. Slip your hand up through the strap from below and let the strap carry the load.",
+        "Flick locks are quicker to adjust with gloves but twist locks are lighter. Rinse the sections with fresh water after a coastal trek, as salt crusts inside the tubes and makes them stick."
+      ]
+    },
+    {
+      "title": "Inflatable sleeping mats and their valves",
+      "body": [
+        "An air mat insulates according to its R value, so a thicker mat is not always warmer. For winter treks above three thousand metres pick a mat with a value of four or more. Inflate it with a pump sack rather than your breath to keep moisture out of the baffles.",
+        "To find a slow leak, submerge the mat in a bathtub and watch for bubbles. Dry the patch area, roughen it lightly, apply the glue in a thin coat and press the patch for a full minute."
+      ]
+    },
+    {
+      "title": "Water filters on the trail",
+      "body": [
+        "Pump filters remove bacteria and protozoa but not viruses, so treat water from villages with tablets or boil it for a minute. Pre filter muddy monsoon streams through a cloth first, or the cartridge clogs within a litre.",
+        "Backflush a squeeze filter after every trip and never let it freeze, because ice cracks the fibres and the damage cannot be seen. Dry it and store it in a clean zip bag."
+      ]
+    }
+  ]
+}

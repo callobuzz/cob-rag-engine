@@ -1,0 +1,1202 @@
+[
+ {
+  "price_minor": 99900,
+  "registered": true,
+  "prices_include_gst": false,
+  "expected": 117882
+ },
+ {
+  "price_minor": 99900,
+  "registered": false,
+  "prices_include_gst": false,
+  "expected": 99900
+ },
+ {
+  "price_minor": 99900,
+  "registered": true,
+  "prices_include_gst": true,
+  "expected": 99900
+ },
+ {
+  "price_minor": 0,
+  "registered": true,
+  "prices_include_gst": false,
+  "expected": 0
+ },
+ {
+  "price_minor": 1,
+  "registered": true,
+  "prices_include_gst": false,
+  "expected": 1
+ },
+ {
+  "price_minor": 5,
+  "registered": true,
+  "prices_include_gst": false,
+  "expected": 6
+ },
+ {
+  "price_minor": 50,
+  "registered": true,
+  "prices_include_gst": false,
+  "expected": 59
+ },
+ {
+  "price_minor": 100000,
+  "registered": true,
+  "prices_include_gst": false,
+  "expected": 118000
+ },
+ {
+  "price_minor": 299,
+  "registered": true,
+  "prices_include_gst": true,
+  "expected": 299
+ },
+ {
+  "price_minor": 732,
+  "registered": true,
+  "prices_include_gst": false,
+  "expected": 864
+ },
+ {
+  "price_minor": 6116910,
+  "registered": false,
+  "prices_include_gst": true,
+  "expected": 6116910
+ },
+ {
+  "price_minor": 9276638,
+  "registered": true,
+  "prices_include_gst": false,
+  "expected": 10946433
+ },
+ {
+  "price_minor": 5919451,
+  "registered": false,
+  "prices_include_gst": false,
+  "expected": 5919451
+ },
+ {
+  "price_minor": 68,
+  "registered": true,
+  "prices_include_gst": true,
+  "expected": 68
+ },
+ {
+  "price_minor": 818,
+  "registered": true,
+  "prices_include_gst": true,
+  "expected": 818
+ },
+ {
+  "price_minor": 1795006,
+  "registered": false,
+  "prices_include_gst": true,
+  "expected": 1795006
+ },
+ {
+  "price_minor": 1392703,
+  "registered": true,
+  "prices_include_gst": true,
+  "expected": 1392703
+ },
+ {
+  "price_minor": 7326533,
+  "registered": false,
+  "prices_include_gst": true,
+  "expected": 7326533
+ },
+ {
+  "price_minor": 172863188,
+  "registered": false,
+  "prices_include_gst": false,
+  "expected": 172863188
+ },
+ {
+  "price_minor": 476,
+  "registered": false,
+  "prices_include_gst": true,
+  "expected": 476
+ },
+ {
+  "price_minor": 695,
+  "registered": true,
+  "prices_include_gst": false,
+  "expected": 820
+ },
+ {
+  "price_minor": 3901899423,
+  "registered": true,
+  "prices_include_gst": false,
+  "expected": 4604241319
+ },
+ {
+  "price_minor": 741,
+  "registered": true,
+  "prices_include_gst": true,
+  "expected": 741
+ },
+ {
+  "price_minor": 455,
+  "registered": false,
+  "prices_include_gst": false,
+  "expected": 455
+ },
+ {
+  "price_minor": 3525431,
+  "registered": true,
+  "prices_include_gst": true,
+  "expected": 3525431
+ },
+ {
+  "price_minor": 3182595603,
+  "registered": true,
+  "prices_include_gst": true,
+  "expected": 3182595603
+ },
+ {
+  "price_minor": 2300436,
+  "registered": true,
+  "prices_include_gst": false,
+  "expected": 2714514
+ },
+ {
+  "price_minor": 8289016824,
+  "registered": true,
+  "prices_include_gst": true,
+  "expected": 8289016824
+ },
+ {
+  "price_minor": 550,
+  "registered": true,
+  "prices_include_gst": false,
+  "expected": 649
+ },
+ {
+  "price_minor": 3052825,
+  "registered": true,
+  "prices_include_gst": true,
+  "expected": 3052825
+ },
+ {
+  "price_minor": 6907765439,
+  "registered": false,
+  "prices_include_gst": false,
+  "expected": 6907765439
+ },
+ {
+  "price_minor": 1994088063,
+  "registered": true,
+  "prices_include_gst": false,
+  "expected": 2353023914
+ },
+ {
+  "price_minor": 7989052,
+  "registered": false,
+  "prices_include_gst": false,
+  "expected": 7989052
+ },
+ {
+  "price_minor": 3641080886,
+  "registered": true,
+  "prices_include_gst": false,
+  "expected": 4296475445
+ },
+ {
+  "price_minor": 2685217,
+  "registered": true,
+  "prices_include_gst": false,
+  "expected": 3168556
+ },
+ {
+  "price_minor": 859,
+  "registered": true,
+  "prices_include_gst": false,
+  "expected": 1014
+ },
+ {
+  "price_minor": 9770608,
+  "registered": false,
+  "prices_include_gst": true,
+  "expected": 9770608
+ },
+ {
+  "price_minor": 6907214,
+  "registered": true,
+  "prices_include_gst": true,
+  "expected": 6907214
+ },
+ {
+  "price_minor": 7260426322,
+  "registered": true,
+  "prices_include_gst": false,
+  "expected": 8567303060
+ },
+ {
+  "price_minor": 9961984891,
+  "registered": true,
+  "prices_include_gst": true,
+  "expected": 9961984891
+ },
+ {
+  "price_minor": 9355592,
+  "registered": true,
+  "prices_include_gst": false,
+  "expected": 11039599
+ },
+ {
+  "price_minor": 581,
+  "registered": true,
+  "prices_include_gst": false,
+  "expected": 686
+ },
+ {
+  "price_minor": 444,
+  "registered": true,
+  "prices_include_gst": true,
+  "expected": 444
+ },
+ {
+  "price_minor": 2742003187,
+  "registered": true,
+  "prices_include_gst": true,
+  "expected": 2742003187
+ },
+ {
+  "price_minor": 6786632,
+  "registered": false,
+  "prices_include_gst": true,
+  "expected": 6786632
+ },
+ {
+  "price_minor": 6853769182,
+  "registered": true,
+  "prices_include_gst": false,
+  "expected": 8087447635
+ },
+ {
+  "price_minor": 99,
+  "registered": true,
+  "prices_include_gst": true,
+  "expected": 99
+ },
+ {
+  "price_minor": 2549609,
+  "registered": false,
+  "prices_include_gst": true,
+  "expected": 2549609
+ },
+ {
+  "price_minor": 2585815,
+  "registered": false,
+  "prices_include_gst": true,
+  "expected": 2585815
+ },
+ {
+  "price_minor": 804,
+  "registered": false,
+  "prices_include_gst": true,
+  "expected": 804
+ },
+ {
+  "price_minor": 1819433163,
+  "registered": true,
+  "prices_include_gst": false,
+  "expected": 2146931132
+ },
+ {
+  "price_minor": 1670835,
+  "registered": true,
+  "prices_include_gst": false,
+  "expected": 1971585
+ },
+ {
+  "price_minor": 675,
+  "registered": true,
+  "prices_include_gst": true,
+  "expected": 675
+ },
+ {
+  "price_minor": 7580106075,
+  "registered": true,
+  "prices_include_gst": false,
+  "expected": 8944525169
+ },
+ {
+  "price_minor": 9579798668,
+  "registered": false,
+  "prices_include_gst": false,
+  "expected": 9579798668
+ },
+ {
+  "price_minor": 9263854444,
+  "registered": true,
+  "prices_include_gst": false,
+  "expected": 10931348244
+ },
+ {
+  "price_minor": 2836294,
+  "registered": true,
+  "prices_include_gst": true,
+  "expected": 2836294
+ },
+ {
+  "price_minor": 9006245,
+  "registered": true,
+  "prices_include_gst": false,
+  "expected": 10627369
+ },
+ {
+  "price_minor": 1806113,
+  "registered": true,
+  "prices_include_gst": true,
+  "expected": 1806113
+ },
+ {
+  "price_minor": 1470094700,
+  "registered": true,
+  "prices_include_gst": false,
+  "expected": 1734711746
+ },
+ {
+  "price_minor": 925,
+  "registered": false,
+  "prices_include_gst": true,
+  "expected": 925
+ },
+ {
+  "price_minor": 2890278523,
+  "registered": true,
+  "prices_include_gst": true,
+  "expected": 2890278523
+ },
+ {
+  "price_minor": 653,
+  "registered": true,
+  "prices_include_gst": false,
+  "expected": 771
+ },
+ {
+  "price_minor": 631,
+  "registered": false,
+  "prices_include_gst": false,
+  "expected": 631
+ },
+ {
+  "price_minor": 1622751,
+  "registered": true,
+  "prices_include_gst": false,
+  "expected": 1914846
+ },
+ {
+  "price_minor": 6328412,
+  "registered": false,
+  "prices_include_gst": true,
+  "expected": 6328412
+ },
+ {
+  "price_minor": 562,
+  "registered": true,
+  "prices_include_gst": true,
+  "expected": 562
+ },
+ {
+  "price_minor": 933,
+  "registered": false,
+  "prices_include_gst": false,
+  "expected": 933
+ },
+ {
+  "price_minor": 753,
+  "registered": false,
+  "prices_include_gst": false,
+  "expected": 753
+ },
+ {
+  "price_minor": 767,
+  "registered": false,
+  "prices_include_gst": true,
+  "expected": 767
+ },
+ {
+  "price_minor": 2523302,
+  "registered": true,
+  "prices_include_gst": false,
+  "expected": 2977496
+ },
+ {
+  "price_minor": 6713631349,
+  "registered": true,
+  "prices_include_gst": false,
+  "expected": 7922084992
+ },
+ {
+  "price_minor": 833,
+  "registered": true,
+  "prices_include_gst": false,
+  "expected": 983
+ },
+ {
+  "price_minor": 421,
+  "registered": true,
+  "prices_include_gst": false,
+  "expected": 497
+ },
+ {
+  "price_minor": 1548641403,
+  "registered": true,
+  "prices_include_gst": false,
+  "expected": 1827396856
+ },
+ {
+  "price_minor": 545383621,
+  "registered": true,
+  "prices_include_gst": false,
+  "expected": 643552673
+ },
+ {
+  "price_minor": 2896827035,
+  "registered": true,
+  "prices_include_gst": true,
+  "expected": 2896827035
+ },
+ {
+  "price_minor": 844,
+  "registered": false,
+  "prices_include_gst": false,
+  "expected": 844
+ },
+ {
+  "price_minor": 142,
+  "registered": false,
+  "prices_include_gst": false,
+  "expected": 142
+ },
+ {
+  "price_minor": 256,
+  "registered": true,
+  "prices_include_gst": true,
+  "expected": 256
+ },
+ {
+  "price_minor": 5260593793,
+  "registered": false,
+  "prices_include_gst": true,
+  "expected": 5260593793
+ },
+ {
+  "price_minor": 111,
+  "registered": true,
+  "prices_include_gst": false,
+  "expected": 131
+ },
+ {
+  "price_minor": 1397848,
+  "registered": true,
+  "prices_include_gst": false,
+  "expected": 1649461
+ },
+ {
+  "price_minor": 1778998,
+  "registered": false,
+  "prices_include_gst": false,
+  "expected": 1778998
+ },
+ {
+  "price_minor": 6754153616,
+  "registered": false,
+  "prices_include_gst": false,
+  "expected": 6754153616
+ },
+ {
+  "price_minor": 9277654185,
+  "registered": true,
+  "prices_include_gst": false,
+  "expected": 10947631938
+ },
+ {
+  "price_minor": 1412835,
+  "registered": false,
+  "prices_include_gst": false,
+  "expected": 1412835
+ },
+ {
+  "price_minor": 3375744,
+  "registered": true,
+  "prices_include_gst": false,
+  "expected": 3983378
+ },
+ {
+  "price_minor": 1129872,
+  "registered": true,
+  "prices_include_gst": false,
+  "expected": 1333249
+ },
+ {
+  "price_minor": 1265340,
+  "registered": false,
+  "prices_include_gst": false,
+  "expected": 1265340
+ },
+ {
+  "price_minor": 6237147,
+  "registered": false,
+  "prices_include_gst": true,
+  "expected": 6237147
+ },
+ {
+  "price_minor": 1396299176,
+  "registered": true,
+  "prices_include_gst": true,
+  "expected": 1396299176
+ },
+ {
+  "price_minor": 836,
+  "registered": true,
+  "prices_include_gst": true,
+  "expected": 836
+ },
+ {
+  "price_minor": 723,
+  "registered": false,
+  "prices_include_gst": true,
+  "expected": 723
+ },
+ {
+  "price_minor": 3910452215,
+  "registered": false,
+  "prices_include_gst": false,
+  "expected": 3910452215
+ },
+ {
+  "price_minor": 5680258,
+  "registered": true,
+  "prices_include_gst": false,
+  "expected": 6702704
+ },
+ {
+  "price_minor": 886,
+  "registered": true,
+  "prices_include_gst": false,
+  "expected": 1045
+ },
+ {
+  "price_minor": 6952390012,
+  "registered": true,
+  "prices_include_gst": true,
+  "expected": 6952390012
+ },
+ {
+  "price_minor": 4603884,
+  "registered": true,
+  "prices_include_gst": false,
+  "expected": 5432583
+ },
+ {
+  "price_minor": 716595,
+  "registered": true,
+  "prices_include_gst": true,
+  "expected": 716595
+ },
+ {
+  "price_minor": 7355768,
+  "registered": true,
+  "prices_include_gst": false,
+  "expected": 8679806
+ },
+ {
+  "price_minor": 292,
+  "registered": false,
+  "prices_include_gst": false,
+  "expected": 292
+ },
+ {
+  "price_minor": 552,
+  "registered": true,
+  "prices_include_gst": false,
+  "expected": 651
+ },
+ {
+  "price_minor": 43,
+  "registered": true,
+  "prices_include_gst": true,
+  "expected": 43
+ },
+ {
+  "price_minor": 466,
+  "registered": false,
+  "prices_include_gst": false,
+  "expected": 466
+ },
+ {
+  "price_minor": 207,
+  "registered": true,
+  "prices_include_gst": false,
+  "expected": 244
+ },
+ {
+  "price_minor": 946,
+  "registered": true,
+  "prices_include_gst": false,
+  "expected": 1116
+ },
+ {
+  "price_minor": 7431072,
+  "registered": true,
+  "prices_include_gst": false,
+  "expected": 8768665
+ },
+ {
+  "price_minor": 4952733415,
+  "registered": true,
+  "prices_include_gst": true,
+  "expected": 4952733415
+ },
+ {
+  "price_minor": 6064653596,
+  "registered": true,
+  "prices_include_gst": false,
+  "expected": 7156291243
+ },
+ {
+  "price_minor": 26,
+  "registered": true,
+  "prices_include_gst": true,
+  "expected": 26
+ },
+ {
+  "price_minor": 100,
+  "registered": true,
+  "prices_include_gst": false,
+  "expected": 118
+ },
+ {
+  "price_minor": 8807515,
+  "registered": true,
+  "prices_include_gst": false,
+  "expected": 10392868
+ },
+ {
+  "price_minor": 155076,
+  "registered": true,
+  "prices_include_gst": false,
+  "expected": 182990
+ },
+ {
+  "price_minor": 5390125,
+  "registered": true,
+  "prices_include_gst": false,
+  "expected": 6360348
+ },
+ {
+  "price_minor": 3387316621,
+  "registered": true,
+  "prices_include_gst": false,
+  "expected": 3997033613
+ },
+ {
+  "price_minor": 7864465000,
+  "registered": true,
+  "prices_include_gst": false,
+  "expected": 9280068700
+ },
+ {
+  "price_minor": 488,
+  "registered": false,
+  "prices_include_gst": false,
+  "expected": 488
+ },
+ {
+  "price_minor": 9111642,
+  "registered": true,
+  "prices_include_gst": false,
+  "expected": 10751738
+ },
+ {
+  "price_minor": 1862469,
+  "registered": true,
+  "prices_include_gst": false,
+  "expected": 2197713
+ },
+ {
+  "price_minor": 7874705576,
+  "registered": true,
+  "prices_include_gst": true,
+  "expected": 7874705576
+ },
+ {
+  "price_minor": 6848745115,
+  "registered": true,
+  "prices_include_gst": true,
+  "expected": 6848745115
+ },
+ {
+  "price_minor": 480,
+  "registered": true,
+  "prices_include_gst": false,
+  "expected": 566
+ },
+ {
+  "price_minor": 929,
+  "registered": true,
+  "prices_include_gst": false,
+  "expected": 1096
+ },
+ {
+  "price_minor": 3548478418,
+  "registered": true,
+  "prices_include_gst": false,
+  "expected": 4187204533
+ },
+ {
+  "price_minor": 7361602,
+  "registered": true,
+  "prices_include_gst": false,
+  "expected": 8686690
+ },
+ {
+  "price_minor": 1606266867,
+  "registered": true,
+  "prices_include_gst": false,
+  "expected": 1895394903
+ },
+ {
+  "price_minor": 20,
+  "registered": true,
+  "prices_include_gst": false,
+  "expected": 24
+ },
+ {
+  "price_minor": 927,
+  "registered": false,
+  "prices_include_gst": false,
+  "expected": 927
+ },
+ {
+  "price_minor": 320,
+  "registered": true,
+  "prices_include_gst": false,
+  "expected": 378
+ },
+ {
+  "price_minor": 2020148936,
+  "registered": false,
+  "prices_include_gst": false,
+  "expected": 2020148936
+ },
+ {
+  "price_minor": 681,
+  "registered": true,
+  "prices_include_gst": true,
+  "expected": 681
+ },
+ {
+  "price_minor": 4982997,
+  "registered": true,
+  "prices_include_gst": false,
+  "expected": 5879936
+ },
+ {
+  "price_minor": 5930066260,
+  "registered": false,
+  "prices_include_gst": false,
+  "expected": 5930066260
+ },
+ {
+  "price_minor": 180,
+  "registered": false,
+  "prices_include_gst": false,
+  "expected": 180
+ },
+ {
+  "price_minor": 4428143,
+  "registered": true,
+  "prices_include_gst": true,
+  "expected": 4428143
+ },
+ {
+  "price_minor": 43,
+  "registered": true,
+  "prices_include_gst": true,
+  "expected": 43
+ },
+ {
+  "price_minor": 636,
+  "registered": true,
+  "prices_include_gst": false,
+  "expected": 750
+ },
+ {
+  "price_minor": 325,
+  "registered": false,
+  "prices_include_gst": true,
+  "expected": 325
+ },
+ {
+  "price_minor": 3152573,
+  "registered": true,
+  "prices_include_gst": true,
+  "expected": 3152573
+ },
+ {
+  "price_minor": 2911188,
+  "registered": true,
+  "prices_include_gst": false,
+  "expected": 3435202
+ },
+ {
+  "price_minor": 1831514952,
+  "registered": true,
+  "prices_include_gst": false,
+  "expected": 2161187643
+ },
+ {
+  "price_minor": 2598079,
+  "registered": true,
+  "prices_include_gst": false,
+  "expected": 3065733
+ },
+ {
+  "price_minor": 729,
+  "registered": false,
+  "prices_include_gst": false,
+  "expected": 729
+ },
+ {
+  "price_minor": 748,
+  "registered": true,
+  "prices_include_gst": true,
+  "expected": 748
+ },
+ {
+  "price_minor": 741,
+  "registered": true,
+  "prices_include_gst": true,
+  "expected": 741
+ },
+ {
+  "price_minor": 382,
+  "registered": true,
+  "prices_include_gst": false,
+  "expected": 451
+ },
+ {
+  "price_minor": 66027609,
+  "registered": true,
+  "prices_include_gst": true,
+  "expected": 66027609
+ },
+ {
+  "price_minor": 913,
+  "registered": true,
+  "prices_include_gst": true,
+  "expected": 913
+ },
+ {
+  "price_minor": 533,
+  "registered": false,
+  "prices_include_gst": false,
+  "expected": 533
+ },
+ {
+  "price_minor": 2103404893,
+  "registered": false,
+  "prices_include_gst": true,
+  "expected": 2103404893
+ },
+ {
+  "price_minor": 1069697,
+  "registered": true,
+  "prices_include_gst": true,
+  "expected": 1069697
+ },
+ {
+  "price_minor": 305,
+  "registered": true,
+  "prices_include_gst": false,
+  "expected": 360
+ },
+ {
+  "price_minor": 1876794,
+  "registered": false,
+  "prices_include_gst": false,
+  "expected": 1876794
+ },
+ {
+  "price_minor": 6623731,
+  "registered": true,
+  "prices_include_gst": false,
+  "expected": 7816003
+ },
+ {
+  "price_minor": 6950267,
+  "registered": true,
+  "prices_include_gst": false,
+  "expected": 8201315
+ },
+ {
+  "price_minor": 1273860485,
+  "registered": false,
+  "prices_include_gst": false,
+  "expected": 1273860485
+ },
+ {
+  "price_minor": 8822543495,
+  "registered": true,
+  "prices_include_gst": false,
+  "expected": 10410601324
+ },
+ {
+  "price_minor": 4705282,
+  "registered": true,
+  "prices_include_gst": false,
+  "expected": 5552233
+ },
+ {
+  "price_minor": 638,
+  "registered": false,
+  "prices_include_gst": true,
+  "expected": 638
+ },
+ {
+  "price_minor": 2385512286,
+  "registered": true,
+  "prices_include_gst": false,
+  "expected": 2814904497
+ },
+ {
+  "price_minor": 950,
+  "registered": false,
+  "prices_include_gst": false,
+  "expected": 950
+ },
+ {
+  "price_minor": 603,
+  "registered": false,
+  "prices_include_gst": false,
+  "expected": 603
+ },
+ {
+  "price_minor": 8864398056,
+  "registered": true,
+  "prices_include_gst": false,
+  "expected": 10459989706
+ },
+ {
+  "price_minor": 7363831444,
+  "registered": true,
+  "prices_include_gst": false,
+  "expected": 8689321104
+ },
+ {
+  "price_minor": 8975198616,
+  "registered": true,
+  "prices_include_gst": true,
+  "expected": 8975198616
+ },
+ {
+  "price_minor": 82,
+  "registered": true,
+  "prices_include_gst": false,
+  "expected": 97
+ },
+ {
+  "price_minor": 6885462405,
+  "registered": true,
+  "prices_include_gst": false,
+  "expected": 8124845638
+ },
+ {
+  "price_minor": 3966164245,
+  "registered": true,
+  "prices_include_gst": false,
+  "expected": 4680073809
+ },
+ {
+  "price_minor": 175,
+  "registered": true,
+  "prices_include_gst": false,
+  "expected": 207
+ },
+ {
+  "price_minor": 6905162,
+  "registered": false,
+  "prices_include_gst": true,
+  "expected": 6905162
+ },
+ {
+  "price_minor": 7293053315,
+  "registered": true,
+  "prices_include_gst": false,
+  "expected": 8605802912
+ },
+ {
+  "price_minor": 9474298452,
+  "registered": true,
+  "prices_include_gst": true,
+  "expected": 9474298452
+ },
+ {
+  "price_minor": 4250612458,
+  "registered": false,
+  "prices_include_gst": false,
+  "expected": 4250612458
+ },
+ {
+  "price_minor": 3240062300,
+  "registered": true,
+  "prices_include_gst": false,
+  "expected": 3823273514
+ },
+ {
+  "price_minor": 2802620,
+  "registered": false,
+  "prices_include_gst": true,
+  "expected": 2802620
+ },
+ {
+  "price_minor": 7350613,
+  "registered": true,
+  "prices_include_gst": true,
+  "expected": 7350613
+ },
+ {
+  "price_minor": 662677384,
+  "registered": true,
+  "prices_include_gst": true,
+  "expected": 662677384
+ },
+ {
+  "price_minor": 258,
+  "registered": false,
+  "prices_include_gst": false,
+  "expected": 258
+ },
+ {
+  "price_minor": 7733232746,
+  "registered": false,
+  "prices_include_gst": false,
+  "expected": 7733232746
+ },
+ {
+  "price_minor": 6093755791,
+  "registered": false,
+  "prices_include_gst": true,
+  "expected": 6093755791
+ },
+ {
+  "price_minor": 5608482,
+  "registered": true,
+  "prices_include_gst": false,
+  "expected": 6618009
+ },
+ {
+  "price_minor": 9947171,
+  "registered": true,
+  "prices_include_gst": false,
+  "expected": 11737662
+ },
+ {
+  "price_minor": 1420100,
+  "registered": true,
+  "prices_include_gst": false,
+  "expected": 1675718
+ },
+ {
+  "price_minor": 648,
+  "registered": false,
+  "prices_include_gst": true,
+  "expected": 648
+ },
+ {
+  "price_minor": 4251333839,
+  "registered": false,
+  "prices_include_gst": false,
+  "expected": 4251333839
+ },
+ {
+  "price_minor": 4681542137,
+  "registered": true,
+  "prices_include_gst": false,
+  "expected": 5524219722
+ },
+ {
+  "price_minor": 3338742,
+  "registered": false,
+  "prices_include_gst": false,
+  "expected": 3338742
+ },
+ {
+  "price_minor": 3695553273,
+  "registered": false,
+  "prices_include_gst": false,
+  "expected": 3695553273
+ },
+ {
+  "price_minor": 6149935,
+  "registered": false,
+  "prices_include_gst": false,
+  "expected": 6149935
+ },
+ {
+  "price_minor": 5402717,
+  "registered": true,
+  "prices_include_gst": true,
+  "expected": 5402717
+ },
+ {
+  "price_minor": 945736570,
+  "registered": true,
+  "prices_include_gst": false,
+  "expected": 1115969153
+ },
+ {
+  "price_minor": 9607386774,
+  "registered": true,
+  "prices_include_gst": false,
+  "expected": 11336716393
+ },
+ {
+  "price_minor": 6858325,
+  "registered": false,
+  "prices_include_gst": true,
+  "expected": 6858325
+ },
+ {
+  "price_minor": 294030,
+  "registered": false,
+  "prices_include_gst": false,
+  "expected": 294030
+ },
+ {
+  "price_minor": 9880401611,
+  "registered": false,
+  "prices_include_gst": true,
+  "expected": 9880401611
+ },
+ {
+  "price_minor": 229,
+  "registered": true,
+  "prices_include_gst": false,
+  "expected": 270
+ },
+ {
+  "price_minor": 4763680,
+  "registered": true,
+  "prices_include_gst": false,
+  "expected": 5621142
+ },
+ {
+  "price_minor": 203,
+  "registered": true,
+  "prices_include_gst": false,
+  "expected": 240
+ },
+ {
+  "price_minor": 8650020212,
+  "registered": false,
+  "prices_include_gst": true,
+  "expected": 8650020212
+ }
+]

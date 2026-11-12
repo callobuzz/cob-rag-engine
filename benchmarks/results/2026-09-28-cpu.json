@@ -1,0 +1,60 @@
+{
+  "date": "2026-09-28",
+  "label": "cpu",
+  "health": {
+    "status": "ok",
+    "services": {
+      "api": true,
+      "postgres": true,
+      "redis": true,
+      "qdrant": true,
+      "minio": true
+    }
+  },
+  "results": [
+    {
+      "config": "dense",
+      "questions": 40,
+      "documents": 8,
+      "hit@1": 0.875,
+      "hit@3": 0.95,
+      "hit@5": 1.0,
+      "mrr": 0.918,
+      "latency_ms_p50": 188,
+      "latency_ms_p95": 214,
+      "ingest_seconds_total": 16.3,
+      "ingest_seconds_per_doc": 2.0,
+      "misses": []
+    },
+    {
+      "config": "hybrid",
+      "questions": 40,
+      "documents": 8,
+      "hit@1": 0.925,
+      "hit@3": 0.975,
+      "hit@5": 1.0,
+      "mrr": 0.956,
+      "latency_ms_p50": 198,
+      "latency_ms_p95": 211,
+      "ingest_seconds_total": 8.2,
+      "ingest_seconds_per_doc": 1.0,
+      "misses": []
+    },
+    {
+      "config": "hybrid+rerank",
+      "questions": 40,
+      "documents": 8,
+      "hit@1": 0.925,
+      "hit@3": 0.975,
+      "hit@5": 0.975,
+      "mrr": 0.95,
+      "latency_ms_p50": 3617,
+      "latency_ms_p95": 4209,
+      "ingest_seconds_total": 8.1,
+      "ingest_seconds_per_doc": 1.0,
+      "misses": [
+        "What do I need to reach the top loyalty tier?"
+      ]
+    }
+  ]
+}

@@ -1,0 +1,58 @@
+{
+  "key": "real_estate",
+  "name": "Real estate",
+  "conversation": {
+    "assistant_name": ["Aarav", "आरव", "Aarav"],
+    "business_name": ["Shree Ganesh Developers, Baner", "श्री गणेश डेवलपर्स, बाणेर", "Shree Ganesh Developers, Baner"],
+    "turns": [
+      {"role": "visitor", "text": ["2BHK ka rate kya hai? Possession kab hai?", "2BHK का रेट क्या है? पज़ेशन कब है?", "2BHK ka rate kya hai? Possession kab hai?"]},
+      {"role": "assistant",
+       "text": ["2BHK flats at Ganesh Heights start from ₹78 lakh, with parking included. Possession is planned for December 2027.",
+                "गणेश हाइट्स में 2BHK फ्लैट ₹78 लाख से शुरू होते हैं, पार्किंग शामिल है। पज़ेशन दिसंबर 2027 के लिए तय है।",
+                "Ganesh Heights mein 2BHK flats ₹78 lakh se shuru hote hain, parking shaamil hai. Possession December 2027 ke liye tay hai."],
+       "source": ["Price sheet, updated 5 Oct", "प्राइस शीट, 5 अक्टूबर को अपडेट", "Price sheet, 5 Oct ko update hui"]},
+      {"role": "visitor", "text": ["Kal subah site visit ho sakti hai?", "कल सुबह साइट विज़िट हो सकती है?", "Kal subah site visit ho sakti hai?"]},
+      {"role": "assistant",
+       "text": ["I can not see the site visit calendar, so I will not guess. Share your number and our sales team will confirm a time.",
+                "मुझे साइट विज़िट का कैलेंडर नहीं दिखता, इसलिए मैं अंदाज़ा नहीं लगाऊँगा। अपना नंबर दें, हमारी सेल्स टीम समय पक्का करेगी।",
+                "Mujhe site visit ka calendar nahi dikhta, isliye main andaza nahi lagaunga. Apna number dein, hamari sales team time confirm karegi."],
+       "source": ["Contact page", "संपर्क पेज", "Contact page"]}
+    ],
+    "lead": {"name": "Rahul M.", "phone_masked": "+91 99•••• 0187", "came_from": "website",
+             "looking_for": ["2BHK near Baner, site visit", "बाणेर के पास 2BHK, साइट विज़िट", "Baner ke paas 2BHK, site visit"],
+             "consent": ["Rahul agreed to be contacted by Shree Ganesh Developers about this enquiry.", "राहुल ने इस पूछताछ के लिए श्री गणेश डेवलपर्स से संपर्क की सहमति दी।", "Rahul ne is enquiry ke liye Shree Ganesh Developers se sampark ki sahmati di."]}
+  },
+  "pain_wall": {
+    "heading": ["Buyers ask long before they visit.", "खरीदार साइट पर आने से बहुत पहले पूछते हैं।", "Buyer site par aane se bahut pehle poochte hain."],
+    "questions": [
+      {"text": ["2BHK ka rate?", "2BHK का रेट?", "2BHK ka rate?"], "channel": "website", "time": "21:15"},
+      {"text": ["Possession kab hai?", "पज़ेशन कब है?", "Possession kab hai?"], "channel": "whatsapp", "time": "21:50"},
+      {"text": ["Loan approved hai?", "लोन अप्रूव्ड है?", "Loan approved hai?"], "channel": "website", "time": "22:30"},
+      {"text": ["Brochure bhejo", "ब्रोशर भेजो", "Brochure bhejo"], "channel": "whatsapp", "time": "23:10"},
+      {"text": ["Sunday ko site visit?", "रविवार को साइट विज़िट?", "Sunday ko site visit?"], "channel": "website", "time": "23:40"}
+    ],
+    "punchline": ["The enquiry you answer tomorrow is the one the other builder answered tonight.", "जिस पूछताछ का जवाब आप कल देंगे, दूसरे बिल्डर ने उसका जवाब आज रात दे दिया।", "Jis enquiry ka jawab aap kal denge, doosre builder ne uska jawab aaj raat de diya."]
+  },
+  "languages": {"samples": [
+    {"lang": "en", "question": "Is parking included in the price?", "answer": "Yes, one covered parking slot is included with every 2BHK."},
+    {"lang": "hi", "question": "क्या कीमत में पार्किंग शामिल है?", "answer": "हाँ, हर 2BHK के साथ एक कवर्ड पार्किंग शामिल है।"},
+    {"lang": "hi-Latn", "question": "Kya price mein parking shaamil hai?", "answer": "Haan, har 2BHK ke saath ek covered parking shaamil hai."}
+  ]},
+  "whatsapp_journey": {"chapters": [
+    {"time": "23:42", "title": ["A late-night enquiry", "देर रात की पूछताछ", "Der raat ki enquiry"], "messages": [
+      {"from": "visitor", "text": ["Brochure bhejo.", "ब्रोशर भेजो।", "Brochure bhejo."]},
+      {"from": "assistant", "text": ["Here is the Ganesh Heights brochure.", "ये रहा गणेश हाइट्स का ब्रोशर।", "Yeh raha Ganesh Heights ka brochure."], "attachment": ["Brochure, PDF", "ब्रोशर, PDF", "Brochure, PDF"]}]},
+    {"time": "07:30", "title": ["The lead is waiting", "सुबह लीड तैयार है", "Subah lead taiyaar hai"], "messages": [
+      {"from": "assistant", "text": ["New lead: Rahul M. wants a site visit for a 2BHK.", "नया लीड: राहुल एम. को 2BHK की साइट विज़िट चाहिए।", "Naya lead: Rahul M. ko 2BHK ki site visit chahiye."]}]},
+    {"time": "09:10", "title": ["The sales team steps in", "सेल्स टीम जवाब देती है", "Sales team jawab deti hai"], "messages": [
+      {"from": "owner", "text": ["Hello Rahul, we can show you the flat at 11 am tomorrow.", "नमस्ते राहुल, हम कल सुबह 11 बजे आपको फ्लैट दिखा सकते हैं।", "Namaste Rahul, hum kal subah 11 baje aapko flat dikha sakte hain."]}]},
+    {"time": "11:00", "title": ["Visit booked", "विज़िट बुक", "Visit book"], "messages": [
+      {"from": "visitor", "text": ["Perfect, I will be there.", "बढ़िया, मैं पहुँच जाऊँगा।", "Perfect, main pahunch jaunga."]}]}
+  ]},
+  "faq": {"items": [
+    {"q": ["Will it quote a price that is out of date?", "क्या यह पुरानी कीमत बता देगा?", "Kya yeh purani price bata dega?"],
+     "a": ["It quotes your price sheet and shows the date it was last updated. When you update the sheet, the next answer uses the new price.", "यह आपकी प्राइस शीट से बताता है और साथ में उसकी आखिरी अपडेट की तारीख दिखाता है। शीट अपडेट करते ही अगला जवाब नई कीमत से आता है।", "Yeh aapki price sheet se batata hai aur saath mein uski aakhri update ki taareekh dikhata hai. Sheet update karte hi agla jawab nayi price se aata hai."]},
+    {"q": ["Does it take buyer details?", "क्या यह खरीदार की जानकारी लेता है?", "Kya yeh buyer ki jaankari leta hai?"],
+     "a": ["Yes, a name and number, only after the buyer agrees. The consent line is saved next to the lead.", "हाँ, नाम और नंबर, सिर्फ खरीदार की सहमति के बाद। सहमति की लाइन लीड के साथ सहेजी जाती है।", "Haan, naam aur number, sirf buyer ki sahmati ke baad. Sahmati ki line lead ke saath save hoti hai."]}
+  ]}
+}

@@ -1,0 +1,245 @@
+# COB's documentation: which files make up its knowledge base and the in-app Docs, and who may
+# read each page. One manifest feeds both, so the two can never disagree.
+#
+# audience = the least privileged role that may read the page: public (anyone, also the
+# sign-in pages), customer (a signed-in workspace) or admin (the platform operator).
+# `sections:` overrides the audience or topic of one section by its anchor; a name that matches
+# no section fails the build, so a renamed heading cannot silently expose admin text.
+# Inside a Markdown page, a heading followed by `<!-- audience: admin -->` makes that section
+# admin-only.
+version: 1
+topics:
+  - {id: getting-started, title: "Getting started"}
+  - {id: knowledge-bases, title: "Knowledge bases & uploads"}
+  - {id: assistant, title: "Assistant"}
+  - {id: widget, title: "Website widget"}
+  - {id: agents, title: "Agents & MCP"}
+  - {id: keys, title: "Keys & permissions"}
+  - {id: plans, title: "Plans, usage & costs"}
+  - {id: quality, title: "Evaluation & quality"}
+  - {id: benchmarks, title: "Benchmarks"}
+  - {id: api, title: "API reference"}
+  - {id: settings, title: "Settings reference", audience: admin}
+  - {id: operations, title: "Deploy & operations", audience: admin}
+  - {id: changelog, title: "Changelog"}
+  - {id: screens, title: "Screens"}
+sources:
+  - id: why
+    path: docs/cob/pages/why-cob-rag-engine.md
+    kind: markdown
+    split: page
+    slug: why-cob-rag-engine
+    topic: getting-started
+    audience: public
+  # BIZ5
+  - id: website-learning
+    path: docs/cob/pages/website-learning.md
+    kind: markdown
+    split: page
+    slug: website-learning
+    topic: knowledge-bases
+    audience: customer
+  # P1
+  - id: online-payments
+    path: docs/cob/pages/online-payments.md
+    kind: markdown
+    split: page
+    slug: online-payments
+    topic: plans
+    audience: admin
+  # P6 plan choice
+  - id: changing-your-plan
+    path: docs/cob/pages/changing-your-plan.md
+    kind: markdown
+    split: page
+    slug: changing-your-plan
+    topic: plans
+    audience: customer
+  - id: self-service-plans
+    path: docs/cob/pages/self-service-plans.md
+    kind: markdown
+    split: page
+    slug: self-service-plans
+    topic: plans
+    audience: admin
+  # LP4 landing
+  - id: landing-site
+    path: docs/cob/pages/landing-site.md
+    kind: markdown
+    split: page
+    slug: landing-site
+    topic: operations
+    audience: admin
+  # /LP4 landing
+  - id: business-dashboard
+    path: docs/cob/pages/business-dashboard.md
+    kind: markdown
+    split: page
+    slug: business-dashboard
+    topic: getting-started
+    audience: customer
+  # /BIZ5
+  # PIP2
+  - id: local-model
+    path: docs/cob/pages/local-model.md
+    kind: markdown
+    split: page
+    slug: local-model
+    topic: operations
+    audience: admin
+  # /PIP2
+  # PIP4
+  - id: answer-speed-and-fair-use
+    path: docs/cob/pages/answer-speed-and-fair-use.md
+    kind: markdown
+    split: page
+    slug: answer-speed-and-fair-use
+    topic: plans
+    audience: customer
+  # /PIP4
+  # TV trust
+  - id: trust-and-value
+    path: docs/cob/pages/trust-and-value.md
+    kind: markdown
+    split: page
+    slug: trust-and-value
+    topic: plans
+    audience: customer
+  # /TV trust
+  # TV6
+  - id: whatsapp
+    path: docs/cob/pages/whatsapp.md
+    kind: markdown
+    split: page
+    slug: whatsapp
+    topic: assistant
+    audience: customer
+  # /TV6
+  # L3 license
+  - id: licence
+    path: docs/cob/pages/licence.md
+    kind: markdown
+    split: page
+    slug: licence
+    topic: plans
+    audience: public
+  # /L3 license
+  - id: guide
+    path: docs/guide.html
+    kind: html
+    split: section
+    slug: guide
+    topic: getting-started
+    audience: admin
+    public_url: https://callobuzz.github.io/cob-rag-engine/guide.html
+    sections:
+      sec-overview: {audience: public}
+      sec-flow: {audience: customer, topic: knowledge-bases}
+      sec-mcp: {audience: customer, topic: agents}
+      sec-daily: {audience: customer, topic: assistant}
+      sec-billing: {audience: admin, topic: plans}
+      sec-business: {audience: admin, topic: plans}  # BIZ5
+      sec-answer-speed: {audience: admin, topic: plans}  # PIP4
+      sec-whatsapp: {audience: admin, topic: assistant}  # TV6
+      sec-help: {audience: public}
+  - id: deploy
+    path: docs/deploy.html
+    kind: html
+    split: section
+    slug: deploy
+    topic: operations
+    audience: admin
+    public_url: https://callobuzz.github.io/cob-rag-engine/deploy.html
+    sections:
+      sec-overview: {audience: public}
+  # L4 install
+  - id: requirements
+    path: docs/requirements.html
+    kind: html
+    split: section
+    slug: requirements
+    topic: getting-started
+    audience: public
+    public_url: https://callobuzz.github.io/cob-rag-engine/requirements.html
+  # /L4 install
+  # L5a release
+  - id: getting-started
+    path: docs/getting-started.html
+    kind: html
+    split: section
+    slug: getting-started
+    topic: getting-started
+    audience: public
+    public_url: https://callobuzz.github.io/cob-rag-engine/getting-started.html
+  - id: support
+    path: docs/support.html
+    kind: html
+    split: section
+    slug: support
+    topic: getting-started
+    audience: public
+    public_url: https://callobuzz.github.io/cob-rag-engine/support.html
+  # /L5a release
+  - id: benchmarks
+    path: docs/benchmarks.html
+    kind: html
+    split: section
+    slug: benchmarks
+    topic: benchmarks
+    audience: public
+    public_url: https://callobuzz.github.io/cob-rag-engine/benchmarks.html
+  - id: readme
+    path: README.md
+    kind: markdown
+    split: section
+    slug: readme
+    topic: getting-started
+    audience: public
+    sections:
+      why-cob-rag-engine-if-langchain-llamaindex-dify-and-agent-sdks-exist: {audience: admin}
+      quick-start: {audience: admin}
+      configuration: {audience: admin}
+      operations: {audience: admin}
+      development: {audience: admin}
+      project-structure: {audience: admin}
+      services: {audience: admin}
+      the-operators-own-workspace: {audience: admin}
+      website-learning-and-the-business-dashboard: {audience: admin}  # BIZ5: names RAG_WEBSITE_*
+      assistants-leads-and-handoff: {audience: customer, topic: assistant}
+      api-reference: {audience: customer, topic: api}
+      plans-and-usage-caps: {audience: customer, topic: plans}
+      usage-metering-and-billing: {audience: customer, topic: plans}
+  - id: changelog
+    path: CHANGELOG.md
+    kind: markdown
+    split: section
+    slug: changelog
+    topic: changelog
+    audience: customer
+  - id: bench-readme
+    path: benchmarks/README.md
+    kind: markdown
+    split: page
+    slug: benchmarks/method
+    topic: benchmarks
+    audience: public
+  - id: settings-ref
+    path: docs/cob/generated/settings/*.md
+    kind: generated
+    split: page
+    slug: settings
+    topic: settings
+    audience: admin
+  - id: api-ref
+    path: docs/cob/generated/api/*.md
+    kind: generated
+    split: page
+    slug: api
+    topic: api
+    audience: customer
+  - id: screens
+    path: docs/cob/screens/*.md
+    kind: markdown
+    split: page
+    slug: screens
+    topic: screens

@@ -1,0 +1,122 @@
+<!doctype html>
+<html lang="{{ lang }}" data-theme-base="{{ c.theme.base }}" data-shape="{{ c.theme.button_shape }}">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>{{ title }}</title>
+<meta name="description" content="{{ description }}">
+{% if noindex %}
+<meta name="robots" content="noindex, nofollow">
+{% endif %}
+<link rel="canonical" href="{{ canonical }}">
+{% for alt in alternates %}
+<link rel="alternate" hreflang="{{ alt.hreflang }}" href="{{ alt.href }}">
+{% endfor %}
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="{{ env.branding.product_name }}">
+<meta property="og:title" content="{{ title }}">
+<meta property="og:description" content="{{ description }}">
+<meta property="og:url" content="{{ canonical }}">
+{% if og_image %}
+<meta property="og:image" content="{{ og_image }}">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta name="twitter:card" content="summary_large_image">
+{% endif %}
+<style>{{ theme_css }}{{ font_css }}</style>
+{% for href in preloads %}
+<link rel="preload" href="{{ href }}" as="font" type="font/woff2" crossorigin>
+{% endfor %}
+{% for href in css %}
+<link rel="stylesheet" href="{{ href }}">
+{% endfor %}
+{% for block in jsonld %}
+<script type="application/ld+json">{{ block }}</script>
+{% endfor %}
+<script>{{ motion_script }}</script>
+{% if redirect_script %}
+<script>{{ redirect_script }}</script>
+{% endif %}
+</head>
+<body class="page-{{ page }}">
+<a class="skip-link" href="#main">{{ ui.skip }}</a>
+{% if preview %}
+<p class="preview-banner" role="status">{{ ui.preview }}</p>
+{% endif %}
+{% if c.announcement.enabled and c.announcement.text %}
+<p class="announcement">
+  {% if c.announcement.href %}<a href="{{ c.announcement.href }}">{{ c.announcement.text|t }}</a>{% else %}{{ c.announcement.text|t }}{% endif %}
+</p>
+{% endif %}
+<header class="site-header" data-header>
+  <div class="wrap header-row">
+    <a class="brand" href="{{ home_link }}">
+      {% if logo_url %}<img class="brand-logo" src="{{ logo_url }}" alt="" width="32" height="32">{% endif %}
+      <span class="brand-name">{{ env.branding.product_name }}</span>
+    </a>
+    <details class="menu" data-menu>
+      <summary>{{ ui.menu }}</summary>
+      <nav class="nav" aria-label="{{ ui.menu }}">
+        {% for item in nav_links %}
+        <a href="{{ item.href }}"{% if item.current %} aria-current="page"{% endif %}>{{ item.label }}</a>
+        {% endfor %}
+        {% if c.languages|length > 1 %}
+        <span class="lang-switch" data-lang-switch aria-label="{{ ui.language }}">
+          {% for l in lang_links %}
+          <a href="{{ l.href }}" hreflang="{{ l.lang }}" lang="{{ l.lang }}"{% if l.current %} aria-current="true"{% endif %}>{{ l.label }}</a>
+          {% endfor %}
+        </span>
+        {% endif %}
+      </nav>
+    </details>
+    <div class="header-actions">
+      {% if c.nav.show_sign_in %}<a class="btn btn-ghost" href="/login">{{ ui.sign_in }}</a>{% endif %}
+      {% if c.nav.show_sign_up and env.signup_available %}<a class="btn btn-primary" href="/signup">{{ ui.start_free }}</a>{% endif %}
+    </div>
+  </div>
+</header>
+<main id="main">
+{% block main %}{% endblock %}
+</main>
+<footer class="site-footer">
+  <div class="wrap footer-grid">
+    <div class="footer-brand">
+      <p class="brand-name">{{ env.branding.product_name }}</p>
+      {% if c.footer.note %}<p>{{ c.footer.note|t }}</p>{% endif %}
+      {% for line in address_lines %}<p class="muted">{{ line }}</p>{% endfor %}
+      {% if env.company.phone %}<p><a class="contact-link" href="tel:{{ phone_digits }}">{{ env.company.phone }}</a></p>{% endif %}
+      {% if whatsapp_link %}<p><a class="contact-link" href="{{ whatsapp_link }}">{{ ui.whatsapp }}</a></p>{% endif %}
+      {% if contact_email %}<p><a class="contact-link" href="mailto:{{ contact_email }}">{{ contact_email }}</a></p>{% endif %}
+    </div>
+    {% for col in footer_columns %}
+    <div class="footer-col">
+      <p class="footer-title">{{ col.title }}</p>
+      <ul>
+        {% for item in col.links %}<li><a href="{{ item.href }}">{{ item.label }}</a></li>{% endfor %}
+      </ul>
+    </div>
+    {% endfor %}
+    {% if c.footer.show_legal and env.legal_links %}
+    <div class="footer-col">
+      <p class="footer-title">{{ ui.legal }}</p>
+      <ul>
+        {% for slug, title in env.legal_links %}<li><a href="/legal/{{ slug }}">{{ title }}</a></li>{% endfor %}
+      </ul>
+    </div>
+    {% endif %}
+  </div>
+  {% if env.powered_text %}
+  <p class="wrap powered">{{ env.powered_text }}</p>
+  {% endif %}
+</footer>
+{% if mobile_bar and env.signup_available %}
+<div class="mobile-bar" data-mobile-bar>
+  <a class="btn btn-primary" href="/signup">{{ ui.start_free }}</a>
+  {% if whatsapp_link %}<a class="btn btn-ghost contact-link" href="{{ whatsapp_link }}">{{ ui.whatsapp }}</a>{% endif %}
+</div>
+{% endif %}
+{% for src in js %}
+<script type="module" src="{{ src }}"></script>
+{% endfor %}
+</body>
+</html>

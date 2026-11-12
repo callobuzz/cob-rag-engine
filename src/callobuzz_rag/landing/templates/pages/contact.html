@@ -1,0 +1,108 @@
+{% extends "base.html" %}
+{% import "macros.html" as m with context %}
+{% block main %}
+{% set k = c.contact %}
+{% set form_state = form_state|default("ok") %}
+{% set form_token = form_token|default("") %}
+{% set form_values = form_values|default({}) %}
+{% set form_errors = form_errors|default({}) %}
+{% set form_message = form_message|default(none) %}
+{% set topic = topic|default(none) %}
+{% set service = service|default("") %}
+{% set has_channels = (k.show_whatsapp and whatsapp_link) or (k.show_phone and env.company.phone) or (k.show_email and contact_email) or (k.show_address and address_lines) %}
+{% set privacy = env.legal_links|selectattr(0, "equalto", "privacy")|list %}
+<section class="section page-head contact-head">
+  <div class="wrap narrow">
+    <h1 class="display">{{ k.headline|t }}</h1>
+    {% if k.sub %}<p class="lead">{{ k.sub|t }}</p>{% endif %}
+    {% if k.response_time %}<p class="muted">{{ k.response_time|t }}</p>{% endif %}
+  </div>
+</section>
+<section class="section contact-body">
+  <div class="wrap contact-layout">
+    {% if k.form_enabled %}
+    <div class="contact-form-col">
+      {% if form_state == "ok" %}
+      <form class="contact-form" method="post" action="{{ link('contact') }}" data-contact novalidate
+            data-msg-invalid="{{ ui.contact_invalid }}" data-msg-rate="{{ ui.contact_rate_limited }}"
+            data-msg-unavailable="{{ ui.contact_unavailable }}" data-msg-required="{{ ui.contact_required }}"
+            data-msg-reach="{{ ui.contact_phone_or_email }}" data-sending="{{ ui.contact_sending }}"
+            data-done="{{ k.success|t }}" data-lang="{{ lang }}">
+        <h2 class="section-title contact-form-title">{{ ui.contact_form_title }}</h2>
+        <p class="form-status" role="alert" data-status{% if not form_message %} hidden{% endif %}>{{ form_message or "" }}</p>
+        <div class="field-row">
+          <div class="field">
+            <label for="cf-name">{{ ui.contact_name }}</label>
+            <input id="cf-name" name="name" type="text" autocomplete="name" required maxlength="80" value="{{ form_values.get("name") or '' }}"{% if form_errors.get("name") %} aria-invalid="true" aria-describedby="cf-name-err"{% endif %}>
+            {% if form_errors.get("name") %}<p class="field-error" id="cf-name-err">{{ form_errors.get("name") }}</p>{% endif %}
+          </div>
+          <div class="field">
+            <label for="cf-email">{{ ui.contact_email }}</label>
+            <input id="cf-email" name="email" type="email" autocomplete="email" maxlength="320" value="{{ form_values.get("email") or '' }}"{% if form_errors.get("email") %} aria-invalid="true" aria-describedby="cf-email-err"{% endif %}>
+            {% if form_errors.get("email") %}<p class="field-error" id="cf-email-err">{{ form_errors.get("email") }}</p>{% endif %}
+          </div>
+        </div>
+        <div class="field-row">
+          <div class="field">
+            <label for="cf-phone">{{ ui.contact_phone }}</label>
+            <input id="cf-phone" name="phone" type="tel" autocomplete="tel" maxlength="21" value="{{ form_values.get("phone") or '' }}"{% if form_errors.get("phone") %} aria-invalid="true" aria-describedby="cf-phone-err"{% endif %}>
+            {% if form_errors.get("phone") %}<p class="field-error" id="cf-phone-err">{{ form_errors.get("phone") }}</p>{% endif %}
+          </div>
+          <div class="field">
+            <label for="cf-topic">{{ ui.contact_topic }}</label>
+            <select id="cf-topic" name="topic">
+              {% for key, label in k.topics.items() %}
+              <option value="{{ key }}"{% if key == (form_values.get("topic") or topic or "sales") %} selected{% endif %}>{{ label|t }}</option>
+              {% endfor %}
+              {% if not k.topics %}
+              {% for key in ["sales", "support", "partnership", "other"] %}
+              <option value="{{ key }}"{% if key == (form_values.get("topic") or topic or "sales") %} selected{% endif %}>{{ ui["topic_" ~ key] }}</option>
+              {% endfor %}
+              {% endif %}
+            </select>
+          </div>
+        </div>
+        {% set service_value = form_values.get("service") or service %}
+        {% if service_value %}
+        <div class="field">
+          <label for="cf-service">{{ ui.contact_service }}</label>
+          <input id="cf-service" name="service" type="text" maxlength="100" value="{{ service_value }}" readonly>
+        </div>
+        {% endif %}
+        <div class="field">
+          <label for="cf-message">{{ ui.contact_message }}</label>
+          <textarea id="cf-message" name="message" required minlength="10" maxlength="2000"{% if form_errors.get("message") %} aria-invalid="true" aria-describedby="cf-message-err"{% endif %}>{{ form_values.get("message") or "" }}</textarea>
+          {% if form_errors.get("message") %}<p class="field-error" id="cf-message-err">{{ form_errors.get("message") }}</p>{% endif %}
+        </div>
+        <div class="hp" aria-hidden="true">
+          <label for="cf-website">Website</label>
+          <input id="cf-website" name="website" type="text" tabindex="-1" autocomplete="off" value="">
+        </div>
+        <input type="hidden" name="form_token" value="{{ form_token }}">
+        <p class="form-consent">
+          <label class="consent-label"><input id="cf-consent" type="checkbox" name="consent" value="1" required{% if form_errors.get("consent") %} aria-invalid="true" aria-describedby="cf-consent-err"{% endif %}> <span>{{ k.consent|t }}{% if privacy %} <a href="/legal/privacy">{{ ui.contact_consent_link }}</a>{% endif %}</span></label>
+        </p>
+        {% if form_errors.get("consent") %}<p class="field-error" id="cf-consent-err">{{ form_errors.get("consent") }}</p>{% endif %}
+        <p><button class="btn btn-primary" type="submit" data-submit>{{ ui.contact_send }}</button></p>
+      </form>
+      {% elif form_state == "demo" %}
+      <p class="form-off">{{ ui.contact_demo_off }}</p>
+      {% else %}
+      <p class="form-off">{{ ui.contact_unavailable }}</p>
+      {% endif %}
+    </div>
+    {% endif %}
+    {% if has_channels %}
+    <aside class="contact-channels" aria-label="{{ ui.contact_channels }}">
+      <h2 class="section-title contact-channels-title">{{ ui.contact_channels }}</h2>
+      <ul class="contact-list">
+        {% if k.show_whatsapp and whatsapp_link %}<li>{{ m.icon("chat") }}<a class="contact-link" href="{{ whatsapp_link }}">{{ ui.whatsapp }}</a></li>{% endif %}
+        {% if k.show_phone and env.company.phone %}<li>{{ m.icon("phone") }}<a class="contact-link" href="tel:{{ phone_digits }}">{{ env.company.phone }}</a></li>{% endif %}
+        {% if k.show_email and contact_email %}<li>{{ m.icon("mail") }}<a class="contact-link" href="mailto:{{ contact_email }}">{{ contact_email }}</a></li>{% endif %}
+        {% if k.show_address %}{% for line in address_lines %}<li class="muted">{{ line }}</li>{% endfor %}{% endif %}
+      </ul>
+    </aside>
+    {% endif %}
+  </div>
+</section>
+{% endblock %}

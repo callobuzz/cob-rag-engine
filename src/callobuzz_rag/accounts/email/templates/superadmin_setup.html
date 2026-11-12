@@ -1,0 +1,9 @@
+{% extends "_base.html" %}
+{% from "_macros.html" import button, code_box with context %}
+{% block content %}
+<p style="margin:0 0 12px;">You are the administrator of {{ branding.product_name }}. Set your password to sign in:</p>
+{{ button(link, "Set your password") }}
+<p style="margin:0 0 12px;">If the page asks for a code, enter this one:</p>
+{{ code_box(code) }}
+<p style="margin:0 0 12px;">The link and the code expire in {{ hours }} hours.</p>
+{% endblock %}

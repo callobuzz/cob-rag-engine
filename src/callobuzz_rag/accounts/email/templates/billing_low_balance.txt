@@ -1,0 +1,13 @@
+{% extends "_base.txt" %}
+{% block content %}
+{% if payment_type == "postpaid" %}
+{{ tenant_name }} has used most of its credit on {{ branding.product_name }}: {{ balance }} is left{% if level_pct %} (under {{ level_pct }}% of the limit){% endif %}.
+{% else %}
+The balance of {{ tenant_name }} on {{ branding.product_name }} is running low: {{ balance }} is left{% if level_pct %} (under {{ level_pct }}% of your last top-up){% endif %}.
+{% endif %}
+
+When it runs out, your assistant stops answering questions (visitors are shown your contact options instead) until you top up.
+
+Plan and billing:
+{{ billing_url }}
+{% endblock %}

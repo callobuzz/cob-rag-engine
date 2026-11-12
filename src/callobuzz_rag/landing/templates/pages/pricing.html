@@ -1,0 +1,243 @@
+{% extends "base.html" %}
+{% import "macros.html" as m with context %}
+{% block main %}
+{% set p = c.pricing %}
+{% set v = pricing_view %}
+<section class="section page-head pricing-head" id="pricing">
+  <div class="wrap narrow">
+    <h1 class="display">{{ p.headline|t }}</h1>
+    {% if p.sub %}<p class="lead">{{ p.sub|t }}</p>{% endif %}
+  </div>
+</section>
+
+<div data-pricing data-currency="{{ v.currency }}" data-period="{{ v.period }}">
+<section class="section plans" aria-label="{{ ui.plans }}">
+  <div class="wrap">
+    {% if v.show_currency_toggle or v.show_period_toggle %}
+    <div class="toggles" data-toggles>
+      {% if v.show_currency_toggle %}
+      <div class="toggle" role="group" aria-label="{{ ui.currency_label }}">
+        {% for cur in v.currencies %}
+        <a class="toggle-opt" rel="nofollow" href="?currency={{ cur }}&amp;period={{ v.period }}" data-toggle="currency" data-value="{{ cur }}"{% if cur == v.currency %} aria-current="true"{% endif %}>{{ "₹" if cur == "INR" else "$" }} {{ cur }}</a>
+        {% endfor %}
+      </div>
+      {% endif %}
+      {% if v.show_period_toggle %}
+      <div class="toggle" role="group" aria-label="{{ ui.billing_label }}">
+        {% for per in v.periods %}
+        <a class="toggle-opt" rel="nofollow" href="?currency={{ v.currency }}&amp;period={{ per }}" data-toggle="period" data-value="{{ per }}"{% if per == v.period %} aria-current="true"{% endif %}>{{ ui.monthly if per == "monthly" else ui.yearly }}</a>
+        {% endfor %}
+      </div>
+      {% endif %}
+    </div>
+    {% endif %}
+
+    {% if v.cards %}
+    <ul class="plan-cards plan-cards-{{ v.cards|length }}">
+      {% for card in v.cards %}
+      <li class="plan-card{% if card.highlight %} is-highlight{% endif %}" data-card>
+        {% if card.highlight %}<p class="plan-flag">{{ card.highlight }}</p>{% endif %}
+        <h2 class="plan-name">{{ card.name }}</h2>
+        {% if card.who_for %}<p class="plan-for">{{ card.who_for }}</p>{% endif %}
+        {% for variant in card.variants %}
+        <div class="plan-variant" data-variant data-currency="{{ variant.currency }}" data-period="{{ variant.period }}"{% if loop.index0 != card.selected %} hidden{% endif %}>
+          <p class="plan-price"><span class="plan-amount">{{ variant.amount_text }}</span>{% if variant.unit_text %} <span class="plan-unit">{{ variant.unit_text }}</span>{% endif %}{% if variant.gst_tag %} <span class="plan-gst">{{ variant.gst_tag }}</span>{% endif %}</p>
+          {% if variant.fee_incl_text %}<p class="plan-incl">{{ variant.fee_incl_text }}</p>{% endif %}
+          {% if variant.billed_text %}<p class="plan-billed">{{ variant.billed_text }}{% if variant.badge %} <span class="plan-badge">{{ variant.badge }}</span>{% endif %}</p>{% endif %}
+          {% if variant.credit_text %}<p class="plan-line">{{ variant.credit_text }}</p>{% endif %}
+          {% if variant.usage_text %}<p class="plan-line">{{ variant.usage_text }}</p>{% endif %}
+          {% if variant.beyond_text %}<p class="plan-line muted">{{ variant.beyond_text }}</p>{% endif %}
+          <ul class="plan-limits">
+            {% for label, value in variant.limits %}<li><span>{{ label }}</span> <strong>{{ value }}</strong></li>{% endfor %}
+          </ul>
+          {% if v.billing_on %}
+          <p class="plan-key">{{ m.icon("check") }}<span>{{ ui.own_key_included if card.byok_included else ui.own_key_not_included }}</span></p>
+          {% endif %}
+          {% if card.cta == "contact" %}
+          <a class="btn btn-ghost plan-cta" href="{{ link('contact') }}?topic=sales">{{ ui.talk_to_us }}</a>
+          {% elif env.signup_available %}
+          <a class="btn {{ 'btn-primary' if card.highlight else 'btn-ghost' }} plan-cta" href="/signup{{ variant.signup_query }}">{{ variant.cta_text or ui.get_started }}</a>
+          {% else %}
+          <a class="btn {{ 'btn-primary' if card.highlight else 'btn-ghost' }} plan-cta" href="/login">{{ ui.get_started }}</a>
+          {% endif %}
+        </div>
+        {% endfor %}
+      </li>
+      {% endfor %}
+    </ul>
+    {% else %}
+    <p class="lead">{{ v.contact_text }}</p>
+    {% endif %}
+    {% if v.tax_line %}<p class="tax-line muted">{{ v.tax_line }}</p>{% endif %}
+  </div>
+</section>
+
+{% if v.credit_box %}
+<section class="section credit" data-section="credit" id="credit">
+  <div class="wrap credit-grid">
+    <div>
+      <h2 class="section-title">{{ ui.credit_title }}</h2>
+      <p class="credit-box">{{ v.credit_box }}</p>
+    </div>
+    {% if v.credit_examples %}
+    <ul class="credit-examples">
+      {% for ex in v.credit_examples %}<li>{{ ex }}</li>{% endfor %}
+    </ul>
+    {% endif %}
+  </div>
+</section>
+{% endif %}
+
+{% if v.calculator %}
+{% set calc = v.calculator %}
+<section class="section calculator" data-calc id="calculator" aria-labelledby="calc-title">
+  <div class="wrap narrow">
+    <h2 class="section-title" id="calc-title">{{ ui.calc_title }}</h2>
+    <div class="calc-card">
+      <label class="calc-label" for="calc-range">{{ ui.calc_label }}</label>
+      <div class="calc-controls">
+        <input id="calc-range" class="calc-range" type="range" min="0" max="{{ calc.slider_max }}" step="{{ 1 if calc.slider_max <= 500 else 10 }}" value="{{ calc.initial_value }}" data-calc-range>
+        <input id="calc-number" class="calc-number" type="number" inputmode="numeric" min="0" max="{{ calc.slider_max }}" value="{{ calc.initial_value }}" aria-label="{{ ui.calc_number }}" data-calc-number>
+      </div>
+      <p class="calc-result" role="status" aria-live="polite" data-calc-result>{{ calc.initial }}</p>
+      <p class="micro">{{ ui.calc_note }}</p>
+    </div>
+    <script type="application/json" id="pricing-data">{{ pricing_json }}</script>
+  </div>
+</section>
+{% endif %}
+
+{% if v.comparison %}
+<section class="section compare-section" id="compare">
+  <div class="wrap">
+    <details class="compare" open>
+      <summary class="compare-summary">{{ ui.compare_title }}</summary>
+      <h2 class="section-title compare-title">{{ ui.compare_title }}</h2>
+      <div class="compare-scroll" role="region" aria-label="{{ ui.compare_title }}" tabindex="0">
+        <table class="compare-table">
+          <caption class="sr-only">{{ ui.compare_title }}</caption>
+          <thead>
+            <tr>
+              <th scope="col">{{ ui.compare_plan }}</th>
+              {% for card in v.cards %}<th scope="col">{{ card.name }}</th>{% endfor %}
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <th scope="row">{{ ui.plans }}</th>
+              {% for card in v.cards %}<td>{{ card.variant_default().fee_text }}</td>{% endfor %}
+            </tr>
+            <tr>
+              <th scope="row">{{ ui.compare_credit }}</th>
+              {% for card in v.cards %}<td>{{ card.variant_default().credit_text or "–" }}</td>{% endfor %}
+            </tr>
+            <tr>
+              <th scope="row">{{ ui.compare_usage }}</th>
+              {% for card in v.cards %}<td>{{ card.variant_default().usage_text or "–" }}</td>{% endfor %}
+            </tr>
+            {% for row in v.cards[0].variant_default().limits %}
+            {% set idx = loop.index0 %}
+            <tr>
+              <th scope="row">{{ row[0] }}</th>
+              {% for card in v.cards %}<td>{{ card.variant_default().limits[idx][1] }}</td>{% endfor %}
+            </tr>
+            {% endfor %}
+            {% if v.billing_on %}
+            <tr>
+              <th scope="row">{{ ui.compare_own_key }}</th>
+              {% for card in v.cards %}<td>{{ ui.yes if card.byok_included else ui.no }}</td>{% endfor %}
+            </tr>
+            {% endif %}
+          </tbody>
+        </table>
+      </div>
+    </details>
+  </div>
+</section>
+{% endif %}
+</div>
+
+{% if v.byok_add_on_text or v.packs or v.services %}
+<section class="section addons" id="add-ons">
+  <div class="wrap">
+    {% if v.packs %}
+    <h2 class="section-title">{{ ui.packs_title }}</h2>
+    <p class="section-body">{{ ui.packs_text }}</p>
+    <ul class="tiles pack-list">
+      {% for pack in v.packs %}
+      <li class="tile pack">
+        <h3>{{ pack.name }}</h3>
+        <p class="pack-price">{{ pack.price_text }}</p>
+        {% if pack.price_incl_text %}<p class="muted">{{ pack.price_incl_text }}</p>{% endif %}
+        <p>{{ pack.gives }}{% if pack.never_expires %}, {{ ui.never_expires }}{% endif %}</p>
+        {% if pack.description %}<p class="muted">{{ pack.description }}</p>{% endif %}
+      </li>
+      {% endfor %}
+    </ul>
+    {% endif %}
+    {% if v.byok_add_on_text %}<p class="byok-note">{{ m.icon("lock") }}<span>{{ v.byok_add_on_text }}</span></p>{% endif %}
+    {% if v.services %}
+    <h2 class="section-title services-title">{{ ui.services_title }}</h2>
+    <ul class="tiles service-list">
+      {% for svc in v.services %}
+      <li class="tile service">
+        <h3>{{ svc.name }}</h3>
+        {% if svc.description %}<p>{{ svc.description }}</p>{% endif %}
+        <p class="pack-price">{{ svc.price_text }}</p>
+        {% if svc.price_incl_text %}<p class="muted">{{ svc.price_incl_text }}</p>{% endif %}
+        <a class="btn btn-ghost" href="{{ link("contact") }}?{{ svc.query }}">{{ ui.service_request }}</a>
+      </li>
+      {% endfor %}
+    </ul>
+    {% endif %}
+  </div>
+</section>
+{% endif %}
+
+{% if v.whatsapp_fees or v.spend_cap_text %}
+<section class="section fine-print" id="fine-print">
+  <div class="wrap fine-grid">
+    {% if v.whatsapp_fees %}
+    <div class="fees">
+      <h2 class="section-title">{{ ui.wa_fees_title }}</h2>
+      <table class="fee-table">
+        <tbody>
+          {% for row in v.whatsapp_fees %}<tr><th scope="row">{{ row.label }}</th><td>{{ row.text }}</td></tr>{% endfor %}
+        </tbody>
+      </table>
+      <p class="muted">{{ v.whatsapp_fees_note }}</p>
+    </div>
+    {% endif %}
+    {% if v.spend_cap_text %}
+    <div class="spend-cap">
+      {{ m.icon("shield") }}
+      <h2 class="section-title">{{ ui.spend_cap_title }}</h2>
+      <p>{{ v.spend_cap_text }}</p>
+    </div>
+    {% endif %}
+  </div>
+</section>
+{% endif %}
+
+{% if p.faq %}
+<section class="section faq">
+  <div class="wrap narrow">
+    <h2 class="section-title">{{ ui.questions }}</h2>
+    <div class="faq-list">
+      {% for item in p.faq %}
+      <details class="faq-item"><summary>{{ item.q|t }}</summary><p>{{ item.a|t }}</p></details>
+      {% endfor %}
+    </div>
+  </div>
+</section>
+{% endif %}
+
+<section class="section pricing-end">
+  <div class="wrap narrow">
+    <p class="actions">
+      {% if env.signup_available %}<a class="btn btn-primary" href="/signup">{{ ui.start_free }}</a>{% endif %}
+      <a class="btn btn-ghost" href="{{ link('contact') }}?topic=sales">{{ ui.talk_to_us }}</a>
+    </p>
+  </div>
+</section>
+{% endblock %}

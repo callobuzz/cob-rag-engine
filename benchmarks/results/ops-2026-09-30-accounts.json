@@ -1,0 +1,2640 @@
+{
+  "date": "2026-09-30",
+  "label": "accounts",
+  "isolation": [
+    {
+      "caller": "tenant A key",
+      "attempt": "GET /api/v1/corpora/{B}",
+      "status": 403,
+      "refused": true
+    },
+    {
+      "caller": "tenant A key",
+      "attempt": "PUT /api/v1/corpora/{B}",
+      "status": 403,
+      "refused": true
+    },
+    {
+      "caller": "tenant A key",
+      "attempt": "POST /api/v1/corpora/{B}/rotate-key",
+      "status": 403,
+      "refused": true
+    },
+    {
+      "caller": "tenant A key",
+      "attempt": "DELETE /api/v1/corpora/{B}",
+      "status": 403,
+      "refused": true
+    },
+    {
+      "caller": "tenant A key",
+      "attempt": "POST /api/v1/query/retrieve",
+      "status": 403,
+      "refused": true
+    },
+    {
+      "caller": "tenant A key",
+      "attempt": "POST /api/v1/query",
+      "status": 403,
+      "refused": true
+    },
+    {
+      "caller": "tenant A key",
+      "attempt": "POST /api/v1/ingest/records",
+      "status": 403,
+      "refused": true
+    },
+    {
+      "caller": "tenant A key",
+      "attempt": "GET /api/v1/ingest/jobs/{job}",
+      "status": 403,
+      "refused": true
+    },
+    {
+      "caller": "tenant A key",
+      "attempt": "DELETE /api/v1/documents/{doc}?corpus_id={B}",
+      "status": 403,
+      "refused": true
+    },
+    {
+      "caller": "tenant A key",
+      "attempt": "GET /api/v1/corpora/{B}/widget-keys",
+      "status": 403,
+      "refused": true
+    },
+    {
+      "caller": "tenant A key",
+      "attempt": "POST /api/v1/corpora/{B}/widget-keys",
+      "status": 403,
+      "refused": true
+    },
+    {
+      "caller": "tenant A key",
+      "attempt": "DELETE /api/v1/corpora/{B}/widget-keys/{widget}",
+      "status": 403,
+      "refused": true
+    },
+    {
+      "caller": "tenant A key",
+      "attempt": "GET /api/v1/usage?corpus_id={B}",
+      "status": 403,
+      "refused": true
+    },
+    {
+      "caller": "tenant A key",
+      "attempt": "GET /api/v1/admin/tenants/{tenantB}",
+      "status": 403,
+      "refused": true
+    },
+    {
+      "caller": "tenant A key",
+      "attempt": "POST /api/v1/admin/tenants/{tenantB}/rotate-key",
+      "status": 403,
+      "refused": true
+    },
+    {
+      "caller": "tenant A key",
+      "attempt": "GET /api/v1/documents?corpus_id={B}",
+      "status": 403,
+      "refused": true
+    },
+    {
+      "caller": "tenant A key",
+      "attempt": "GET /api/v1/documents/{doc}?corpus_id={B}",
+      "status": 403,
+      "refused": true
+    },
+    {
+      "caller": "tenant A key",
+      "attempt": "GET /api/v1/config?corpus_id={B}",
+      "status": 403,
+      "refused": true
+    },
+    {
+      "caller": "tenant A key",
+      "attempt": "PATCH /api/v1/config?corpus_id={B}",
+      "status": 403,
+      "refused": true
+    },
+    {
+      "caller": "tenant A key",
+      "attempt": "GET /api/v1/corpora/{B}/conversations",
+      "status": 403,
+      "refused": true
+    },
+    {
+      "caller": "tenant A key",
+      "attempt": "POST /api/v1/corpora/{B}/conversations",
+      "status": 403,
+      "refused": true
+    },
+    {
+      "caller": "tenant A key",
+      "attempt": "GET /api/v1/corpora/{B}/memories",
+      "status": 403,
+      "refused": true
+    },
+    {
+      "caller": "tenant A key",
+      "attempt": "POST /api/v1/corpora/{B}/memories",
+      "status": 403,
+      "refused": true
+    },
+    {
+      "caller": "tenant A key",
+      "attempt": "GET /api/v1/ingest/jobs?corpus_id={B}",
+      "status": 403,
+      "refused": true
+    },
+    {
+      "caller": "tenant A key",
+      "attempt": "GET /api/v1/feedback?corpus_id={B}",
+      "status": 403,
+      "refused": true
+    },
+    {
+      "caller": "tenant A key",
+      "attempt": "GET /api/v1/migrations?corpus_id={B}",
+      "status": 403,
+      "refused": true
+    },
+    {
+      "caller": "tenant A key",
+      "attempt": "GET /api/v1/corpora/{B}/migrations",
+      "status": 403,
+      "refused": true
+    },
+    {
+      "caller": "tenant A key",
+      "attempt": "GET /api/v1/migrations/{migration}",
+      "status": 403,
+      "refused": true
+    },
+    {
+      "caller": "tenant A key",
+      "attempt": "POST /api/v1/migrations/{migration}/approve",
+      "status": 403,
+      "refused": true
+    },
+    {
+      "caller": "tenant A key",
+      "attempt": "PATCH /api/v1/golden/{pair}",
+      "status": 403,
+      "refused": true
+    },
+    {
+      "caller": "tenant A key",
+      "attempt": "GET /api/v1/corpora?tenant_id={tenantB}",
+      "status": 403,
+      "refused": true
+    },
+    {
+      "caller": "tenant A key",
+      "attempt": "PUT /api/v1/corpora/{A}",
+      "status": 403,
+      "refused": true
+    },
+    {
+      "caller": "tenant A key",
+      "attempt": "POST /api/v1/documents/{doc}/versions/{versionB}/restore?corpus_id={B}",
+      "status": 403,
+      "refused": true
+    },
+    {
+      "caller": "tenant A key",
+      "attempt": "DELETE /api/v1/golden/{pair}",
+      "status": 403,
+      "refused": true
+    },
+    {
+      "caller": "tenant A key",
+      "attempt": "GET /api/v1/webhooks",
+      "status": 403,
+      "refused": true
+    },
+    {
+      "caller": "tenant A key",
+      "attempt": "POST /api/v1/webhooks",
+      "status": 403,
+      "refused": true
+    },
+    {
+      "caller": "tenant A key",
+      "attempt": "GET /api/v1/admin/audit?tenant_id={tenantB}",
+      "status": 403,
+      "refused": true
+    },
+    {
+      "caller": "tenant A key",
+      "attempt": "GET /api/v1/portal/workspaces/{workspaceB}",
+      "status": 403,
+      "refused": true
+    },
+    {
+      "caller": "tenant A key",
+      "attempt": "PATCH /api/v1/portal/workspaces/{workspaceB}",
+      "status": 403,
+      "refused": true
+    },
+    {
+      "caller": "tenant A key",
+      "attempt": "DELETE /api/v1/portal/workspaces/{workspaceB}",
+      "status": 403,
+      "refused": true
+    },
+    {
+      "caller": "tenant A key",
+      "attempt": "POST /api/v1/portal/workspaces/{workspaceB}/lock",
+      "status": 403,
+      "refused": true
+    },
+    {
+      "caller": "tenant A key",
+      "attempt": "GET /api/v1/portal/workspaces/{workspaceB}/content",
+      "status": 403,
+      "refused": true
+    },
+    {
+      "caller": "tenant A key",
+      "attempt": "POST /api/v1/portal/workspaces/{workspaceB}/content",
+      "status": 403,
+      "refused": true
+    },
+    {
+      "caller": "tenant A key",
+      "attempt": "GET /api/v1/portal/workspaces/{workspaceB}/chunks",
+      "status": 403,
+      "refused": true
+    },
+    {
+      "caller": "tenant A key",
+      "attempt": "POST /api/v1/portal/workspaces/{workspaceB}/chunks",
+      "status": 403,
+      "refused": true
+    },
+    {
+      "caller": "tenant A key",
+      "attempt": "POST /api/v1/portal/workspaces/{workspaceB}/submit",
+      "status": 403,
+      "refused": true
+    },
+    {
+      "caller": "tenant A key",
+      "attempt": "POST /api/v1/portal/workspaces/{workspaceB}/approve",
+      "status": 403,
+      "refused": true
+    },
+    {
+      "caller": "tenant A key",
+      "attempt": "POST /api/v1/portal/workspaces/{workspaceB}/ingest",
+      "status": 403,
+      "refused": true
+    },
+    {
+      "caller": "tenant A key",
+      "attempt": "POST /api/v1/portal/workspaces/{workspaceB}/chat",
+      "status": 403,
+      "refused": true
+    },
+    {
+      "caller": "tenant A key",
+      "attempt": "GET /api/v1/portal/workspaces/{workspaceB}/audit-trail",
+      "status": 403,
+      "refused": true
+    },
+    {
+      "caller": "tenant A key",
+      "attempt": "GET /api/v1/portal/corpus/{B}/rules",
+      "status": 403,
+      "refused": true
+    },
+    {
+      "caller": "tenant A key",
+      "attempt": "POST /api/v1/portal/corpus/{B}/rules",
+      "status": 403,
+      "refused": true
+    },
+    {
+      "caller": "tenant A key",
+      "attempt": "POST /api/v1/portal/workspaces/from-ingestion",
+      "status": 403,
+      "refused": true
+    },
+    {
+      "caller": "tenant A key",
+      "attempt": "POST /api/v1/portal/workspaces/{reviewB}/finalize-review",
+      "status": 403,
+      "refused": true
+    },
+    {
+      "caller": "tenant A key",
+      "attempt": "GET /api/v1/portal/workspaces/{reviewB}/review-status",
+      "status": 403,
+      "refused": true
+    },
+    {
+      "caller": "tenant A key",
+      "attempt": "POST /api/v1/portal/workspaces/{workspaceB}/chat/execute",
+      "status": 403,
+      "refused": true
+    },
+    {
+      "caller": "tenant A key",
+      "attempt": "GET /api/v1/portal/workspaces/{workspaceA}/content/{contentB}",
+      "status": 404,
+      "refused": true
+    },
+    {
+      "caller": "tenant A key",
+      "attempt": "POST /api/v1/portal/workspaces/{workspaceA}/content/{contentB}/reprocess",
+      "status": 404,
+      "refused": true
+    },
+    {
+      "caller": "tenant A key",
+      "attempt": "PATCH /api/v1/portal/workspaces/{workspaceA}/chunks/{chunkB}",
+      "status": 404,
+      "refused": true
+    },
+    {
+      "caller": "tenant A key",
+      "attempt": "POST /api/v1/portal/workspaces/{workspaceA}/chunks/{chunkB}/split",
+      "status": 404,
+      "refused": true
+    },
+    {
+      "caller": "tenant A key",
+      "attempt": "POST /api/v1/portal/workspaces/{workspaceA}/chunks/merge",
+      "status": 404,
+      "refused": true
+    },
+    {
+      "caller": "tenant A key",
+      "attempt": "POST /api/v1/portal/workspaces/{workspaceA}/chunks/reorder",
+      "status": 404,
+      "refused": true
+    },
+    {
+      "caller": "tenant A key",
+      "attempt": "POST /api/v1/portal/workspaces/{workspaceA}/chunks/{chunkB}/approve",
+      "status": 404,
+      "refused": true
+    },
+    {
+      "caller": "tenant A key",
+      "attempt": "POST /api/v1/portal/workspaces/{workspaceA}/chunks/{chunkB}/reject",
+      "status": 404,
+      "refused": true
+    },
+    {
+      "caller": "tenant A key",
+      "attempt": "DELETE /api/v1/portal/workspaces/{workspaceA}/chunks/{chunkB}?user=attacker",
+      "status": 404,
+      "refused": true
+    },
+    {
+      "caller": "tenant A key",
+      "attempt": "POST /api/v1/portal/workspaces/{workspaceA}/chat/execute",
+      "status": 404,
+      "refused": true
+    },
+    {
+      "caller": "tenant A key",
+      "attempt": "PATCH /api/v1/portal/corpus/{A}/rules/{ruleB}",
+      "status": 404,
+      "refused": true
+    },
+    {
+      "caller": "tenant A key",
+      "attempt": "DELETE /api/v1/portal/corpus/{A}/rules/{ruleB}",
+      "status": 404,
+      "refused": true
+    },
+    {
+      "caller": "tenant A key",
+      "attempt": "GET /api/v1/query/{query}",
+      "status": 404,
+      "refused": true
+    },
+    {
+      "caller": "tenant A key",
+      "attempt": "POST /api/v1/feedback",
+      "status": 403,
+      "refused": true
+    },
+    {
+      "caller": "corpus A key",
+      "attempt": "GET /api/v1/corpora/{B}",
+      "status": 403,
+      "refused": true
+    },
+    {
+      "caller": "corpus A key",
+      "attempt": "PUT /api/v1/corpora/{B}",
+      "status": 403,
+      "refused": true
+    },
+    {
+      "caller": "corpus A key",
+      "attempt": "POST /api/v1/corpora/{B}/rotate-key",
+      "status": 403,
+      "refused": true
+    },
+    {
+      "caller": "corpus A key",
+      "attempt": "DELETE /api/v1/corpora/{B}",
+      "status": 403,
+      "refused": true
+    },
+    {
+      "caller": "corpus A key",
+      "attempt": "POST /api/v1/query/retrieve",
+      "status": 403,
+      "refused": true
+    },
+    {
+      "caller": "corpus A key",
+      "attempt": "POST /api/v1/query",
+      "status": 403,
+      "refused": true
+    },
+    {
+      "caller": "corpus A key",
+      "attempt": "POST /api/v1/ingest/records",
+      "status": 403,
+      "refused": true
+    },
+    {
+      "caller": "corpus A key",
+      "attempt": "GET /api/v1/ingest/jobs/{job}",
+      "status": 403,
+      "refused": true
+    },
+    {
+      "caller": "corpus A key",
+      "attempt": "DELETE /api/v1/documents/{doc}?corpus_id={B}",
+      "status": 403,
+      "refused": true
+    },
+    {
+      "caller": "corpus A key",
+      "attempt": "GET /api/v1/corpora/{B}/widget-keys",
+      "status": 403,
+      "refused": true
+    },
+    {
+      "caller": "corpus A key",
+      "attempt": "POST /api/v1/corpora/{B}/widget-keys",
+      "status": 403,
+      "refused": true
+    },
+    {
+      "caller": "corpus A key",
+      "attempt": "DELETE /api/v1/corpora/{B}/widget-keys/{widget}",
+      "status": 403,
+      "refused": true
+    },
+    {
+      "caller": "corpus A key",
+      "attempt": "GET /api/v1/usage?corpus_id={B}",
+      "status": 403,
+      "refused": true
+    },
+    {
+      "caller": "corpus A key",
+      "attempt": "GET /api/v1/admin/tenants/{tenantB}",
+      "status": 403,
+      "refused": true
+    },
+    {
+      "caller": "corpus A key",
+      "attempt": "POST /api/v1/admin/tenants/{tenantB}/rotate-key",
+      "status": 403,
+      "refused": true
+    },
+    {
+      "caller": "corpus A key",
+      "attempt": "GET /api/v1/documents?corpus_id={B}",
+      "status": 403,
+      "refused": true
+    },
+    {
+      "caller": "corpus A key",
+      "attempt": "GET /api/v1/documents/{doc}?corpus_id={B}",
+      "status": 403,
+      "refused": true
+    },
+    {
+      "caller": "corpus A key",
+      "attempt": "GET /api/v1/config?corpus_id={B}",
+      "status": 403,
+      "refused": true
+    },
+    {
+      "caller": "corpus A key",
+      "attempt": "PATCH /api/v1/config?corpus_id={B}",
+      "status": 403,
+      "refused": true
+    },
+    {
+      "caller": "corpus A key",
+      "attempt": "GET /api/v1/corpora/{B}/conversations",
+      "status": 403,
+      "refused": true
+    },
+    {
+      "caller": "corpus A key",
+      "attempt": "POST /api/v1/corpora/{B}/conversations",
+      "status": 403,
+      "refused": true
+    },
+    {
+      "caller": "corpus A key",
+      "attempt": "GET /api/v1/corpora/{B}/memories",
+      "status": 403,
+      "refused": true
+    },
+    {
+      "caller": "corpus A key",
+      "attempt": "POST /api/v1/corpora/{B}/memories",
+      "status": 403,
+      "refused": true
+    },
+    {
+      "caller": "corpus A key",
+      "attempt": "GET /api/v1/ingest/jobs?corpus_id={B}",
+      "status": 403,
+      "refused": true
+    },
+    {
+      "caller": "corpus A key",
+      "attempt": "GET /api/v1/feedback?corpus_id={B}",
+      "status": 403,
+      "refused": true
+    },
+    {
+      "caller": "corpus A key",
+      "attempt": "GET /api/v1/migrations?corpus_id={B}",
+      "status": 403,
+      "refused": true
+    },
+    {
+      "caller": "corpus A key",
+      "attempt": "GET /api/v1/corpora/{B}/migrations",
+      "status": 403,
+      "refused": true
+    },
+    {
+      "caller": "corpus A key",
+      "attempt": "GET /api/v1/migrations/{migration}",
+      "status": 403,
+      "refused": true
+    },
+    {
+      "caller": "corpus A key",
+      "attempt": "POST /api/v1/migrations/{migration}/approve",
+      "status": 403,
+      "refused": true
+    },
+    {
+      "caller": "corpus A key",
+      "attempt": "PATCH /api/v1/golden/{pair}",
+      "status": 403,
+      "refused": true
+    },
+    {
+      "caller": "corpus A key",
+      "attempt": "GET /api/v1/corpora?tenant_id={tenantB}",
+      "status": 403,
+      "refused": true
+    },
+    {
+      "caller": "corpus A key",
+      "attempt": "PUT /api/v1/corpora/{A}",
+      "status": 403,
+      "refused": true
+    },
+    {
+      "caller": "corpus A key",
+      "attempt": "POST /api/v1/documents/{doc}/versions/{versionB}/restore?corpus_id={B}",
+      "status": 403,
+      "refused": true
+    },
+    {
+      "caller": "corpus A key",
+      "attempt": "DELETE /api/v1/golden/{pair}",
+      "status": 403,
+      "refused": true
+    },
+    {
+      "caller": "corpus A key",
+      "attempt": "GET /api/v1/webhooks",
+      "status": 403,
+      "refused": true
+    },
+    {
+      "caller": "corpus A key",
+      "attempt": "POST /api/v1/webhooks",
+      "status": 403,
+      "refused": true
+    },
+    {
+      "caller": "corpus A key",
+      "attempt": "GET /api/v1/admin/audit?tenant_id={tenantB}",
+      "status": 403,
+      "refused": true
+    },
+    {
+      "caller": "corpus A key",
+      "attempt": "GET /api/v1/portal/workspaces/{workspaceB}",
+      "status": 403,
+      "refused": true
+    },
+    {
+      "caller": "corpus A key",
+      "attempt": "PATCH /api/v1/portal/workspaces/{workspaceB}",
+      "status": 403,
+      "refused": true
+    },
+    {
+      "caller": "corpus A key",
+      "attempt": "DELETE /api/v1/portal/workspaces/{workspaceB}",
+      "status": 403,
+      "refused": true
+    },
+    {
+      "caller": "corpus A key",
+      "attempt": "POST /api/v1/portal/workspaces/{workspaceB}/lock",
+      "status": 403,
+      "refused": true
+    },
+    {
+      "caller": "corpus A key",
+      "attempt": "GET /api/v1/portal/workspaces/{workspaceB}/content",
+      "status": 403,
+      "refused": true
+    },
+    {
+      "caller": "corpus A key",
+      "attempt": "POST /api/v1/portal/workspaces/{workspaceB}/content",
+      "status": 403,
+      "refused": true
+    },
+    {
+      "caller": "corpus A key",
+      "attempt": "GET /api/v1/portal/workspaces/{workspaceB}/chunks",
+      "status": 403,
+      "refused": true
+    },
+    {
+      "caller": "corpus A key",
+      "attempt": "POST /api/v1/portal/workspaces/{workspaceB}/chunks",
+      "status": 403,
+      "refused": true
+    },
+    {
+      "caller": "corpus A key",
+      "attempt": "POST /api/v1/portal/workspaces/{workspaceB}/submit",
+      "status": 403,
+      "refused": true
+    },
+    {
+      "caller": "corpus A key",
+      "attempt": "POST /api/v1/portal/workspaces/{workspaceB}/approve",
+      "status": 403,
+      "refused": true
+    },
+    {
+      "caller": "corpus A key",
+      "attempt": "POST /api/v1/portal/workspaces/{workspaceB}/ingest",
+      "status": 403,
+      "refused": true
+    },
+    {
+      "caller": "corpus A key",
+      "attempt": "POST /api/v1/portal/workspaces/{workspaceB}/chat",
+      "status": 403,
+      "refused": true
+    },
+    {
+      "caller": "corpus A key",
+      "attempt": "GET /api/v1/portal/workspaces/{workspaceB}/audit-trail",
+      "status": 403,
+      "refused": true
+    },
+    {
+      "caller": "corpus A key",
+      "attempt": "GET /api/v1/portal/corpus/{B}/rules",
+      "status": 403,
+      "refused": true
+    },
+    {
+      "caller": "corpus A key",
+      "attempt": "POST /api/v1/portal/corpus/{B}/rules",
+      "status": 403,
+      "refused": true
+    },
+    {
+      "caller": "corpus A key",
+      "attempt": "POST /api/v1/portal/workspaces/from-ingestion",
+      "status": 403,
+      "refused": true
+    },
+    {
+      "caller": "corpus A key",
+      "attempt": "POST /api/v1/portal/workspaces/{reviewB}/finalize-review",
+      "status": 403,
+      "refused": true
+    },
+    {
+      "caller": "corpus A key",
+      "attempt": "GET /api/v1/portal/workspaces/{reviewB}/review-status",
+      "status": 403,
+      "refused": true
+    },
+    {
+      "caller": "corpus A key",
+      "attempt": "POST /api/v1/portal/workspaces/{workspaceB}/chat/execute",
+      "status": 403,
+      "refused": true
+    },
+    {
+      "caller": "corpus A key",
+      "attempt": "GET /api/v1/portal/workspaces/{workspaceA}/content/{contentB}",
+      "status": 404,
+      "refused": true
+    },
+    {
+      "caller": "corpus A key",
+      "attempt": "POST /api/v1/portal/workspaces/{workspaceA}/content/{contentB}/reprocess",
+      "status": 404,
+      "refused": true
+    },
+    {
+      "caller": "corpus A key",
+      "attempt": "PATCH /api/v1/portal/workspaces/{workspaceA}/chunks/{chunkB}",
+      "status": 404,
+      "refused": true
+    },
+    {
+      "caller": "corpus A key",
+      "attempt": "POST /api/v1/portal/workspaces/{workspaceA}/chunks/{chunkB}/split",
+      "status": 404,
+      "refused": true
+    },
+    {
+      "caller": "corpus A key",
+      "attempt": "POST /api/v1/portal/workspaces/{workspaceA}/chunks/merge",
+      "status": 404,
+      "refused": true
+    },
+    {
+      "caller": "corpus A key",
+      "attempt": "POST /api/v1/portal/workspaces/{workspaceA}/chunks/reorder",
+      "status": 404,
+      "refused": true
+    },
+    {
+      "caller": "corpus A key",
+      "attempt": "POST /api/v1/portal/workspaces/{workspaceA}/chunks/{chunkB}/approve",
+      "status": 404,
+      "refused": true
+    },
+    {
+      "caller": "corpus A key",
+      "attempt": "POST /api/v1/portal/workspaces/{workspaceA}/chunks/{chunkB}/reject",
+      "status": 404,
+      "refused": true
+    },
+    {
+      "caller": "corpus A key",
+      "attempt": "DELETE /api/v1/portal/workspaces/{workspaceA}/chunks/{chunkB}?user=attacker",
+      "status": 404,
+      "refused": true
+    },
+    {
+      "caller": "corpus A key",
+      "attempt": "POST /api/v1/portal/workspaces/{workspaceA}/chat/execute",
+      "status": 404,
+      "refused": true
+    },
+    {
+      "caller": "corpus A key",
+      "attempt": "PATCH /api/v1/portal/corpus/{A}/rules/{ruleB}",
+      "status": 404,
+      "refused": true
+    },
+    {
+      "caller": "corpus A key",
+      "attempt": "DELETE /api/v1/portal/corpus/{A}/rules/{ruleB}",
+      "status": 404,
+      "refused": true
+    },
+    {
+      "caller": "corpus A key",
+      "attempt": "GET /api/v1/query/{query}",
+      "status": 404,
+      "refused": true
+    },
+    {
+      "caller": "corpus A key",
+      "attempt": "POST /api/v1/feedback",
+      "status": 403,
+      "refused": true
+    },
+    {
+      "caller": "no key",
+      "attempt": "GET /api/v1/corpora/{B}",
+      "status": 401,
+      "refused": true
+    },
+    {
+      "caller": "no key",
+      "attempt": "PUT /api/v1/corpora/{B}",
+      "status": 401,
+      "refused": true
+    },
+    {
+      "caller": "no key",
+      "attempt": "POST /api/v1/corpora/{B}/rotate-key",
+      "status": 401,
+      "refused": true
+    },
+    {
+      "caller": "no key",
+      "attempt": "DELETE /api/v1/corpora/{B}",
+      "status": 401,
+      "refused": true
+    },
+    {
+      "caller": "no key",
+      "attempt": "POST /api/v1/query/retrieve",
+      "status": 401,
+      "refused": true
+    },
+    {
+      "caller": "no key",
+      "attempt": "POST /api/v1/query",
+      "status": 401,
+      "refused": true
+    },
+    {
+      "caller": "no key",
+      "attempt": "POST /api/v1/ingest/records",
+      "status": 401,
+      "refused": true
+    },
+    {
+      "caller": "no key",
+      "attempt": "GET /api/v1/ingest/jobs/{job}",
+      "status": 401,
+      "refused": true
+    },
+    {
+      "caller": "no key",
+      "attempt": "DELETE /api/v1/documents/{doc}?corpus_id={B}",
+      "status": 401,
+      "refused": true
+    },
+    {
+      "caller": "no key",
+      "attempt": "GET /api/v1/corpora/{B}/widget-keys",
+      "status": 401,
+      "refused": true
+    },
+    {
+      "caller": "no key",
+      "attempt": "POST /api/v1/corpora/{B}/widget-keys",
+      "status": 401,
+      "refused": true
+    },
+    {
+      "caller": "no key",
+      "attempt": "DELETE /api/v1/corpora/{B}/widget-keys/{widget}",
+      "status": 401,
+      "refused": true
+    },
+    {
+      "caller": "no key",
+      "attempt": "GET /api/v1/usage?corpus_id={B}",
+      "status": 401,
+      "refused": true
+    },
+    {
+      "caller": "no key",
+      "attempt": "GET /api/v1/admin/tenants/{tenantB}",
+      "status": 401,
+      "refused": true
+    },
+    {
+      "caller": "no key",
+      "attempt": "POST /api/v1/admin/tenants/{tenantB}/rotate-key",
+      "status": 401,
+      "refused": true
+    },
+    {
+      "caller": "no key",
+      "attempt": "GET /api/v1/documents?corpus_id={B}",
+      "status": 401,
+      "refused": true
+    },
+    {
+      "caller": "no key",
+      "attempt": "GET /api/v1/documents/{doc}?corpus_id={B}",
+      "status": 401,
+      "refused": true
+    },
+    {
+      "caller": "no key",
+      "attempt": "GET /api/v1/config?corpus_id={B}",
+      "status": 401,
+      "refused": true
+    },
+    {
+      "caller": "no key",
+      "attempt": "PATCH /api/v1/config?corpus_id={B}",
+      "status": 401,
+      "refused": true
+    },
+    {
+      "caller": "no key",
+      "attempt": "GET /api/v1/corpora/{B}/conversations",
+      "status": 401,
+      "refused": true
+    },
+    {
+      "caller": "no key",
+      "attempt": "POST /api/v1/corpora/{B}/conversations",
+      "status": 401,
+      "refused": true
+    },
+    {
+      "caller": "no key",
+      "attempt": "GET /api/v1/corpora/{B}/memories",
+      "status": 401,
+      "refused": true
+    },
+    {
+      "caller": "no key",
+      "attempt": "POST /api/v1/corpora/{B}/memories",
+      "status": 401,
+      "refused": true
+    },
+    {
+      "caller": "no key",
+      "attempt": "GET /api/v1/ingest/jobs?corpus_id={B}",
+      "status": 401,
+      "refused": true
+    },
+    {
+      "caller": "no key",
+      "attempt": "GET /api/v1/feedback?corpus_id={B}",
+      "status": 401,
+      "refused": true
+    },
+    {
+      "caller": "no key",
+      "attempt": "GET /api/v1/migrations?corpus_id={B}",
+      "status": 401,
+      "refused": true
+    },
+    {
+      "caller": "no key",
+      "attempt": "GET /api/v1/corpora/{B}/migrations",
+      "status": 401,
+      "refused": true
+    },
+    {
+      "caller": "no key",
+      "attempt": "GET /api/v1/migrations/{migration}",
+      "status": 401,
+      "refused": true
+    },
+    {
+      "caller": "no key",
+      "attempt": "POST /api/v1/migrations/{migration}/approve",
+      "status": 401,
+      "refused": true
+    },
+    {
+      "caller": "no key",
+      "attempt": "PATCH /api/v1/golden/{pair}",
+      "status": 401,
+      "refused": true
+    },
+    {
+      "caller": "no key",
+      "attempt": "GET /api/v1/corpora?tenant_id={tenantB}",
+      "status": 401,
+      "refused": true
+    },
+    {
+      "caller": "no key",
+      "attempt": "PUT /api/v1/corpora/{A}",
+      "status": 401,
+      "refused": true
+    },
+    {
+      "caller": "no key",
+      "attempt": "POST /api/v1/documents/{doc}/versions/{versionB}/restore?corpus_id={B}",
+      "status": 401,
+      "refused": true
+    },
+    {
+      "caller": "no key",
+      "attempt": "DELETE /api/v1/golden/{pair}",
+      "status": 401,
+      "refused": true
+    },
+    {
+      "caller": "no key",
+      "attempt": "GET /api/v1/webhooks",
+      "status": 401,
+      "refused": true
+    },
+    {
+      "caller": "no key",
+      "attempt": "POST /api/v1/webhooks",
+      "status": 401,
+      "refused": true
+    },
+    {
+      "caller": "no key",
+      "attempt": "GET /api/v1/admin/audit?tenant_id={tenantB}",
+      "status": 401,
+      "refused": true
+    },
+    {
+      "caller": "no key",
+      "attempt": "GET /api/v1/portal/workspaces/{workspaceB}",
+      "status": 401,
+      "refused": true
+    },
+    {
+      "caller": "no key",
+      "attempt": "PATCH /api/v1/portal/workspaces/{workspaceB}",
+      "status": 401,
+      "refused": true
+    },
+    {
+      "caller": "no key",
+      "attempt": "DELETE /api/v1/portal/workspaces/{workspaceB}",
+      "status": 401,
+      "refused": true
+    },
+    {
+      "caller": "no key",
+      "attempt": "POST /api/v1/portal/workspaces/{workspaceB}/lock",
+      "status": 401,
+      "refused": true
+    },
+    {
+      "caller": "no key",
+      "attempt": "GET /api/v1/portal/workspaces/{workspaceB}/content",
+      "status": 401,
+      "refused": true
+    },
+    {
+      "caller": "no key",
+      "attempt": "POST /api/v1/portal/workspaces/{workspaceB}/content",
+      "status": 401,
+      "refused": true
+    },
+    {
+      "caller": "no key",
+      "attempt": "GET /api/v1/portal/workspaces/{workspaceB}/chunks",
+      "status": 401,
+      "refused": true
+    },
+    {
+      "caller": "no key",
+      "attempt": "POST /api/v1/portal/workspaces/{workspaceB}/chunks",
+      "status": 401,
+      "refused": true
+    },
+    {
+      "caller": "no key",
+      "attempt": "POST /api/v1/portal/workspaces/{workspaceB}/submit",
+      "status": 401,
+      "refused": true
+    },
+    {
+      "caller": "no key",
+      "attempt": "POST /api/v1/portal/workspaces/{workspaceB}/approve",
+      "status": 401,
+      "refused": true
+    },
+    {
+      "caller": "no key",
+      "attempt": "POST /api/v1/portal/workspaces/{workspaceB}/ingest",
+      "status": 401,
+      "refused": true
+    },
+    {
+      "caller": "no key",
+      "attempt": "POST /api/v1/portal/workspaces/{workspaceB}/chat",
+      "status": 401,
+      "refused": true
+    },
+    {
+      "caller": "no key",
+      "attempt": "GET /api/v1/portal/workspaces/{workspaceB}/audit-trail",
+      "status": 401,
+      "refused": true
+    },
+    {
+      "caller": "no key",
+      "attempt": "GET /api/v1/portal/corpus/{B}/rules",
+      "status": 401,
+      "refused": true
+    },
+    {
+      "caller": "no key",
+      "attempt": "POST /api/v1/portal/corpus/{B}/rules",
+      "status": 401,
+      "refused": true
+    },
+    {
+      "caller": "no key",
+      "attempt": "POST /api/v1/portal/workspaces/from-ingestion",
+      "status": 401,
+      "refused": true
+    },
+    {
+      "caller": "no key",
+      "attempt": "POST /api/v1/portal/workspaces/{reviewB}/finalize-review",
+      "status": 401,
+      "refused": true
+    },
+    {
+      "caller": "no key",
+      "attempt": "GET /api/v1/portal/workspaces/{reviewB}/review-status",
+      "status": 401,
+      "refused": true
+    },
+    {
+      "caller": "no key",
+      "attempt": "POST /api/v1/portal/workspaces/{workspaceB}/chat/execute",
+      "status": 401,
+      "refused": true
+    },
+    {
+      "caller": "no key",
+      "attempt": "GET /api/v1/portal/workspaces/{workspaceA}/content/{contentB}",
+      "status": 401,
+      "refused": true
+    },
+    {
+      "caller": "no key",
+      "attempt": "POST /api/v1/portal/workspaces/{workspaceA}/content/{contentB}/reprocess",
+      "status": 401,
+      "refused": true
+    },
+    {
+      "caller": "no key",
+      "attempt": "PATCH /api/v1/portal/workspaces/{workspaceA}/chunks/{chunkB}",
+      "status": 401,
+      "refused": true
+    },
+    {
+      "caller": "no key",
+      "attempt": "POST /api/v1/portal/workspaces/{workspaceA}/chunks/{chunkB}/split",
+      "status": 401,
+      "refused": true
+    },
+    {
+      "caller": "no key",
+      "attempt": "POST /api/v1/portal/workspaces/{workspaceA}/chunks/merge",
+      "status": 401,
+      "refused": true
+    },
+    {
+      "caller": "no key",
+      "attempt": "POST /api/v1/portal/workspaces/{workspaceA}/chunks/reorder",
+      "status": 401,
+      "refused": true
+    },
+    {
+      "caller": "no key",
+      "attempt": "POST /api/v1/portal/workspaces/{workspaceA}/chunks/{chunkB}/approve",
+      "status": 401,
+      "refused": true
+    },
+    {
+      "caller": "no key",
+      "attempt": "POST /api/v1/portal/workspaces/{workspaceA}/chunks/{chunkB}/reject",
+      "status": 401,
+      "refused": true
+    },
+    {
+      "caller": "no key",
+      "attempt": "DELETE /api/v1/portal/workspaces/{workspaceA}/chunks/{chunkB}?user=attacker",
+      "status": 401,
+      "refused": true
+    },
+    {
+      "caller": "no key",
+      "attempt": "POST /api/v1/portal/workspaces/{workspaceA}/chat/execute",
+      "status": 401,
+      "refused": true
+    },
+    {
+      "caller": "no key",
+      "attempt": "PATCH /api/v1/portal/corpus/{A}/rules/{ruleB}",
+      "status": 401,
+      "refused": true
+    },
+    {
+      "caller": "no key",
+      "attempt": "DELETE /api/v1/portal/corpus/{A}/rules/{ruleB}",
+      "status": 401,
+      "refused": true
+    },
+    {
+      "caller": "no key",
+      "attempt": "GET /api/v1/query/{query}",
+      "status": 401,
+      "refused": true
+    },
+    {
+      "caller": "no key",
+      "attempt": "POST /api/v1/feedback",
+      "status": 401,
+      "refused": true
+    },
+    {
+      "caller": "owner A session",
+      "attempt": "GET /api/v1/corpora/{B}",
+      "status": 403,
+      "refused": true
+    },
+    {
+      "caller": "owner A session",
+      "attempt": "PUT /api/v1/corpora/{B}",
+      "status": 403,
+      "refused": true
+    },
+    {
+      "caller": "owner A session",
+      "attempt": "POST /api/v1/corpora/{B}/rotate-key",
+      "status": 403,
+      "refused": true
+    },
+    {
+      "caller": "owner A session",
+      "attempt": "DELETE /api/v1/corpora/{B}",
+      "status": 403,
+      "refused": true
+    },
+    {
+      "caller": "owner A session",
+      "attempt": "POST /api/v1/query/retrieve",
+      "status": 403,
+      "refused": true
+    },
+    {
+      "caller": "owner A session",
+      "attempt": "POST /api/v1/query",
+      "status": 403,
+      "refused": true
+    },
+    {
+      "caller": "owner A session",
+      "attempt": "POST /api/v1/ingest/records",
+      "status": 403,
+      "refused": true
+    },
+    {
+      "caller": "owner A session",
+      "attempt": "GET /api/v1/ingest/jobs/{job}",
+      "status": 403,
+      "refused": true
+    },
+    {
+      "caller": "owner A session",
+      "attempt": "DELETE /api/v1/documents/{doc}?corpus_id={B}",
+      "status": 403,
+      "refused": true
+    },
+    {
+      "caller": "owner A session",
+      "attempt": "GET /api/v1/corpora/{B}/widget-keys",
+      "status": 403,
+      "refused": true
+    },
+    {
+      "caller": "owner A session",
+      "attempt": "POST /api/v1/corpora/{B}/widget-keys",
+      "status": 403,
+      "refused": true
+    },
+    {
+      "caller": "owner A session",
+      "attempt": "DELETE /api/v1/corpora/{B}/widget-keys/{widget}",
+      "status": 403,
+      "refused": true
+    },
+    {
+      "caller": "owner A session",
+      "attempt": "GET /api/v1/usage?corpus_id={B}",
+      "status": 403,
+      "refused": true
+    },
+    {
+      "caller": "owner A session",
+      "attempt": "GET /api/v1/admin/tenants/{tenantB}",
+      "status": 403,
+      "refused": true
+    },
+    {
+      "caller": "owner A session",
+      "attempt": "POST /api/v1/admin/tenants/{tenantB}/rotate-key",
+      "status": 403,
+      "refused": true
+    },
+    {
+      "caller": "owner A session",
+      "attempt": "GET /api/v1/documents?corpus_id={B}",
+      "status": 403,
+      "refused": true
+    },
+    {
+      "caller": "owner A session",
+      "attempt": "GET /api/v1/documents/{doc}?corpus_id={B}",
+      "status": 403,
+      "refused": true
+    },
+    {
+      "caller": "owner A session",
+      "attempt": "GET /api/v1/config?corpus_id={B}",
+      "status": 403,
+      "refused": true
+    },
+    {
+      "caller": "owner A session",
+      "attempt": "PATCH /api/v1/config?corpus_id={B}",
+      "status": 403,
+      "refused": true
+    },
+    {
+      "caller": "owner A session",
+      "attempt": "GET /api/v1/corpora/{B}/conversations",
+      "status": 403,
+      "refused": true
+    },
+    {
+      "caller": "owner A session",
+      "attempt": "POST /api/v1/corpora/{B}/conversations",
+      "status": 403,
+      "refused": true
+    },
+    {
+      "caller": "owner A session",
+      "attempt": "GET /api/v1/corpora/{B}/memories",
+      "status": 403,
+      "refused": true
+    },
+    {
+      "caller": "owner A session",
+      "attempt": "POST /api/v1/corpora/{B}/memories",
+      "status": 403,
+      "refused": true
+    },
+    {
+      "caller": "owner A session",
+      "attempt": "GET /api/v1/ingest/jobs?corpus_id={B}",
+      "status": 403,
+      "refused": true
+    },
+    {
+      "caller": "owner A session",
+      "attempt": "GET /api/v1/feedback?corpus_id={B}",
+      "status": 403,
+      "refused": true
+    },
+    {
+      "caller": "owner A session",
+      "attempt": "GET /api/v1/migrations?corpus_id={B}",
+      "status": 403,
+      "refused": true
+    },
+    {
+      "caller": "owner A session",
+      "attempt": "GET /api/v1/corpora/{B}/migrations",
+      "status": 403,
+      "refused": true
+    },
+    {
+      "caller": "owner A session",
+      "attempt": "GET /api/v1/migrations/{migration}",
+      "status": 403,
+      "refused": true
+    },
+    {
+      "caller": "owner A session",
+      "attempt": "POST /api/v1/migrations/{migration}/approve",
+      "status": 403,
+      "refused": true
+    },
+    {
+      "caller": "owner A session",
+      "attempt": "PATCH /api/v1/golden/{pair}",
+      "status": 403,
+      "refused": true
+    },
+    {
+      "caller": "owner A session",
+      "attempt": "GET /api/v1/corpora?tenant_id={tenantB}",
+      "status": 403,
+      "refused": true
+    },
+    {
+      "caller": "owner A session",
+      "attempt": "PUT /api/v1/corpora/{A}",
+      "status": 403,
+      "refused": true
+    },
+    {
+      "caller": "owner A session",
+      "attempt": "POST /api/v1/documents/{doc}/versions/{versionB}/restore?corpus_id={B}",
+      "status": 403,
+      "refused": true
+    },
+    {
+      "caller": "owner A session",
+      "attempt": "DELETE /api/v1/golden/{pair}",
+      "status": 403,
+      "refused": true
+    },
+    {
+      "caller": "owner A session",
+      "attempt": "GET /api/v1/webhooks",
+      "status": 403,
+      "refused": true
+    },
+    {
+      "caller": "owner A session",
+      "attempt": "POST /api/v1/webhooks",
+      "status": 403,
+      "refused": true
+    },
+    {
+      "caller": "owner A session",
+      "attempt": "GET /api/v1/admin/audit?tenant_id={tenantB}",
+      "status": 403,
+      "refused": true
+    },
+    {
+      "caller": "owner A session",
+      "attempt": "GET /api/v1/portal/workspaces/{workspaceB}",
+      "status": 403,
+      "refused": true
+    },
+    {
+      "caller": "owner A session",
+      "attempt": "PATCH /api/v1/portal/workspaces/{workspaceB}",
+      "status": 403,
+      "refused": true
+    },
+    {
+      "caller": "owner A session",
+      "attempt": "DELETE /api/v1/portal/workspaces/{workspaceB}",
+      "status": 403,
+      "refused": true
+    },
+    {
+      "caller": "owner A session",
+      "attempt": "POST /api/v1/portal/workspaces/{workspaceB}/lock",
+      "status": 403,
+      "refused": true
+    },
+    {
+      "caller": "owner A session",
+      "attempt": "GET /api/v1/portal/workspaces/{workspaceB}/content",
+      "status": 403,
+      "refused": true
+    },
+    {
+      "caller": "owner A session",
+      "attempt": "POST /api/v1/portal/workspaces/{workspaceB}/content",
+      "status": 403,
+      "refused": true
+    },
+    {
+      "caller": "owner A session",
+      "attempt": "GET /api/v1/portal/workspaces/{workspaceB}/chunks",
+      "status": 403,
+      "refused": true
+    },
+    {
+      "caller": "owner A session",
+      "attempt": "POST /api/v1/portal/workspaces/{workspaceB}/chunks",
+      "status": 403,
+      "refused": true
+    },
+    {
+      "caller": "owner A session",
+      "attempt": "POST /api/v1/portal/workspaces/{workspaceB}/submit",
+      "status": 403,
+      "refused": true
+    },
+    {
+      "caller": "owner A session",
+      "attempt": "POST /api/v1/portal/workspaces/{workspaceB}/approve",
+      "status": 403,
+      "refused": true
+    },
+    {
+      "caller": "owner A session",
+      "attempt": "POST /api/v1/portal/workspaces/{workspaceB}/ingest",
+      "status": 403,
+      "refused": true
+    },
+    {
+      "caller": "owner A session",
+      "attempt": "POST /api/v1/portal/workspaces/{workspaceB}/chat",
+      "status": 403,
+      "refused": true
+    },
+    {
+      "caller": "owner A session",
+      "attempt": "GET /api/v1/portal/workspaces/{workspaceB}/audit-trail",
+      "status": 403,
+      "refused": true
+    },
+    {
+      "caller": "owner A session",
+      "attempt": "GET /api/v1/portal/corpus/{B}/rules",
+      "status": 403,
+      "refused": true
+    },
+    {
+      "caller": "owner A session",
+      "attempt": "POST /api/v1/portal/corpus/{B}/rules",
+      "status": 403,
+      "refused": true
+    },
+    {
+      "caller": "owner A session",
+      "attempt": "POST /api/v1/portal/workspaces/from-ingestion",
+      "status": 403,
+      "refused": true
+    },
+    {
+      "caller": "owner A session",
+      "attempt": "POST /api/v1/portal/workspaces/{reviewB}/finalize-review",
+      "status": 403,
+      "refused": true
+    },
+    {
+      "caller": "owner A session",
+      "attempt": "GET /api/v1/portal/workspaces/{reviewB}/review-status",
+      "status": 403,
+      "refused": true
+    },
+    {
+      "caller": "owner A session",
+      "attempt": "POST /api/v1/portal/workspaces/{workspaceB}/chat/execute",
+      "status": 403,
+      "refused": true
+    },
+    {
+      "caller": "owner A session",
+      "attempt": "GET /api/v1/portal/workspaces/{workspaceA}/content/{contentB}",
+      "status": 404,
+      "refused": true
+    },
+    {
+      "caller": "owner A session",
+      "attempt": "POST /api/v1/portal/workspaces/{workspaceA}/content/{contentB}/reprocess",
+      "status": 404,
+      "refused": true
+    },
+    {
+      "caller": "owner A session",
+      "attempt": "PATCH /api/v1/portal/workspaces/{workspaceA}/chunks/{chunkB}",
+      "status": 404,
+      "refused": true
+    },
+    {
+      "caller": "owner A session",
+      "attempt": "POST /api/v1/portal/workspaces/{workspaceA}/chunks/{chunkB}/split",
+      "status": 404,
+      "refused": true
+    },
+    {
+      "caller": "owner A session",
+      "attempt": "POST /api/v1/portal/workspaces/{workspaceA}/chunks/merge",
+      "status": 404,
+      "refused": true
+    },
+    {
+      "caller": "owner A session",
+      "attempt": "POST /api/v1/portal/workspaces/{workspaceA}/chunks/reorder",
+      "status": 404,
+      "refused": true
+    },
+    {
+      "caller": "owner A session",
+      "attempt": "POST /api/v1/portal/workspaces/{workspaceA}/chunks/{chunkB}/approve",
+      "status": 404,
+      "refused": true
+    },
+    {
+      "caller": "owner A session",
+      "attempt": "POST /api/v1/portal/workspaces/{workspaceA}/chunks/{chunkB}/reject",
+      "status": 404,
+      "refused": true
+    },
+    {
+      "caller": "owner A session",
+      "attempt": "DELETE /api/v1/portal/workspaces/{workspaceA}/chunks/{chunkB}?user=attacker",
+      "status": 404,
+      "refused": true
+    },
+    {
+      "caller": "owner A session",
+      "attempt": "POST /api/v1/portal/workspaces/{workspaceA}/chat/execute",
+      "status": 404,
+      "refused": true
+    },
+    {
+      "caller": "owner A session",
+      "attempt": "PATCH /api/v1/portal/corpus/{A}/rules/{ruleB}",
+      "status": 404,
+      "refused": true
+    },
+    {
+      "caller": "owner A session",
+      "attempt": "DELETE /api/v1/portal/corpus/{A}/rules/{ruleB}",
+      "status": 404,
+      "refused": true
+    },
+    {
+      "caller": "owner A session",
+      "attempt": "GET /api/v1/query/{query}",
+      "status": 404,
+      "refused": true
+    },
+    {
+      "caller": "owner A session",
+      "attempt": "POST /api/v1/feedback",
+      "status": 403,
+      "refused": true
+    },
+    {
+      "caller": "member A session",
+      "attempt": "GET /api/v1/corpora/{B}",
+      "status": 403,
+      "refused": true
+    },
+    {
+      "caller": "member A session",
+      "attempt": "PUT /api/v1/corpora/{B}",
+      "status": 403,
+      "refused": true
+    },
+    {
+      "caller": "member A session",
+      "attempt": "POST /api/v1/corpora/{B}/rotate-key",
+      "status": 403,
+      "refused": true
+    },
+    {
+      "caller": "member A session",
+      "attempt": "DELETE /api/v1/corpora/{B}",
+      "status": 403,
+      "refused": true
+    },
+    {
+      "caller": "member A session",
+      "attempt": "POST /api/v1/query/retrieve",
+      "status": 403,
+      "refused": true
+    },
+    {
+      "caller": "member A session",
+      "attempt": "POST /api/v1/query",
+      "status": 403,
+      "refused": true
+    },
+    {
+      "caller": "member A session",
+      "attempt": "POST /api/v1/ingest/records",
+      "status": 403,
+      "refused": true
+    },
+    {
+      "caller": "member A session",
+      "attempt": "GET /api/v1/ingest/jobs/{job}",
+      "status": 403,
+      "refused": true
+    },
+    {
+      "caller": "member A session",
+      "attempt": "DELETE /api/v1/documents/{doc}?corpus_id={B}",
+      "status": 403,
+      "refused": true
+    },
+    {
+      "caller": "member A session",
+      "attempt": "GET /api/v1/corpora/{B}/widget-keys",
+      "status": 403,
+      "refused": true
+    },
+    {
+      "caller": "member A session",
+      "attempt": "POST /api/v1/corpora/{B}/widget-keys",
+      "status": 403,
+      "refused": true
+    },
+    {
+      "caller": "member A session",
+      "attempt": "DELETE /api/v1/corpora/{B}/widget-keys/{widget}",
+      "status": 403,
+      "refused": true
+    },
+    {
+      "caller": "member A session",
+      "attempt": "GET /api/v1/usage?corpus_id={B}",
+      "status": 403,
+      "refused": true
+    },
+    {
+      "caller": "member A session",
+      "attempt": "GET /api/v1/admin/tenants/{tenantB}",
+      "status": 403,
+      "refused": true
+    },
+    {
+      "caller": "member A session",
+      "attempt": "POST /api/v1/admin/tenants/{tenantB}/rotate-key",
+      "status": 403,
+      "refused": true
+    },
+    {
+      "caller": "member A session",
+      "attempt": "GET /api/v1/documents?corpus_id={B}",
+      "status": 403,
+      "refused": true
+    },
+    {
+      "caller": "member A session",
+      "attempt": "GET /api/v1/documents/{doc}?corpus_id={B}",
+      "status": 403,
+      "refused": true
+    },
+    {
+      "caller": "member A session",
+      "attempt": "GET /api/v1/config?corpus_id={B}",
+      "status": 403,
+      "refused": true
+    },
+    {
+      "caller": "member A session",
+      "attempt": "PATCH /api/v1/config?corpus_id={B}",
+      "status": 403,
+      "refused": true
+    },
+    {
+      "caller": "member A session",
+      "attempt": "GET /api/v1/corpora/{B}/conversations",
+      "status": 403,
+      "refused": true
+    },
+    {
+      "caller": "member A session",
+      "attempt": "POST /api/v1/corpora/{B}/conversations",
+      "status": 403,
+      "refused": true
+    },
+    {
+      "caller": "member A session",
+      "attempt": "GET /api/v1/corpora/{B}/memories",
+      "status": 403,
+      "refused": true
+    },
+    {
+      "caller": "member A session",
+      "attempt": "POST /api/v1/corpora/{B}/memories",
+      "status": 403,
+      "refused": true
+    },
+    {
+      "caller": "member A session",
+      "attempt": "GET /api/v1/ingest/jobs?corpus_id={B}",
+      "status": 403,
+      "refused": true
+    },
+    {
+      "caller": "member A session",
+      "attempt": "GET /api/v1/feedback?corpus_id={B}",
+      "status": 403,
+      "refused": true
+    },
+    {
+      "caller": "member A session",
+      "attempt": "GET /api/v1/migrations?corpus_id={B}",
+      "status": 403,
+      "refused": true
+    },
+    {
+      "caller": "member A session",
+      "attempt": "GET /api/v1/corpora/{B}/migrations",
+      "status": 403,
+      "refused": true
+    },
+    {
+      "caller": "member A session",
+      "attempt": "GET /api/v1/migrations/{migration}",
+      "status": 403,
+      "refused": true
+    },
+    {
+      "caller": "member A session",
+      "attempt": "POST /api/v1/migrations/{migration}/approve",
+      "status": 403,
+      "refused": true
+    },
+    {
+      "caller": "member A session",
+      "attempt": "PATCH /api/v1/golden/{pair}",
+      "status": 403,
+      "refused": true
+    },
+    {
+      "caller": "member A session",
+      "attempt": "GET /api/v1/corpora?tenant_id={tenantB}",
+      "status": 403,
+      "refused": true
+    },
+    {
+      "caller": "member A session",
+      "attempt": "PUT /api/v1/corpora/{A}",
+      "status": 403,
+      "refused": true
+    },
+    {
+      "caller": "member A session",
+      "attempt": "POST /api/v1/documents/{doc}/versions/{versionB}/restore?corpus_id={B}",
+      "status": 403,
+      "refused": true
+    },
+    {
+      "caller": "member A session",
+      "attempt": "DELETE /api/v1/golden/{pair}",
+      "status": 403,
+      "refused": true
+    },
+    {
+      "caller": "member A session",
+      "attempt": "GET /api/v1/webhooks",
+      "status": 403,
+      "refused": true
+    },
+    {
+      "caller": "member A session",
+      "attempt": "POST /api/v1/webhooks",
+      "status": 403,
+      "refused": true
+    },
+    {
+      "caller": "member A session",
+      "attempt": "GET /api/v1/admin/audit?tenant_id={tenantB}",
+      "status": 403,
+      "refused": true
+    },
+    {
+      "caller": "member A session",
+      "attempt": "GET /api/v1/portal/workspaces/{workspaceB}",
+      "status": 403,
+      "refused": true
+    },
+    {
+      "caller": "member A session",
+      "attempt": "PATCH /api/v1/portal/workspaces/{workspaceB}",
+      "status": 403,
+      "refused": true
+    },
+    {
+      "caller": "member A session",
+      "attempt": "DELETE /api/v1/portal/workspaces/{workspaceB}",
+      "status": 403,
+      "refused": true
+    },
+    {
+      "caller": "member A session",
+      "attempt": "POST /api/v1/portal/workspaces/{workspaceB}/lock",
+      "status": 403,
+      "refused": true
+    },
+    {
+      "caller": "member A session",
+      "attempt": "GET /api/v1/portal/workspaces/{workspaceB}/content",
+      "status": 403,
+      "refused": true
+    },
+    {
+      "caller": "member A session",
+      "attempt": "POST /api/v1/portal/workspaces/{workspaceB}/content",
+      "status": 403,
+      "refused": true
+    },
+    {
+      "caller": "member A session",
+      "attempt": "GET /api/v1/portal/workspaces/{workspaceB}/chunks",
+      "status": 403,
+      "refused": true
+    },
+    {
+      "caller": "member A session",
+      "attempt": "POST /api/v1/portal/workspaces/{workspaceB}/chunks",
+      "status": 403,
+      "refused": true
+    },
+    {
+      "caller": "member A session",
+      "attempt": "POST /api/v1/portal/workspaces/{workspaceB}/submit",
+      "status": 403,
+      "refused": true
+    },
+    {
+      "caller": "member A session",
+      "attempt": "POST /api/v1/portal/workspaces/{workspaceB}/approve",
+      "status": 403,
+      "refused": true
+    },
+    {
+      "caller": "member A session",
+      "attempt": "POST /api/v1/portal/workspaces/{workspaceB}/ingest",
+      "status": 403,
+      "refused": true
+    },
+    {
+      "caller": "member A session",
+      "attempt": "POST /api/v1/portal/workspaces/{workspaceB}/chat",
+      "status": 403,
+      "refused": true
+    },
+    {
+      "caller": "member A session",
+      "attempt": "GET /api/v1/portal/workspaces/{workspaceB}/audit-trail",
+      "status": 403,
+      "refused": true
+    },
+    {
+      "caller": "member A session",
+      "attempt": "GET /api/v1/portal/corpus/{B}/rules",
+      "status": 403,
+      "refused": true
+    },
+    {
+      "caller": "member A session",
+      "attempt": "POST /api/v1/portal/corpus/{B}/rules",
+      "status": 403,
+      "refused": true
+    },
+    {
+      "caller": "member A session",
+      "attempt": "POST /api/v1/portal/workspaces/from-ingestion",
+      "status": 403,
+      "refused": true
+    },
+    {
+      "caller": "member A session",
+      "attempt": "POST /api/v1/portal/workspaces/{reviewB}/finalize-review",
+      "status": 403,
+      "refused": true
+    },
+    {
+      "caller": "member A session",
+      "attempt": "GET /api/v1/portal/workspaces/{reviewB}/review-status",
+      "status": 403,
+      "refused": true
+    },
+    {
+      "caller": "member A session",
+      "attempt": "POST /api/v1/portal/workspaces/{workspaceB}/chat/execute",
+      "status": 403,
+      "refused": true
+    },
+    {
+      "caller": "member A session",
+      "attempt": "GET /api/v1/portal/workspaces/{workspaceA}/content/{contentB}",
+      "status": 404,
+      "refused": true
+    },
+    {
+      "caller": "member A session",
+      "attempt": "POST /api/v1/portal/workspaces/{workspaceA}/content/{contentB}/reprocess",
+      "status": 404,
+      "refused": true
+    },
+    {
+      "caller": "member A session",
+      "attempt": "PATCH /api/v1/portal/workspaces/{workspaceA}/chunks/{chunkB}",
+      "status": 404,
+      "refused": true
+    },
+    {
+      "caller": "member A session",
+      "attempt": "POST /api/v1/portal/workspaces/{workspaceA}/chunks/{chunkB}/split",
+      "status": 404,
+      "refused": true
+    },
+    {
+      "caller": "member A session",
+      "attempt": "POST /api/v1/portal/workspaces/{workspaceA}/chunks/merge",
+      "status": 404,
+      "refused": true
+    },
+    {
+      "caller": "member A session",
+      "attempt": "POST /api/v1/portal/workspaces/{workspaceA}/chunks/reorder",
+      "status": 404,
+      "refused": true
+    },
+    {
+      "caller": "member A session",
+      "attempt": "POST /api/v1/portal/workspaces/{workspaceA}/chunks/{chunkB}/approve",
+      "status": 404,
+      "refused": true
+    },
+    {
+      "caller": "member A session",
+      "attempt": "POST /api/v1/portal/workspaces/{workspaceA}/chunks/{chunkB}/reject",
+      "status": 404,
+      "refused": true
+    },
+    {
+      "caller": "member A session",
+      "attempt": "DELETE /api/v1/portal/workspaces/{workspaceA}/chunks/{chunkB}?user=attacker",
+      "status": 404,
+      "refused": true
+    },
+    {
+      "caller": "member A session",
+      "attempt": "POST /api/v1/portal/workspaces/{workspaceA}/chat/execute",
+      "status": 404,
+      "refused": true
+    },
+    {
+      "caller": "member A session",
+      "attempt": "PATCH /api/v1/portal/corpus/{A}/rules/{ruleB}",
+      "status": 404,
+      "refused": true
+    },
+    {
+      "caller": "member A session",
+      "attempt": "DELETE /api/v1/portal/corpus/{A}/rules/{ruleB}",
+      "status": 404,
+      "refused": true
+    },
+    {
+      "caller": "member A session",
+      "attempt": "GET /api/v1/query/{query}",
+      "status": 404,
+      "refused": true
+    },
+    {
+      "caller": "member A session",
+      "attempt": "POST /api/v1/feedback",
+      "status": 403,
+      "refused": true
+    },
+    {
+      "caller": "widget key as API key",
+      "attempt": "GET /api/v1/corpora/{B}",
+      "status": 401,
+      "refused": true
+    },
+    {
+      "caller": "widget key as API key",
+      "attempt": "PUT /api/v1/corpora/{B}",
+      "status": 401,
+      "refused": true
+    },
+    {
+      "caller": "widget key as API key",
+      "attempt": "POST /api/v1/corpora/{B}/rotate-key",
+      "status": 401,
+      "refused": true
+    },
+    {
+      "caller": "widget key as API key",
+      "attempt": "DELETE /api/v1/corpora/{B}",
+      "status": 401,
+      "refused": true
+    },
+    {
+      "caller": "widget key as API key",
+      "attempt": "POST /api/v1/query/retrieve",
+      "status": 401,
+      "refused": true
+    },
+    {
+      "caller": "corpus A key",
+      "attempt": "GET /api/v1/documents?corpus_id={B} returns B's documents",
+      "status": 403,
+      "refused": true
+    },
+    {
+      "caller": "tenant A key",
+      "attempt": "GET /api/v1/corpora lists {B}",
+      "status": 200,
+      "refused": true
+    },
+    {
+      "caller": "corpus A key",
+      "attempt": "retrieve returns tenant B text",
+      "status": 200,
+      "refused": true
+    },
+    {
+      "caller": "tenant A key",
+      "attempt": "GET /api/v1/portal/workspaces lists {workspaceB}",
+      "status": 200,
+      "refused": true
+    },
+    {
+      "caller": "corpus A key",
+      "attempt": "GET /api/v1/portal/workspaces lists {workspaceB}",
+      "status": 200,
+      "refused": true
+    },
+    {
+      "caller": "owner A session",
+      "attempt": "GET /api/v1/portal/workspaces lists {workspaceB}",
+      "status": 200,
+      "refused": true
+    },
+    {
+      "caller": "member A session",
+      "attempt": "GET /api/v1/portal/workspaces lists {workspaceB}",
+      "status": 200,
+      "refused": true
+    },
+    {
+      "caller": "owner A session",
+      "attempt": "portal on A's own knowledge base: create a workspace is allowed",
+      "status": 201,
+      "refused": true
+    },
+    {
+      "caller": "owner A session",
+      "attempt": "portal on A's own workspace: list is allowed and shows it",
+      "status": 200,
+      "refused": true
+    },
+    {
+      "caller": "owner A session",
+      "attempt": "portal on A's own workspace: read chunks is allowed",
+      "status": 200,
+      "refused": true
+    },
+    {
+      "caller": "member A session",
+      "attempt": "portal on A's own workspace: list is allowed and shows it",
+      "status": 200,
+      "refused": true
+    },
+    {
+      "caller": "member A session",
+      "attempt": "portal on A's own workspace: read chunks is allowed",
+      "status": 200,
+      "refused": true
+    },
+    {
+      "caller": "member A session",
+      "attempt": "portal on A's own workspace: add a chunk is allowed",
+      "status": 201,
+      "refused": true
+    },
+    {
+      "caller": "member A session",
+      "attempt": "portal on A's own workspace: DELETE the workspace (owner-only)",
+      "status": 403,
+      "refused": true
+    },
+    {
+      "caller": "member A session, A's own",
+      "attempt": "POST /api/v1/corpora (owner-only)",
+      "status": 403,
+      "refused": true
+    },
+    {
+      "caller": "member A session, A's own",
+      "attempt": "DELETE /api/v1/corpora/{A} (owner-only)",
+      "status": 403,
+      "refused": true
+    },
+    {
+      "caller": "member A session, A's own",
+      "attempt": "POST /api/v1/corpora/{A}/rotate-key (owner-only)",
+      "status": 403,
+      "refused": true
+    },
+    {
+      "caller": "member A session, A's own",
+      "attempt": "PUT /api/v1/corpora/{A} (owner-only)",
+      "status": 403,
+      "refused": true
+    },
+    {
+      "caller": "member A session, A's own",
+      "attempt": "DELETE /api/v1/documents/{docA}?corpus_id={A} (owner-only)",
+      "status": 403,
+      "refused": true
+    },
+    {
+      "caller": "member A session, A's own",
+      "attempt": "POST /api/v1/documents/{docA}/versions/{versionA}/restore?corpus_id={A} (owner-only)",
+      "status": 403,
+      "refused": true
+    },
+    {
+      "caller": "member A session, A's own",
+      "attempt": "DELETE /api/v1/golden/{pairA} (owner-only)",
+      "status": 403,
+      "refused": true
+    },
+    {
+      "caller": "member A session, A's own",
+      "attempt": "POST /api/v1/corpora/{A}/widget-keys (owner-only)",
+      "status": 403,
+      "refused": true
+    },
+    {
+      "caller": "member A session, A's own",
+      "attempt": "POST /api/v1/corpora/{A}/widget-keys/{widgetA}/rotate (owner-only)",
+      "status": 403,
+      "refused": true
+    },
+    {
+      "caller": "member A session, A's own",
+      "attempt": "DELETE /api/v1/corpora/{A}/widget-keys/{widgetA} (owner-only)",
+      "status": 403,
+      "refused": true
+    },
+    {
+      "caller": "member A session, A's own",
+      "attempt": "POST /api/v1/tenants/me/rotate-key (owner-only)",
+      "status": 403,
+      "refused": true
+    },
+    {
+      "caller": "member A session, A's own",
+      "attempt": "POST /api/v1/tenants/me/members (owner-only)",
+      "status": 403,
+      "refused": true
+    },
+    {
+      "caller": "member A session, A's own",
+      "attempt": "DELETE /api/v1/corpora/{A}/memories?user_id=u (owner-only)",
+      "status": 403,
+      "refused": true
+    },
+    {
+      "caller": "member A session, A's own",
+      "attempt": "DELETE /api/v1/corpora/{A}/memories/purge (owner-only)",
+      "status": 403,
+      "refused": true
+    },
+    {
+      "caller": "owner A session",
+      "attempt": "GET /api/v1/admin/tenants/{tenantB}/members",
+      "status": 403,
+      "refused": true
+    },
+    {
+      "caller": "owner A session",
+      "attempt": "POST /api/v1/admin/tenants/{tenantB}/invitations",
+      "status": 403,
+      "refused": true
+    },
+    {
+      "caller": "forged token",
+      "attempt": "GET /api/v1/corpora with owner A's token re-signed with a wrong key",
+      "status": 401,
+      "refused": true
+    },
+    {
+      "caller": "forged token",
+      "attempt": "GET /api/v1/corpora with owner A's token with tid changed to B (original signature)",
+      "status": 401,
+      "refused": true
+    },
+    {
+      "caller": "forged token",
+      "attempt": "GET /api/v1/corpora with owner A's token with tid changed to B, re-signed with a wrong key",
+      "status": 401,
+      "refused": true
+    },
+    {
+      "caller": "forged token",
+      "attempt": "GET /api/v1/corpora with owner A's token with alg: none",
+      "status": 401,
+      "refused": true
+    },
+    {
+      "caller": "forged token",
+      "attempt": "GET /api/v1/corpora with owner A's token expired, signed with a wrong key",
+      "status": 401,
+      "refused": true
+    },
+    {
+      "caller": "refresh reuse",
+      "attempt": "refresh owner A once, then present the OLD refresh token",
+      "status": 401,
+      "refused": true
+    },
+    {
+      "caller": "refresh reuse",
+      "attempt": "then the NEW refresh token (the reuse revoked the session)",
+      "status": 401,
+      "refused": true
+    },
+    {
+      "caller": "owner B session",
+      "attempt": "accept an invitation into A addressed to someone else",
+      "status": 403,
+      "refused": true
+    },
+    {
+      "caller": "no key",
+      "attempt": "the same invitation token again after a proper accept",
+      "status": 404,
+      "refused": true
+    },
+    {
+      "caller": "no key",
+      "attempt": "POST /api/v1/auth/signup: existing vs fresh address, same status and body",
+      "status": [
+        202,
+        202
+      ],
+      "refused": true
+    },
+    {
+      "caller": "no key",
+      "attempt": "POST /api/v1/auth/forgot: existing vs fresh address, same status and body",
+      "status": [
+        202,
+        202
+      ],
+      "refused": true
+    },
+    {
+      "caller": "no key",
+      "attempt": "6 wrong-password logins on one address: the 6th is 429 account_locked",
+      "status": [
+        401,
+        401,
+        401,
+        401,
+        401,
+        429
+      ],
+      "refused": true
+    },
+    {
+      "caller": "all of the above",
+      "attempt": "B's config and golden pair unchanged, A still owned by tenant A",
+      "status": 200,
+      "refused": true
+    },
+    {
+      "caller": "all of the above",
+      "attempt": "A's document, golden pair and widget key still there, A's key still works",
+      "status": 200,
+      "refused": true
+    },
+    {
+      "caller": "all of the above",
+      "attempt": "B's workspace, staged content, chunks and rules unchanged",
+      "status": 200,
+      "refused": true
+    },
+    {
+      "caller": "all of the above",
+      "attempt": "B's review still in review, B's document version still the active one",
+      "status": 200,
+      "refused": true
+    },
+    {
+      "caller": "removed member A (admin removed them)",
+      "attempt": "GET /api/v1/corpora with the access token issued before",
+      "status": "401 session_revoked",
+      "refused": true
+    },
+    {
+      "caller": "admin key",
+      "attempt": "suspend without confirm_name: 422",
+      "status": 422,
+      "refused": true
+    },
+    {
+      "caller": "admin key",
+      "attempt": "suspend with the name in the wrong case: 422",
+      "status": 422,
+      "refused": true
+    },
+    {
+      "caller": "admin key",
+      "attempt": "PUT {\"is_active\": false} without confirm_name: 422",
+      "status": 422,
+      "refused": true
+    },
+    {
+      "caller": "admin key",
+      "attempt": "B still active after the three attempts",
+      "status": "active",
+      "refused": true
+    },
+    {
+      "caller": "owner B session, before the suspension",
+      "attempt": "GET /api/v1/corpora is allowed (the token below is a live one)",
+      "status": 200,
+      "refused": true
+    },
+    {
+      "caller": "admin key",
+      "attempt": "POST /api/v1/admin/tenants/{tenantB}/suspend with B's exact name suspends it",
+      "status": 200,
+      "refused": true
+    },
+    {
+      "caller": "corpus B key, tenant B suspended",
+      "attempt": "GET /api/v1/documents",
+      "status": 403,
+      "refused": true
+    },
+    {
+      "caller": "tenant B key, tenant B suspended",
+      "attempt": "GET /api/v1/tenants/me",
+      "status": 403,
+      "refused": true
+    },
+    {
+      "caller": "widget key B from its own site, tenant B suspended",
+      "attempt": "POST /api/v1/widget/chat",
+      "status": 403,
+      "refused": true
+    },
+    {
+      "caller": "owner B session issued before the suspension",
+      "attempt": "GET /api/v1/corpora",
+      "status": 401,
+      "refused": true
+    }
+  ],
+  "widget": [
+    {
+      "check": "config from the allowed site",
+      "status": 200,
+      "ok": true
+    },
+    {
+      "check": "config from another site",
+      "status": 403,
+      "ok": true
+    },
+    {
+      "check": "config with no Origin",
+      "status": 403,
+      "ok": true
+    },
+    {
+      "check": "secret corpus key used as widget key",
+      "status": 401,
+      "ok": true
+    },
+    {
+      "check": "8 messages at a 5/min limit",
+      "status": [
+        200,
+        200,
+        200,
+        200,
+        200,
+        429,
+        429,
+        429
+      ],
+      "ok": true
+    }
+  ],
+  "auth_overhead": {
+    "n": 200,
+    "corpus_key_ms": {
+      "p50": 12.5,
+      "p95": 43.7
+    },
+    "bearer_ms": {
+      "p50": 9.6,
+      "p95": 26.3
+    }
+  },
+  "footprint": {
+    "containers": [
+      {
+        "name": "worker",
+        "memory": "1.102GiB"
+      },
+      {
+        "name": "mailer",
+        "memory": "52.69MiB"
+      },
+      {
+        "name": "app",
+        "memory": "642.1MiB"
+      },
+      {
+        "name": "celery-beat",
+        "memory": "24.69MiB"
+      },
+      {
+        "name": "scraper",
+        "memory": "6.594MiB"
+      },
+      {
+        "name": "tei",
+        "memory": "26.71MiB"
+      },
+      {
+        "name": "redis",
+        "memory": "11.2MiB"
+      },
+      {
+        "name": "qdrant",
+        "memory": "120.2MiB"
+      },
+      {
+        "name": "dashboard",
+        "memory": "3.832MiB"
+      },
+      {
+        "name": "postgres",
+        "memory": "429.3MiB"
+      },
+      {
+        "name": "minio",
+        "memory": "98.01MiB"
+      }
+    ],
+    "images": [
+      {
+        "image": "callobuzz-rag:local",
+        "size": "12.1GB"
+      },
+      {
+        "image": "callobuzz-rag-scraper:local",
+        "size": "1.86GB"
+      },
+      {
+        "image": "cgr.dev/chainguard/minio:latest",
+        "size": "243MB"
+      },
+      {
+        "image": "postgres:16",
+        "size": "642MB"
+      },
+      {
+        "image": "postgres:17-alpine",
+        "size": "424MB"
+      },
+      {
+        "image": "postgres:17",
+        "size": "645MB"
+      },
+      {
+        "image": "nginx:alpine",
+        "size": "93.6MB"
+      },
+      {
+        "image": "postgres:16-alpine",
+        "size": "420MB"
+      },
+      {
+        "image": "redis:7-alpine",
+        "size": "57.8MB"
+      },
+      {
+        "image": "ghcr.io/huggingface/text-embeddings-inference:cuda-1.9",
+        "size": "8.29GB"
+      },
+      {
+        "image": "ghcr.io/huggingface/text-embeddings-inference:120-1.9",
+        "size": "8.27GB"
+      },
+      {
+        "image": "ghcr.io/huggingface/text-embeddings-inference:cpu-1.9",
+        "size": "938MB"
+      },
+      {
+        "image": "qdrant/qdrant:v1.13.2",
+        "size": "278MB"
+      }
+    ]
+  }
+}

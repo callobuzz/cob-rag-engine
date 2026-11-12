@@ -1,0 +1,14 @@
+{% extends "_base.txt" %}
+{% block content %}
+{% if status == "empty" %}
+{{ provider_label }} has run out of credit. Answers that use it will start failing until you add more.
+{% else %}
+{{ provider_label }} is running low on credit.
+{% endif %}
+
+Left:        {{ remaining }}
+Alert level: {{ threshold }}
+
+See all provider balances:
+{{ costs_url }}
+{% endblock %}

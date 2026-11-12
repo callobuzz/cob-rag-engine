@@ -1,0 +1,7 @@
+{% extends "_base.html" %}
+{% from "_macros.html" import button with context %}
+{% block content %}
+<p style="margin:0 0 12px;">The AI spend of your customers today is <strong>{{ used }}</strong>, <strong>{{ level_pct }}%</strong> of the daily ceiling you set ({{ limit }}).</p>
+<p style="margin:0 0 12px;">At the ceiling, every answer paid by your own AI key switches to the free local model (or pauses when there is none) until midnight UTC. Customers who bring their own key are not affected.</p>
+{{ button(costs_url, "See the costs") }}
+{% endblock %}

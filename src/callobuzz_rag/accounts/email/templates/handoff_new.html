@@ -1,0 +1,19 @@
+{% extends "_base.html" %}
+{% from "_macros.html" import button with context %}
+{% block content %}
+<p style="margin:0 0 12px;">A visitor of the <strong>{{ kb_name }}</strong> assistant{% if business_name %} of {{ business_name }}{% endif %} asked to talk to a person.</p>
+<table role="presentation" cellpadding="0" cellspacing="0" border="0" style="margin:0 0 12px;font-size:15px;">
+{% if ref_code is defined and ref_code %}<tr><td style="padding:2px 16px 2px 0;color:#6a737d;">Reference</td><td style="padding:2px 0;"><strong>{{ ref_code }}</strong></td></tr>{% endif %}
+<tr><td style="padding:2px 16px 2px 0;color:#6a737d;">Visitor</td><td style="padding:2px 0;"><strong>{{ visitor_label }}</strong></td></tr>
+<tr><td style="padding:2px 16px 2px 0;color:#6a737d;">Way chosen</td><td style="padding:2px 0;">{{ channel_label }}</td></tr>
+<tr><td style="padding:2px 16px 2px 0;color:#6a737d;">Why</td><td style="padding:2px 0;">{{ reason_label }}</td></tr>
+<tr><td style="padding:2px 16px 2px 0;color:#6a737d;">Office hours</td><td style="padding:2px 0;">{{ office_open }}</td></tr>
+{% if phone %}<tr><td style="padding:2px 16px 2px 0;color:#6a737d;">Phone</td><td style="padding:2px 0;">{{ phone }}</td></tr>{% endif %}
+{% if email %}<tr><td style="padding:2px 16px 2px 0;color:#6a737d;">E-mail</td><td style="padding:2px 0;">{{ email }}</td></tr>{% endif %}
+<tr><td style="padding:2px 16px 2px 0;color:#6a737d;">Language</td><td style="padding:2px 0;">{{ language }}</td></tr>
+{% if page_url %}<tr><td style="padding:2px 16px 2px 0;color:#6a737d;">Page</td><td style="padding:2px 0;">{{ page_url }}</td></tr>{% endif %}
+</table>
+<p style="margin:0 0 12px;"><strong>Summary:</strong> {{ summary }}</p>
+{% if question %}<p style="margin:0 0 12px;color:#6a737d;font-size:13px;">Last question: {{ question }}</p>{% endif %}
+{{ button(transcript_url, "Open the handoff and the full chat") }}
+{% endblock %}

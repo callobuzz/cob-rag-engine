@@ -1,0 +1,1031 @@
+<!doctype html>
+<html lang="en" class="no-js">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>cob-rag-engine: run an AI assistant business from one server</title>
+<meta name="description" content="Open-source engine for AI chat assistants. Each business you serve gets an assistant that answers from its own documents and website, on its website and on WhatsApp, in English, Hindi and Hinglish. Self-hosted, any AI model, AGPL-3.0.">
+<meta property="og:site_name" content="cob-rag-engine by Callobuzz">
+<meta property="og:title" content="cob-rag-engine: run an AI assistant business from one server">
+<meta property="og:description" content="Assistants that answer from each business's own documents, on its website and on WhatsApp. Plans, wallets, Razorpay and GST invoices built in. Self-hosted and open source.">
+<meta property="og:type" content="website">
+<meta property="og:image" content="https://callobuzz.github.io/cob-rag-engine/assets/social-card.png">
+<meta property="og:image:width" content="1280">
+<meta property="og:image:height" content="640">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="theme-color" content="#ffffff">
+<link rel="icon" type="image/png" sizes="32x32" href="assets/logo-32.png">
+<link rel="icon" type="image/png" sizes="64x64" href="assets/logo-64.png">
+<link rel="apple-touch-icon" href="assets/logo-180.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;600&family=Red+Hat+Text:wght@400;500;600&family=Schibsted+Grotesk:wght@500;600;700&display=swap" rel="stylesheet">
+<script src="assets/theme.js"></script>
+<link rel="stylesheet" href="assets/site.css">
+<style>
+/* Hallmark · macrostructure: Narrative Workflow (14) · tone: technical, plain · anchor hue: blue 259
+ * genre: modern-minimal · theme: DESIGN.md system (shared tokens in assets/site.css, light default + dark)
+ * nav: shared N1b bar · hero: H2 split diptych (a real widget conversation, drawn in HTML, no fake chrome)
+ * features: F4 step sequence + F3 spec sheet · footer: Ft1 mast-headed · enrichment: none · motion: none
+ */
+/* Hallmark · pre-emit critique: P4 H5 E4 S5 R5 V4 */
+/* the example business's own brand colour (Shree Labs), the same in both themes: it is somebody else's brand */
+:root{--color-mock: oklch(42% 0.11 162); --color-mock-ink: oklch(98% 0.01 162); --color-mock-tint: oklch(98% 0.01 162 / 0.18); --color-mock-edge: oklch(98% 0.01 162 / 0.45);}
+/* type on this page: 12 · 14 · 16 · 18 · 24 · 32, plus the h1/h2 clamps; mono only in code */
+.home section{scroll-margin-top: calc(var(--nav-h) + var(--space-md));}
+.band{padding: var(--space-3xl) 0; border-top: 1px solid var(--color-rule);}
+.band-alt{background: var(--color-paper-2);}
+.head{max-width: 760px; margin: 0 0 var(--space-xl);}
+.head h2{font-size: clamp(1.875rem, 2.2vw + 1rem, 2.75rem); margin: 0 0 var(--space-md);}
+.head p{color: var(--color-ink-2); font-size: 18px; line-height: 1.6; max-width: 64ch;}
+.eyebrow{display: block; font-size: 14px; font-weight: 600; color: var(--color-link);}
+.note{font-size: 14px; color: var(--color-ink-3);}
+.tnum{font-variant-numeric: tabular-nums;}
+
+/* hero: H2 split diptych */
+.hero{padding: var(--space-3xl) 0;}
+.hero-grid{display: grid; grid-template-columns: minmax(0, 7fr) minmax(0, 5fr); gap: var(--space-2xl); align-items: center;}
+.hero h1{font-size: clamp(2.5rem, 2.6vw + 1.25rem, 4rem); line-height: 1.04; letter-spacing: -.032em; max-width: 17ch; margin: var(--space-md) 0 var(--space-lg);}
+.hero .lede{font-size: clamp(16px, 1.2vw + 10px, 18px); max-width: 56ch;}
+.hero .cta{margin-top: var(--space-xl); gap: var(--space-sm) var(--space-lg);}
+.text-link{display: inline-flex; align-items: center; min-height: 44px; font-weight: 600; text-decoration: underline; text-underline-offset: 4px;}
+.facts{display: flex; flex-wrap: wrap; gap: var(--space-xs) var(--space-lg); margin: var(--space-xl) 0 0; padding: 0; list-style: none; font-size: 14px; color: var(--color-ink-2);}
+.facts li{display: inline-flex; align-items: center; gap: var(--space-xs);}
+.facts li::before{content: ""; width: 4px; height: 4px; border-radius: 50%; background: var(--color-ink-3);}
+
+/* the widget, drawn in HTML: example data */
+.chat{margin: 0; border: 1px solid var(--color-rule); border-radius: 16px; background: var(--color-paper); box-shadow: 0 32px 64px -40px var(--color-shadow); overflow: hidden; max-width: 440px; justify-self: end; width: 100%;}
+.chat-top{display: flex; align-items: center; gap: var(--space-xs); padding: var(--space-md); background: var(--color-mock); color: var(--color-mock-ink);}
+.chat-ava{flex: none; display: grid; place-items: center; width: 36px; height: 36px; border-radius: 50%; background: var(--color-mock-tint); font: 700 14px/1 var(--font-display);}
+.chat-who{min-width: 0; flex: 1;}
+.chat-who b{display: block; font-size: 16px; color: inherit;}
+.chat-who span{display: block; font-size: 12px; opacity: .85; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;}
+.chat-ai{flex: none; padding: 4px 8px; border-radius: var(--radius-pill); background: var(--color-mock-tint); font: 600 12px/1 var(--font-body);}
+.chat-person{flex: none; height: 32px; padding: 0 8px; border-radius: var(--radius-control); border: 1px solid var(--color-mock-edge); color: inherit; font: 600 12px/30px var(--font-body); white-space: nowrap;}
+.chat-body{display: grid; gap: var(--space-sm); padding: var(--space-md); background: var(--color-panel);}
+.msg{max-width: 88%; padding: 12px 16px; border-radius: 12px; font-size: 14px; line-height: 1.5;}
+.msg-me{justify-self: end; background: var(--color-mock); color: var(--color-mock-ink); border-bottom-right-radius: 4px;}
+.msg-bot{justify-self: start; background: var(--color-paper); border: 1px solid var(--color-rule); color: var(--color-ink); border-bottom-left-radius: 4px;}
+.msg-bot sup{font: 600 12px/1 var(--font-body); color: var(--color-link);}
+.srcs{display: flex; flex-wrap: wrap; gap: var(--space-xs); margin-top: var(--space-xs);}
+.src{display: inline-flex; align-items: center; gap: var(--space-xs); max-width: 100%; padding: 4px 8px; border-radius: var(--radius-pill); border: 1px solid var(--color-rule); background: var(--color-panel); font-size: 12px; color: var(--color-ink-2);}
+.src b{font-weight: 600; color: var(--color-link);}
+.src span{overflow: hidden; text-overflow: ellipsis; white-space: nowrap;}
+.handoff{justify-self: start; width: 88%; padding: 12px 16px; border-radius: 12px; border: 1px solid var(--color-rule); background: var(--color-paper);}
+.handoff p{font-size: 14px; color: var(--color-ink-2);}
+.handoff-row{display: flex; gap: var(--space-xs); margin-top: var(--space-xs); flex-wrap: wrap;}
+.handoff-row span{display: inline-flex; align-items: center; height: 32px; padding: 0 12px; border-radius: var(--radius-control); border: 1px solid var(--color-rule-strong); font-size: 14px; font-weight: 600; color: var(--color-ink);}
+.handoff-row span:first-child{background: var(--color-mock); border-color: transparent; color: var(--color-mock-ink);}
+.ref{margin-top: var(--space-xs); font-size: 12px; color: var(--color-ink-3);}
+.chat-foot{display: flex; flex-wrap: wrap; justify-content: space-between; gap: var(--space-xs) var(--space-md); padding: 8px var(--space-md); border-top: 1px solid var(--color-rule); font-size: 12px; color: var(--color-ink-3);}
+.chat-cap{max-width: 440px; justify-self: end; width: 100%; margin-top: var(--space-sm); font-size: 14px; color: var(--color-ink-3);}
+.hero-proof{display: grid; justify-items: end;}
+
+/* who it is for */
+.who{display: grid; grid-template-columns: minmax(0, 1.15fr) minmax(0, 1fr); gap: var(--space-lg);}
+.who-card{padding: var(--space-xl); border: 1px solid var(--color-rule); border-radius: var(--radius-card); background: var(--color-paper);}
+.who-card.is-main{background: var(--color-surface); border-color: transparent;}
+.who-card h3{font-size: 24px; letter-spacing: -.02em; margin: var(--space-xs) 0 var(--space-sm);}
+.who-card > p{color: var(--color-ink-2); max-width: 54ch;}
+.ticks{list-style: none; margin: var(--space-lg) 0 0; padding: 0; display: grid; gap: var(--space-sm);}
+.ticks li{position: relative; padding-left: 28px; color: var(--color-ink-2); font-size: 16px;}
+.ticks li::before{content: ""; position: absolute; left: 2px; top: 8px; width: 12px; height: 7px; border-left: 2px solid var(--color-ink-3); border-bottom: 2px solid var(--color-ink-3); transform: rotate(-45deg);}
+.ticks b{color: var(--color-ink);}
+.who-card .more{display: inline-flex; align-items: center; min-height: 44px; margin-top: var(--space-md); font-weight: 600;}
+
+/* product tour: real screenshots, full width; only the picture that matches the theme loads */
+.tour .tablist{margin-bottom: var(--space-lg);}
+.shot{margin: 0; display: grid; gap: var(--space-lg);}
+.shot-img{display: block; border: 1px solid var(--color-rule); border-radius: var(--radius-card); overflow: hidden; background: var(--color-panel); box-shadow: 0 32px 64px -48px var(--color-shadow);}
+.shot-img a{display: block;}
+.shot-img img{display: block; width: 100%; height: auto;}
+.shot-dark{display: none !important;}
+:root[data-theme="dark"] .shot-light{display: none !important;}
+:root[data-theme="dark"] .shot-dark{display: block !important;}
+.shot figcaption{display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: var(--space-lg) var(--space-2xl);}
+.shot figcaption p{color: var(--color-ink); font-size: 16px; line-height: 1.55;}
+.shot figcaption ul{list-style: none; margin: 0; padding: 0; display: grid; gap: var(--space-xs);}
+.shot figcaption li{position: relative; padding-left: 16px; font-size: 14px; color: var(--color-ink-2);}
+.shot figcaption li::before{content: ""; position: absolute; left: 0; top: 9px; width: 4px; height: 4px; border-radius: 50%; background: var(--color-ink-3);}
+.shot .open{font-size: 14px;}
+/* each capture ends at a card edge; the file itself is the full viewport */
+.shot-img img{object-fit: cover; object-position: top;}
+@media (min-width: 701px){
+  .crop-overview .shot-img img{aspect-ratio: 1440 / 835;}
+  .crop-home .shot-img img{aspect-ratio: 1440 / 775;}
+  .crop-widget .shot-img img{aspect-ratio: 1440 / 900;}
+  .crop-leads .shot-img img{aspect-ratio: 1440 / 600;}
+  .crop-plan .shot-img img{aspect-ratio: 1440 / 724;}
+  .crop-site .shot-img img{aspect-ratio: 1440 / 710;}
+}
+@media (max-width: 700px){
+  .crop-overview .shot-img img{aspect-ratio: 390 / 540;}
+  .crop-home .shot-img img{aspect-ratio: 390 / 492;}
+  .crop-widget .shot-img img{aspect-ratio: 390 / 782;}
+  .crop-leads .shot-img img{aspect-ratio: 390 / 745;}
+  .crop-plan .shot-img img{aspect-ratio: 390 / 810;}
+  .crop-site .shot-img img{aspect-ratio: 390 / 403;}
+}
+.no-js .tour [role="tabpanel"] + [role="tabpanel"]{margin-top: var(--space-2xl);}
+
+/* F4 step sequence: from install to invoice; space separates the steps */
+.stages{list-style: none; margin: 0; padding: 0;}
+.stage{display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: var(--space-xl) var(--space-2xl); align-items: start; padding: var(--space-2xl) 0; border-top: 1px solid var(--color-rule);}
+.stage:first-child{padding-top: 0; border-top: 0;}
+.stage-n{display: block; font-size: 14px; font-weight: 600; color: var(--color-link); margin-bottom: var(--space-sm);}
+.stage h3{font-size: clamp(24px, 1.4vw + 16px, 32px); letter-spacing: -.024em; line-height: 1.12; margin: 0 0 var(--space-md);}
+.stage-text > p{color: var(--color-ink-2); font-size: 18px; max-width: 52ch;}
+.stage .ticks{margin-top: var(--space-md);}
+.stage-vis{min-width: 0;}
+.stage-vis .cb{margin: 0;}
+.panel{border: 1px solid var(--color-rule); border-radius: var(--radius-card); background: var(--color-paper); overflow: hidden;}
+.panel-h{display: flex; justify-content: space-between; gap: var(--space-sm); padding: var(--space-sm) var(--space-md); border-bottom: 1px solid var(--color-rule); background: var(--color-panel); font-size: 14px; font-weight: 600; color: var(--color-ink-2);}
+.panel-h span:last-child{font-weight: 400; color: var(--color-ink-3);}
+.rows{list-style: none; margin: 0; padding: 0;}
+.rows li{display: grid; grid-template-columns: minmax(0, 1fr) auto; gap: var(--space-md); align-items: baseline; padding: 12px var(--space-md); border-bottom: 1px solid var(--color-rule); font-size: 14px;}
+.rows li:last-child{border-bottom: 0;}
+.rows .k{color: var(--color-ink); font-weight: 500; min-width: 0;}
+.rows .k small{display: block; font-weight: 400; font-size: 12px; color: var(--color-ink-3);}
+.rows .v{font-size: 14px; color: var(--color-ink-2); text-align: right; white-space: nowrap; font-variant-numeric: tabular-nums;}
+.rows .v.ok{color: var(--color-green);}
+.rows .v.neg{color: var(--color-ink);}
+.rows li.total{background: var(--color-panel);}
+.rows li.total .k, .rows li.total .v{font-weight: 600; color: var(--color-ink);}
+.dot{display: inline-block; width: 8px; height: 8px; margin-right: 8px; border-radius: 50%; background: var(--color-green); vertical-align: 1px;}
+.dot.is-wait{background: var(--color-rule-strong);}
+.check{padding: var(--space-md); display: grid; gap: var(--space-xs);}
+.check p{font-size: 14px; color: var(--color-ink);}
+.check p + p.why + p{margin-top: var(--space-xs);}
+.check mark{background: color-mix(in oklch, var(--color-green) 16%, transparent); color: inherit; border-radius: 4px; padding: 0 4px;}
+.check mark.bad{background: color-mix(in oklch, var(--color-rose) 16%, transparent); text-decoration: line-through; text-decoration-color: var(--color-rose);}
+.check .why{font-size: 12px; color: var(--color-ink-3);}
+.lead{padding: var(--space-md); display: grid; gap: var(--space-xs); font-size: 14px;}
+.lead b{font-size: 16px; color: var(--color-ink);}
+.lead .kv{display: grid; grid-template-columns: 112px minmax(0, 1fr); gap: var(--space-sm); color: var(--color-ink-2);}
+.lead .kv span:first-child{color: var(--color-ink-3);}
+
+/* F3 spec sheet: each group folds on a phone */
+.spec{display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: var(--space-xl) var(--space-2xl);}
+.spec-g summary{list-style: none; cursor: default; border-bottom: 1px solid var(--color-rule-strong);}
+.spec-g summary::-webkit-details-marker{display: none;}
+.spec h3{font-size: 18px; margin: 0; padding: var(--space-sm) 0;}
+@media (min-width: 701px){.spec-g summary{pointer-events: none;}}
+.spec dl{margin: 0;}
+.spec dl > div{display: grid; grid-template-columns: minmax(0, 11rem) minmax(0, 1fr); gap: var(--space-md); padding: 12px 0; border-bottom: 1px solid var(--color-rule);}
+.spec dt{font-weight: 600; color: var(--color-ink); font-size: 16px;}
+.spec dd{margin: 0; color: var(--color-ink-2); font-size: 16px;}
+
+/* measured */
+.stats{display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); border-top: 1px solid var(--color-rule-strong);}
+.stat{padding: var(--space-lg) var(--space-lg) var(--space-lg) 0; min-width: 0;}
+.stat + .stat{padding-left: var(--space-lg); border-left: 1px solid var(--color-rule);}
+/* display numbers keep proportional figures: the display face's tabular figures open a gap around the point */
+.stat b{display: block; font-family: var(--font-display); font-weight: 600; font-size: clamp(32px, 3vw + 12px, 48px); letter-spacing: -.035em; line-height: 1; color: var(--color-ink); white-space: nowrap;}
+.stat span{display: block; margin-top: var(--space-sm); font-size: 16px; color: var(--color-ink); font-weight: 500; text-wrap: pretty;}
+.stat small{display: block; margin-top: var(--space-xs); font-size: 14px; color: var(--color-ink-3); line-height: 1.5;}
+
+/* the generated language panel (benchmarks/answer_tables.py): one level of cards, no outer box */
+.lang{margin-top: var(--space-2xl); display: grid; gap: var(--space-md);}
+.lang .kicker{display: block; font-size: 14px; font-weight: 600; color: var(--color-link); margin-bottom: var(--space-xs); font-family: var(--font-body); letter-spacing: 0; text-transform: none;}
+.lang-head{margin-bottom: var(--space-xs);}
+.lang-head h3{font-size: 24px; letter-spacing: -.02em; margin: 0;}
+.lang-head p{color: var(--color-ink-2); font-size: 16px; margin-top: var(--space-xs); max-width: 60ch;}
+.lang-grid, .lang-cards{display: grid; grid-template-columns: minmax(0, 1.15fr) minmax(0, 1fr); gap: var(--space-md);}
+.lang-tiles{display: grid; gap: var(--space-md); min-width: 0;}
+.lang-tile{min-width: 0; padding: var(--space-md) var(--space-lg); border: 1px solid var(--color-rule); border-radius: var(--radius-card); background: var(--color-panel); display: grid; grid-template-columns: minmax(0, auto) minmax(0, 1fr); align-items: baseline; gap: 4px var(--space-md);}
+.lang-tile > b{font-family: var(--font-display); font-weight: 600; font-size: 24px; letter-spacing: -.03em; line-height: 1; color: var(--color-ink); white-space: nowrap;}
+.lang-tile .lang-what{font-size: 14px; color: var(--color-ink-2); line-height: 1.4;}
+.lang-tile > .lang-meter, .lang-tile > .lang-bar{grid-column: 1 / -1;}
+.lang-tile.is-main{grid-template-columns: minmax(0, 1fr); align-content: start; padding: var(--space-lg); background: var(--color-surface); border-color: transparent;}
+.lang-tile.is-main > .lang-big{font-size: clamp(48px, 5vw, 72px); color: var(--color-ink); letter-spacing: -.045em;}
+.lang-tile.is-main > .lang-what{font-size: 16px; color: var(--color-ink);}
+.lang-bar{font-size: 12px; color: var(--color-ink-3);}
+.lang-meter{position: relative; display: block; height: 6px; margin: 4px 0; border-radius: var(--radius-pill); background: color-mix(in oklch, var(--color-ink) 10%, transparent);}
+.lang-meter i{position: absolute; inset: 0 auto 0 0; width: calc(var(--v) * 1%); border-radius: inherit; background: var(--color-primary);}
+.lang-meter::after{content: ""; position: absolute; top: -4px; bottom: -4px; left: calc(var(--bar) * 1%); width: 2px; border-radius: 1px; background: var(--color-ink);}
+.lang-langs{list-style: none; margin: var(--space-sm) 0 0; padding: var(--space-sm) 0 0; border-top: 1px solid color-mix(in oklch, var(--color-ink) 12%, transparent); display: grid; gap: var(--space-xs);}
+.lang-langs li{display: grid; grid-template-columns: 88px 64px minmax(0, 1fr); align-items: center; gap: var(--space-sm); font-size: 14px; color: var(--color-ink-2);}
+.lang-langs b{font-size: 14px; font-weight: 600; color: var(--color-ink); font-variant-numeric: tabular-nums; text-align: right;}
+.lang-langs .lang-meter{margin: 0;}
+.lang-card{min-width: 0; padding: var(--space-md) var(--space-lg); border: 1px solid var(--color-rule); border-radius: var(--radius-card); background: var(--color-panel); display: flex; flex-direction: column; gap: var(--space-xs);}
+.lang-k{font-size: 14px; font-weight: 600; color: var(--color-ink-3);}
+.lang-name{font-size: 18px; font-weight: 600; color: var(--color-ink);}
+.lang-card code{font-size: 12px; color: var(--color-ink-2); overflow-wrap: anywhere; background: none; border: 0; padding: 0;}
+.lang-pass{margin-top: var(--space-xs); font-size: 14px; color: var(--color-ink-2);}
+.lang-pass b{color: var(--color-ink);}
+.lang-strip{width: 100%; max-width: 420px; height: auto; margin-top: 4px;}
+.lang-strip rect{fill: var(--color-rule-strong);}
+.lang-strip rect.is-pass{fill: var(--color-green);}
+.lang-strip rect.is-default{fill: var(--color-primary);}
+.lang-legend{display: flex; flex-wrap: wrap; gap: 4px var(--space-md); font-size: 12px; color: var(--color-ink-3);}
+.lang-legend span{display: inline-flex; align-items: center; gap: var(--space-xs);}
+.lang-legend i{width: 8px; height: 8px; border-radius: 2px; background: var(--color-rule-strong);}
+.lang-legend i.is-pass{background: var(--color-green);}
+.lang-legend i.is-default{background: var(--color-primary);}
+.lang-list{list-style: none; margin: 0; padding: 0; border-top: 1px solid var(--color-rule);}
+.lang-list li{display: grid; grid-template-columns: minmax(0, 1fr) 56px minmax(0, 8.5rem); gap: var(--space-sm); padding: 8px 0; border-bottom: 1px solid var(--color-rule); font-size: 14px; color: var(--color-ink-2);}
+.lang-list b{font-weight: 600; color: var(--color-ink); text-align: right; font-variant-numeric: tabular-nums;}
+.lang-list i{font-style: normal; color: var(--color-ink-3);}
+.lang-duo{display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: var(--space-md); margin-top: var(--space-xs); padding-top: var(--space-sm); border-top: 1px solid var(--color-rule);}
+.lang-duo b{display: block; font-family: var(--font-display); font-weight: 600; font-size: 32px; letter-spacing: -.03em; line-height: 1.05; color: var(--color-ink);}
+.lang-duo span{display: block; margin-top: 4px; font-size: 14px; color: var(--color-ink-2); line-height: 1.45;}
+.lang-note{margin-top: var(--space-xs); font-size: 14px; color: var(--color-ink-3);}
+/* the exact claim sentence: the auditable text behind the tiles, kept as a footnote */
+.lang-claim{font-size: 14px; line-height: 1.6; color: var(--color-ink-3); max-width: var(--measure);}
+.lang-claim code{color: var(--color-ink-2); background: none; border: 0; padding: 0;}
+.lang-src{font-size: 14px; color: var(--color-ink-3);}
+@media (min-width: 961px){.lang-head{display: grid; grid-template-columns: minmax(0, 1.05fr) minmax(0, .95fr); column-gap: var(--space-2xl); align-items: end;} .lang-head p{margin: 0;}}
+
+/* developers: code tabs */
+.dev{display: grid; grid-template-columns: minmax(0, 5fr) minmax(0, 7fr); gap: var(--space-2xl); align-items: start;}
+.dev .ticks{margin-top: var(--space-md);}
+.dev .tablist{margin-bottom: var(--space-sm);}
+.dev [role="tabpanel"] .cb{margin: 0;}
+.no-js .dev [role="tabpanel"] + [role="tabpanel"]{margin-top: var(--space-md);}
+
+/* compare: the paragraph leads; the four lines fold; the table starts from cob-rag-engine */
+.why-grid{max-width: 760px; margin-bottom: var(--space-xl);}
+.why-grid .short{font-size: 18px; line-height: 1.6; color: var(--color-ink);}
+.four-d{margin-top: var(--space-md);}
+.four-d summary, .lang-all summary, .ex summary{display: inline-flex; align-items: center; gap: var(--space-xs); min-height: 44px; cursor: pointer; list-style: none; font-size: 16px; font-weight: 600; color: var(--color-link);}
+.four-d summary::-webkit-details-marker, .lang-all summary::-webkit-details-marker, .ex summary::-webkit-details-marker{display: none;}
+.four-d summary::after, .lang-all summary::after, .ex summary::after{content: ""; width: 8px; height: 8px; border-right: 2px solid currentColor; border-bottom: 2px solid currentColor; transform: rotate(45deg) translateY(-2px);}
+.four-d[open] > summary::after, .lang-all[open] > summary::after, .ex[open] > summary::after{transform: rotate(-135deg) translateY(-2px);}
+.ex summary{display: none;}
+.ex.dev-ex{display: block;}
+@media (max-width: 700px){.ex summary{display: inline-flex;}}
+.four{margin: var(--space-sm) 0 0; padding: 0; list-style: none; counter-reset: four; display: grid; gap: var(--space-md);}
+.four li{counter-increment: four; position: relative; padding-left: 40px; color: var(--color-ink-2); font-size: 16px;}
+.four li::before{content: counter(four); position: absolute; left: 0; top: 0; width: 24px; height: 24px; border-radius: 50%; border: 1px solid var(--color-rule-strong); display: grid; place-items: center; font-size: 12px; font-weight: 600; color: var(--color-ink);}
+.cmp-wrap{border: 1px solid var(--color-rule); border-radius: var(--radius-card); background: var(--color-paper); overflow: hidden;}
+.cmp{font-size: 14px;}
+.cmp th, .cmp td{padding: 12px 16px; white-space: normal;}
+.cmp th{font-family: var(--font-body); font-size: 14px; letter-spacing: 0; text-transform: none; color: var(--color-ink-2);}
+.cmp td:first-child{white-space: normal; width: 15%;}
+.cmp .us{background: var(--color-surface); color: var(--color-ink);}
+.cmp-wrap + .note{margin-top: var(--space-md);}
+.cmp-more, .cmp-lead{display: none;}
+.cmp th.us{color: var(--color-ink);}
+
+/* licence */
+.lic{display: grid; grid-template-columns: minmax(0, 1.2fr) minmax(0, 1fr); gap: var(--space-2xl); align-items: start;}
+.lic-table{border-top: 1px solid var(--color-rule-strong);}
+.lic-table > div{display: grid; grid-template-columns: minmax(0, 1fr) auto; gap: var(--space-md); padding: 16px 0; border-bottom: 1px solid var(--color-rule); align-items: baseline;}
+.lic-table b{color: var(--color-ink); font-weight: 600;}
+.lic-table span{display: block; font-size: 14px; color: var(--color-ink-3);}
+.lic-table code{font-size: 12px;}
+.lic-tag{font-size: 14px; font-weight: 600; padding: 4px 12px; border-radius: var(--radius-pill); border: 1px solid var(--color-rule-strong); color: var(--color-ink); white-space: nowrap;}
+.lic-text p{color: var(--color-ink-2); margin-bottom: var(--space-md); max-width: 60ch;}
+.lic-text p b{color: var(--color-ink);}
+
+/* gaps and next */
+.gn{display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: var(--space-2xl); align-items: start;}
+.gn h3{font-size: 24px; letter-spacing: -.02em; margin: 0 0 var(--space-md);}
+.gaps, .next{list-style: none; margin: 0; padding: 0; border-top: 1px solid var(--color-rule);}
+.gaps li, .next li{padding: 16px 0; border-bottom: 1px solid var(--color-rule); font-size: 16px; color: var(--color-ink-2);}
+.gaps b, .next b{display: block; color: var(--color-ink); font-weight: 600; margin-bottom: 4px;}
+.next .when{display: inline-block; margin-right: var(--space-xs); padding: 0 8px; border-radius: var(--radius-pill); border: 1px solid var(--color-rule-strong); font-size: 12px; font-weight: 600; line-height: 20px; color: var(--color-ink-2); vertical-align: 1px;}
+
+/* install */
+.start{display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: var(--space-xl) var(--space-2xl); align-items: start;}
+.start h3{font-size: 18px; margin: 0 0 var(--space-xs);}
+.start p{color: var(--color-ink-2); max-width: 56ch;}
+.start .cb{margin: var(--space-md) 0;}
+.start-cta{margin-top: var(--space-xl);}
+
+@media (max-width: 1100px){
+  .home section{scroll-margin-top: 132px;}
+}
+@media (max-width: 960px){
+  .hero-grid, .who, .stage, .spec, .dev, .lic, .gn, .start, .lang-grid, .lang-cards, .shot figcaption{grid-template-columns: minmax(0, 1fr);}
+  .chat, .chat-cap{justify-self: start;}
+  .hero-proof{justify-items: start;}
+  .stats{grid-template-columns: repeat(2, minmax(0, 1fr));}
+  .stat:nth-child(3){padding-left: 0; border-left: 0;}
+  .stat:nth-child(n+3){border-top: 1px solid var(--color-rule);}
+}
+@media (max-width: 700px){
+  .band{padding: var(--space-2xl) 0;}
+  .hero{padding: var(--space-xl) 0 var(--space-2xl);}
+  .who-card{padding: var(--space-lg);}
+  .stage{padding: var(--space-xl) 0;}
+  .stage:first-child{padding-top: 0;}
+  .spec dl > div{grid-template-columns: minmax(0, 1fr); gap: 4px;}
+  .spec-g summary{display: flex; align-items: center; justify-content: space-between; min-height: 44px; cursor: pointer;}
+  .spec-g summary::after{content: ""; width: 8px; height: 8px; border-right: 2px solid var(--color-ink-2); border-bottom: 2px solid var(--color-ink-2); transform: rotate(45deg) translateY(-2px);}
+  .spec-g[open] summary::after{transform: rotate(-135deg);}
+  .stats{grid-template-columns: minmax(0, 1fr);}
+  .stat, .stat + .stat{padding: var(--space-lg) 0; border-left: 0;}
+  .stat + .stat{border-top: 1px solid var(--color-rule);}
+  .lang-tile, .lang-tile.is-main, .lang-card{padding: var(--space-md);}
+  .lang-langs li{grid-template-columns: 76px 56px minmax(0, 1fr);}
+  .lead .kv{grid-template-columns: 96px minmax(0, 1fr);}
+  .rows .v{white-space: normal;}
+  .tour .tablist{display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); width: 100%;}
+  .tour .tablist button{padding: 10px 4px; text-align: center;}
+  .home .cb pre{white-space: pre-wrap; overflow-wrap: anywhere;}
+  .home .cb code{white-space: pre-wrap;}
+  /* the comparison: one card per row, cob-rag-engine first */
+  .cmp-wrap{border: 0; background: transparent; border-radius: 0; overflow: visible;}
+  .cmp-more{display: inline-flex; align-items: center; min-height: 44px; margin-bottom: var(--space-sm); padding: 0; border: 0; background: none; cursor: pointer; font: 600 16px/1.3 var(--font-body); color: var(--color-link); text-align: left;}
+  .no-js .cmp-more, .no-js .cmp-lead{display: none;}
+  .js .cmp-lead{display: block; margin: 0; font-size: 16px; font-weight: 600; color: var(--color-ink);}
+  .cmp-more{gap: var(--space-xs);}
+  .cmp-more::after{content: ""; width: 8px; height: 8px; border-right: 2px solid currentColor; border-bottom: 2px solid currentColor; transform: rotate(45deg) translateY(-2px);}
+  .cmp-more[aria-expanded="true"]::after{transform: rotate(-135deg) translateY(-2px);}
+  .js .cmp-wrap:not(.is-all) td.us::before{display: none;}
+  .stage{row-gap: var(--space-md);}
+  .dev-ex summary{margin-top: var(--space-md);}
+  .cmp tr{border: 0; border-radius: 0; background: none; margin: 0; padding: var(--space-md) 0; border-bottom: 1px solid var(--color-rule);}
+  .cmp td::before{font: 600 12px/1.3 var(--font-body); text-transform: none; letter-spacing: 0; color: var(--color-ink-3);}
+  .js .cmp-wrap:not(.is-all) td:not(:first-child):not(.us){display: none;}
+  .cmp td:first-child{width: auto; font-size: 16px; font-weight: 600; color: var(--color-ink); padding: 12px 0 4px;}
+  .cmp td.us{margin: 4px 0; border-radius: var(--radius-sm); padding: 8px 12px;}
+  .lic-table > div{grid-template-columns: minmax(0, 1fr);}
+  .lic-tag{justify-self: start;}
+}
+@media print{
+  .chat{box-shadow: none;}
+  .band{break-inside: auto;}
+}
+</style>
+</head>
+<body class="home">
+<a class="skip" href="#main">Skip to content</a>
+<nav aria-label="Main">
+  <div class="wrap">
+    <a class="brand" href="index.html"><img src="assets/logo-64.png" alt="" width="28" height="28">cob-rag-engine</a>
+    <div class="links">
+      <a href="index.html" aria-current="page">Overview</a>
+      <a href="getting-started.html">Get started</a>
+      <a href="guide.html">Guide</a>
+      <a href="deploy.html">Deploy</a>
+      <a href="benchmarks.html">Benchmarks</a>
+    </div>
+    <div class="nav-end">
+      <button class="theme" type="button" aria-pressed="false" data-theme-toggle><svg class="i-moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 14.5A8 8 0 0 1 9.5 4a8 8 0 1 0 10.5 10.5Z"/></svg><svg class="i-sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" aria-hidden="true"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"/></svg><span class="sr-only">Dark theme</span></button>
+      <a class="gh" href="https://github.com/callobuzz/cob-rag-engine"><svg viewBox="0 0 16 16" fill="currentColor" aria-hidden="true"><path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.01 8.01 0 0 0 16 8c0-4.42-3.58-8-8-8Z"/></svg>GitHub</a>
+    </div>
+  </div>
+</nav>
+<main id="main">
+
+<section class="hero" aria-labelledby="hero-h">
+  <div class="wrap hero-grid">
+    <div>
+      <span class="eyebrow">Open source · self-hosted · any AI model</span>
+      <h1 id="hero-h">Run an AI assistant business from one server.</h1>
+      <p class="lede">cob-rag-engine is an engine for AI chat assistants. Each business you serve gets an assistant that answers from its own documents and website, on its website and on WhatsApp, in English, Hindi and Hinglish. You run the server, you set the prices, and you keep the margin.</p>
+      <div class="cta">
+        <a class="btn btn-primary" href="#start">Install it on a server</a>
+        <a class="btn btn-ghost" href="#tour">See the dashboard</a>
+        <a class="text-link" data-cta="source" href="https://github.com/callobuzz/cob-rag-engine">Read the code on GitHub</a>
+      </div>
+      <ul class="facts">
+        <li>AGPL-3.0, commercial licence on request</li>
+        <li>One server with Docker</li>
+        <li>Your AI key, or a free local model</li>
+      </ul>
+    </div>
+    <div class="hero-proof">
+      <figure class="chat" aria-label="Example: the chat widget on a pathology lab's website">
+        <div class="chat-top">
+          <span class="chat-ava" aria-hidden="true">SL</span>
+          <div class="chat-who"><b>Shree Labs</b><span>Pathology lab · Pune</span></div>
+          <span class="chat-ai">AI</span>
+          <span class="chat-person">Talk to a person</span>
+        </div>
+        <div class="chat-body">
+          <p class="msg msg-me">Lipid profile ke liye fasting zaroori hai kya?</p>
+          <div class="msg msg-bot">
+            <p>Haan. Test se pehle 10 se 12 ghante fasting rakhiye; sirf paani le sakte hain<sup>1</sup>. Home collection ₹999 se upar ke order par free hai<sup>2</sup>.</p>
+            <div class="srcs">
+              <span class="src"><b>1</b><span>test-prep-guide.pdf · updated 3 Oct</span></span>
+              <span class="src"><b>2</b><span>home-collection.pdf</span></span>
+            </div>
+          </div>
+          <div class="handoff">
+            <p>Want to book a home collection? Message the lab directly.</p>
+            <div class="handoff-row"><span>WhatsApp</span><span>Call</span></div>
+            <p class="ref">Your reference: KM-4R7Q</p>
+          </div>
+        </div>
+        <div class="chat-foot"><span>Ask about tests, prices or home collection</span><span>cob-rag-engine by Callobuzz</span></div>
+      </figure>
+      <p class="chat-cap">Example data, drawn in HTML from the real widget's layout.</p>
+    </div>
+  </div>
+</section>
+
+<section class="band band-alt" id="who" aria-labelledby="who-h">
+  <div class="wrap">
+    <div class="head">
+      <h2 id="who-h">Two kinds of people run it.</h2>
+      <p>Most run it as a business: they sell assistants to clinics, shops, coaching classes and service firms. Others use it as the knowledge layer under their own product or their AI agents.</p>
+    </div>
+    <div class="who">
+      <article class="who-card is-main" aria-labelledby="who-a">
+        <span class="eyebrow">Founders and agencies</span>
+        <h3 id="who-a">Sell AI assistants under your own brand</h3>
+        <p>Everything between "a business signs up" and "the business pays you" is already built. You choose the plans and the prices.</p>
+        <ul class="ticks">
+          <li><b>Your brand everywhere:</b> name, logo and colours on the dashboard, the e&#8209;mails and the widget.</li>
+          <li><b>Businesses sign up themselves</b> and set up their assistant in four steps.</li>
+          <li><b>Plans, prepaid wallets and fair-use limits,</b> in rupees or dollars.</li>
+          <li><b>Online payments through Razorpay,</b> with numbered GST invoices and credit notes.</li>
+          <li><b>A public website for your brand,</b> with an editor, three languages and a live chat demo. Off until you switch it on.</li>
+        </ul>
+        <a class="more" href="pitch.html?for=agencies">The one-page pitch for agencies</a>
+      </article>
+      <article class="who-card" aria-labelledby="who-b">
+        <span class="eyebrow">Developers</span>
+        <h3 id="who-b">A knowledge layer for your app or your agents</h3>
+        <p>Upload documents, ask questions, get answers with their sources. Each knowledge base has its own key, its own search index and its own model.</p>
+        <ul class="ticks">
+          <li><b>A REST API</b> with streaming answers and an OpenAPI file.</li>
+          <li><b>Python and JavaScript clients,</b> under MIT.</li>
+          <li><b>An MCP server, <code>cob-rag-mcp</code>,</b> for Claude, Cursor, n8n and other agents.</li>
+          <li><b>No LangChain in the answer path:</b> every step is visible and can be switched.</li>
+        </ul>
+        <a class="more" href="#developers">See the code</a>
+      </article>
+    </div>
+  </div>
+</section>
+
+<section class="band" id="tour" aria-labelledby="tour-h">
+  <div class="wrap">
+    <div class="head">
+      <h2 id="tour-h">What you and your businesses work in.</h2>
+      <p>Real screens from the current dashboard, shown in your theme. The business names and numbers are example data.</p>
+    </div>
+    <div class="tabs tour" data-tabs>
+      <div class="tablist" role="tablist" aria-label="Dashboard screens">
+        <button role="tab" type="button" id="tt-overview" aria-controls="tp-overview" aria-selected="true">Overview</button>
+        <button role="tab" type="button" id="tt-home" aria-controls="tp-home" aria-selected="false" tabindex="-1">Business home</button>
+        <button role="tab" type="button" id="tt-widget" aria-controls="tp-widget" aria-selected="false" tabindex="-1">Widget</button>
+        <button role="tab" type="button" id="tt-leads" aria-controls="tp-leads" aria-selected="false" tabindex="-1">Leads</button>
+        <button role="tab" type="button" id="tt-plan" aria-controls="tp-plan" aria-selected="false" tabindex="-1">Billing</button>
+        <button role="tab" type="button" id="tt-site" aria-controls="tp-site" aria-selected="false" tabindex="-1">Website</button>
+      </div>
+      <div role="tabpanel" id="tp-overview" aria-labelledby="tt-overview" data-label="Overview">
+        <figure class="shot crop-overview">
+          <div class="shot-img"><a class="shot-light" href="assets/screenshots/dashboard-overview-admin-light-1440.png"><picture><source media="(max-width: 700px)" srcset="assets/screenshots/dashboard-overview-admin-light-390.png" width="390" height="844"><img src="assets/screenshots/dashboard-overview-admin-light-1440.png" width="1440" height="900" loading="eager" decoding="async" alt="The Overview screen of the cob-rag-engine dashboard (light theme), with example data. Opens the full-size picture."></picture></a><a class="shot-dark" href="assets/screenshots/dashboard-overview-admin-dark-1440.png"><picture><source media="(max-width: 700px)" srcset="assets/screenshots/dashboard-overview-admin-dark-390.png" width="390" height="844"><img src="assets/screenshots/dashboard-overview-admin-dark-1440.png" width="1440" height="900" loading="eager" decoding="async" alt="The Overview screen of the cob-rag-engine dashboard (dark theme), with example data. Opens the full-size picture."></picture></a></div>
+          <figcaption><p>The operator's overview: questions answered, model spend in rupees, sign-ups waiting for you, and where the questions came from.</p><ul><li>4 customers, 2 sign-ups waiting</li><li>Questions per day, by channel</li><li>Model spend shown as an estimate in ₹</li></ul></figcaption>
+        </figure>
+      </div>
+      <div role="tabpanel" id="tp-home" aria-labelledby="tt-home" data-label="Business home">
+        <figure class="shot crop-home">
+          <div class="shot-img"><a class="shot-light" href="assets/screenshots/dashboard-overview-owner-light-1440.png"><picture><source media="(max-width: 700px)" srcset="assets/screenshots/dashboard-overview-owner-light-390.png" width="390" height="844"><img src="assets/screenshots/dashboard-overview-owner-light-1440.png" width="1440" height="900" loading="lazy" decoding="async" alt="The Business home screen of the cob-rag-engine dashboard (light theme), with example data. Opens the full-size picture."></picture></a><a class="shot-dark" href="assets/screenshots/dashboard-overview-owner-dark-1440.png"><picture><source media="(max-width: 700px)" srcset="assets/screenshots/dashboard-overview-owner-dark-390.png" width="390" height="844"><img src="assets/screenshots/dashboard-overview-owner-dark-1440.png" width="1440" height="900" loading="lazy" decoding="async" alt="The Business home screen of the cob-rag-engine dashboard (dark theme), with example data. Opens the full-size picture."></picture></a></div>
+          <figcaption><p>What a business owner sees after signing in: whether the assistant is live, today's chats and leads, and the value of the month in rupees.</p><ul><li>Seven plain menu items; the rest under Advanced</li><li>Value this month, with the formula one click away</li><li>The plan and its use, at a glance</li></ul></figcaption>
+        </figure>
+      </div>
+      <div role="tabpanel" id="tp-widget" aria-labelledby="tt-widget" data-label="Widget">
+        <figure class="shot crop-widget">
+          <div class="shot-img"><a class="shot-light" href="assets/screenshots/dashboard-widget-light-1440.png"><picture><source media="(max-width: 700px)" srcset="assets/screenshots/dashboard-widget-light-390.png" width="390" height="844"><img src="assets/screenshots/dashboard-widget-light-1440.png" width="1440" height="900" loading="lazy" decoding="async" alt="The Widget screen of the cob-rag-engine dashboard (light theme), with example data. Opens the full-size picture."></picture></a><a class="shot-dark" href="assets/screenshots/dashboard-widget-dark-1440.png"><picture><source media="(max-width: 700px)" srcset="assets/screenshots/dashboard-widget-dark-390.png" width="390" height="844"><img src="assets/screenshots/dashboard-widget-dark-1440.png" width="1440" height="900" loading="lazy" decoding="async" alt="The Widget screen of the cob-rag-engine dashboard (dark theme), with example data. Opens the full-size picture."></picture></a></div>
+          <figcaption><p>One publishable key per website, the line to paste, and the real widget answering in a preview next to it.</p><ul><li>Allowed sites and rate limits per key</li><li>Pause or rotate a key at any time</li><li>The preview is the real widget.js</li></ul></figcaption>
+        </figure>
+      </div>
+      <div role="tabpanel" id="tp-leads" aria-labelledby="tt-leads" data-label="Leads">
+        <figure class="shot crop-leads">
+          <div class="shot-img"><a class="shot-light" href="assets/screenshots/dashboard-leads-light-1440.png"><picture><source media="(max-width: 700px)" srcset="assets/screenshots/dashboard-leads-light-390.png" width="390" height="844"><img src="assets/screenshots/dashboard-leads-light-1440.png" width="1440" height="900" loading="lazy" decoding="async" alt="The Leads screen of the cob-rag-engine dashboard (light theme), with example data. Opens the full-size picture."></picture></a><a class="shot-dark" href="assets/screenshots/dashboard-leads-dark-1440.png"><picture><source media="(max-width: 700px)" srcset="assets/screenshots/dashboard-leads-dark-390.png" width="390" height="844"><img src="assets/screenshots/dashboard-leads-dark-1440.png" width="1440" height="900" loading="lazy" decoding="async" alt="The Leads screen of the cob-rag-engine dashboard (dark theme), with example data. Opens the full-size picture."></picture></a></div>
+          <figcaption><p>Contact details that visitors chose to share, with their consent, qualified by the assistant and ready to call.</p><ul><li>New, contacted, won and lost</li><li>Hand-offs to a person, in their own tab</li><li>Export as CSV</li></ul></figcaption>
+        </figure>
+      </div>
+      <div role="tabpanel" id="tp-plan" aria-labelledby="tt-plan" data-label="Billing">
+        <figure class="shot crop-plan">
+          <div class="shot-img"><a class="shot-light" href="assets/screenshots/dashboard-plan-usage-light-1440.png"><picture><source media="(max-width: 700px)" srcset="assets/screenshots/dashboard-plan-usage-light-390.png" width="390" height="844"><img src="assets/screenshots/dashboard-plan-usage-light-1440.png" width="1440" height="900" loading="lazy" decoding="async" alt="The Billing screen of the cob-rag-engine dashboard (light theme), with example data. Opens the full-size picture."></picture></a><a class="shot-dark" href="assets/screenshots/dashboard-plan-usage-dark-1440.png"><picture><source media="(max-width: 700px)" srcset="assets/screenshots/dashboard-plan-usage-dark-390.png" width="390" height="844"><img src="assets/screenshots/dashboard-plan-usage-dark-1440.png" width="1440" height="900" loading="lazy" decoding="async" alt="The Billing screen of the cob-rag-engine dashboard (dark theme), with example data. Opens the full-size picture."></picture></a></div>
+          <figcaption><p>The business sees its plan, what it has used this month, and add-ons it can buy online; prices show the GST.</p><ul><li>Self-service plan changes</li><li>Add-ons and credit packs, paid through Razorpay</li><li>Fair-use limits shown as a share, never as your costs</li></ul></figcaption>
+        </figure>
+      </div>
+      <div role="tabpanel" id="tp-site" aria-labelledby="tt-site" data-label="Website">
+        <figure class="shot crop-site">
+          <div class="shot-img"><a class="shot-light" href="assets/screenshots/dashboard-landing-editor-light-1440.png"><picture><source media="(max-width: 700px)" srcset="assets/screenshots/dashboard-landing-editor-light-390.png" width="390" height="844"><img src="assets/screenshots/dashboard-landing-editor-light-1440.png" width="1440" height="900" loading="lazy" decoding="async" alt="The Website screen of the cob-rag-engine dashboard (light theme), with example data. Opens the full-size picture."></picture></a><a class="shot-dark" href="assets/screenshots/dashboard-landing-editor-dark-1440.png"><picture><source media="(max-width: 700px)" srcset="assets/screenshots/dashboard-landing-editor-dark-390.png" width="390" height="844"><img src="assets/screenshots/dashboard-landing-editor-dark-1440.png" width="1440" height="900" loading="lazy" decoding="async" alt="The Website screen of the cob-rag-engine dashboard (dark theme), with example data. Opens the full-size picture."></picture></a></div>
+          <figcaption><p>The editor for your own marketing site: sections, colours, three languages, versions, and an 'Ask it yourself' button wired to your assistant.</p><ul><li>Off until you publish and switch it on</li><li>Preview at phone and desktop size</li><li>Publish as numbered versions</li></ul></figcaption>
+        </figure>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+
+
+
+<section class="band" id="how" aria-labelledby="how-h">
+  <div class="wrap">
+    <div class="head">
+      <h2 id="how-h">From install to invoice, in six stages.</h2>
+      <p>The example is a pathology lab in Pune. Every stage below is in the engine today.</p>
+    </div>
+    <ol class="stages">
+      <li class="stage">
+        <div class="stage-text">
+          <span class="stage-n">Step 1 of 6 · Install</span>
+          <h3>One command on a fresh server.</h3>
+          <p>The installer checks the server, installs Docker, asks for your web address and your e-mail, and starts everything behind HTTPS on that one address.</p>
+          <ul class="ticks">
+            <li>Ubuntu 22.04 or 24.04, or Debian 12.</li>
+            <li>Nightly backups, upgrades with a backup first, and one command to go back.</li>
+            <li>Files stay on your server's disk. S3 is an option.</li>
+          </ul>
+        </div>
+        <div class="stage-vis">
+          <div class="cb">
+            <div class="cb-bar"><span>Terminal · on the server</span><button class="copy js-only" type="button" data-copy="git clone https://github.com/callobuzz/cob-rag-engine.git &amp;&amp; sudo bash cob-rag-engine/deploy/install.sh">Copy</button></div>
+            <pre tabindex="0"><code><span class="k">git clone</span> https://github.com/callobuzz/cob-rag-engine.git
+<span class="k">sudo bash</span> cob-rag-engine/deploy/install.sh
+
+<span class="c">  your web address  chat.yourbrand.in</span>
+<span class="c">  your e-mail       you@yourbrand.in</span>
+<span class="c">  ...</span>
+  Ready. Sign in at https://chat.yourbrand.in/app</code></pre>
+          </div>
+        </div>
+      </li>
+      <li class="stage">
+        <div class="stage-text">
+          <span class="stage-n">Step 2 of 6 · Add a business</span>
+          <h3>The business signs up and sets up its assistant.</h3>
+          <p>A business picks a plan, verifies its e-mail and lands on a short first&#8209;run setup. Its dashboard shows seven plain menu items; you decide per plan what else it sees.</p>
+          <ul class="ticks">
+            <li>Owners and members, invitations by e-mail, an audit log.</li>
+            <li>You approve sign-ups, or let them in at once.</li>
+            <li>Owners can move between plans themselves.</li>
+          </ul>
+        </div>
+        <div class="stage-vis"><details class="ex" open><summary>See the example</summary>
+          <div class="panel">
+            <div class="panel-h"><span>First-run setup · Shree Labs</span><span>3 of 4</span></div>
+            <ul class="rows">
+              <li><span class="k"><span class="dot"></span>Your website<small>shreelabs.in</small></span><span class="v ok">done</span></li>
+              <li><span class="k"><span class="dot"></span>Your brochures<small>price list, test preparation guide</small></span><span class="v ok">done</span></li>
+              <li><span class="k"><span class="dot"></span>Install the widget<small>one line before &lt;/body&gt;</small></span><span class="v ok">done</span></li>
+              <li><span class="k"><span class="dot is-wait"></span>Try it<small>ask your first question</small></span><span class="v">next</span></li>
+            </ul>
+          </div>
+        </details></div>
+      </li>
+      <li class="stage">
+        <div class="stage-text">
+          <span class="stage-n">Step 3 of 6 · Learn</span>
+          <h3>It reads their documents and their website.</h3>
+          <p>PDF, Word, Excel, PowerPoint, scans and audio go in. The engine splits them along their own headings, so every passage knows which section it came from.</p>
+          <ul class="ticks">
+            <li>OCR for scans, including Hindi.</li>
+            <li>It reads the business's website and checks it again for changes.</li>
+            <li>Duplicates are skipped; a new upload of a file becomes a new version.</li>
+          </ul>
+        </div>
+        <div class="stage-vis"><details class="ex" open><summary>See the example</summary>
+          <div class="panel">
+            <div class="panel-h"><span>Knowledge · Shree Labs</span><span>example</span></div>
+            <ul class="rows">
+              <li><span class="k">shreelabs.in<small>pages read, checked again for changes</small></span><span class="v tnum">42 pages</span></li>
+              <li><span class="k">test-price-list.pdf<small>a scan, read with OCR</small></span><span class="v tnum">186 passages</span></li>
+              <li><span class="k">test-prep-guide.pdf<small>version 2, updated 3 Oct</small></span><span class="v tnum">31 passages</span></li>
+              <li><span class="k">Questions and answers<small>written by the owner</small></span><span class="v tnum">18 answers</span></li>
+            </ul>
+          </div>
+        </details></div>
+      </li>
+      <li class="stage">
+        <div class="stage-text">
+          <span class="stage-n">Step 4 of 6 · Answer</span>
+          <h3>It answers, and it checks its own facts.</h3>
+          <p>Before a sentence reaches the visitor, every price, date, number, phone, link and name in it must appear in a cited passage. When the documents do not say, the assistant says so and offers a person.</p>
+          <ul class="ticks">
+            <li>On the website widget and on the business's WhatsApp number.</li>
+            <li>English, Hindi and Hinglish, with a model per language.</li>
+            <li>Greetings and small talk answered without a model call.</li>
+          </ul>
+        </div>
+        <div class="stage-vis"><details class="ex" open><summary>See the example</summary>
+          <div class="panel">
+            <div class="panel-h"><span>Fact check · one answer</span><span>example</span></div>
+            <div class="check">
+              <p>Home collection is free on orders above <mark>₹999</mark>.</p>
+              <p class="why">Kept: "₹999" is in passage 2, home-collection.pdf.</p>
+              <p>Reports are ready <mark class="bad">within 2 hours</mark>.</p>
+              <p class="why">Removed: no cited passage says "2 hours".</p>
+            </div>
+          </div>
+        </details></div>
+      </li>
+      <li class="stage">
+        <div class="stage-text">
+          <span class="stage-n">Step 5 of 6 · Leads</span>
+          <h3>Visitors become leads, and a person is one tap away.</h3>
+          <p>The assistant asks for a name and number with a consent notice, and hands the chat to the business on WhatsApp, by phone or by e-mail, with a reference code so nobody repeats themselves.</p>
+          <ul class="ticks">
+            <li>Contact data is encrypted, and consent follows India's DPDP Act notice rules.</li>
+            <li>A daily digest and an instant notice for hot leads.</li>
+            <li>A monthly value report in rupees, with its formula shown.</li>
+          </ul>
+        </div>
+        <div class="stage-vis"><details class="ex" open><summary>See the example</summary>
+          <div class="panel">
+            <div class="panel-h"><span>New lead · Shree Labs</span><span>example</span></div>
+            <div class="lead">
+              <b>Priya S.</b>
+              <div class="kv"><span>Phone</span><span class="tnum">+91 98•• ••• 210</span></div>
+              <div class="kv"><span>Wants</span><span>Home collection on Saturday morning</span></div>
+              <div class="kv"><span>Consent</span><span>Given, notice version 2</span></div>
+              <div class="kv"><span>Reference</span><span class="tnum">KM-4R7Q</span></div>
+            </div>
+          </div>
+        </details></div>
+      </li>
+      <li class="stage">
+        <div class="stage-text">
+          <span class="stage-n">Step 6 of 6 · Get paid</span>
+          <h3>Every answer is metered, and the balance pays for it.</h3>
+          <p>Each business has a prepaid balance. It tops up online, each answer is charged once, and a statement shows the month. When the balance runs out, visitors get a polite message and a way to reach a person, never an error.</p>
+          <ul class="ticks">
+            <li>Per-question prices, or the AI cost plus your markup.</li>
+            <li>Spending caps, renewal notices and a profit report for you.</li>
+            <li>A free local model for cheap plans: no API bill for those answers.</li>
+          </ul>
+        </div>
+        <div class="stage-vis"><details class="ex" open><summary>See the example</summary>
+          <div class="panel">
+            <div class="panel-h"><span>Statement · October · Shree Labs</span><span>example</span></div>
+            <ul class="rows">
+              <li><span class="k">Opening balance</span><span class="v tnum">₹0</span></li>
+              <li><span class="k">Top-up through Razorpay<small>GST invoice issued</small></span><span class="v ok tnum">+₹2,000</span></li>
+              <li><span class="k">Answers, 1,285 of them<small>at ₹0.80 each</small></span><span class="v neg tnum">−₹1,028</span></li>
+              <li class="total"><span class="k">Closing balance</span><span class="v tnum">₹972</span></li>
+            </ul>
+          </div>
+        </details></div>
+      </li>
+    </ol>
+  </div>
+</section>
+
+<section class="band band-alt" id="features" aria-labelledby="features-h">
+  <div class="wrap">
+    <div class="head">
+      <h2 id="features-h">The parts you would build next are already there.</h2>
+      <p>One engine, one dashboard and one installer. Every row below is in the code and has automated tests.</p>
+    </div>
+    <div class="spec">
+      <details class="spec-g" open>
+        <summary><h3>Knowledge and search</h3></summary>
+        <dl>
+          <div><dt>Documents</dt><dd>PDF, Word, Excel, PowerPoint, HTML, Markdown, images and audio. OCR for scans, including Hindi.</dd></div>
+          <div><dt>Websites</dt><dd>Reads a business's site safely and checks pages again for changes.</dd></div>
+          <div><dt>Search</dt><dd>Meaning search and keyword search together, tested on public benchmarks.</dd></div>
+          <div><dt>Versions</dt><dd>New uploads stack as versions. Restore an old one at any time.</dd></div>
+          <div><dt>Models</dt><dd>Any provider through LiteLLM (OpenRouter, OpenAI, Anthropic, Gemini and more), or a free local model.</dd></div>
+        </dl>
+      </details>
+      <details class="spec-g" open>
+        <summary><h3>The assistant</h3></summary>
+        <dl>
+          <div><dt>Widget</dt><dd>One script tag, locked to the sites you list, rate-limited per visitor.</dd></div>
+          <div><dt>WhatsApp</dt><dd>Answers on the business's own WhatsApp Business number, with the same rules as the widget.</dd></div>
+          <div><dt>Honest answers</dt><dd>A fact check per sentence, an "AI" badge, and the date each source was updated.</dd></div>
+          <div><dt>People</dt><dd>A "Talk to a person" button, office hours, reference codes and handoff on WhatsApp, phone or e-mail.</dd></div>
+          <div><dt>Leads</dt><dd>Consent notices, encrypted contact data, a daily digest and a value report in rupees.</dd></div>
+        </dl>
+      </details>
+      <details class="spec-g" open>
+        <summary><h3>Money</h3></summary>
+        <dl>
+          <div><dt>Plans</dt><dd>Limits per plan, self-service plan changes, add-ons and credit packs.</dd></div>
+          <div><dt>Wallets</dt><dd>Prepaid balances in rupees or dollars. The ledger cannot be edited and is checked every night.</dd></div>
+          <div><dt>Payments</dt><dd>Razorpay top-ups and refunds. Every payment is checked with Razorpay before money is added.</dd></div>
+          <div><dt>Invoices</dt><dd>Numbered GST tax invoices and credit notes as PDFs.</dd></div>
+          <div><dt>Fair use</dt><dd>Faster and slower answer lanes per plan, spending caps and alerts.</dd></div>
+        </dl>
+      </details>
+      <details class="spec-g" open>
+        <summary><h3>Running it</h3></summary>
+        <dl>
+          <div><dt>Installer</dt><dd>One command, one domain, HTTPS, nightly backups, upgrade and rollback.</dd></div>
+          <div><dt>Isolation</dt><dd>Each business has its own keys, search index and settings. Attacks across them are refused in tests.</dd></div>
+          <div><dt>COB</dt><dd>A built-in helper in the dashboard that answers questions about the product and can do 18 actions after you confirm them.</dd></div>
+          <div><dt>Website and legal</dt><dd>A public website for your brand and eight legal page templates to edit and publish.</dd></div>
+          <div><dt>Demo mode</dt><dd>A public demo with sample data that resets every night.</dd></div>
+        </dl>
+      </details>
+    </div>
+  </div>
+</section>
+
+<section class="band" id="measured" aria-labelledby="measured-h">
+  <div class="wrap">
+    <div class="head">
+      <h2 id="measured-h">Numbers you can re-run yourself.</h2>
+      <p>The benchmarks live in the repository and run through the public API. The <a href="benchmarks.html">benchmark report</a> has the method, the raw results and the commands.</p>
+    </div>
+    <div class="stats">
+      <div class="stat"><b>0.537</b><span>search quality, against 0.393 for keyword search alone</span><small>nDCG@10 on six public BEIR datasets, with the earlier embedding model, bge-base-en-v1.5.</small></div>
+      <div class="stat"><b>77 ms</b><span>median search time</span><small>on a plain CPU, 45 ms with a GPU, with the earlier embedding model.</small></div>
+      <div class="stat"><b>412 / 412</b><span>attacks refused</span><small>one business against another, with every key kind and sign-in.</small></div>
+      <div class="stat"><b>2.1 GB</b><span>of RAM, measured with the earlier embedding model</span><small>with 270,000 passages indexed. Today's default, BGE&#8209;M3, needs about 2.3 GB more: an estimate, to be measured.</small></div>
+    </div>
+<!-- language-claim:start -->
+<div class="lang" role="group" aria-labelledby="lang-h">
+<div class="lang-head"><div><span class="kicker">Languages, measured</span><h3 id="lang-h">Measured in English, Hindi and Hinglish</h3></div><p>The widget&#x27;s own text is in English, Hindi and Hinglish; replies in Hindi and Hinglish work.</p></div>
+<div class="lang-grid"><div class="lang-tile is-main"><b class="lang-big">98.9%</b><span class="lang-what">overall, on 266 held-out turns</span><span class="lang-meter" style="--v:98.9;--bar:90.0" aria-hidden="true" title="Overall: 98.9%, bar 90%"><i></i></span><ul class="lang-langs"><li><span>English</span><b>98.9%</b><span class="lang-meter" style="--v:98.9;--bar:85.0" aria-hidden="true" title="English: 98.9%, bar 85%"><i></i></span></li><li><span>Hindi</span><b>100.0%</b><span class="lang-meter" style="--v:100.0;--bar:85.0" aria-hidden="true" title="Hindi: 100.0%, bar 85%"><i></i></span></li><li><span>Hinglish</span><b>97.8%</b><span class="lang-meter" style="--v:97.8;--bar:85.0" aria-hidden="true" title="Hinglish: 97.8%, bar 85%"><i></i></span></li></ul><span class="lang-bar">Bars: 90% overall, 85% each language</span></div><div class="lang-tiles"><div class="lang-tile"><b>98.6%</b><span class="lang-what">business questions kept</span><span class="lang-meter" style="--v:98.6;--bar:97.0" aria-hidden="true" title="business questions kept: 98.6%, bar 97%"><i></i></span><span class="lang-bar">bar 97%</span></div><div class="lang-tile"><b>100.0%</b><span class="lang-what">right reply language</span><span class="lang-meter" style="--v:100.0;--bar:95.0" aria-hidden="true" title="right reply language: 100.0%, bar 95%"><i></i></span><span class="lang-bar">bar 95%</span></div><div class="lang-tile"><b>0.6%</b><span class="lang-what">label calls fell back</span><span class="lang-meter" style="--v:0.6;--bar:5.0" aria-hidden="true" title="label calls fell back: 0.6%, at most 5%"><i></i></span><span class="lang-bar">at most 5%</span></div></div></div>
+<div class="lang-cards"><div class="lang-card"><span class="lang-k">Fast model, default</span><b class="lang-name">GPT-6 Luna</b><code>openai/gpt-6-luna</code><p class="lang-pass"><b>6 of 15</b> models pass every bar</p><svg class="lang-strip" viewBox="0 0 326 28" role="img" aria-label="6 of 15 fast models tested pass every bar"><rect class="is-default" x="0" y="0" width="18" height="28" rx="4"><title>GPT-6 Luna: passes every bar, 98.9% overall</title></rect><rect class="is-pass" x="22" y="0" width="18" height="28" rx="4"><title>Gemma 4 26B: passes every bar, 97.7% overall</title></rect><rect class="is-pass" x="44" y="0" width="18" height="28" rx="4"><title>GPT-4.1 Mini: passes every bar, 97.4% overall</title></rect><rect class="is-pass" x="66" y="0" width="18" height="28" rx="4"><title>Qwen3.8 27B: passes every bar, 97.0% overall</title></rect><rect class="is-pass" x="88" y="0" width="18" height="28" rx="4"><title>gpt-oss-120b: passes every bar, 95.1% overall</title></rect><rect class="is-pass" x="110" y="0" width="18" height="28" rx="4"><title>GPT-4.1 Nano: passes every bar, 94.0% overall</title></rect><rect class="is-miss" x="132" y="0" width="18" height="28" rx="4"><title>Deepseek V4.1 Flash: misses a bar, 98.5% overall</title></rect><rect class="is-miss" x="154" y="0" width="18" height="28" rx="4"><title>Qwen3 Next 80B: misses a bar, 97.0% overall</title></rect><rect class="is-miss" x="176" y="0" width="18" height="28" rx="4"><title>Mistral Small 3.2 24B: misses a bar, 96.6% overall</title></rect><rect class="is-miss" x="198" y="0" width="18" height="28" rx="4"><title>Gemini 2.5 Flash Lite: misses a bar, 95.9% overall</title></rect><rect class="is-miss" x="220" y="0" width="18" height="28" rx="4"><title>Mistral Small 2603: misses a bar, 95.9% overall</title></rect><rect class="is-miss" x="242" y="0" width="18" height="28" rx="4"><title>Gemma 4 31B: misses a bar, 95.9% overall</title></rect><rect class="is-miss" x="264" y="0" width="18" height="28" rx="4"><title>Qwen3 30B 2507: misses a bar, 95.9% overall</title></rect><rect class="is-miss" x="286" y="0" width="18" height="28" rx="4"><title>Llama 3.3 70B: misses a bar, 92.1% overall</title></rect><rect class="is-miss" x="308" y="0" width="18" height="28" rx="4"><title>Llama 3.1 8B: misses a bar, 91.0% overall</title></rect></svg><p class="lang-legend"><span><i class="is-default"></i>default</span><span><i class="is-pass"></i>passes every bar</span><span><i class="is-miss"></i>misses a bar</span></p><details class="lang-all"><summary>Show all 15 models</summary><ul class="lang-list"><li><span>GPT-6 Luna (default)</span><b>98.9%</b><i>passes every bar</i></li><li><span>Gemma 4 26B</span><b>97.7%</b><i>passes every bar</i></li><li><span>GPT-4.1 Mini</span><b>97.4%</b><i>passes every bar</i></li><li><span>Qwen3.8 27B</span><b>97.0%</b><i>passes every bar</i></li><li><span>gpt-oss-120b</span><b>95.1%</b><i>passes every bar</i></li><li><span>GPT-4.1 Nano</span><b>94.0%</b><i>passes every bar</i></li><li><span>Deepseek V4.1 Flash</span><b>98.5%</b><i>misses a bar</i></li><li><span>Qwen3 Next 80B</span><b>97.0%</b><i>misses a bar</i></li><li><span>Mistral Small 3.2 24B</span><b>96.6%</b><i>misses a bar</i></li><li><span>Gemini 2.5 Flash Lite</span><b>95.9%</b><i>misses a bar</i></li><li><span>Mistral Small 2603</span><b>95.9%</b><i>misses a bar</i></li><li><span>Gemma 4 31B</span><b>95.9%</b><i>misses a bar</i></li><li><span>Qwen3 30B 2507</span><b>95.9%</b><i>misses a bar</i></li><li><span>Llama 3.3 70B</span><b>92.1%</b><i>misses a bar</i></li><li><span>Llama 3.1 8B</span><b>91.0%</b><i>misses a bar</i></li></ul></details></div><div class="lang-card"><span class="lang-k">Reply quality, answer benchmark</span><b class="lang-name">Gemma 4 31B</b><code>google/gemma-4-31b-it</code><div class="lang-duo"><div><b>90%</b><span>Hindi and Hinglish items passed</span></div><div><b>100%</b><span>unanswerable questions declined</span></div></div><p class="lang-note">Picked for writing replies. Choosing the label for a turn is the fast model's job, measured on its own above.</p></div></div>
+<p class="lang-claim">English, Hindi and Hinglish, measured: the default fast model <code>openai/gpt-6-luna</code> labels 266 held-out turns at 98.9% overall (English 98.9%, Hindi 100.0%, Hinglish 97.8%), keeps 98.6% of business questions, replies in the right language 100.0% of the time and falls back on 0.6% of its label calls, with thinking verified off; it passes every bar, as do 5 of the other 14 models tested. Reply quality is measured separately: in the answer benchmark <code>google/gemma-4-31b-it</code>, the Hindi and Hinglish pick, passes 90% of the Hindi and Hinglish items and declines 100% of the unanswerable ones.</p>
+<p class="lang-src">See benchmarks/README.md, or the <a href="benchmarks.html">benchmark report</a> for every model and the method.</p>
+</div>
+<!-- language-claim:end -->
+  </div>
+</section>
+
+<section class="band band-alt" id="developers" aria-labelledby="dev-h">
+  <div class="wrap dev">
+    <div>
+      <div class="head">
+          <h2 id="dev-h">Four ways in.</h2>
+        <p>A knowledge base has a key. The key can upload, ask and read usage for that knowledge base, and nothing else.</p>
+      </div>
+      <ul class="ticks">
+        <li><b>REST:</b> every route is in <code>docs/openapi.json</code>.</li>
+        <li><b>Python and JavaScript:</b> the clients are in <code>clients/</code>, under MIT.</li>
+        <li><b>Widget:</b> a publishable <code>pk_</code> key that only chats, only on the sites you list.</li>
+        <li><b>MCP:</b> <a href="https://callobuzz.github.io/cob-rag-mcp">cob-rag-mcp</a> gives agents 52 tools and a command-line tool.</li>
+      </ul>
+    </div>
+    <details class="ex dev-ex" open><summary>Show the code examples</summary>
+    <div class="tabs" data-tabs>
+      <div class="tablist" role="tablist" aria-label="Code examples">
+        <button role="tab" type="button" id="t-curl" aria-controls="p-curl" aria-selected="true">curl</button>
+        <button role="tab" type="button" id="t-py" aria-controls="p-py" aria-selected="false" tabindex="-1">Python</button>
+        <button role="tab" type="button" id="t-js" aria-controls="p-js" aria-selected="false" tabindex="-1">JavaScript</button>
+        <button role="tab" type="button" id="t-widget" aria-controls="p-widget" aria-selected="false" tabindex="-1">Widget</button>
+      </div>
+      <div role="tabpanel" id="p-curl" aria-labelledby="t-curl" data-label="curl">
+        <div class="cb">
+          <div class="cb-bar"><span>Terminal · upload, then ask</span><button class="copy js-only" type="button" data-copy='curl $API/api/v1/ingest -H "X-API-Key: ck_…" -F file=@test-price-list.pdf
+
+curl $API/api/v1/query -H "X-API-Key: ck_…" --json &apos;{"query": "Is fasting needed for a lipid profile?"}&apos;'>Copy</button></div>
+          <pre tabindex="0"><code><span class="c"># the knowledge base's own key</span>
+<span class="k">curl</span> $API/api/v1/ingest -H "X-API-Key: ck_…" \
+  -F file=@test-price-list.pdf
+<span class="c"># 202 Accepted: a worker reads, splits and indexes it</span>
+
+<span class="k">curl</span> $API/api/v1/query -H "X-API-Key: ck_…" \
+  --json '{"query": "Is fasting needed for a lipid profile?"}'
+<span class="c"># the answer, its citations and the cost of the call</span></code></pre>
+        </div>
+      </div>
+      <div role="tabpanel" id="p-py" aria-labelledby="t-py" data-label="Python">
+        <div class="cb">
+          <div class="cb-bar"><span>Python · clients/python</span></div>
+          <pre tabindex="0"><code><span class="k">from</span> cob_rag_client <span class="k">import</span> CobRag
+
+rag = CobRag("https://chat.yourbrand.in", api_key="ck_…")
+rag.ingest("test-price-list.pdf", wait=True)
+
+answer = rag.query("Is fasting needed for a lipid profile?")
+print(answer["answer"], answer["citations"])
+
+<span class="k">for</span> token <span class="k">in</span> rag.query_stream("Summarise the home collection rules"):
+    print(token, end="")</code></pre>
+        </div>
+      </div>
+      <div role="tabpanel" id="p-js" aria-labelledby="t-js" data-label="JavaScript">
+        <div class="cb">
+          <div class="cb-bar"><span>JavaScript · clients/js</span></div>
+          <pre tabindex="0"><code><span class="k">import</span> { CobRag } <span class="k">from</span> "cob-rag-client";
+
+<span class="k">const</span> rag = <span class="k">new</span> CobRag({ baseUrl: "https://chat.yourbrand.in", apiKey: "ck_…" });
+
+<span class="k">const</span> { answer, citations } = <span class="k">await</span> rag.query("Is fasting needed for a lipid profile?");
+
+<span class="k">for await</span> (<span class="k">const</span> token <span class="k">of</span> rag.queryStream("Summarise the home collection rules")) {
+  process.stdout.write(token);
+}</code></pre>
+        </div>
+      </div>
+      <div role="tabpanel" id="p-widget" aria-labelledby="t-widget" data-label="Widget">
+        <div class="cb">
+          <div class="cb-bar"><span>HTML · on the business's website</span><button class="copy js-only" type="button" data-copy='&lt;script src="https://chat.yourbrand.in/widget.js" data-key="pk_…" async&gt;&lt;/script&gt;'>Copy</button></div>
+          <pre tabindex="0"><code><span class="c">&lt;!-- one line, before &lt;/body&gt; --&gt;</span>
+&lt;<span class="k">script</span> src="https://chat.yourbrand.in/widget.js"
+        data-key="pk_…" async&gt;&lt;/<span class="k">script</span>&gt;</code></pre>
+        </div>
+      </div>
+    </div>
+    </details>
+  </div>
+</section>
+
+<section class="band" id="why" aria-labelledby="why-h">
+  <div class="wrap">
+    <div class="head">
+      <h2 id="why-h">Why not LangChain, LlamaIndex or Dify?</h2>
+    </div>
+    <div class="why-grid">
+      <p class="short">LangChain and agent SDKs (OpenAI Agents SDK, Claude Agent SDK, LangGraph) are toolkits for building AI. cob-rag-engine is the finished knowledge platform and chatbot business your agents and your customers use: install it and sell AI assistants the same day.</p>
+      <details class="four-d" id="compare">
+        <summary>Say it in four lines</summary>
+        <ol class="four">
+          <li>LangChain, LlamaIndex and the agent SDKs give you parts to build with; cob-rag-engine is the finished knowledge platform: customers, keys, documents, fact-checked answers, a website widget and billing, already built and tested.</li>
+          <li>They are not rivals: your LangChain, LlamaIndex, OpenAI or Claude agent plugs into it over MCP and uses it as its governed knowledge base.</li>
+          <li>Dify is a full platform too, but it is built for designing apps, and its licence needs written authorization to run it for many customers; cob-rag-engine is built to resell, with plans and billing, Hindi and Hinglish, WhatsApp and DPDP consent, and answers that stay inside the customer's own documents.</li>
+          <li>So you sell assistants from day one instead of building the platform under them, and if all you need is a one-off prototype, LangChain alone is the right call.</li>
+        </ol>
+      </details>
+    </div>
+    <p class="cmp-lead js-only">What cob-rag-engine gives you</p>
+    <button class="cmp-more js-only" type="button" aria-expanded="false" aria-controls="cmp-table">Show the other four tools</button>
+    <div class="cmp-wrap" id="cmp-table" role="region" aria-labelledby="cmp-cap" tabindex="0">
+      <table class="cmp">
+        <caption class="sr-only" id="cmp-cap">cob-rag-engine compared with LangChain, LlamaIndex, Dify and agent SDKs</caption>
+        <thead><tr><th scope="col"><span class="sr-only">Compared on</span></th><th scope="col" class="us">cob-rag-engine</th><th scope="col">LangChain</th><th scope="col">LlamaIndex</th><th scope="col">Dify</th><th scope="col">Agent SDKs</th></tr></thead>
+        <tbody>
+          <tr><td>What it is</td><td data-label="cob-rag-engine" class="us">A self-hosted knowledge platform and chatbot service</td><td data-label="LangChain">An open-source library of parts for AI apps</td><td data-label="LlamaIndex">A framework for ingesting, indexing and retrieving data (paid hosted LlamaCloud and LlamaParse)</td><td data-label="Dify">An open-source platform to build LLM apps visually: workflows, agents, knowledge base</td><td data-label="Agent SDKs">Libraries that run an agent: model, tools, loop</td></tr>
+          <tr><td>Time to a working chatbot business</td><td data-label="cob-rag-engine" class="us">Install, create a customer, upload documents, paste one script tag</td><td data-label="LangChain">You build the app, accounts, interface and billing around it</td><td data-label="LlamaIndex">You build the product around the retrieval</td><td data-label="Dify">Quick for your own app in its builder; reselling needs its written authorization</td><td data-label="Agent SDKs">You build the product around the agent</td></tr>
+          <tr><td>Multi-customer platform</td><td data-label="cob-rag-engine" class="us">Tenants, per-knowledge-base keys, roles, plans; isolation tested, 412 of 412 attempts refused</td><td data-label="LangChain">Not part of the library</td><td data-label="LlamaIndex">Not part of the framework</td><td data-label="Dify">Multi-tenant operation needs Dify's written authorization (modified Apache 2.0)</td><td data-label="Agent SDKs">Not part of the SDKs</td></tr>
+          <tr><td>Document pipeline, including Hindi OCR</td><td data-label="cob-rag-engine" class="us">Parsing, OCR with Hindi, cleanup, near-duplicate review, versions</td><td data-label="LangChain">Loaders you choose and wire up</td><td data-label="LlamaIndex">Strong loaders and parsing; Hindi OCR is yours to set up</td><td data-label="Dify">Knowledge base and pipelines; scans depend on plugins</td><td data-label="Agent SDKs">Not what they are for</td></tr>
+          <tr><td>Grounded answers, no made-up facts</td><td data-label="cob-rag-engine" class="us">Confidence gate and a sentence-by-sentence fact check; says "I don't know"</td><td data-label="LangChain">You write the checks</td><td data-label="LlamaIndex">You write the checks</td><td data-label="Dify">Retrieval and citations; checks are built in your workflow</td><td data-label="Agent SDKs">Guardrail hooks; you write the checks</td></tr>
+          <tr><td>Website widget, leads, WhatsApp</td><td data-label="cob-rag-engine" class="us">Widget and WhatsApp answers, leads with DPDP consent, handoff to a person</td><td data-label="LangChain">Not part of the library</td><td data-label="LlamaIndex">Not part of the framework</td><td data-label="Dify">Embeddable chat app; leads and handoff are yours to build</td><td data-label="Agent SDKs">Not part of the SDKs</td></tr>
+          <tr><td>Billing</td><td data-label="cob-rag-engine" class="us">Plans, wallets, per-question or cost-plus pricing, Razorpay payments, GST invoices</td><td data-label="LangChain">Not part of the library</td><td data-label="LlamaIndex">Not part of the framework</td><td data-label="Dify">App logs; not a billing system for your customers</td><td data-label="Agent SDKs">Not part of the SDKs</td></tr>
+          <tr><td>Dashboard and in-app assistant</td><td data-label="cob-rag-engine" class="us">Dashboard, COB and in-app docs</td><td data-label="LangChain">Not part of the library</td><td data-label="LlamaIndex">Not part of the framework</td><td data-label="Dify">Its own studio and console</td><td data-label="Agent SDKs">Not part of the SDKs</td></tr>
+          <tr><td>Works with agents</td><td data-label="cob-rag-engine" class="us">Yes: MCP (52 tools), REST, Python and JS SDKs, read-only named keys</td><td data-label="LangChain">Yes, it is an agent toolkit</td><td data-label="LlamaIndex">Yes, it has agents too</td><td data-label="Dify">Builds agents itself and has APIs</td><td data-label="Agent SDKs">Yes, it is the agent loop</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <p class="note proof-note">Facts from each project's own licence, documentation and repository. Dify's licence was checked on 5 October 2026. RAGAS, used by the optional evaluation add-on, brings LangChain in for quality scoring only.</p>
+  </div>
+</section>
+
+<section class="band band-alt" id="licence" aria-labelledby="lic-h">
+  <div class="wrap">
+    <div class="head">
+      <h2 id="lic-h">Open source, with a commercial licence on request.</h2>
+    </div>
+    <div class="lic">
+      <div class="lic-table">
+        <div><div><b>The engine and the dashboard</b><span><code>src/</code>, <code>services/</code></span></div><span class="lic-tag">AGPL-3.0</span></div>
+        <div><div><b>The Python and JavaScript clients</b><span><code>clients/js</code>, <code>clients/python</code></span></div><span class="lic-tag">MIT</span></div>
+        <div><div><b>The widget scripts</b><span>the code that loads on a business's website</span></div><span class="lic-tag">MIT</span></div>
+        <div><div><b>The MCP server</b><span><code>cob-rag-mcp</code>, its own repository</span></div><span class="lic-tag">MIT</span></div>
+      </div>
+      <div class="lic-text">
+        <p><b>What AGPL-3.0 means in practice.</b> You can run the engine, change it, and sell services with it. If you change the engine and let other people use the changed version over a network, you must publish your changes under the same licence.</p>
+        <p><b>Why the client parts are MIT.</b> They go into other people's websites and apps. MIT keeps those websites and apps free of any AGPL condition.</p>
+        <p><b>A commercial licence</b> is for companies that cannot accept the AGPL-3.0 conditions. <a href="https://callobuzz.com/contact">Contact Callobuzz</a>.</p>
+        <p><b>Contributions</b> are welcome under the <a href="https://github.com/callobuzz/cob-rag-engine/blob/main/CLA.md">contributor licence agreement</a>.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="band" id="gaps" aria-labelledby="gaps-h">
+  <div class="wrap">
+    <div class="head">
+      <h2 id="gaps-h">What it does not do yet, and what comes next.</h2>
+      <p>So you can decide before you build on it, not after.</p>
+    </div>
+  </div>
+  <div class="wrap gn">
+    <div>
+      <h3>Not in the code yet</h3>
+      <ul class="gaps">
+        <li><b>Release 0.2.0: automated tests, no full live run yet</b>The engine has run real deployments before. This release passed its automated tests (about 19,000 unit tests, about 400 integration tests and the dashboard's tests), but the newest parts (online payments, WhatsApp answers, the public website and the installer) have not yet had a full live run on a fresh server. That run is next. If something breaks, please open an issue on GitHub.</li>
+        <li><b>No live takeover inbox</b>Your team cannot chat with a visitor inside the dashboard yet. A visitor who wants a person gets WhatsApp, a call or e-mail.</li>
+        <li><b>No voice assistant</b>There is no phone or voice channel.</li>
+        <li><b>No Drive, Notion or Confluence connectors</b>Upload files, read a website, or push records through the API.</li>
+        <li><b>No single sign-on</b>Sign-in is e-mail and password, with owner and member roles.</li>
+        <li><b>Razorpay only, and tested against a simulator</b>No Stripe yet. Payments and WhatsApp were tested against simulated Razorpay and Meta servers, not live accounts.</li>
+        <li><b>One server, no hosted version</b>Docker Compose on one server is the supported path, and there is no Kubernetes chart. There is no hosted cob-rag-engine: you run it yourself.</li>
+      </ul>
+    </div>
+    <section id="next" aria-labelledby="next-h">
+      <h3 id="next-h">Coming next, in this order</h3>
+      <ul class="next">
+        <li><b><span class="when">Next</span>Live chat and a bot team</b>An inbox where staff take over a chat, and named specialist bots with a visible handover.</li>
+        <li><b><span class="when">Planned</span>GraphRAG and images</b>Answers that join facts across documents, and diagrams and pictures as searchable content, as optional add-ons.</li>
+        <li><b><span class="when">Planned</span>Agents that do things</b>Booking a home collection or checking an order. Agent mode and web search exist in the code but are not in the API yet.</li>
+        <li><b><span class="when">Later</span>Data connectors</b>Google Drive, Notion and Confluence, with incremental sync.</li>
+      </ul>
+    </section>
+  </div>
+</section>
+
+<section class="band band-alt" id="start" aria-labelledby="start-h">
+  <div class="wrap">
+    <div class="head">
+      <h2 id="start-h">Put it on a server, or try it on your computer.</h2>
+    </div>
+    <div class="start">
+      <div>
+        <h3>On a server</h3>
+        <p>A fresh Ubuntu 22.04 or 24.04, or Debian 12, and a domain that points at it. The <a href="requirements.html">requirements page</a> lists the server sizes.</p>
+        <div class="cb">
+          <div class="cb-bar"><span>Terminal · on the server</span><button class="copy js-only" type="button" data-copy="git clone https://github.com/callobuzz/cob-rag-engine.git &amp;&amp; sudo bash cob-rag-engine/deploy/install.sh">Copy</button></div>
+          <pre tabindex="0"><code><span class="k">git clone</span> https://github.com/callobuzz/cob-rag-engine.git
+<span class="k">sudo bash</span> cob-rag-engine/deploy/install.sh</code></pre>
+        </div>
+        <p class="note">Add <code>--dry-run</code> to see every step without changing anything.</p>
+      </div>
+      <div>
+        <h3>On your computer</h3>
+        <p>Windows, macOS or Linux with Docker. The wizard asks a few questions, writes the settings with new secrets, and you start the stack.</p>
+        <div class="cb">
+          <div class="cb-bar"><span>Terminal · on your computer</span><button class="copy js-only" type="button" data-copy="git clone https://github.com/callobuzz/cob-rag-engine.git &amp;&amp; cd cob-rag-engine &amp;&amp; make setup &amp;&amp; docker compose up -d --build">Copy</button></div>
+          <pre tabindex="0"><code><span class="k">git clone</span> https://github.com/callobuzz/cob-rag-engine.git
+<span class="k">cd</span> cob-rag-engine
+<span class="k">make setup</span>            <span class="c"># or: python scripts/setup.py</span>
+<span class="k">docker compose up</span> -d --build</code></pre>
+        </div>
+        <p class="note">The <a href="guide.html">step-by-step guide</a> covers the first sign-in, your first business and its widget.</p>
+      </div>
+    </div>
+    <div class="cta start-cta">
+      <a class="btn btn-ghost" href="getting-started.html">Full install guide</a>
+      <a class="btn btn-ghost" href="deploy.html">Deploy guide</a>
+    </div>
+  </div>
+</section>
+
+</main>
+<footer>
+  <div class="wrap foot">
+    <div class="foot-mast">
+      <p class="foot-name">cob-rag-engine by Callobuzz</p>
+      <p>Open source under AGPL-3.0. The client libraries and the widget scripts are under MIT. A commercial licence is available on request: <a href="https://callobuzz.com/contact">contact Callobuzz</a>.</p>
+    </div>
+    <ul class="foot-links">
+      <li><a href="getting-started.html">Get started</a></li>
+      <li><a href="guide.html">Guide</a></li>
+      <li><a href="deploy.html">Deploy</a></li>
+      <li><a href="requirements.html">Requirements</a></li>
+      <li><a href="benchmarks.html">Benchmarks</a></li>
+      <li><a href="support.html">Support</a></li>
+      <li><a href="https://callobuzz.github.io/cob-rag-mcp">cob-rag-mcp</a></li>
+      <li><a href="https://github.com/callobuzz/cob-rag-engine">GitHub</a></li>
+      <li><a href="https://callobuzz.com/open-source">Callobuzz open source</a></li>
+      <li><a href="mailto:callobuzz@gmail.com?subject=cob-rag-engine%20security%20report">Report a security issue</a></li>
+    </ul>
+  </div>
+</footer>
+<div class="sr-only" aria-live="polite" id="copy-status"></div>
+<script>
+(function(){
+  "use strict";
+  /* tabs: arrow keys move between tabs; without scripts every panel shows with its label */
+  var lists = document.querySelectorAll("[data-tabs]");
+  Array.prototype.forEach.call(lists, function(box){
+    var tabs = Array.prototype.slice.call(box.querySelectorAll('[role="tab"]'));
+    function pick(tab, focus){
+      tabs.forEach(function(t){
+        var on = t === tab;
+        t.setAttribute("aria-selected", on ? "true" : "false");
+        t.tabIndex = on ? 0 : -1;
+        document.getElementById(t.getAttribute("aria-controls")).hidden = !on;
+      });
+      if (focus) tab.focus();
+    }
+    tabs.forEach(function(t, i){
+      t.addEventListener("click", function(){ pick(t, false); });
+      t.addEventListener("keydown", function(e){
+        var n = e.key === "ArrowRight" ? 1 : e.key === "ArrowLeft" ? -1 : 0;
+        if (e.key === "Home") { e.preventDefault(); pick(tabs[0], true); }
+        else if (e.key === "End") { e.preventDefault(); pick(tabs[tabs.length - 1], true); }
+        else if (n) { e.preventDefault(); pick(tabs[(i + n + tabs.length) % tabs.length], true); }
+      });
+    });
+    if (tabs.length) pick(tabs[0], false);
+  });
+  /* on a phone the feature groups and the step examples start folded; wider, they are always open */
+  var phone = window.matchMedia ? window.matchMedia("(max-width: 700px)") : null;
+  function fold(){
+    Array.prototype.forEach.call(document.querySelectorAll(".spec-g, .ex"), function(d){ d.open = !(phone && phone.matches); });
+  }
+  fold();
+  if (phone && phone.addEventListener) phone.addEventListener("change", fold);
+  /* the comparison on a phone: the other tools on request */
+  var more = document.querySelector(".cmp-more");
+  if (more) more.addEventListener("click", function(){
+    var open = more.getAttribute("aria-expanded") !== "true";
+    more.setAttribute("aria-expanded", open ? "true" : "false");
+    document.getElementById("cmp-table").classList.toggle("is-all", open);
+    more.textContent = open ? "Hide the other four tools" : "Show the other four tools";
+  });
+  /* copy buttons: Copy, then Copied or Failed for 2.2 s, announced politely */
+  var status = document.getElementById("copy-status");
+  document.addEventListener("click", function(e){
+    var b = e.target.closest && e.target.closest("[data-copy]");
+    if (!b) return;
+    function done(ok){
+      b.textContent = ok ? "Copied" : "Failed";
+      b.classList.add(ok ? "is-done" : "is-fail");
+      status.textContent = ok ? "Copied to the clipboard" : "Could not copy";
+      setTimeout(function(){ b.textContent = "Copy"; b.classList.remove("is-done", "is-fail"); }, 2200);
+    }
+    if (navigator.clipboard) navigator.clipboard.writeText(b.getAttribute("data-copy")).then(function(){ done(true); }, function(){ done(false); });
+    else done(false);
+  });
+})();
+</script>
+</body>
+</html>

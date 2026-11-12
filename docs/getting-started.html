@@ -1,0 +1,263 @@
+<!doctype html>
+<html lang="en" class="no-js">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Getting started · cob-rag-engine</title>
+<meta name="description" content="A beginner's guide from the code to a live chat window on a customer's website: get the code, install on a VPS, first sign-in, first business, widget, WhatsApp, licence, upgrade, backups and troubleshooting.">
+<link rel="canonical" href="https://callobuzz.github.io/cob-rag-engine/getting-started.html">
+<meta name="theme-color" content="#ffffff">
+<meta property="og:title" content="cob-rag-engine: Getting started">
+<meta property="og:description" content="A beginner's guide from the code to a live chat window on a customer's website: get the code, install on a VPS, first sign-in, first business, widget, WhatsApp, licence, upgrade, backups and troubleshooting.">
+<meta property="og:type" content="article">
+<meta property="og:url" content="https://callobuzz.github.io/cob-rag-engine/getting-started.html">
+<meta property="og:site_name" content="cob-rag-engine by Callobuzz">
+<meta property="og:image" content="https://callobuzz.github.io/cob-rag-engine/assets/social-card.png">
+<meta property="og:image:width" content="1280">
+<meta property="og:image:height" content="640">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="cob-rag-engine: Getting started">
+<meta name="twitter:description" content="A beginner's guide from the code to a live chat window on a customer's website: get the code, install on a VPS, first sign-in, first business, widget, WhatsApp, licence, upgrade, backups and troubleshooting.">
+<link rel="icon" type="image/png" sizes="32x32" href="assets/logo-32.png">
+<link rel="icon" type="image/png" sizes="64x64" href="assets/logo-64.png">
+<link rel="apple-touch-icon" href="assets/logo-180.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;600&family=Red+Hat+Text:wght@400;500;600&family=Schibsted+Grotesk:wght@500;600;700&display=swap" rel="stylesheet">
+<script src="assets/theme.js"></script>
+<link rel="stylesheet" href="assets/site.css">
+</head>
+<body id="top">
+<a class="skip" href="#guide">Skip to Getting started</a>
+<nav aria-label="Main">
+  <div class="wrap">
+    <a class="brand" href="index.html"><img src="assets/logo-64.png" alt="" width="28" height="28">cob-rag-engine</a>
+    <div class="links">
+      <a href="index.html">Overview</a>
+      <a href="getting-started.html" aria-current="page">Get started</a>
+      <a href="guide.html">Guide</a>
+      <a href="deploy.html">Deploy</a>
+      <a href="benchmarks.html">Benchmarks</a>
+    </div>
+    <div class="nav-end">
+      <button class="theme" type="button" aria-pressed="false" data-theme-toggle><svg class="i-moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 14.5A8 8 0 0 1 9.5 4a8 8 0 1 0 10.5 10.5Z"/></svg><svg class="i-sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" aria-hidden="true"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"/></svg><span class="sr-only">Dark theme</span></button>
+      <a class="gh" href="https://github.com/callobuzz/cob-rag-engine"><svg viewBox="0 0 16 16" fill="currentColor" aria-hidden="true"><path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.01 8.01 0 0 0 16 8c0-4.42-3.58-8-8-8Z"/></svg>GitHub</a>
+    </div>
+  </div>
+</nav>
+<header class="page-head">
+  <div class="wrap">
+    <span class="kicker">Getting started</span>
+    <h1>From the code <span class="thin">to your first customer</span></h1>
+    <p class="lede">This page is for someone who has never put a program on a server. It takes you from the code you downloaded to a live chat window on a customer&rsquo;s website. Every command is shown in full. When something goes wrong, the step says what to do next.</p>
+    <p class="meta">Examples use the web address <code>chat.sharmafurniture.in</code> and the e-mail <code>owner@sharmafurniture.in</code>. Replace them with your own.</p>
+  </div>
+</header>
+<div class="wrap doc" id="guide">
+  <aside class="toc" aria-label="On this page">
+    <details open>
+      <summary>On this page<span class="chev"></span></summary>
+      <ol>
+        <li><a href="#glossary"><span class="tn">01</span>Words used here</a></li>
+        <li><a href="#code"><span class="tn">02</span>Get the code</a></li>
+        <li><a href="#install"><span class="tn">03</span>Install on a server</a></li>
+        <li><a href="#first-sign-in"><span class="tn">04</span>First sign-in</a></li>
+        <li><a href="#first-business"><span class="tn">05</span>Your first business</a></li>
+        <li><a href="#widget"><span class="tn">06</span>The chat widget</a></li>
+        <li><a href="#whatsapp"><span class="tn">07</span>WhatsApp</a></li>
+        <li><a href="#licence"><span class="tn">08</span>Licence</a></li>
+        <li><a href="#upgrade"><span class="tn">09</span>Upgrade</a></li>
+        <li><a href="#backup"><span class="tn">10</span>Backups</a></li>
+        <li><a href="#support"><span class="tn">11</span>Support</a></li>
+        <li><a href="#faq"><span class="tn">12</span>Questions</a></li>
+        <li><a href="#troubleshooting"><span class="tn">13</span>Troubleshooting</a></li>
+      </ol>
+    </details>
+  </aside>
+  <main class="prose">
+
+<section class="s" id="sec-glossary" aria-labelledby="glossary"><h2 id="glossary"><span class="n">01</span>Words used here<a class="anchor" href="#glossary" aria-label="Link to section Words used here">#</a></h2>
+<p>Six words come up again and again. You do not need to know more than this to follow the page.</p>
+<dl class="defs">
+<div><dt>VPS</dt><dd>A small computer you rent from a company such as DigitalOcean, Hetzner or an Indian provider. It is always on and always connected to the internet. Your customers&rsquo; websites talk to it. It costs a few hundred to a few thousand rupees a month.</dd></div>
+<div><dt>Domain</dt><dd>A web address you own, such as <code>sharmafurniture.in</code>. You will use a sub-address of it, such as <code>chat.sharmafurniture.in</code>, for this product.</dd></div>
+<div><dt>DNS record</dt><dd>A line in your domain&rsquo;s settings that says &ldquo;this address points to that server&rdquo;. You add one <em>A record</em> that points <code>chat</code> to your server&rsquo;s number (its IP address). Your domain company&rsquo;s website has the page for it.</dd></div>
+<div><dt>SSH</dt><dd>A way to type commands on your server from your own computer. Your VPS company gives you a user name, an address and a password or key file. On Windows 10 and 11, macOS and Linux, you open a terminal and type <code>ssh root@your-server-address</code>.</dd></div>
+<div><dt>Git</dt><dd>A free program that copies a project from the internet to your computer. You can also skip it and download a zip.</dd></div>
+<div><dt>Knowledge base</dt><dd>The collection of a business&rsquo;s own material (brochures, price lists, web pages, answers to common questions) that the chat assistant reads before it answers. The <em>widget</em> is the chat window that appears on the business&rsquo;s website.</dd></div>
+</dl>
+<p class="top"><a href="#top">Back to top</a></p></section>
+
+<section class="s" id="sec-code" aria-labelledby="code"><h2 id="code"><span class="n">02</span>Get the code<a class="anchor" href="#code" aria-label="Link to section Get the code">#</a></h2>
+<p>cob-rag-engine is open source under AGPL-3.0. The code is in a public repository. You can get it in two ways. Both give you the same folder.</p>
+<ul>
+<li><strong>Clone it.</strong> This needs <code>git</code>. On the server, type <code>git clone https://github.com/callobuzz/cob-rag-engine.git</code>.</li>
+<li><strong>Download a release zip.</strong> Open the repository&rsquo;s <em>Releases</em> page, download the zip of the version you want, and unzip it.</li>
+</ul>
+<p>The folder is called <code>cob-rag-engine</code>. Inside it you will find:</p>
+<ul>
+<li><strong><code>deploy</code></strong>: the installer, <code>deploy/install.sh</code>, and the upgrade and backup scripts.</li>
+<li><strong><code>services/dashboard/src</code></strong>: the source of the dashboard, readable and not minified.</li>
+<li><strong><code>docs</code></strong>: this page and the other guides as web pages.</li>
+<li><strong><code>tests</code></strong>: the developers&rsquo; own checks. You do not need them to run, change or sell the product.</li>
+</ul>
+<p class="top"><a href="#top">Back to top</a></p></section>
+
+<section class="s" id="sec-install" aria-labelledby="install"><h2 id="install"><span class="n">03</span>Install on a server<a class="anchor" href="#install" aria-label="Link to section Install on a server">#</a></h2>
+<p>You need a VPS with Ubuntu 22.04, Ubuntu 24.04 or Debian 12, at least 2 CPUs and 4 GB of memory, and a domain. It cannot run on shared hosting, cPanel or a website builder. The full list is on <a href="requirements.html">the requirements page</a>.</p>
+<ol class="steps">
+<li><strong>Point a web address at the server.</strong> In your domain&rsquo;s settings, add an A record: name <code>chat</code>, value your server&rsquo;s IP address. For the example, that makes <code>chat.sharmafurniture.in</code>. It can take a few minutes, sometimes an hour, to start working.</li>
+<li><strong>Sign in to the server.</strong> Use your server&rsquo;s address.
+<div class="cb"><div class="cb-bar"><span>Terminal (on your computer)</span></div><pre tabindex="0"><code>ssh root@your-server-address</code></pre></div></li>
+<li><strong>Get the code on the server.</strong>
+<div class="cb"><div class="cb-bar"><span>Terminal (on the server)</span></div><pre tabindex="0"><code>sudo apt-get update &amp;&amp; sudo apt-get install -y git
+git clone https://github.com/callobuzz/cob-rag-engine.git</code></pre></div>
+If you prefer a release zip, copy it to the server and unzip it there; you get the same <code>cob-rag-engine</code> folder.</li>
+<li><strong>Run the installer.</strong>
+<div class="cb"><div class="cb-bar"><span>Terminal (on the server)</span></div><pre tabindex="0"><code>sudo bash cob-rag-engine/deploy/install.sh</code></pre></div></li>
+</ol>
+<p>The installer asks two questions: your web address (<code>chat.sharmafurniture.in</code>) and your e-mail (<code>owner@sharmafurniture.in</code>, the one you will sign in with). Then it checks the server, installs Docker if it is missing, sets everything up with generated passwords, gets a free HTTPS certificate and prints a sign-in link. It can take 10 to 20 minutes. To see what it would do without changing anything, add <code>--dry-run</code> to the command.</p>
+<p><strong>Done looks like this:</strong> the last lines say the installation is complete and show a long link starting with <code>https://chat.sharmafurniture.in</code>. Copy that link. If the installer stops, it says in plain words what is wrong and what to do; fix that and run the same command again. It is safe to run again.</p>
+<p class="top"><a href="#top">Back to top</a></p></section>
+
+<section class="s" id="sec-first-sign-in" aria-labelledby="first-sign-in"><h2 id="first-sign-in"><span class="n">04</span>First sign-in<a class="anchor" href="#first-sign-in" aria-label="Link to section First sign-in">#</a></h2>
+<ol class="steps">
+<li><strong>Open the link the installer printed.</strong> It lets you choose a password for <code>owner@sharmafurniture.in</code>. The link works once and for a limited time; if it has expired, see <a href="#troubleshooting">Troubleshooting</a>.</li>
+<li><strong>Choose a password and sign in.</strong> You land in the dashboard as the operator: the person who runs the service and adds customers.</li>
+<li><strong>Add an AI provider key.</strong> The chat assistant writes its answers with an AI model. Open the first-run steps in the dashboard and paste a key from a provider such as OpenRouter, OpenAI or Anthropic. Or choose the free local model that runs on your own server; it is slower and needs a bigger server (see <a href="requirements.html#sizes">the requirements page</a>).</li>
+</ol>
+<div class="callout warn" role="note"><strong class="cl">Costs that are not in the product</strong><div>The AI provider&rsquo;s key and what it is used for are paid to that provider, not to us, and are not included in the product. The same goes for your server, your domain and any e-mail sending service. <a href="requirements.html#costs">The requirements page</a> lists them.</div></div>
+<p>To send invitations and password resets from your own address, add an e-mail sending service (SMTP) in the dashboard under the engine&rsquo;s e-mail settings. Without it, the product still works; sign-in links are shown on screen instead.</p>
+<p class="top"><a href="#top">Back to top</a></p></section>
+
+<section class="s" id="sec-first-business" aria-labelledby="first-business"><h2 id="first-business"><span class="n">05</span>Your first business<a class="anchor" href="#first-business" aria-label="Link to section Your first business">#</a></h2>
+<p>A <em>business</em> is one of your customers: a clinic, a shop, a coaching class. Each business gets its own workspace, its own knowledge base and its own chat widget. Nothing from one business is ever shown to another.</p>
+<ol class="steps">
+<li><strong>Add the business.</strong> In the dashboard open <em>Customers</em> and choose <em>Add customer</em>. Type the business&rsquo;s name and the owner&rsquo;s e-mail. You can also let businesses sign up themselves; the choice is in the engine settings.</li>
+<li><strong>The owner signs in.</strong> The owner lands on a simple home page and a short first-run guide: the website address, brochures, the widget code, and a place to try the assistant.</li>
+<li><strong>Teach the assistant.</strong> The owner can paste the website address, and the product reads the site by itself. The owner can also upload brochures and price lists as PDF or Word files, and type common questions and answers. The assistant answers only from this material.</li>
+<li><strong>Try it.</strong> The owner asks a few real questions in the test chat and fixes anything that is missing.</li>
+</ol>
+<p>The <a href="guide.html#flow">step-by-step guide</a> walks the same path with screens.</p>
+<p class="top"><a href="#top">Back to top</a></p></section>
+
+<section class="s" id="sec-widget" aria-labelledby="widget"><h2 id="widget"><span class="n">06</span>The chat widget<a class="anchor" href="#widget" aria-label="Link to section The chat widget">#</a></h2>
+<p>The widget is one line that the business (or you) puts on the website, just before the closing <code>&lt;/body&gt;</code> tag:</p>
+<div class="cb"><div class="cb-bar"><span>Website page</span></div><pre tabindex="0"><code>&lt;script src="https://chat.sharmafurniture.in/widget.js" data-key="pk_your_key_here" async&gt;&lt;/script&gt;</code></pre></div>
+<ol class="steps">
+<li><strong>Create a widget key.</strong> In the business&rsquo;s workspace open the knowledge base, then its widget keys, and create one. The dashboard shows the exact line to copy.</li>
+<li><strong>Allow the website.</strong> A widget key only works on the websites you list under <em>allowed sites</em>, for example <code>https://www.sharmafurniture.in</code>. This stops other websites from using the key.</li>
+<li><strong>Test it.</strong> Open the website, wait a moment and look for the chat bubble in the corner. Ask a question. If the bubble does not appear, see <a href="#troubleshooting">Troubleshooting</a>.</li>
+</ol>
+<p>The widget works on any website that lets you add a script: WordPress, Shopify, Wix, plain HTML.</p>
+<p class="top"><a href="#top">Back to top</a></p></section>
+
+<section class="s" id="sec-whatsapp" aria-labelledby="whatsapp"><h2 id="whatsapp"><span class="n">07</span>WhatsApp<a class="anchor" href="#whatsapp" aria-label="Link to section WhatsApp">#</a></h2>
+<p>The assistant can also answer on a business&rsquo;s own WhatsApp Business number. Messages pass through Meta, the company behind WhatsApp, so you need three things from Meta: a Meta business account, a Meta app, and a WhatsApp Business number for each business. Meta has its own review steps and sometimes its own fees.</p>
+<p>Do this after the chat widget works. The steps, with what to click at Meta, are in <a href="deploy.html#whatsapp">the deploy guide</a>. Until then, everything else works without WhatsApp.</p>
+<p class="top"><a href="#top">Back to top</a></p></section>
+
+<section class="s" id="sec-licence" aria-labelledby="licence"><h2 id="licence"><span class="n">08</span>Licence<a class="anchor" href="#licence" aria-label="Link to section Licence">#</a></h2>
+<p>In plain words:</p>
+<dl class="defs">
+<div><dt>AGPL-3.0</dt><dd>The engine and the dashboard are under the GNU AGPL-3.0. You can run it, change it and charge your customers for chatbots built on it. If you change the code and let other people use your version over the internet, AGPL-3.0 asks you to offer those people the source of your version.</dd></div>
+<div><dt>MIT</dt><dd>The client libraries in <code>clients/</code> and the widget scripts are under the MIT licence. You can put them in your own closed products.</dd></div>
+<div><dt>Commercial licence</dt><dd>A company that does not want the AGPL-3.0 conditions can ask Callobuzz for a commercial licence at <a href="https://callobuzz.com/contact">https://callobuzz.com/contact</a>.</dd></div>
+</dl>
+<p>Every feature works for everyone. There is no activation step and no limit on the number of businesses. The &ldquo;Powered by&rdquo; line in the chat window is shown by default, and the operator can hide it under <em>Branding</em>. The product never switches itself off and never sends data about your businesses to us.</p>
+<p class="top"><a href="#top">Back to top</a></p></section>
+
+<section class="s" id="sec-upgrade" aria-labelledby="upgrade"><h2 id="upgrade"><span class="n">09</span>Upgrade<a class="anchor" href="#upgrade" aria-label="Link to section Upgrade">#</a></h2>
+<p>Every release is free. The repository&rsquo;s <em>Releases</em> page and the CHANGELOG say when a new version is out. Get the new version on the server as in <a href="#install">the install section</a> (a new release zip, or a fresh clone in another folder), and run:</p>
+<div class="cb"><div class="cb-bar"><span>Terminal (on the server)</span></div><pre tabindex="0"><code>sudo bash /opt/cob-rag/current/deploy/upgrade.sh cob-rag-engine-NEW.zip</code></pre></div>
+<p>Use the real file name of the new zip, or the new folder. The upgrade makes a backup first, builds the new version while the old one keeps answering, updates the database, and switches over. If something looks wrong afterwards, go back to the version and data from before the upgrade:</p>
+<div class="cb"><div class="cb-bar"><span>Terminal (on the server)</span></div><pre tabindex="0"><code>sudo bash /opt/cob-rag/current/deploy/upgrade.sh --rollback</code></pre></div>
+<p>Add <code>--dry-run</code> to see what an upgrade would do without changing anything.</p>
+<p class="top"><a href="#top">Back to top</a></p></section>
+
+<section class="s" id="sec-backup" aria-labelledby="backup"><h2 id="backup"><span class="n">10</span>Backups<a class="anchor" href="#backup" aria-label="Link to section Backups">#</a></h2>
+<p>The installer sets up a backup every night at 2:30 and keeps the last 7 days in <code>/opt/cob-rag/backups</code>. To make one right now:</p>
+<div class="cb"><div class="cb-bar"><span>Terminal (on the server)</span></div><pre tabindex="0"><code>sudo bash /opt/cob-rag/current/deploy/backup.sh</code></pre></div>
+<p>To put one back, name its folder. The command checks the backup, asks you to type <code>restore</code>, and puts the data back:</p>
+<div class="cb"><div class="cb-bar"><span>Terminal (on the server)</span></div><pre tabindex="0"><code>ls /opt/cob-rag/backups
+sudo bash /opt/cob-rag/current/deploy/restore.sh /opt/cob-rag/backups/THE-BACKUP-FOLDER</code></pre></div>
+<div class="callout danger" role="note"><strong class="cl">A backup on the same server is not enough</strong><div>If the server is deleted, its backups go with it. Copy the backup folder to another computer or to storage at another company every week. The folder contains your settings file, so keep the copy private.</div></div>
+<p class="top"><a href="#top">Back to top</a></p></section>
+
+<section class="s" id="sec-support" aria-labelledby="support"><h2 id="support"><span class="n">11</span>Support<a class="anchor" href="#support" aria-label="Link to section Support">#</a></h2>
+<p>Community support runs through <strong>GitHub issues</strong>, <strong>best effort</strong>. <strong>Commercial support</strong> is by contract: <a href="https://callobuzz.com/contact">https://callobuzz.com/contact</a>.</p>
+<ul>
+<li><strong>Community support:</strong> questions about how a feature works, bug reports, and every update.</li>
+<li><strong>Not covered by community support:</strong> installation on your server, customisation, hosting and server administration, and third-party services and keys such as AI providers, Meta and e-mail providers, with their costs.</li>
+<li><strong>How to ask:</strong> open an issue in the repository with the version, what happened and what you expected.</li>
+<li><strong>Security problems:</strong> do not post them in a public issue. E-mail <a href="mailto:callobuzz@gmail.com?subject=SECURITY%3A%20">callobuzz@gmail.com</a> with a subject that starts with &ldquo;SECURITY:&rdquo;. <a href="support.html">The support page</a> says what happens next.</li>
+</ul>
+<p class="top"><a href="#top">Back to top</a></p></section>
+
+<section class="s" id="sec-faq" aria-labelledby="faq"><h2 id="faq"><span class="n">12</span>Questions<a class="anchor" href="#faq" aria-label="Link to section Questions">#</a></h2>
+<dl class="defs">
+<div><dt>Can I use shared hosting?</dt><dd>No. Shared hosting, cPanel, WordPress hosts and website builders cannot run Docker, and the product needs it. Rent a VPS instead.</dd></div>
+<div><dt>Do I need a GPU?</dt><dd>No. A normal server is enough. The AI model that writes answers usually runs at your AI provider, not on your server.</dd></div>
+<div><dt>Which AI providers can I use?</dt><dd>Any of the big ones, for example OpenRouter, OpenAI, Anthropic, Google and Mistral, and the free local model on your own server. You choose, and you can change later.</dd></div>
+<div><dt>Can I change the dashboard?</dt><dd>Yes. Its source is in <code>cob-rag-engine/services/dashboard/src</code>. Change it, then run the upgrade or the installer again to rebuild it. Community support covers the product as released, not your changes.</dd></div>
+<div><dt>Does it send data to you?</dt><dd>No. Nothing about your businesses, visitors or documents leaves your server, except to the AI provider you choose.</dd></div>
+<div><dt>Can I remove the &ldquo;Powered by&rdquo; line?</dt><dd>Yes. The operator can hide it under <em>Branding</em>.</dd></div>
+<div><dt>Does it run on Windows or macOS?</dt><dd>For trying it on your own computer, yes, with Docker Desktop; see <a href="guide.html">the step-by-step guide</a>. A live server runs on Linux.</dd></div>
+</dl>
+<p class="top"><a href="#top">Back to top</a></p></section>
+
+<section class="s" id="sec-troubleshooting" aria-labelledby="troubleshooting"><h2 id="troubleshooting"><span class="n">13</span>Troubleshooting<a class="anchor" href="#troubleshooting" aria-label="Link to section Troubleshooting">#</a></h2>
+<div class="ts">
+<div class="ts-row ts-s"><span class="ts-k">Problem</span><div>The browser says the connection is not secure, or the site does not load, right after install.</div></div>
+<div class="ts-row ts-f"><span class="ts-k">What to do</span><div>The free HTTPS certificate needs the DNS record to be working. Wait 10 minutes, then check that the web address shows your server&rsquo;s IP address. Make sure ports 80 and 443 are open at your VPS company. Then run the installer again; it is safe to repeat.</div></div>
+</div>
+<div class="ts">
+<div class="ts-row ts-s"><span class="ts-k">Problem</span><div>The installer says port 80 or 443 is already in use.</div></div>
+<div class="ts-row ts-f"><span class="ts-k">What to do</span><div>Another program on the server (often an old Apache or Nginx) is using it. Stop and disable it, for example <code>sudo systemctl disable --now apache2</code>, then run the installer again.</div></div>
+</div>
+<div class="ts">
+<div class="ts-row ts-s"><span class="ts-k">Problem</span><div>The sign-in link has expired or does not work.</div></div>
+<div class="ts-row ts-f"><span class="ts-k">What to do</span><div>Ask for a new one:
+<div class="cb"><div class="cb-bar"><span>Terminal (on the server)</span></div><pre tabindex="0"><code>sudo docker compose --project-directory /opt/cob-rag/current exec app python -m callobuzz_rag.accounts.bootstrap --resend --print-link</code></pre></div></div></div>
+</div>
+<div class="ts">
+<div class="ts-row ts-s"><span class="ts-k">Problem</span><div>The server runs out of memory while the installer builds, and the installer stops.</div></div>
+<div class="ts-row ts-f"><span class="ts-k">What to do</span><div>The server is too small. 4 GB of memory is the minimum. Resize the server at your VPS company, then run the installer again. It adds a swap file on small servers, which helps but does not replace memory.</div></div>
+</div>
+<div class="ts">
+<div class="ts-row ts-s"><span class="ts-k">Problem</span><div>The chat bubble does not show on the website.</div></div>
+<div class="ts-row ts-f"><span class="ts-k">What to do</span><div>Check three things. First, the website&rsquo;s exact address (with <code>https://</code> and, if it is used, <code>www.</code>) is listed under the widget key&rsquo;s allowed sites. Second, the script line is on the page and the key starts with <code>pk_</code>. Third, open the page, press F12 and look at the Console tab for a message that starts with <code>[cob-rag widget]</code>; it says what is wrong.</div></div>
+</div>
+<div class="ts">
+<div class="ts-row ts-s"><span class="ts-k">Problem</span><div>Something else is wrong and you want to see what the product says.</div></div>
+<div class="ts-row ts-f"><span class="ts-k">What to do</span><div>Read the last lines of its log, and send them with your question to support:
+<div class="cb"><div class="cb-bar"><span>Terminal (on the server)</span></div><pre tabindex="0"><code>sudo docker compose --project-directory /opt/cob-rag/current logs --tail 100 app</code></pre></div></div></div>
+</div>
+<p>More answers are in <a href="deploy.html#troubleshooting">the deploy guide&rsquo;s troubleshooting section</a>.</p>
+<p class="top"><a href="#top">Back to top</a></p></section>
+
+  </main>
+</div>
+<footer>
+  <div class="wrap foot">
+    <div class="foot-mast">
+      <p class="foot-name">cob-rag-engine by Callobuzz</p>
+      <p>Open source under AGPL-3.0. The client libraries and the widget scripts are under MIT. A commercial licence is available on request: <a href="https://callobuzz.com/contact">contact Callobuzz</a>.</p>
+    </div>
+    <ul class="foot-links">
+      <li><a href="getting-started.html">Get started</a></li>
+      <li><a href="guide.html">Guide</a></li>
+      <li><a href="deploy.html">Deploy</a></li>
+      <li><a href="requirements.html">Requirements</a></li>
+      <li><a href="benchmarks.html">Benchmarks</a></li>
+      <li><a href="support.html">Support</a></li>
+      <li><a href="https://callobuzz.github.io/cob-rag-mcp">cob-rag-mcp</a></li>
+      <li><a href="https://github.com/callobuzz/cob-rag-engine">GitHub</a></li>
+      <li><a href="https://callobuzz.com/open-source">Callobuzz open source</a></li>
+      <li><a href="mailto:callobuzz@gmail.com?subject=cob-rag-engine%20security%20report">Report a security issue</a></li>
+    </ul>
+  </div>
+</footer>
+<script>(function(){var d=document.querySelector('.toc details');if(d&&window.matchMedia&&window.matchMedia('(max-width:960px)').matches){d.open=false;}})();</script>
+</body>
+</html>

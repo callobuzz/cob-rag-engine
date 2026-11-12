@@ -1,0 +1,15 @@
+{% import "macros.html" as m with context %}
+<section class="section bento" data-section="bento" id="{{ s.id }}">
+  <div class="wrap">
+    {{ m.head(s) }}
+    <ul class="tiles" data-tiles="{{ s.tiles|length }}">
+      {% for tile in s.tiles if env.whatsapp_on_sale or not ((tile.title|t) ~ " " ~ (tile.text|t)) is mentions_whatsapp %}
+      <li class="tile" style="--i: {{ loop.index0 }}">
+        {{ m.icon(tile.icon) }}
+        <h3>{{ tile.title|t }}</h3>
+        <p>{{ tile.text|t }}</p>
+      </li>
+      {% endfor %}
+    </ul>
+  </div>
+</section>

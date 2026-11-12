@@ -1,0 +1,411 @@
+{
+  "version": 1,
+  "notes": "Patterns run on the message after lower-casing and dropping the Devanagari nukta (so type the pattern without it). Order matters: the first allowed tool that matches wins, so the narrow tools come first. A pattern never uses \\b around Devanagari (a matra is not a word character).",
+  "docs_markers": [
+    "\\bhow (do|can|should|would|to|does)\\b",
+    "\\bwhat (is|are) (a|an)\\b",
+    "\\bwhat does\\b",
+    "\\bexplain\\b",
+    "\\bdifference between\\b",
+    "\\bsteps? to\\b",
+    "\\btell me about\\b",
+    "\\bwhy (do|does|should)\\b",
+    "\\bkaise\\b",
+    "\\bkya hota hai\\b",
+    "कैसे",
+    "क्या होता है"
+  ],
+  "possessives": [
+    "\\b(my|our|mine)\\b",
+    "\\bmer[aei]\\b",
+    "\\bhamar[aei]\\b",
+    "मेरा|मेरी|मेरे|हमारा|हमारी|हमारे"
+  ],
+  "tools": {
+    "retry_ingestion": {
+      "patterns": [
+        "\\b(retry|re-?try|re-?run|re-?process|try again|run again|upload again|re-?upload)\\b.{0,40}\\b(uploads?|files?|documents?|pdfs?|ingest\\w*|jobs?)\\b",
+        "\\b(uploads?|files?|documents?|pdfs?|jobs?)\\b.{0,30}\\b(retry|try again|run again|re-?run)\\b",
+        "\\bretry (it|that|this|them)\\b",
+        "(dobara|phir se|fir se)\\b.{0,25}(upload|file|document|pdf).{0,15}(karo|kar do|chalao|try)",
+        "(upload|file|document|pdf).{0,25}(dobara|phir se|fir se).{0,15}(karo|kar do|chalao|try)",
+        "(अपलोड|फाइल|दस्तावेज|डॉक्यूमेंट).{0,25}(दोबारा|फिर से).{0,15}(करो|करें|चलाओ|कीजिए)"
+      ]
+    },
+    "start_guided_setup": {
+      "patterns": [
+        "\\b(start|open|begin|launch|run|do)\\b.{0,20}\\b(guided )?(setup|wizard)\\b",
+        "\\bguided setup\\b",
+        "\\bset ?up\\b.{0,20}\\b(my |the )?(assistant|chatbot|bot)\\b",
+        "\\b(assistant|chatbot|bot)\\b.{0,20}\\bset ?up\\b",
+        "\\bset ?up\\b.{0,15}\\b(shuru|start|karo|kar do)\\b",
+        "सेटअप.{0,20}(शुरू|खोल|करो|करें)"
+      ]
+    },
+    "switch_reply_language": {
+      "patterns": [
+        "\\b(assistant|chatbot|bot|widget|knowledge ?base|kb)\\b.{0,50}\\b(reply|replies|respond|answer|speak)\\b.{0,25}\\b(in|only in)\\b.{0,10}\\b(hindi|english|hinglish)\\b",
+        "\\b(reply|respond|answer|speak)\\b.{0,25}\\bin (hindi|english|hinglish)\\b.{0,40}\\b(assistant|chatbot|bot|widget|knowledge ?base|kb)\\b",
+        "\\b(switch|change|set|make)\\b.{0,40}\\b(assistant|chatbot|bot)\\b.{0,40}\\b(hindi|english|hinglish)\\b",
+        "\\b(switch|change|set)\\b.{0,30}\\blanguage\\b.{0,30}\\b(hindi|english|hinglish)\\b",
+        "\\b(assistant|chatbot|bot)\\b.{0,30}\\b(hindi|english|hinglish) mein\\b",
+        "(असिस्टेंट|चैटबॉट|बॉट).{0,40}(हिंदी|हिन्दी|अंग्रेज़ी|अंग्रेजी|हिंग्लिश).{0,20}(में)"
+      ],
+      "not": [
+        "^(can|does|do|is|will|could|are|would)\\b",
+        "\\b(can'?t|cannot|unable|why|how come|is it possible|possible to)\\b"
+      ]
+    },
+    "publish_assistant": {
+      "patterns": [
+        "\\bpublish\\b.{0,40}\\b(assistant|draft|changes?|chatbot|bot)\\b",
+        "\\b(assistant|draft|changes?|chatbot|bot)\\b.{0,30}\\bpublish\\b",
+        "\\bpublish (it|this|that)\\b",
+        "\\bgo live\\b.{0,20}\\b(assistant|draft|chatbot)\\b",
+        "publish\\s+(kar|karo|kar do|kijiye)",
+        "(असिस्टेंट|ड्राफ़्ट|ड्राफ्ट).{0,25}(पब्लिश|प्रकाशित).{0,10}(करो|करें|कीजिए|कर दो)",
+        "(पब्लिश|प्रकाशित)\\s*(करो|करें|कीजिए|कर दो)"
+      ],
+      "not": [
+        "\\b(can'?t|cannot|unable|why|how come|is it possible|possible to)\\b"
+      ]
+    },
+    "toggle_assistant": {
+      "patterns": [
+        "\\b(turn|switch)\\s+(on|off)\\b.{0,40}\\b(assistant|chatbot|bot)\\b",
+        "\\b(turn|switch)\\b.{0,30}\\b(assistant|chatbot|bot)\\b.{0,15}\\b(on|off)\\b",
+        "\\b(enable|disable|activate|deactivate|pause|resume)\\b.{0,30}\\b(assistant|chatbot|bot)\\b",
+        "\\b(assistant|chatbot|bot)\\b.{0,25}\\b(band|bandh|chalu|shuru|off|on)\\s+(karo|kar\\s?do|kijiye|karna|kar dijiye)\\b",
+        "(असिस्टेंट|चैटबॉट|बॉट).{0,20}(बंद|चालू|शुरू).{0,10}(करो|करें|कीजिए|कर दो)"
+      ],
+      "not": [
+        "\\b(can'?t|cannot|unable|why|how come|is it possible|possible to)\\b"
+      ]
+    },
+    "rotate_key": {
+      "patterns": [
+        "\\b(rotate|regenerate|renew|reset|refresh|replace)\\b.{0,30}\\b(api )?keys?\\b",
+        "\\bkeys?\\b.{0,30}\\b(rotate|regenerate|leaked|compromised)\\b",
+        "\\bkey\\b.{0,25}\\b(badlo|badal do|badal dijiye|rotate karo|naya banao|naya bana do)\\b",
+        "(की|कुंजी).{0,15}(बदलो|बदलें|बदल दो|रोटेट)"
+      ],
+      "not": [
+        "\\bwidget\\b",
+        "\\b(can'?t|cannot|unable|why|how come|is it possible|possible to)\\b"
+      ]
+    },
+    "delete_key": {
+      "patterns": [
+        "\\b(delete|remove|revoke|erase)\\b.{0,30}\\b(api |widget )?keys?\\b",
+        "\\bkeys?\\b.{0,30}\\b(delete|revoke)\\b",
+        "\\bkey\\b.{0,25}\\b(delete karo|delete kar do|hata do|hatao|mita do|revoke karo)\\b",
+        "(की|कुंजी).{0,15}(हटाओ|हटाएं|हटा दो|डिलीट|मिटाओ)"
+      ],
+      "not": [
+        "\\b(can'?t|cannot|unable|why|how come|is it possible|possible to)\\b"
+      ]
+    },
+    "add_allowed_site": {
+      "patterns": [
+        "\\b(add|allow|whitelist|permit)\\b.{0,60}\\b(sites?|websites?|domains?|origins?)\\b.{0,40}\\b(key|widget)\\b",
+        "\\b(add|allow|whitelist|permit)\\b.{0,15}\\b(sites?|websites?|domains?|origins?)\\b",
+        "\\b(add|allow|whitelist|permit)\\s+(https?://)?[\\w.-]+\\.[a-z]{2,}\\b.{0,50}\\b(widget|key|site)\\b",
+        "\\b(sites?|websites?|domains?)\\b.{0,25}\\b(jodo|jod do|add karo|add kar do|allow karo|allow kar do)\\b",
+        "(साइट|वेबसाइट|डोमेन).{0,25}(जोड़|जोड़ो|जोड़ें|अनुमति)"
+      ],
+      "not": [
+        "\\b(can'?t|cannot|unable|why|how come|is it possible|possible to)\\b"
+      ]
+    },
+    "create_widget_key": {
+      "patterns": [
+        "\\b(create|make|generate|new|add|get)\\b.{0,20}\\bwidget ?keys?\\b",
+        "\\bwidget ?keys?\\b.{0,30}\\b(banao|banana|bana do|bana de|chahiye)\\b",
+        "\\b(naya|nayi|nai)\\b.{0,15}\\bwidget ?keys?\\b",
+        "विजेट.{0,10}(की|कुंजी).{0,20}(बनाओ|बनाएं|बनाइए|बना दो)"
+      ],
+      "not": [
+        "\\b(can'?t|cannot|unable|why|how come|is it possible|possible to)\\b"
+      ]
+    },
+    "invite_member": {
+      "patterns": [
+        "\\binvit(e|ing)\\b.{0,60}(@|team|workspace|member|colleague|staff|owner)",
+        "[\\w.+-]+@[\\w-]+\\.[\\w.]+.{0,40}\\binvite\\b",
+        "\\b(add|bring)\\b.{0,25}\\b(team ?mate|team member|colleague|new member)\\b",
+        "\\b(invite|bulao|jodo)\\b.{0,30}\\b(team|member)\\b",
+        "(आमंत्रित|इनवाइट).{0,30}(करो|कीजिए|करें)"
+      ],
+      "not": [
+        "\\b(resend|revoke|cancel|expired?)\\b",
+        "\\b(can'?t|cannot|unable|why|how come|is it possible|possible to)\\b"
+      ]
+    },
+    "change_member_role": {
+      "patterns": [
+        "\\b(change|update|set|switch)\\b.{0,30}\\brole\\b",
+        "\\bmake\\b.{0,50}@.{0,40}\\b(owner|member)\\b",
+        "\\b(promote|demote)\\b",
+        "\\bmake\\b.{0,40}\\b(an? )?owner\\b",
+        "\\b(owner|member)\\b.{0,20}\\b(banao|bana do|bana de)\\b",
+        "(ओनर|मेंबर).{0,20}(बनाओ|बनाएं|बना दो)"
+      ],
+      "not": [
+        "\\b(can'?t|cannot|unable|why|how come|is it possible|possible to)\\b"
+      ]
+    },
+    "delete_document": {
+      "patterns": [
+        "\\b(delete|remove|erase)\\b.{0,30}\\b(documents?|files?|pdfs?|docs?)\\b",
+        "\\b(documents?|files?|pdfs?)\\b.{0,40}\\b(delete|remove)\\b",
+        "(document|file|pdf).{0,25}(delete karo|delete kar do|hata do|hatao|mita do)",
+        "(दस्तावेज|डॉक्यूमेंट|फाइल).{0,25}(डिलीट|हटाओ|हटाएं|हटा दो|मिटाओ)"
+      ],
+      "not": [
+        "\\b(can'?t|cannot|unable|why|how come|is it possible|possible to)\\b"
+      ]
+    },
+    "delete_knowledge_base": {
+      "patterns": [
+        "\\b(delete|remove|erase|drop|get rid of)\\b.{0,30}\\b(knowledge ?bases?|kb)\\b",
+        "\\b(knowledge ?bases?|kb)\\b.{0,30}\\b(delete|remove|erase)\\b",
+        "(knowledge ?base|kb).{0,25}(delete karo|delete kar do|hata do|hatao|mita do)",
+        "(नॉलेज\\s?बेस).{0,25}(डिलीट|हटाओ|हटाएं|हटा दो|मिटाओ)",
+        "(डिलीट|हटाओ|हटाएं|मिटाओ).{0,25}(नॉलेज\\s?बेस)"
+      ],
+      "not": [
+        "\\b(documents?|files?|pdfs?|keys?)\\b",
+        "\\b(can'?t|cannot|unable|why|how come|is it possible|possible to)\\b"
+      ]
+    },
+    "create_knowledge_base": {
+      "patterns": [
+        "\\b(create|make|set ?up|start)\\b.{0,25}\\b(knowledge ?bases?|kb)\\b",
+        "\\bnew (knowledge ?base|kb)\\b",
+        "(knowledge ?base|kb).{0,25}\\b(banao|banana|bana do|bana de)\\b",
+        "\\b(naya|nayi|nai)\\b.{0,20}(knowledge ?base|kb)",
+        "(नया|नई).{0,15}(नॉलेज\\s?बेस)",
+        "(नॉलेज\\s?बेस).{0,20}(बनाओ|बनाएं|बनाइए|बना दो)"
+      ],
+      "not": [
+        "\\b(keys?|widgets?|documents?|files?|pdfs?|uploads?|assistant|delete|remove)\\b",
+        "\\b(can'?t|cannot|unable|why|how come|is it possible|possible to)\\b"
+      ]
+    },
+    "approve_customer": {
+      "patterns": [
+        "\\b(approve|accept|activate)\\b",
+        "approve\\s+(kar|karo|kar do)",
+        "(मंज़ूर|मंजूर|अप्रूव).{0,20}(करो|करें|कीजिए|कर दो)"
+      ],
+      "not": [
+        "\\b(can'?t|cannot|unable|why|how come|is it possible|possible to)\\b"
+      ]
+    },
+    "change_customer_plan": {
+      "patterns": [
+        "\\b(change|move|switch|upgrade|downgrade|put|set|shift)\\b.{0,60}\\bplan\\b",
+        "\\b(upgrade|downgrade)\\b",
+        "\\bplan\\b.{0,30}\\b(badlo|badal do|change karo)\\b"
+      ],
+      "not": [
+        "\\b(can'?t|cannot|unable|why|how come|is it possible|possible to)\\b"
+      ]
+    },
+    "suspend_customer": {
+      "patterns": [
+        "\\bsuspend\\b",
+        "\\bdeactivate\\b.{0,30}\\b(customer|tenant|workspace|account|client)\\b",
+        "suspend\\s+(kar|karo|kar do)",
+        "सस्पेंड.{0,15}(करो|करें|कर दो)"
+      ],
+      "not": [
+        "\\b(can'?t|cannot|unable|why|how come|is it possible|possible to)\\b"
+      ]
+    },
+    "delete_customer": {
+      "patterns": [
+        "\\b(delete|remove|erase)\\b.{0,40}\\b(customer|tenant|client)\\b",
+        "\\b(customer|tenant|client)\\b.{0,30}\\b(delete|remove)\\b",
+        "(customer|client).{0,25}(delete karo|delete kar do|hata do|hatao|mita do)"
+      ],
+      "not": [
+        "\\b(can'?t|cannot|unable|why|how come|is it possible|possible to)\\b"
+      ]
+    },
+    "job_failure": {
+      "patterns": [
+        "(upload|ingest\\w*|file|document|pdf|job|crawl)s?.{0,40}(fail\\w*|error|stuck|not working|didn'?t work|did not work|unsuccessful)",
+        "(fail\\w*|error).{0,30}(upload|ingest\\w*|file|document|pdf|job)",
+        "(still|stuck).{0,15}processing",
+        "failed (uploads?|jobs?|files?|documents?)",
+        "(upload|file|document).{0,30}(nahi (hua|hui|ho)|fail ho|atak|error aa)",
+        "(kyun|kyu|kyon).{0,30}fail",
+        "(फाइल|अपलोड|दस्तावेज|डॉक्यूमेंट).{0,30}(फेल|नहीं हुई|नहीं हुआ|एरर|विफल)",
+        "(फेल|विफल).{0,30}(क्यों|कारण)|क्यों.{0,30}(फेल|विफल)"
+      ]
+    },
+    "website_status": {
+      "patterns": [
+        "\\b(read|reading|learn\\w*|crawl\\w*|scan\\w*)\\b.{0,25}\\b(website|site|web ?pages?)\\b",
+        "\\b(website|site)\\b.{0,30}\\b(read|reading|learned|learnt|learning|crawled|up to date|updated|refreshed)\\b",
+        "\\b(pages?)\\b.{0,25}\\b(learned|learnt|skipped|left out|ignored|not learned)\\b",
+        "\\b(skipped|ignored)\\b.{0,20}\\bpages?\\b",
+        "(website|site).{0,30}(padh|seekh|sikh)",
+        "(padh|seekh|sikh)\\w*.{0,25}(website|site)",
+        "(वेबसाइट|साइट).{0,25}(पढ|सीख)",
+        "(पढ|सीख).{0,25}(वेबसाइट|साइट)"
+      ],
+      "not": [
+        "\\b(limit|why)\\b"
+      ]
+    },
+    "widget_keys": {
+      "patterns": [
+        "widget ?keys?",
+        "(allowed|which|what).{0,10}(sites?|domains?|origins?|websites?)",
+        "(sites?|domains?|origins?|websites?).{0,30}widget",
+        "widget.{0,30}(sites?|domains?|origins?|allowed|limit|rate)",
+        "\\b(my|the) widget\\b.{0,20}(active|working|status|enabled)",
+        "(kaun|konsi|kaunsi|kaun si).{0,15}(site|website|domain)",
+        "विजेट.{0,20}(key|की|कुंजी|साइट)",
+        "(अनुमत|अलाउड).{0,15}(साइट|वेबसाइट|डोमेन)",
+        "(कौन सी|कौनसी).{0,15}(साइट|वेबसाइट)"
+      ]
+    },
+    "api_keys": {
+      "patterns": [
+        "\\b(api|access|workspace|tenant|knowledge ?base|kb) ?keys?\\b",
+        "\\bmy keys\\b",
+        "\\bkeys?\\b.{0,30}(last used|permissions?|created by|who made|rotate|revoke|read.only)",
+        "(list|show|see|view) (all )?(my |the )?(api )?keys\\b",
+        "\\b(tk|ck)_",
+        "\\bmere.{0,10}(api )?keys?\\b",
+        "api ?key.{0,15}(dikhao|dikha|batao|kaun|list)",
+        "(एपीआई|api)\\s*(की|key|कुंजी|कीज)",
+        "(मेरी|मेरे).{0,15}(कुंजी|कीज|keys?)"
+      ]
+    },
+    "assistant_status": {
+      "patterns": [
+        "assistant.{0,40}(\\bon\\b|\\boff\\b|enabled|disabled|live|published|status|draft|turned|switched|working|active)",
+        "(chatbot|bot|assistant) (status|on|off)",
+        "(published|draft) (version|assistant|changes)",
+        "(draft|unpublished).{0,15}(pending|waiting|changes)",
+        "which languages?.{0,30}(assistant|support|speak)",
+        "assistant.{0,30}(languages?|leads?|handoff|hand-off)",
+        "assistant.{0,20}(chalu|band|on hai|off hai|live hai)",
+        "असिस्टेंट.{0,30}(चालू|बंद|ऑन|ऑफ|स्थिति|प्रकाशित|ड्राफ्ट)"
+      ]
+    },
+    "leads_handoffs": {
+      "patterns": [
+        "how many (new )?(leads?|handoffs?|hand-offs?|callbacks?)",
+        "\\b(my |new |recent |pending )?(leads?|handoffs?|hand-offs?)\\b.{0,30}(count|total|this month|today|new|pending|received|got|aaye|kitne)",
+        "\\b(new|recent|pending) (leads?|handoffs?)\\b",
+        "(leads?|handoffs?) (summary|overview|numbers|stats)",
+        "(kitne|kitni).{0,15}(leads?|handoffs?)",
+        "leads?.{0,15}(aaye|aaya|mile|mili)",
+        "handoff requests?",
+        "(कितने|कितनी).{0,15}(लीड|हैंडऑफ)",
+        "लीड|हैंडऑफ"
+      ]
+    },
+    "documents": {
+      "patterns": [
+        "how many (documents?|files?|pdfs?|pages)",
+        "(list|show|see) (my |all |the )?(documents?|files?|uploads?)",
+        "(my|the) (documents?|files?|uploads?).{0,30}(status|count|processed|processing|indexed|ingested|list|total)",
+        "what('?s| is| have i| did i).{0,15}uploaded",
+        "uploaded (files|documents)",
+        "(kitne|kitni).{0,15}(documents?|files?|pdfs?)",
+        "\\bmere.{0,12}(documents?|files?)",
+        "(कितने|कितनी).{0,15}(दस्तावेज|डॉक्यूमेंट|फाइल)",
+        "(मेरे|मेरी).{0,15}(दस्तावेज|डॉक्यूमेंट|फाइल)"
+      ]
+    },
+    "knowledge_bases": {
+      "patterns": [
+        "(my|show|list|all|your).{0,20}knowledge ?bases?",
+        "knowledge ?bases?.{0,15}(list|count|names?|do i have|created|available)",
+        "how many (knowledge ?bases?|kbs?)",
+        "\\b(my|list|show)\\b.{0,10}\\bkbs?\\b",
+        "\\bmere.{0,15}(knowledge ?base|kbs?)",
+        "knowledge ?base.{0,12}(dikhao|dikha|batao|list)",
+        "(which|what) knowledge ?bases?",
+        "नॉलेज\\s*बेस",
+        "(मेरे).{0,15}(केबी|नॉलेज)"
+      ]
+    },
+    "plan_usage": {
+      "patterns": [
+        "how many (questions?|queries|messages)",
+        "(questions?|sawaal|sawal|queries).{0,40}(used|left|remaining|remain|limit|quota|bache|bacha|baki|baaki|khatam|use kiye|istemal)",
+        "(used|left|remaining).{0,25}(questions?|queries|quota)",
+        "\\b(my|current|which|what) plan\\b",
+        "\\bplan\\b.{0,30}(limit|usage|renew|reset|expire|upgrade|ends?)",
+        "\\b(monthly|month'?s?)\\b.{0,15}(limit|quota|usage|questions?)",
+        "(kitne|kitna).{0,25}(question|sawal|sawaal)",
+        "\\bmera plan\\b|\\bplan (kab|kitna)",
+        "\\bquota\\b",
+        "(कितने|कितना).{0,25}(सवाल|प्रश्न|question)",
+        "मेरा\\s*प्लान|प्लान.{0,20}(लिमिट|बचे|बाकी|सीमा)",
+        "(सवाल|प्रश्न).{0,25}(बचे|बाकी|इस्तेमाल|इस्तमाल|लिमिट)"
+      ]
+    },
+    "my_costs": {
+      "not": ["\\b(platform|engine|operator|customers?|tenants?)\\b"],
+      "patterns": [
+        "how much.{0,25}(spend|spent|cost|paid|pay|used)",
+        "\\b(my |our )?(costs?|spend(ing)?|spent|expenses?|bill|billing|charges?)\\b.{0,30}(month|today|week|so far|total)",
+        "(this month|today).{0,20}(costs?|spend|spent|bill)",
+        "\\btokens?\\b.{0,20}(used|usage|spent)",
+        "\\bcob (usage|cost|questions)",
+        "(kitna|kitne).{0,15}(kharcha|kharch|paisa|paise|cost|bill)",
+        "\\b(kharcha|kharch)\\b",
+        "own key.{0,15}(spend|cost)",
+        "(कितना|कितने).{0,20}(खर्च|लागत|बिल)",
+        "खर्च|लागत"
+      ]
+    },
+    "engine_health": {
+      "patterns": [
+        "\\b(engine|server|system|platform|backend)\\b.{0,25}(health|healthy|status|\\bup\\b|\\bdown\\b|running|working|\\bok\\b|okay|alive)",
+        "\\bis (qdrant|redis|postgres|postgresql|the database|tei|the engine|the server)\\b",
+        "\\bhealth\\b",
+        "which (services?|dependencies) (are|is)",
+        "engine version|what version",
+        "(qdrant|redis|postgres).{0,15}(up|down|status|ok)",
+        "engine.{0,15}(chal raha|theek)",
+        "इंजन.{0,20}(स्थिति|चल|ठीक)"
+      ]
+    },
+    "customers": {
+      "patterns": [
+        "(customers?|workspaces?|tenants?|signups?|sign-ups?).{0,30}(waiting|pending|approval|approve|new|list|count|how many|signed up)",
+        "\\bpending (customers?|sign-?ups?|workspaces?|approvals?)",
+        "how many (customers?|workspaces?|tenants?)",
+        "who (signed up|joined)",
+        "new sign-?ups?",
+        "(list|show) (all )?(my |the )?(customers?|workspaces?)",
+        "awaiting approval|waiting for approval|approval pending",
+        "(kitne|kitni).{0,15}(customers?|workspaces?)",
+        "(कितने).{0,15}(ग्राहक|कस्टमर)",
+        "ग्राहक.{0,25}(कितने|पेंडिंग|इंतजार|मंजूरी|अप्रूवल)"
+      ]
+    },
+    "platform_costs": {
+      "patterns": [
+        "(platform|engine|total|operator|our|we|company).{0,20}(costs?|spend|spending|spent|bill|expenses?)",
+        "today'?s (cost|spend)",
+        "costs? (today|this month)",
+        "top (customers|models).{0,15}(cost|spend)",
+        "which (customer|model|tenant).{0,10}(costs?|spends?|uses?).{0,10}most",
+        "how much (did|have) we spend|how much (do|did) (we|customers) (cost|spend)",
+        "openrouter",
+        "platform.{0,10}(ka )?kharcha",
+        "प्लेटफॉर्म.{0,20}(खर्च|लागत)"
+      ]
+    }
+  }
+}

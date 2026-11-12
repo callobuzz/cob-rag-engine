@@ -1,0 +1,46 @@
+# cob-rag-engine behind one public address (deploy/install.sh sets RAG_SITE_DOMAIN).
+# RAG_SITE_DOMAIN and RAG_ACME_EMAIL come from the settings file through docker-compose.yml.
+{
+	email {$RAG_ACME_EMAIL}
+}
+
+{$RAG_SITE_DOMAIN} {
+	# The engine: its API, the chat window script, the lead-withdrawal page and the published
+	# legal pages (P3 legal: /legal/*).
+	@engine path /api/* /widget.js /privacy/withdraw /privacy/withdraw.js /legal/*
+	handle @engine {
+		reverse_proxy app:8000 {
+			# answers stream word by word; never buffer them
+			flush_interval -1
+			# X-Forwarded-For becomes exactly one entry: the address that connected to Caddy.
+			# RAG_TRUSTED_PROXY_HOPS=1 makes the engine read that entry.
+			header_up X-Forwarded-For {remote_host}
+		}
+	}
+
+	# The web scraper, for the dashboard's Crawler page (the dashboard itself owns /crawler/...).
+	handle_path /scraper/* {
+		reverse_proxy scraper:8001 {
+			header_up X-Forwarded-For {remote_host}
+		}
+	}
+
+	# LP1 landing: the public website. While it is switched off the engine answers 404 with
+	# X-Cob-Landing: off and the dashboard answers instead, so no reload is needed.
+	@landing path / /pricing /features /about /contact /hi /hi/* /hi-latn /hi-latn/* /robots.txt /sitemap.xml /_landing/*
+	handle @landing {
+		reverse_proxy app:8000 {
+			header_up X-Forwarded-For {remote_host}
+			@off header X-Cob-Landing off
+			handle_response @off {
+				reverse_proxy dashboard:8080
+			}
+		}
+	}
+	# /LP1 landing
+
+	# Everything else is the dashboard.
+	handle {
+		reverse_proxy dashboard:8080
+	}
+}

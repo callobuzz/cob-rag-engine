@@ -1,0 +1,17 @@
+{
+  "comment": "Words that mark a question as about running the server. For a person who is not the platform administrator COB asks the administrator-only part of its docs whether it holds an answer, and says the topic is managed by the administrator instead of guessing.",
+  "patterns": [
+    "\\.env\\b",
+    "\\bRAG_[A-Z0-9_]+",
+    "\\bdocker\\b",
+    "\\bdocker[- ]compose\\b|\\bcompose\\.ya?ml\\b",
+    "\\bsmtp (server|host|password|settings?)\\b",
+    "\\badmin(istrator)? (api )?key\\b",
+    "\\bdeploy(ing)? (the )?(engine|server|cob-rag-engine)\\b",
+    "\\bself-?host",
+    "\\balembic\\b",
+    "\\b(postgres|redis|valkey|qdrant)\\b.*\\b(password|port|container|config|url|server|host)\\b",
+    "\\bcelery\\b",
+    "\\bsession secret\\b"
+  ]
+}

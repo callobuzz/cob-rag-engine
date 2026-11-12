@@ -1,0 +1,52 @@
+# ============================================================================
+# GPU overlay — chain it on top of docker-compose.yml:
+#
+#   docker compose -f docker-compose.yml -f docker-compose.gpu.yml up -d
+#
+# A separate file because `deploy.resources.reservations.devices` is not a hint:
+# on a host with no NVIDIA runtime Compose refuses to start the service at all
+# ("could not select device driver nvidia"), so it cannot be a default.
+#
+# app / worker: the bge-reranker-v2-m3 cross-encoder runs in-process via
+# sentence-transformers and picks CUDA on its own when torch can see a device.
+# On a 20-candidate query that is roughly 10s on CPU against ~0.4s on GPU.
+#
+# tei: the reservation alone does nothing — the default cpu image has no CUDA
+# kernels. Also set RAG_TEI_IMAGE in .env to the tag for your card's compute
+# capability: turing-1.9 (sm75), 86-1.9 (Ampere), 89-1.9 (Ada), hopper-1.9
+# (sm90), 120-1.9 (Blackwell), or cuda-1.9 (portable). Check the TEI log says
+# "Starting ... model on Cuda".
+#
+# whisper: needs the -gpu image as well as the device. Its profile is repeated
+# on purpose — a service named in an overlay without its profile would become
+# unprofiled and start on every `up`.
+#
+# `count: all` hands each service the whole device; they are not partitioned.
+# The reranker alone is ~2.3 GB of VRAM, so check `nvidia-smi` on small cards.
+# ============================================================================
+
+x-gpu: &gpu
+  deploy:
+    resources:
+      reservations:
+        devices:
+          - driver: nvidia
+            count: all
+            capabilities: [gpu]
+
+services:
+  app:
+    <<: *gpu
+  worker:
+    <<: *gpu
+  tei:
+    <<: *gpu
+  # local-llm: Ollama uses the GPU on its own when the container can see one. The profile is
+  # repeated for the same reason as whisper's.
+  local-llm:
+    <<: *gpu
+    profiles: ["local-llm"]
+  whisper:
+    <<: *gpu
+    image: ${RAG_WHISPER_GPU_IMAGE:-onerahmet/openai-whisper-asr-webservice:v1.9.1-gpu}
+    profiles: ["transcription"]

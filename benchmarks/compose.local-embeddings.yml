@@ -1,0 +1,26 @@
+# Embed in-process with sentence-transformers instead of through the TEI container.
+# Same model, same vectors — it only changes where the model runs. Equivalent to
+# setting RAG_EMBEDDING_PROVIDER=local in your env file; this overlay exists so a
+# benchmark run can switch without editing it:
+#
+#   docker compose -f docker-compose.yml -f docker-compose.gpu.yml \
+#     -f benchmarks/compose.local-embeddings.yml up -d
+#
+# With the GPU overlay, app and worker embed on the GPU. That is the fast path on
+# Docker Desktop for Windows, where TEI's CUDA image cannot see the device
+# (CUDA_ERROR_NO_DEVICE) while torch in these containers can.
+x-local-embeddings: &local-embeddings
+  environment:
+    RAG_EMBEDDING_PROVIDER: local
+    RAG_EMBEDDING_BATCH_SIZE: "128"
+    # Full precision, so dense scores are comparable with the published fp32
+    # MTEB numbers. The engine's GPU default is fp16 (see .env.example).
+    RAG_EMBEDDING_FP16: "false"
+
+services:
+  app:
+    <<: *local-embeddings
+  worker:
+    <<: *local-embeddings
+  celery-beat:
+    <<: *local-embeddings

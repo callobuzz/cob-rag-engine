@@ -1,0 +1,17 @@
+{% import "macros.html" as m with context %}
+<section class="section leads" data-section="leads" id="{{ s.id }}">
+  <div class="wrap leads-grid">
+    <div class="leads-copy">{{ m.head(s) }}</div>
+    <div class="leads-stage" data-leads>
+      {{ m.lead_card(s.lead) }}
+      {% if s.inbox_count %}
+      <div class="inbox" aria-label="{{ ui.inbox }}">
+        <p class="inbox-title">{{ ui.inbox }}</p>
+        <ul class="inbox-rows" aria-hidden="true">
+          {% for n in range(s.inbox_count if s.inbox_count < 4 else 4) %}<li style="--i: {{ loop.index0 }}"><span class="inbox-dot"></span><span class="inbox-line"></span></li>{% endfor %}
+        </ul>
+      </div>
+      {% endif %}
+    </div>
+  </div>
+</section>

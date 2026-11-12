@@ -1,0 +1,1418 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>cob-rag-engine — Legacy dashboard</title>
+<link rel="icon" type="image/png" href="logo.png">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  :root {
+    --bg: #0f1117; --surface: #1a1d27; --surface2: #242736; --surface3: #2e3142;
+    --border: #363a4d; --text: #e4e6ed; --text-muted: #8b8fa3; --text-dim: #5f6380;
+    --accent: #6366f1; --accent-hover: #818cf8; --accent-bg: rgba(99,102,241,0.12);
+    --success: #22c55e; --success-bg: rgba(34,197,94,0.12);
+    --warning: #f59e0b; --warning-bg: rgba(245,158,11,0.12);
+    --error: #ef4444; --error-bg: rgba(239,68,68,0.12);
+    --radius: 10px; --radius-sm: 6px;
+  }
+  body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; background: var(--bg); color: var(--text); height: 100vh; display: flex; flex-direction: column; overflow: hidden; }
+  button { cursor: pointer; font-family: inherit; }
+  input, textarea, select { font-family: inherit; }
+
+  /* ── Top bar ── */
+  .topbar { display: flex; align-items: center; padding: 0 20px; height: 52px; background: var(--surface); border-bottom: 1px solid var(--border); flex-shrink: 0; }
+  .topbar .logo { display: flex; align-items: center; gap: 8px; font-size: 16px; font-weight: 700; margin-right: 32px; color: var(--accent-hover); }
+  .topbar .logo img { width: 24px; height: 24px; }
+  .topbar .conn { margin-left: auto; display: flex; align-items: center; gap: 8px; font-size: 13px; color: var(--text-muted); }
+  .topbar .conn .dot { width: 8px; height: 8px; border-radius: 50%; background: var(--error); }
+  .topbar .conn .dot.on { background: var(--success); }
+  /* Connecting is a third state. Without it the dot stays red while the request
+     is in flight, which reads as "failed" rather than "working". */
+  .topbar .conn .dot.busy { background: var(--warning); animation: pulse 1s ease-in-out infinite; }
+  @keyframes pulse { 0%,100% { opacity: 1; } 50% { opacity: 0.25; } }
+
+  /* ── Tabs ── */
+  .tabs { display: flex; gap: 0; flex-shrink: 0; }
+  .tab { padding: 10px 20px; font-size: 14px; font-weight: 500; color: var(--text-muted); background: none; border: none; border-bottom: 2px solid transparent; transition: all 0.15s; }
+  .tab:hover { color: var(--text); background: var(--surface2); }
+  .tab.active { color: var(--accent-hover); border-bottom-color: var(--accent); }
+
+  /* ── Setup bar ── */
+  .setup-bar { display: flex; align-items: center; gap: 10px; padding: 10px 20px; background: var(--surface2); border-bottom: 1px solid var(--border); flex-shrink: 0; flex-wrap: wrap; }
+  .setup-bar label { font-size: 12px; color: var(--text-muted); font-weight: 500; }
+  .setup-bar .field { display: flex; flex-direction: column; gap: 2px; }
+  .input { background: var(--bg); border: 1px solid var(--border); border-radius: var(--radius-sm); padding: 7px 12px; color: var(--text); font-size: 13px; outline: none; }
+  .input:focus { border-color: var(--accent); }
+  .input-sm { width: 200px; }
+  .input-md { width: 280px; }
+  .input-lg { width: 360px; }
+  .btn { padding: 7px 16px; border-radius: var(--radius-sm); border: none; font-size: 13px; font-weight: 500; transition: all 0.15s; }
+  .btn-primary { background: var(--accent); color: white; }
+  .btn-primary:hover { background: var(--accent-hover); }
+  .btn-success { background: var(--success); color: white; }
+  .btn-success:hover { opacity: 0.9; }
+  .btn-danger { background: var(--error); color: white; }
+  .btn-danger:hover { opacity: 0.9; }
+  .btn-outline { background: transparent; color: var(--text-muted); border: 1px solid var(--border); }
+  .btn-outline:hover { border-color: var(--text-muted); color: var(--text); }
+  .btn:disabled { opacity: 0.4; cursor: not-allowed; }
+
+  /* ── Main content ── */
+  .main { flex: 1; overflow: hidden; display: flex; flex-direction: column; }
+  .panel { display: none; flex: 1; overflow: hidden; flex-direction: column; }
+  .panel.active { display: flex; }
+  .scroll { flex: 1; overflow-y: auto; padding: 20px; }
+
+  /* ── Cards ── */
+  .card { background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius); padding: 16px; margin-bottom: 12px; }
+  .card-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px; }
+  .card-title { font-size: 15px; font-weight: 600; }
+  .card-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 12px; }
+
+  /* ── Table ── */
+  table { width: 100%; border-collapse: collapse; font-size: 13px; }
+  th { text-align: left; padding: 8px 12px; color: var(--text-muted); font-weight: 500; border-bottom: 1px solid var(--border); font-size: 12px; text-transform: uppercase; letter-spacing: 0.5px; }
+  td { padding: 10px 12px; border-bottom: 1px solid var(--surface3); }
+  tr:hover td { background: var(--surface2); }
+
+  /* ── Badges ── */
+  .badge { display: inline-block; padding: 2px 8px; border-radius: 10px; font-size: 11px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.3px; }
+  .badge-success { background: var(--success-bg); color: var(--success); }
+  .badge-warning { background: var(--warning-bg); color: var(--warning); }
+  .badge-error { background: var(--error-bg); color: var(--error); }
+  .badge-info { background: var(--accent-bg); color: var(--accent-hover); }
+  .badge-muted { background: var(--surface3); color: var(--text-muted); }
+
+  /* ── Key display ── */
+  .key-display { background: var(--bg); border: 1px solid var(--success); border-radius: var(--radius-sm); padding: 10px 14px; font-family: monospace; font-size: 13px; color: var(--success); word-break: break-all; margin: 8px 0; }
+  .key-warning { font-size: 12px; color: var(--warning); margin-top: 4px; }
+
+  /* ── Upload zone ── */
+  .upload-zone { border: 2px dashed var(--border); border-radius: var(--radius); padding: 40px; text-align: center; color: var(--text-muted); transition: all 0.2s; cursor: pointer; }
+  .upload-zone:hover, .upload-zone.dragover { border-color: var(--accent); background: var(--accent-bg); color: var(--text); }
+  .upload-zone h3 { font-size: 16px; margin-bottom: 6px; }
+  .upload-zone p { font-size: 13px; }
+  .upload-zone input[type="file"] { display: none; }
+  .upload-list { margin-top: 12px; }
+  .upload-item { display: flex; align-items: center; gap: 10px; padding: 8px 12px; background: var(--surface); border-radius: var(--radius-sm); margin-bottom: 6px; }
+  .upload-item .name { flex: 1; font-size: 13px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+  .upload-item .progress { width: 100px; height: 4px; background: var(--surface3); border-radius: 2px; overflow: hidden; }
+  .upload-item .progress .bar { height: 100%; background: var(--accent); transition: width 0.3s; }
+
+  /* ── Chat ── */
+  .chat-messages { flex: 1; overflow-y: auto; padding: 20px; display: flex; flex-direction: column; gap: 16px; }
+  .msg { max-width: 780px; width: 100%; margin: 0 auto; display: flex; gap: 12px; }
+  .msg .avatar { width: 30px; height: 30px; border-radius: 8px; display: flex; align-items: center; justify-content: center; font-size: 12px; font-weight: 700; flex-shrink: 0; margin-top: 2px; }
+  .msg.user .avatar { background: #1e3a5f; color: #60a5fa; }
+  .msg.assistant .avatar { background: var(--accent); color: white; }
+  .msg .content { flex: 1; min-width: 0; }
+  .msg .role { font-size: 12px; font-weight: 600; margin-bottom: 3px; }
+  .msg.user .role { color: #60a5fa; }
+  .msg.assistant .role { color: var(--accent-hover); }
+  .msg .text { font-size: 14px; line-height: 1.6; white-space: pre-wrap; word-wrap: break-word; }
+  .msg .meta { margin-top: 6px; font-size: 11px; color: var(--text-muted); display: flex; gap: 10px; }
+  .citations-wrap { margin-top: 8px; }
+  .citations-wrap summary { font-size: 12px; color: var(--text-muted); cursor: pointer; }
+  .cite { margin-top: 4px; padding: 6px 8px; background: var(--bg); border-radius: var(--radius-sm); font-size: 12px; border-left: 3px solid var(--accent); }
+  .cite .src { font-weight: 600; color: var(--accent-hover); }
+  .cite .snip { color: var(--text-muted); font-style: italic; margin-top: 2px; }
+  .loading-dots { display: flex; gap: 4px; padding: 4px 0; }
+  .loading-dots span { width: 6px; height: 6px; background: var(--text-muted); border-radius: 50%; animation: bounce 1.4s ease-in-out infinite; }
+  .loading-dots span:nth-child(2) { animation-delay: 0.16s; }
+  .loading-dots span:nth-child(3) { animation-delay: 0.32s; }
+  @keyframes bounce { 0%,80%,100%{transform:scale(0)} 40%{transform:scale(1)} }
+  .chat-input { padding: 12px 20px; border-top: 1px solid var(--border); background: var(--surface); flex-shrink: 0; }
+  .chat-input-wrap { max-width: 780px; margin: 0 auto; display: flex; gap: 8px; align-items: flex-end; }
+  .chat-input-wrap textarea { flex: 1; background: var(--bg); border: 1px solid var(--border); border-radius: var(--radius); padding: 10px 14px; color: var(--text); font-size: 14px; resize: none; outline: none; min-height: 44px; max-height: 180px; line-height: 1.5; }
+  .chat-input-wrap textarea:focus { border-color: var(--accent); }
+  .chat-input-wrap button { width: 44px; height: 44px; background: var(--accent); color: white; border: none; border-radius: var(--radius); font-size: 18px; flex-shrink: 0; display: flex; align-items: center; justify-content: center; }
+  .chat-input-wrap button:hover { background: var(--accent-hover); }
+
+  /* ── Forms ── */
+  .form-group { margin-bottom: 14px; }
+  .form-group label { display: block; font-size: 13px; color: var(--text-muted); margin-bottom: 4px; font-weight: 500; }
+  .form-group .input { width: 100%; }
+  .form-group textarea.input { min-height: 80px; resize: vertical; }
+  .form-row { display: flex; gap: 12px; }
+  .form-row .form-group { flex: 1; }
+  .form-actions { display: flex; gap: 8px; margin-top: 16px; }
+
+  /* ── Toast ── */
+  .toast { position: fixed; bottom: 20px; right: 20px; padding: 10px 18px; border-radius: var(--radius-sm); font-size: 13px; z-index: 1000; display: none; max-width: 400px; box-shadow: 0 4px 12px rgba(0,0,0,0.4); }
+  .toast.show { display: block; animation: slideIn 0.3s; }
+  .toast.toast-error { background: var(--error); color: white; }
+  .toast.toast-success { background: var(--success); color: white; }
+  @keyframes slideIn { from { transform: translateY(20px); opacity: 0; } to { transform: translateY(0); opacity: 1; } }
+
+  /* ── Modal ── */
+  .modal-bg { display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.6); z-index: 500; align-items: center; justify-content: center; }
+  .modal-bg.show { display: flex; }
+  .modal { background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius); padding: 24px; width: 90%; max-width: 520px; max-height: 80vh; overflow-y: auto; }
+  .modal h3 { font-size: 18px; margin-bottom: 16px; }
+
+  /* ── Scraper-specific ── */
+  .page-row { cursor: pointer; }
+  .page-row:hover td { background: var(--accent-bg); }
+  .page-content-preview { background: var(--bg); border: 1px solid var(--border); border-radius: var(--radius-sm); padding: 12px; font-size: 13px; line-height: 1.6; white-space: pre-wrap; max-height: 400px; overflow-y: auto; margin-top: 8px; }
+
+  /* ── Corpus selector ── */
+  .corpus-select { background: var(--bg); border: 1px solid var(--border); border-radius: var(--radius-sm); padding: 7px 12px; color: var(--text); font-size: 13px; outline: none; min-width: 200px; }
+  .corpus-select:focus { border-color: var(--accent); }
+
+  /* ── Empty state ── */
+  .empty { text-align: center; padding: 60px 20px; color: var(--text-muted); }
+  .empty h3 { font-size: 18px; color: var(--text); margin-bottom: 6px; }
+  .empty p { font-size: 14px; }
+
+  /* ── Responsive ── */
+  @media (max-width: 768px) {
+    .setup-bar { flex-direction: column; align-items: stretch; }
+    .input-sm, .input-md, .input-lg { width: 100%; }
+    .card-grid { grid-template-columns: 1fr; }
+    .form-row { flex-direction: column; }
+  }
+  /* Legacy notice (dashboard D12): pinned above the top bar; the body never scrolls. */
+  .legacy-banner { position: sticky; top: 0; z-index: 900; flex-shrink: 0; padding: 8px 16px; background: #fef3c7; color: #451a03; font-size: 13px; font-weight: 600; text-align: center; border-bottom: 1px solid #f59e0b; }
+</style>
+</head>
+<body>
+
+<div class="legacy-banner" role="note">Legacy dashboard — replaced by the new dashboard on :8090 and removed in the next release</div>
+
+<!-- Top bar -->
+<div class="topbar">
+  <div class="logo"><img src="logo.png" alt="">cob-rag-engine</div>
+  <div class="tabs">
+    <button class="tab active" onclick="switchTab('admin')">Admin</button>
+    <button class="tab" onclick="switchTab('upload')">Upload</button>
+    <button class="tab" onclick="switchTab('scraper')">Scraper</button>
+    <button class="tab" onclick="switchTab('chat')">Chat</button>
+  </div>
+  <div class="conn">
+    <div class="dot" id="connDot"></div>
+    <span id="connText">Not connected</span>
+  </div>
+</div>
+
+<!-- Setup bar -->
+<div class="setup-bar">
+  <div class="field">
+    <label>RAG API</label>
+    <!-- 127.0.0.1, not localhost: localhost resolves to ::1 first, and Docker
+         Desktop accepts the connection on [::1] then never replies. Because it
+         is a black hole rather than a refusal there is no fast IPv4 fallback,
+         so the browser just hangs until it times out. -->
+    <input class="input input-sm" id="ragUrl" value="http://127.0.0.1:8000" placeholder="http://127.0.0.1:8000">
+  </div>
+  <div class="field">
+    <label>Scraper API</label>
+    <input class="input input-sm" id="scraperUrl" value="http://127.0.0.1:8001" placeholder="http://127.0.0.1:8001">
+  </div>
+  <div class="field">
+    <label>Admin API Key</label>
+    <input class="input input-md" id="adminKey" type="password" placeholder="Your RAG_ADMIN_API_KEY">
+  </div>
+  <button class="btn btn-primary" id="connectBtn" onclick="connectAll()">Connect</button>
+</div>
+
+<div class="main">
+
+  <!-- ════════════ ADMIN PANEL ════════════ -->
+  <div class="panel active" id="panel-admin">
+    <div class="scroll">
+      <!-- Tenants section -->
+      <div id="tenants-section" style="margin-bottom: 24px;">
+        <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom: 12px;">
+          <h2 style="font-size:18px">Tenants</h2>
+          <button onclick="showCreateTenantDialog()" class="btn btn-primary" style="font-size:13px; padding:6px 14px;">+ New Tenant</button>
+        </div>
+        <div id="tenantsList">
+          <div class="empty"><h3>Connect first</h3><p>Enter your admin API key above and click Connect.</p></div>
+        </div>
+      </div>
+      <hr style="border:none;border-top:1px solid var(--border);margin-bottom:20px">
+      <!-- Corpora section -->
+      <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:16px">
+        <h2 style="font-size:18px">Corpora</h2>
+        <button class="btn btn-primary" onclick="showCreateCorpus()">+ New Corpus</button>
+      </div>
+      <div id="corporaList">
+        <div class="empty"><h3>Connect first</h3><p>Enter your admin API key above and click Connect.</p></div>
+      </div>
+      <hr style="border:none;border-top:1px solid var(--border);margin:24px 0 20px">
+      <!-- Usage section -->
+      <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:12px">
+        <h2 style="font-size:18px">Usage <span style="font-size:12px;color:var(--text-dim);font-weight:400">last 30 days · the meter to bill customers from</span></h2>
+        <button class="btn btn-outline" onclick="loadUsage()" style="font-size:12px;padding:5px 12px">Refresh</button>
+      </div>
+      <div id="usageList"><div class="empty"><p>Connect to see usage.</p></div></div>
+    </div>
+  </div>
+
+  <!-- ════════════ UPLOAD PANEL ════════════ -->
+  <div class="panel" id="panel-upload">
+    <div class="scroll">
+      <div style="margin-bottom:16px;display:flex;align-items:center;gap:12px">
+        <h2 style="font-size:18px">Upload Documents</h2>
+        <div class="field" style="display:flex;flex-direction:column;gap:2px">
+          <label style="font-size:11px;color:var(--text-muted)">Target Corpus</label>
+          <select class="corpus-select" id="uploadCorpus"></select>
+        </div>
+      </div>
+
+      <div class="upload-zone" id="uploadZone" onclick="document.getElementById('fileInput').click()">
+        <h3>Drop files here or click to browse</h3>
+        <p>PDF, DOCX, PPTX, XLSX, Markdown (.md), TXT, HTML, PNG, JPEG — up to 50MB each</p>
+        <input type="file" id="fileInput" multiple accept=".pdf,.docx,.pptx,.xlsx,.md,.txt,.html,.png,.jpg,.jpeg">
+      </div>
+
+      <div class="upload-list" id="uploadList"></div>
+
+      <div style="margin-top:24px">
+        <h3 style="font-size:16px;margin-bottom:12px">Recent Ingestion Jobs</h3>
+        <div id="ingestJobs"><div class="empty"><p>No jobs yet. Upload some files.</p></div></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ════════════ SCRAPER PANEL ════════════ -->
+  <div class="panel" id="panel-scraper">
+    <div class="scroll">
+      <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:16px">
+        <h2 style="font-size:18px">Web Scraper</h2>
+        <button class="btn btn-primary" onclick="showScrapeForm()">+ New Scrape Job</button>
+      </div>
+      <div id="scraperJobs"><div class="empty"><h3>No scrape jobs</h3><p>Create a scrape job to crawl websites.</p></div></div>
+    </div>
+  </div>
+
+  <!-- ════════════ CHAT PANEL ════════════ -->
+  <div class="panel" id="panel-chat">
+    <div style="padding:8px 20px;border-bottom:1px solid var(--border);display:flex;align-items:center;gap:12px;flex-shrink:0">
+      <div class="field" style="display:flex;flex-direction:column;gap:2px">
+        <label style="font-size:11px;color:var(--text-muted)">Chat as Corpus</label>
+        <select class="corpus-select" id="chatCorpus" onchange="chatCorpusChanged()"></select>
+      </div>
+      <div class="field" style="display:flex;flex-direction:column;gap:2px">
+        <label style="font-size:11px;color:var(--text-muted)">Corpus API Key</label>
+        <input class="input input-md" type="password" id="chatApiKey" placeholder="ck_xxxxxxxx_...">
+      </div>
+      <button class="btn btn-outline" onclick="clearChat()" style="align-self:flex-end">Clear</button>
+    </div>
+    <div class="chat-messages" id="chatMessages">
+      <div class="empty"><h3>Chat with your data</h3><p>Select a corpus, enter its API key, and start asking questions.</p></div>
+    </div>
+    <div class="chat-input">
+      <div class="chat-input-wrap">
+        <textarea id="chatInput" placeholder="Ask a question..." rows="1"
+                  onkeydown="if(event.key==='Enter'&&!event.shiftKey){event.preventDefault();sendChat()}"
+                  oninput="this.style.height='auto';this.style.height=Math.min(this.scrollHeight,180)+'px'"></textarea>
+        <button onclick="sendChat()" id="chatSendBtn">&#x27A4;</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Website Widget Modal -->
+<div class="modal-bg" id="widgetModal">
+  <div class="modal" style="max-width:760px">
+    <h3 id="wgTitle">Website Widget</h3>
+    <p style="font-size:12px;color:var(--text-muted);margin-top:-4px">
+      A widget key is a <strong>publishable</strong> key: it goes in the customer's web page, can only
+      chat with this corpus, and only works from the sites you list. Rate limits protect your LLM budget.
+    </p>
+    <div id="wgList" style="margin:12px 0"></div>
+    <div class="card" style="margin-top:8px">
+      <div class="card-title" style="margin-bottom:8px">New widget key</div>
+      <div class="form-row">
+        <div class="form-group"><label>Name *</label><input class="input" id="wgName" placeholder="Acme website"></div>
+        <div class="form-group"><label>Allowed sites * (one per line)</label><textarea class="input" id="wgOrigins" style="min-height:58px" placeholder="https://acme.com&#10;https://www.acme.com"></textarea></div>
+      </div>
+      <div class="form-row">
+        <div class="form-group"><label>Title</label><input class="input" id="wgHead" placeholder="Ask us anything"></div>
+        <div class="form-group"><label>Brand color</label><input class="input" id="wgColor" type="color" value="#4f46e5" style="height:38px;padding:2px"></div>
+      </div>
+      <div class="form-group"><label>Greeting</label><input class="input" id="wgGreeting" placeholder="Hi! How can I help you today?"></div>
+      <div class="form-row">
+        <div class="form-group"><label>Messages per visitor / minute</label><input class="input" id="wgRpm" type="number" min="1" value="10"></div>
+        <div class="form-group"><label>Messages per day (0 = unlimited)</label><input class="input" id="wgDaily" type="number" min="0" value="1000"></div>
+      </div>
+      <div class="form-actions">
+        <button class="btn btn-primary" onclick="createWidgetKey()">Create widget key</button>
+        <button class="btn btn-outline" onclick="closeModal('widgetModal')">Close</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Create Corpus Modal -->
+<div class="modal-bg" id="createCorpusModal">
+  <div class="modal">
+    <h3>Create New Corpus</h3>
+    <div class="form-group">
+      <label>Name *</label>
+      <input class="input" id="ccName" placeholder="My Knowledge Base">
+    </div>
+    <div class="form-group"><label>Tenant * (the customer this knowledge base belongs to)</label><select class="input" id="ccTenant"></select><div id="ccTenantHint" style="font-size:12px;color:var(--text-muted);margin-top:4px"></div></div>
+    <div class="form-group">
+      <label>Description</label>
+      <input class="input" id="ccDesc" placeholder="Optional description">
+    </div>
+    <div class="form-group">
+      <label>System Prompt (optional)</label>
+      <textarea class="input" id="ccPrompt" placeholder="Custom instructions for this corpus..."></textarea>
+    </div>
+    <div class="form-group"><label>LLM Provider (optional)</label><input class="input" id="ccProvider" placeholder="openai · anthropic · openrouter · ollama …"></div>
+    <div class="form-row">
+      <div class="form-group">
+        <label>LLM Model (optional)</label>
+        <input class="input" id="ccModel" placeholder="e.g. anthropic/claude-sonnet-4-20250514">
+      </div>
+      <div class="form-group">
+        <label>LLM API Key (optional)</label>
+        <input class="input" id="ccLlmKey" type="password" placeholder="BYOK — encrypted at rest">
+      </div>
+    </div>
+    <div class="form-actions">
+      <button class="btn btn-primary" id="ccCreate" onclick="createCorpus()">Create</button>
+      <button class="btn btn-outline" onclick="closeModal('createCorpusModal')">Cancel</button>
+    </div>
+    <div id="ccResult"></div>
+  </div>
+</div>
+
+<!-- Scrape Job Modal -->
+<div class="modal-bg" id="scrapeModal">
+  <div class="modal">
+    <h3>New Scrape Job</h3>
+    <div class="form-group">
+      <label>Sitemap URL</label>
+      <input class="input" id="scSitemap" placeholder="https://docs.example.com/sitemap.xml">
+    </div>
+    <div class="form-group">
+      <label>Or specific URLs (one per line)</label>
+      <textarea class="input" id="scUrls" placeholder="https://example.com/page1&#10;https://example.com/page2"></textarea>
+    </div>
+    <div class="form-group">
+      <label>Target Corpus</label>
+      <select class="corpus-select" id="scCorpus" style="width:100%"></select>
+    </div>
+    <div class="form-group">
+      <label style="display:flex;align-items:center;gap:8px">
+        <input type="checkbox" id="scReview" checked> Review mode (manually approve pages before delivery)
+      </label>
+    </div>
+    <div class="form-actions">
+      <button class="btn btn-primary" onclick="submitScrape()">Start Scraping</button>
+      <button class="btn btn-outline" onclick="closeModal('scrapeModal')">Cancel</button>
+    </div>
+  </div>
+</div>
+
+<!-- Scrape Job Detail Modal -->
+<div class="modal-bg" id="scrapeDetailModal">
+  <div class="modal" style="max-width:700px">
+    <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:16px">
+      <h3 id="sdTitle">Job Detail</h3>
+      <button class="btn btn-outline" onclick="closeModal('scrapeDetailModal')">Close</button>
+    </div>
+    <div style="display:flex;gap:8px;margin-bottom:12px">
+      <button class="btn btn-success" onclick="approveAllVerified()">Approve All Verified</button>
+      <button class="btn btn-primary" onclick="deliverApproved()">Deliver Approved</button>
+    </div>
+    <div id="sdPages"></div>
+  </div>
+</div>
+
+<!-- Page Content Modal -->
+<div class="modal-bg" id="pageContentModal">
+  <div class="modal" style="max-width:700px">
+    <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:12px">
+      <h3 id="pcTitle">Page Content</h3>
+      <button class="btn btn-outline" onclick="closeModal('pageContentModal')">Close</button>
+    </div>
+    <div id="pcMeta" style="font-size:12px;color:var(--text-muted);margin-bottom:8px"></div>
+    <div class="page-content-preview" id="pcContent"></div>
+  </div>
+</div>
+
+<!-- Create Tenant Modal -->
+<div class="modal-bg" id="createTenantModal">
+  <div class="modal">
+    <h3>Create New Tenant</h3>
+    <div class="form-group">
+      <label>Name *</label>
+      <input class="input" id="ctName" placeholder="e.g. Acme Production">
+    </div>
+    <div class="form-group">
+      <label>Description</label>
+      <input class="input" id="ctDesc" placeholder="Optional description">
+    </div>
+    <div class="form-group">
+      <label>Max Corpora (default: 10)</label>
+      <input class="input" id="ctMaxCorpora" type="number" value="10" min="1" max="100">
+    </div>
+    <div class="form-actions">
+      <button class="btn btn-primary" onclick="createTenant()">Create</button>
+      <button class="btn btn-outline" onclick="closeModal('createTenantModal')">Cancel</button>
+    </div>
+    <div id="ctResult"></div>
+  </div>
+</div>
+
+<!-- Toast -->
+<div class="toast" id="toast"></div>
+
+<!-- Deployment defaults (config.js beside this file). Loaded BEFORE the main
+     script so applyGeneratedDefaults() can see it, and tolerated when absent: a
+     404 on a plain <script src> does not stop the page, so the literal defaults
+     on the inputs still apply. -->
+<script src="config.js"></script>
+<script>
+/* ── State ── */
+let ragUrl = "", scraperUrl = "", adminKey = "";
+let corpora = [];
+let connected = false;
+let chatLoading = false;
+let currentScrapeJobId = "";
+
+/* ── Helpers ── */
+function $(id) { return document.getElementById(id); }
+function esc(s) { const d = document.createElement("div"); d.textContent = s; return d.innerHTML; }
+function toast(msg, type = "error") {
+  const t = $("toast");
+  t.textContent = msg;
+  t.className = "toast show toast-" + type;
+  setTimeout(() => t.classList.remove("show"), 4000);
+}
+function closeModal(id) { $(id).classList.remove("show"); }
+function showModal(id) { $(id).classList.add("show"); }
+
+async function api(base, path, opts = {}) {
+  const headers = opts.headers || {};
+  if (opts.json) {
+    headers["Content-Type"] = "application/json";
+    opts.body = JSON.stringify(opts.json);
+    delete opts.json;
+  }
+  const res = await fetch(base + path, { ...opts, headers });
+  if (!res.ok) {
+    const err = await res.json().catch(() => ({ detail: res.statusText }));
+    throw new Error(err.detail || JSON.stringify(err));
+  }
+  if (res.status === 204) return null;
+  return res.json();
+}
+function ragApi(path, opts = {}) {
+  opts.headers = { ...opts.headers, "X-API-Key": adminKey };
+  return api(ragUrl, path, opts);
+}
+function scraperApi(path, opts = {}) {
+  // The scraper checks this key against the engine and delivers with it.
+  opts.headers = { ...opts.headers, "X-API-Key": adminKey };
+  return api(scraperUrl, path, opts);
+}
+
+function statusBadge(s) {
+  const map = { completed: "success", done: "success", queued: "info", processing: "info",
+    crawling: "info", reviewing: "warning", delivering: "info", delivered: "success",
+    verified: "success", flagged: "warning", failed: "error", pending: "muted", approved: "success",
+    active: "success", disabled: "muted" };
+  return `<span class="badge badge-${map[s] || "muted"}">${esc(s)}</span>`;
+}
+function fmtDate(d) { if (!d) return "—"; return new Date(d).toLocaleString(); }
+
+/* ── Tabs ── */
+function switchTab(name) {
+  document.querySelectorAll(".tab").forEach(t => t.classList.remove("active"));
+  document.querySelectorAll(".panel").forEach(p => p.classList.remove("active"));
+  document.querySelector(`.tab[onclick="switchTab('${name}')"]`).classList.add("active");
+  $("panel-" + name).classList.add("active");
+  if (name === "admin" && connected) { loadTenants(); loadCorpora(); }
+  if (name === "upload" && connected) loadIngestJobs();
+  if (name === "scraper") loadScraperJobs();
+}
+
+/* ── Deployment defaults ── */
+// config.js sits beside this file and arrives with the dashboard's bind mount.
+// Edit it to point the dashboard at an engine somewhere other than this machine.
+//
+// Precedence, lowest to highest:
+//   1. the `value=` attributes on the inputs above — the last-resort fallback,
+//      correct for the default docker compose stack
+//   2. config.js — what a deployment sets, so a fresh browser points somewhere
+//      real without anyone typing a URL
+//   3. localStorage, applied by loadSettings() below — what THIS user chose
+function applyGeneratedDefaults() {
+  const cfg = globalThis.RAG_CONFIG;
+  if (!cfg) return;
+  if (cfg.ragUrl) { $("ragUrl").value = cfg.ragUrl; }
+  if (cfg.scraperUrl) { $("scraperUrl").value = cfg.scraperUrl; }
+}
+
+/* ── LocalStorage persistence ── */
+function saveSettings() {
+  localStorage.setItem("rag_settings", JSON.stringify({ ragUrl, scraperUrl, adminKey }));
+}
+function loadSettings() {
+  try {
+    const s = JSON.parse(localStorage.getItem("rag_settings") || "{}");
+    if (s.ragUrl) { $("ragUrl").value = s.ragUrl; }
+    if (s.scraperUrl) { $("scraperUrl").value = s.scraperUrl; }
+    if (s.adminKey) { $("adminKey").value = s.adminKey; }
+  } catch {}
+}
+
+/* ── Connect ── */
+// Sets the three-state connection indicator: busy / connected / failed.
+function setConnState(state, text) {
+  const dot = $("connDot");
+  dot.classList.toggle("on", state === "on");
+  dot.classList.toggle("busy", state === "busy");
+  $("connText").textContent = text;
+}
+
+async function connectAll() {
+  ragUrl = $("ragUrl").value.replace(/\/+$/, "");
+  scraperUrl = $("scraperUrl").value.replace(/\/+$/, "");
+  adminKey = $("adminKey").value.trim();
+  if (!adminKey) { toast("Admin API key is required"); return; }
+
+  // Feedback for the whole operation, not just the health check. Loading
+  // tenants and corpora is the slow part; leaving the button live through it
+  // made a working Connect look like nothing had happened.
+  const btn = $("connectBtn");
+  const label = btn.textContent;
+  btn.disabled = true;
+  btn.textContent = "Connecting…";
+  setConnState("busy", "Connecting…");
+
+  try {
+    // A 500 from /health is not a connection. The old code ignored res.ok and
+    // reported "Connected" for any response that arrived at all.
+    const res = await fetch(ragUrl + "/api/v1/health");
+    if (!res.ok) throw new Error("health check returned HTTP " + res.status);
+
+    connected = true;
+    saveSettings();
+
+    btn.textContent = "Loading…";
+    setConnState("busy", "Loading tenants…");
+    await Promise.all([loadTenants(), loadCorpora()]);
+
+    setConnState("on", "Connected");
+    toast("Connected to RAG engine", "success");
+  } catch (e) {
+    connected = false;
+    setConnState("off", "Not connected");
+    toast("Cannot reach RAG API at " + ragUrl + " — " + e.message);
+  } finally {
+    btn.disabled = false;
+    btn.textContent = label;
+  }
+}
+
+/* ── Corpora ── */
+async function loadCorpora() {
+  try {
+    const data = await ragApi("/api/v1/corpora");
+    corpora = data.items || [];
+    renderCorpora();
+    populateCorpusSelects();
+    loadUsage();
+  } catch (e) { toast("Failed to load corpora: " + e.message); }
+}
+
+function renderCorpora() {
+  if (!corpora.length) {
+    $("corporaList").innerHTML = '<div class="empty"><h3>No corpora yet</h3><p>Create your first corpus to get started.</p></div>';
+    return;
+  }
+  $("corporaList").innerHTML = '<div class="card-grid">' + corpora.map(c => `
+    <div class="card">
+      <div class="card-header">
+        <div class="card-title">${esc(c.name)}</div>
+        <button class="btn btn-outline" onclick="viewCorpus('${c.id}')" style="font-size:12px;padding:4px 10px">Edit</button>
+      </div>
+      <div style="font-size:12px;color:var(--text-muted);margin-bottom:6px">${esc(c.description || "No description")}</div>
+      <div style="font-size:11px;color:var(--text-dim)">
+        Collection: <code>${esc(c.qdrant_collection)}</code><br>
+        ID: <code style="font-size:10px">${esc(c.id)}</code><br>
+        Created: ${fmtDate(c.created_at)}
+      </div>
+      <div style="margin-top:8px;display:flex;gap:6px">
+        <button class="btn btn-primary" onclick="openWidgets('${c.id}','${esc(c.name)}')" style="font-size:11px;padding:3px 8px">Website Widget</button>
+        <button class="btn btn-outline" onclick="rotateKey('${c.id}')" style="font-size:11px;padding:3px 8px">Rotate Key</button>
+        <button class="btn btn-danger" onclick="deleteCorpus('${c.id}','${esc(c.name)}')" style="font-size:11px;padding:3px 8px">Delete</button>
+      </div>
+    </div>
+  `).join("") + '</div>';
+}
+
+function populateCorpusSelects() {
+  const opts = corpora.map(c => `<option value="${c.id}">${esc(c.name)} (${c.id.substring(0,8)})</option>`).join("");
+  const empty = '<option value="">— Select corpus —</option>';
+  $("uploadCorpus").innerHTML = empty + opts;
+  $("chatCorpus").innerHTML = empty + opts;
+  $("scCorpus").innerHTML = empty + opts;
+}
+
+async function showCreateCorpus() {
+  $("ccResult").innerHTML = "";
+  // Every knowledge base belongs to a tenant: there is no "none" choice.
+  if (!(tenants || []).length) await loadTenants();
+  const list = tenants || [];
+  $("ccTenant").innerHTML = list.map(t => `<option value="${t.id}">${esc(t.name)}</option>`).join("");
+  $("ccTenant").disabled = !list.length;
+  $("ccCreate").disabled = !list.length;
+  $("ccTenantHint").textContent = list.length ? "" : "Create a tenant first (Admin → Tenants).";
+  showModal("createCorpusModal");
+}
+
+async function createCorpus() {
+  const name = $("ccName").value.trim();
+  if (!name) { toast("Name is required"); return; }
+  const tenantId = $("ccTenant") ? $("ccTenant").value : "";
+  if (!tenantId) { toast("Choose a tenant — create one first if there are none"); return; }
+  const body = { name, description: $("ccDesc").value.trim() || null, tenant_id: tenantId };
+  const prompt = $("ccPrompt").value.trim();
+  const model = $("ccModel").value.trim();
+  const llmKey = $("ccLlmKey").value.trim();
+  const provider = $("ccProvider").value.trim();
+  if (prompt) body.prompt_config = { system_prompt: prompt };
+  if (model || llmKey || provider) {
+    body.llm_config = {};
+    if (provider) body.llm_config.provider = provider;
+    if (model) body.llm_config.model = model;
+    if (llmKey) body.llm_config.api_key = llmKey;
+  }
+  try {
+    const res = await ragApi("/api/v1/corpora", { method: "POST", json: body });
+    $("ccResult").innerHTML = `
+      <div style="margin-top:12px">
+        <div style="color:var(--success);font-weight:600;margin-bottom:6px">Corpus created!</div>
+        <div class="key-display">${esc(res.api_key)}</div>
+        <div class="key-warning">Save this API key now — it will NOT be shown again.</div>
+        <div style="font-size:12px;color:var(--text-muted);margin-top:6px">
+          Corpus ID: <code>${esc(res.id)}</code><br>
+          Collection: <code>${esc(res.qdrant_collection)}</code>
+        </div>
+      </div>`;
+    await loadCorpora();
+  } catch (e) { toast("Create failed: " + e.message); }
+}
+
+async function viewCorpus(id) {
+  try {
+    const c = await ragApi("/api/v1/corpora/" + id);
+    const promptText = c.prompt_config && c.prompt_config.system_prompt ? c.prompt_config.system_prompt : "";
+    const llmModel = c.llm_config && c.llm_config.model ? c.llm_config.model : "";
+    const llmProvider = c.llm_config && c.llm_config.provider ? c.llm_config.provider : "";
+    const modal = $("createCorpusModal");
+    modal.querySelector(".modal").innerHTML = `
+      <h3>Edit Corpus</h3>
+      <div class="card" style="font-size:12px;margin-bottom:12px">
+        <div><strong>ID:</strong> <code>${esc(c.id)}</code></div>
+        <div><strong>Collection:</strong> <code>${esc(c.qdrant_collection)}</code></div>
+        <div><strong>Created:</strong> ${fmtDate(c.created_at)}</div>
+      </div>
+      <div class="form-group"><label>Name</label><input class="input" id="editName" value="${esc(c.name)}"></div>
+      <div class="form-group"><label>Description</label><input class="input" id="editDesc" value="${esc(c.description || "")}"></div>
+      <div class="form-group"><label>System Prompt</label><textarea class="input" id="editPrompt" style="min-height:200px;font-size:12px;line-height:1.5">${esc(promptText)}</textarea></div>
+      <div class="form-row">
+        <div class="form-group"><label>LLM Provider (optional)</label><input class="input" id="editProvider" value="${esc(llmProvider)}" placeholder="openai · anthropic · openrouter · ollama"></div>
+        <div class="form-group"><label>LLM Model (optional)</label><input class="input" id="editModel" value="${esc(llmModel)}" placeholder="e.g. gpt-4o-mini"></div>
+      </div>
+      <div id="editResult"></div>
+      <div class="form-actions">
+        <button class="btn btn-primary" onclick="saveCorpus('${c.id}')">Save Changes</button>
+        <button class="btn btn-outline" onclick="closeModal('createCorpusModal');resetCreateModal()">Cancel</button>
+      </div>`;
+    showModal("createCorpusModal");
+  } catch (e) { toast("Failed: " + e.message); }
+}
+
+async function saveCorpus(id) {
+  const body = {};
+  const name = $("editName").value.trim();
+  const desc = $("editDesc").value.trim();
+  const prompt = $("editPrompt").value.trim();
+  const model = $("editModel").value.trim();
+  const provider = $("editProvider").value.trim();
+  if (name) body.name = name;
+  if (desc !== undefined) body.description = desc || null;
+  if (prompt) body.prompt_config = { system_prompt: prompt };
+  if (model || provider) {
+    body.llm_config = {};
+    if (model) body.llm_config.model = model;
+    if (provider) body.llm_config.provider = provider;
+  }
+  try {
+    await ragApi("/api/v1/corpora/" + id, { method: "PUT", json: body });
+    toast("Corpus updated", "success");
+    $("editResult").innerHTML = '<div style="color:var(--success);margin-top:8px">Saved successfully.</div>';
+    await loadCorpora();
+  } catch (e) { toast("Update failed: " + e.message); }
+}
+
+function resetCreateModal() {
+  $("createCorpusModal").querySelector(".modal").innerHTML = `
+    <h3>Create New Corpus</h3>
+    <div class="form-group"><label>Name *</label><input class="input" id="ccName" placeholder="My Knowledge Base"></div>
+    <div class="form-group"><label>Tenant * (the customer this knowledge base belongs to)</label><select class="input" id="ccTenant"></select><div id="ccTenantHint" style="font-size:12px;color:var(--text-muted);margin-top:4px"></div></div>
+    <div class="form-group"><label>Description</label><input class="input" id="ccDesc" placeholder="Optional description"></div>
+    <div class="form-group"><label>System Prompt (optional)</label><textarea class="input" id="ccPrompt" placeholder="Custom instructions for this corpus..."></textarea></div>
+    <div class="form-group"><label>LLM Provider (optional)</label><input class="input" id="ccProvider" placeholder="openai · anthropic · openrouter · ollama …"></div>
+    <div class="form-row"><div class="form-group"><label>LLM Model (optional)</label><input class="input" id="ccModel" placeholder="e.g. anthropic/claude-sonnet-4-20250514"></div><div class="form-group"><label>LLM API Key (optional)</label><input class="input" id="ccLlmKey" type="password" placeholder="BYOK — encrypted at rest"></div></div>
+    <div class="form-actions"><button class="btn btn-primary" id="ccCreate" onclick="createCorpus()">Create</button><button class="btn btn-outline" onclick="closeModal('createCorpusModal')">Cancel</button></div>
+    <div id="ccResult"></div>`;
+}
+
+async function rotateKey(id) {
+  if (!confirm("This will invalidate the current API key. Continue?")) return;
+  try {
+    const res = await ragApi("/api/v1/corpora/" + id + "/rotate-key", { method: "POST" });
+    alert("New API key (save it!):\n\n" + res.api_key);
+  } catch (e) { toast("Rotate failed: " + e.message); }
+}
+
+async function deleteCorpus(id, name) {
+  if (!confirm("Delete corpus \"" + name + "\"? This removes all data, documents, and vectors.")) return;
+  try {
+    await ragApi("/api/v1/corpora/" + id, { method: "DELETE" });
+    toast("Corpus deleted", "success");
+    await loadCorpora();
+  } catch (e) { toast("Delete failed: " + e.message); }
+}
+
+/* ── Usage ── */
+function usageTable(title, rows, label) {
+  if (!rows.length) return "";
+  const body = rows.map(r => `<tr><td>${label(r.key)}</td><td style="text-align:right">${r.requests.toLocaleString()}</td>
+    <td style="text-align:right">${(r.prompt_tokens + r.completion_tokens).toLocaleString()}</td>
+    <td style="text-align:right">$${r.cost_usd.toFixed(4)}</td></tr>`).join("");
+  return `<div class="card" style="margin-bottom:12px"><div class="card-title" style="margin-bottom:8px">${title}</div>
+    <table style="width:100%;font-size:12px;border-collapse:collapse">
+    <thead><tr style="color:var(--text-dim);text-align:left"><th>${title.split(" ").pop()}</th><th style="text-align:right">Requests</th><th style="text-align:right">Tokens</th><th style="text-align:right">Est. cost</th></tr></thead>
+    <tbody>${body}</tbody></table></div>`;
+}
+
+async function loadUsage() {
+  try {
+    const [byCorpus, bySource] = await Promise.all([
+      ragApi("/api/v1/usage?group_by=corpus"),
+      ragApi("/api/v1/usage?group_by=source"),
+    ]);
+    if (!byCorpus.totals.requests) {
+      $("usageList").innerHTML = '<div class="empty"><p>No answered requests in the last 30 days yet.</p></div>';
+      return;
+    }
+    const names = Object.fromEntries(corpora.map(c => [c.id, c.name]));
+    const widgetNames = {};
+    await Promise.all(corpora.map(async c => {
+      try {
+        (await ragApi("/api/v1/corpora/" + c.id + "/widget-keys")).forEach(k => { widgetNames[k.id] = c.name + " · " + k.name; });
+      } catch {}
+    }));
+    const sourceLabel = k => k === "api" ? "API (/query)" : k === "stream" ? "API (/query/stream)"
+      : k === "conversation" ? "Conversations"
+      : k && k.startsWith("widget:") ? "Widget: " + esc(widgetNames[k.slice(7)] || k.slice(7, 15)) : esc(k || "—");
+    const t = byCorpus.totals;
+    $("usageList").innerHTML =
+      `<div style="font-size:13px;margin-bottom:10px">${t.requests.toLocaleString()} answered requests ·
+        ${(t.prompt_tokens + t.completion_tokens).toLocaleString()} tokens · est. $${t.cost_usd.toFixed(4)}</div>` +
+      usageTable("By corpus", byCorpus.rows, k => esc(names[k] || (k || "").slice(0, 8))) +
+      usageTable("By source", bySource.rows, sourceLabel);
+  } catch (e) { $("usageList").innerHTML = '<div class="empty"><p>Usage unavailable: ' + esc(e.message) + "</p></div>"; }
+}
+
+/* ── Website widget ── */
+let widgetCorpusId = null;
+
+async function openWidgets(id, name) {
+  widgetCorpusId = id;
+  $("wgTitle").textContent = "Website Widget — " + name;
+  showModal("widgetModal");
+  await loadWidgetKeys();
+}
+
+async function loadWidgetKeys() {
+  try {
+    const keys = await ragApi("/api/v1/corpora/" + widgetCorpusId + "/widget-keys");
+    if (!keys.length) {
+      $("wgList").innerHTML = '<div class="empty" style="padding:16px"><p>No widget keys yet. Create one below to get an embed snippet.</p></div>';
+      return;
+    }
+    $("wgList").innerHTML = keys.map(k => {
+      const demo = "widget-demo.html?key=" + encodeURIComponent(k.public_key) + "&api=" + encodeURIComponent(ragUrl);
+      return `
+      <div class="card" style="margin-bottom:10px">
+        <div class="card-header">
+          <div class="card-title">${esc(k.name)} ${statusBadge(k.is_active ? "active" : "disabled")}</div>
+          <div style="display:flex;gap:6px">
+            <a class="btn btn-outline" href="${esc(demo)}" target="_blank" rel="noopener" style="font-size:11px;padding:3px 8px">Preview</a>
+            <button class="btn btn-outline" onclick="toggleWidgetKey('${k.id}',${!k.is_active})" style="font-size:11px;padding:3px 8px">${k.is_active ? "Disable" : "Enable"}</button>
+            <button class="btn btn-outline" onclick="rotateWidgetKey('${k.id}')" style="font-size:11px;padding:3px 8px">Rotate</button>
+            <button class="btn btn-danger" onclick="deleteWidgetKey('${k.id}')" style="font-size:11px;padding:3px 8px">Delete</button>
+          </div>
+        </div>
+        <div style="font-size:12px;color:var(--text-muted);margin-bottom:6px">
+          Sites: ${k.allowed_origins.map(o => "<code>" + esc(o) + "</code>").join(" ")}
+          &nbsp;·&nbsp; ${k.rate_limit_per_minute}/min per visitor &nbsp;·&nbsp; ${k.daily_message_limit || "∞"}/day
+        </div>
+        <div class="key-display" style="font-size:11px;cursor:pointer" title="Click to copy" onclick="copyText(this.textContent)">${esc(k.embed_snippet)}</div>
+        <div style="font-size:11px;color:var(--text-dim);margin-top:4px">Paste before &lt;/body&gt; on the customer's site. Click to copy.</div>
+      </div>`;
+    }).join("");
+  } catch (e) { toast("Failed to load widget keys: " + e.message); }
+}
+
+async function createWidgetKey() {
+  const name = $("wgName").value.trim();
+  const origins = $("wgOrigins").value.split(/[\n,]+/).map(s => s.trim()).filter(Boolean);
+  if (!name || !origins.length) { toast("Name and at least one site are required"); return; }
+  const appearance = { primary_color: $("wgColor").value };
+  if ($("wgHead").value.trim()) appearance.title = $("wgHead").value.trim();
+  if ($("wgGreeting").value.trim()) appearance.greeting = $("wgGreeting").value.trim();
+  try {
+    await ragApi("/api/v1/corpora/" + widgetCorpusId + "/widget-keys", {
+      method: "POST",
+      json: {
+        name, allowed_origins: origins, appearance,
+        rate_limit_per_minute: parseInt($("wgRpm").value, 10) || 10,
+        daily_message_limit: parseInt($("wgDaily").value, 10) || 0,
+      },
+    });
+    toast("Widget key created", "success");
+    $("wgName").value = ""; $("wgOrigins").value = "";
+    await loadWidgetKeys();
+  } catch (e) { toast("Create failed: " + e.message); }
+}
+
+async function toggleWidgetKey(id, active) {
+  try {
+    await ragApi("/api/v1/corpora/" + widgetCorpusId + "/widget-keys/" + id, { method: "PATCH", json: { is_active: active } });
+    await loadWidgetKeys();
+  } catch (e) { toast("Update failed: " + e.message); }
+}
+
+async function rotateWidgetKey(id) {
+  if (!confirm("Issue a new key? The embed snippet on the customer's site must be updated: the old key stops working immediately.")) return;
+  try {
+    await ragApi("/api/v1/corpora/" + widgetCorpusId + "/widget-keys/" + id + "/rotate", { method: "POST" });
+    await loadWidgetKeys();
+  } catch (e) { toast("Rotate failed: " + e.message); }
+}
+
+async function deleteWidgetKey(id) {
+  if (!confirm("Delete this widget key? The chat disappears from every site using it.")) return;
+  try {
+    await ragApi("/api/v1/corpora/" + widgetCorpusId + "/widget-keys/" + id, { method: "DELETE" });
+    await loadWidgetKeys();
+  } catch (e) { toast("Delete failed: " + e.message); }
+}
+
+function copyText(text) {
+  navigator.clipboard.writeText(text).then(() => toast("Copied", "success"), () => toast("Copy failed"));
+}
+
+/* ── Tenants ── */
+let tenants = [];
+let expandedTenantId = null;
+
+async function loadTenants() {
+  try {
+    const data = await ragApi("/api/v1/admin/tenants?limit=500");
+    tenants = data.items || data || [];
+    renderTenants();
+  } catch (e) { toast("Failed to load tenants: " + e.message); }
+}
+
+function renderTenants() {
+  if (!tenants.length) {
+    $("tenantsList").innerHTML = '<div class="empty"><h3>No tenants yet</h3><p>Create a tenant to issue scoped API keys.</p></div>';
+    return;
+  }
+  $("tenantsList").innerHTML = '<div class="card-grid">' + tenants.map(t => {
+    const isExpanded = expandedTenantId === t.id;
+    const status = t.status || (t.is_active ? "active" : "suspended");
+    const badgeClass = { active: "badge-success", pending: "badge-warning", suspended: "badge-error" }[status] || "badge-error";
+    const activeBadge = `<span class="badge ${badgeClass}">${esc(status)}</span>`;
+    const corpusInfo = t.max_corpora ? `${t.corpus_count || 0} / ${t.max_corpora}` : `${t.corpus_count || 0}`;
+    const btn = (fn, cls, label) =>
+      `<button class="btn ${cls}" onclick="event.stopPropagation();${fn}('${t.id}')" style="font-size:11px;padding:3px 8px">${label}</button>`;
+    const lifecycle = {
+      active: btn("suspendTenant", "btn-danger", "Suspend"),
+      suspended: btn("reactivateTenant", "btn-success", "Reactivate"),
+      pending: btn("activateTenant", "btn-success", "Activate") + btn("declineTenant", "btn-danger", "Decline"),
+    }[status] || "";
+    const expandedHtml = isExpanded ? `
+      <div style="margin-top:10px;padding-top:10px;border-top:1px solid var(--border);display:flex;gap:6px">
+        ${btn("rotateTenantKey", "btn-outline", "Rotate Key")}
+        ${lifecycle}
+      </div>` : '';
+    return `
+      <div class="card" style="cursor:pointer" onclick="toggleTenantExpand('${t.id}')">
+        <div class="card-header">
+          <div class="card-title">${esc(t.name)}</div>
+          ${activeBadge}
+        </div>
+        <div style="font-size:12px;color:var(--text-muted);margin-bottom:6px">${esc(t.description || "No description")}</div>
+        <div style="font-size:11px;color:var(--text-dim)">
+          Corpora: ${corpusInfo}<br>
+          ID: <code style="font-size:10px">${esc(t.id)}</code><br>
+          Created: ${fmtDate(t.created_at)}
+        </div>
+        ${expandedHtml}
+      </div>`;
+  }).join("") + '</div>';
+}
+
+function toggleTenantExpand(id) {
+  expandedTenantId = expandedTenantId === id ? null : id;
+  renderTenants();
+}
+
+function showCreateTenantDialog() {
+  $("ctResult").innerHTML = "";
+  $("ctName").value = "";
+  $("ctDesc").value = "";
+  $("ctMaxCorpora").value = "10";
+  showModal("createTenantModal");
+}
+
+async function createTenant() {
+  const name = $("ctName").value.trim();
+  if (!name) { toast("Name is required"); return; }
+  const body = {
+    name,
+    description: $("ctDesc").value.trim() || null,
+    max_corpora: parseInt($("ctMaxCorpora").value) || 10,
+  };
+  try {
+    const res = await ragApi("/api/v1/admin/tenants", { method: "POST", json: body });
+    $("ctResult").innerHTML = `
+      <div style="margin-top:16px;padding:16px;background:var(--bg);border:2px solid var(--success);border-radius:var(--radius)">
+        <div style="color:var(--success);font-weight:700;font-size:15px;margin-bottom:8px">Tenant Created Successfully</div>
+        <div style="font-size:13px;color:var(--warning);font-weight:600;margin-bottom:8px">SAVE THIS KEY NOW — IT WILL NOT BE SHOWN AGAIN</div>
+        <div class="key-display" style="font-size:14px;letter-spacing:0.5px">${esc(res.api_key)}</div>
+        <button class="btn btn-outline" onclick="navigator.clipboard.writeText('${esc(res.api_key)}');toast('Copied to clipboard','success')" style="margin-top:8px;font-size:12px">Copy Key</button>
+        <div style="font-size:12px;color:var(--text-muted);margin-top:10px">
+          Tenant ID: <code>${esc(res.id)}</code>
+        </div>
+      </div>`;
+    await loadTenants();
+  } catch (e) { toast("Create tenant failed: " + e.message); }
+}
+
+async function rotateTenantKey(tenantId) {
+  if (!confirm("This will invalidate the current tenant API key. All apps using this key will lose access. Continue?")) return;
+  try {
+    const res = await ragApi("/api/v1/admin/tenants/" + tenantId + "/rotate-key", { method: "POST" });
+    alert("New tenant API key (save it!):\n\n" + res.api_key);
+  } catch (e) { toast("Rotate failed: " + e.message); }
+}
+
+function tenantName(tenantId) {
+  const t = tenants.find(x => x.id === tenantId);
+  return t ? t.name : "";
+}
+
+// Suspend cuts off every API key, widget and sign-in of the tenant at once, so the engine
+// requires its name typed exactly (confirm_name).
+async function suspendTenant(tenantId) {
+  const name = tenantName(tenantId);
+  const typed = prompt('Suspend "' + name + '"? Every API key, website widget and sign-in of it stops at once.\n\nType the tenant\'s name to confirm:');
+  if (typed === null) return;
+  try {
+    await ragApi("/api/v1/admin/tenants/" + tenantId + "/suspend", { method: "POST", json: { confirm_name: typed } });
+    toast("Tenant suspended", "success");
+    expandedTenantId = null;
+    await loadTenants();
+  } catch (e) { toast("Suspend failed: " + e.message); }
+}
+
+async function reactivateTenant(tenantId) {
+  if (!confirm('Reactivate "' + tenantName(tenantId) + '"?')) return;
+  try {
+    await ragApi("/api/v1/admin/tenants/" + tenantId + "/reactivate", { method: "POST" });
+    toast("Tenant reactivated", "success");
+    await loadTenants();
+  } catch (e) { toast("Reactivate failed: " + e.message); }
+}
+
+async function activateTenant(tenantId) {
+  const note = prompt('Activate "' + tenantName(tenantId) + '"? Optional note (e.g. how they paid):', "");
+  if (note === null) return;
+  try {
+    await ragApi("/api/v1/admin/tenants/" + tenantId + "/activate", { method: "POST", json: note.trim() ? { note: note.trim() } : {} });
+    toast("Tenant activated", "success");
+    await loadTenants();
+  } catch (e) { toast("Activate failed: " + e.message); }
+}
+
+async function declineTenant(tenantId) {
+  if (!confirm('Decline the sign-up "' + tenantName(tenantId) + '"? The workspace and its sign-up account are removed, and the owner gets a polite e-mail.')) return;
+  try {
+    await ragApi("/api/v1/admin/tenants/" + tenantId + "/decline", { method: "POST" });
+    toast("Sign-up declined", "success");
+    expandedTenantId = null;
+    await loadTenants();
+  } catch (e) { toast("Decline failed: " + e.message); }
+}
+
+/* ── Upload ── */
+const uploadZone = $("uploadZone");
+const fileInput = $("fileInput");
+
+uploadZone.addEventListener("dragover", e => { e.preventDefault(); uploadZone.classList.add("dragover"); });
+uploadZone.addEventListener("dragleave", () => uploadZone.classList.remove("dragover"));
+uploadZone.addEventListener("drop", e => { e.preventDefault(); uploadZone.classList.remove("dragover"); handleFiles(e.dataTransfer.files); });
+fileInput.addEventListener("change", e => handleFiles(e.target.files));
+
+function handleFiles(files) {
+  const corpusId = $("uploadCorpus").value;
+  if (!corpusId) { toast("Select a target corpus first"); return; }
+  const corpus = corpora.find(c => c.id === corpusId);
+  if (!corpus) return;
+  Array.from(files).forEach(f => uploadFile(f, corpusId));
+}
+
+async function uploadFile(file, corpusId) {
+  const id = "up-" + Math.random().toString(36).substring(2, 8);
+  $("uploadList").innerHTML += `
+    <div class="upload-item" id="${id}">
+      <div class="name">${esc(file.name)}</div>
+      <div class="progress"><div class="bar" style="width:0%"></div></div>
+      <span class="badge badge-info" id="${id}-status">uploading</span>
+    </div>`;
+
+  const form = new FormData();
+  form.append("file", file);
+  form.append("corpus_id", corpusId);
+
+  try {
+    const res = await fetch(ragUrl + "/api/v1/ingest", {
+      method: "POST",
+      headers: { "X-API-Key": adminKey },
+      body: form,
+    });
+    const bar = document.querySelector(`#${id} .bar`);
+    const badge = $(`${id}-status`);
+    if (res.ok) {
+      bar.style.width = "100%";
+      badge.className = "badge badge-success";
+      badge.textContent = "queued";
+      const data = await res.json();
+      badge.textContent = "queued (" + data.job_id.substring(0, 8) + ")";
+    } else {
+      const err = await res.json().catch(() => ({}));
+      bar.style.width = "100%";
+      bar.style.background = "var(--error)";
+      badge.className = "badge badge-error";
+      badge.textContent = err.detail || "failed";
+    }
+  } catch (e) {
+    const badge = $(`${id}-status`);
+    badge.className = "badge badge-error";
+    badge.textContent = "error";
+  }
+}
+
+async function loadIngestJobs() {
+  if (!connected) return;
+  try {
+    const data = await ragApi("/api/v1/ingest/jobs?limit=20");
+    const items = data.items || [];
+    if (!items.length) {
+      $("ingestJobs").innerHTML = '<div class="empty"><p>No ingestion jobs yet.</p></div>';
+      return;
+    }
+    $("ingestJobs").innerHTML = `<table>
+      <tr><th>Job ID</th><th>Status</th><th>Corpus</th><th>Created</th></tr>
+      ${items.map(j => `<tr>
+        <td><code style="font-size:11px">${esc(String(j.id).substring(0,12))}...</code></td>
+        <td>${statusBadge(j.status)}</td>
+        <td><code style="font-size:11px">${j.corpus_id ? esc(String(j.corpus_id).substring(0,8)) : "—"}</code></td>
+        <td style="font-size:12px;color:var(--text-muted)">${fmtDate(j.created_at)}</td>
+      </tr>`).join("")}
+    </table>`;
+  } catch (e) { /* ignore */ }
+}
+
+/* ── Scraper ── */
+function showScrapeForm() { showModal("scrapeModal"); }
+
+async function submitScrape() {
+  const sitemap = $("scSitemap").value.trim();
+  const urlsText = $("scUrls").value.trim();
+  const corpusId = $("scCorpus").value;
+
+  if (!sitemap && !urlsText) { toast("Provide a sitemap URL or specific URLs"); return; }
+  if (!corpusId) { toast("Select a target corpus"); return; }
+
+  // Delivery goes to the engine the scraper is configured with (SCRAPER_RAG_URL),
+  // using the key sent in the X-API-Key header.
+  const body = {
+    target_corpus_id: corpusId,
+    review_mode: $("scReview").checked,
+  };
+  if (sitemap) body.sitemap_url = sitemap;
+  if (urlsText) body.urls = urlsText.split("\n").map(u => u.trim()).filter(Boolean);
+
+  try {
+    await scraperApi("/api/v1/scrape", { method: "POST", json: body });
+    toast("Scrape job started!", "success");
+    closeModal("scrapeModal");
+    await loadScraperJobs();
+  } catch (e) { toast("Scrape failed: " + e.message); }
+}
+
+async function loadScraperJobs() {
+  try {
+    const jobs = await scraperApi("/api/v1/jobs");
+    if (!jobs.length) {
+      $("scraperJobs").innerHTML = '<div class="empty"><h3>No scrape jobs</h3><p>Create a scrape job to crawl websites.</p></div>';
+      return;
+    }
+    $("scraperJobs").innerHTML = `<table>
+      <tr><th>Job ID</th><th>URL</th><th>Status</th><th>Pages</th><th>Created</th><th></th></tr>
+      ${jobs.map(j => `<tr>
+        <td><code style="font-size:11px">${esc(j.id.substring(0,12))}...</code></td>
+        <td style="font-size:12px;max-width:250px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">${esc(j.url || "—")}</td>
+        <td>${statusBadge(j.status)}</td>
+        <td style="font-size:12px">${j.page_count || 0}</td>
+        <td style="font-size:12px;color:var(--text-muted)">${fmtDate(j.created_at)}</td>
+        <td>
+          <button class="btn btn-outline" onclick="viewScrapeJob('${j.id}')" style="font-size:11px;padding:3px 8px">View</button>
+          <button class="btn btn-danger" onclick="deleteScrapeJob('${j.id}')" style="font-size:11px;padding:3px 8px">Del</button>
+        </td>
+      </tr>`).join("")}
+    </table>`;
+  } catch (e) {
+    $("scraperJobs").innerHTML = '<div class="empty"><p>Cannot reach scraper at ' + esc(scraperUrl) + '</p></div>';
+  }
+}
+
+async function viewScrapeJob(jobId) {
+  currentScrapeJobId = jobId;
+  try {
+    const job = await scraperApi("/api/v1/jobs/" + jobId);
+    $("sdTitle").textContent = "Job " + jobId.substring(0, 12) + "... — " + (job.status || "");
+    const pages = await scraperApi("/api/v1/jobs/" + jobId + "/pages");
+    if (!pages.length) {
+      $("sdPages").innerHTML = '<div class="empty"><p>No pages crawled yet.</p></div>';
+    } else {
+      $("sdPages").innerHTML = `<table>
+        <tr><th>URL</th><th>Title</th><th>Words</th><th>Status</th></tr>
+        ${pages.map(p => `<tr class="page-row" onclick="viewPageContent('${jobId}','${p.id}')">
+          <td style="font-size:12px;max-width:200px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">${esc(p.url || "—")}</td>
+          <td style="font-size:12px">${esc(p.title || "—")}</td>
+          <td style="font-size:12px">${p.word_count || 0}</td>
+          <td>${statusBadge(p.status)}</td>
+        </tr>`).join("")}
+      </table>`;
+    }
+    showModal("scrapeDetailModal");
+  } catch (e) { toast("Failed: " + e.message); }
+}
+
+async function viewPageContent(jobId, pageId) {
+  try {
+    const p = await scraperApi("/api/v1/jobs/" + jobId + "/pages/" + pageId);
+    $("pcTitle").textContent = p.title || p.url || "Page";
+    $("pcMeta").innerHTML = `Status: ${statusBadge(p.status)} | Words: ${p.word_count || 0} ${p.delivery_error ? " | Delivery error: " + esc(p.delivery_error) : ""}`;
+    $("pcContent").textContent = p.content_file || "(No content available)";
+    showModal("pageContentModal");
+  } catch (e) { toast("Failed: " + e.message); }
+}
+
+async function approveAllVerified() {
+  try {
+    const res = await scraperApi("/api/v1/jobs/" + currentScrapeJobId + "/approve", {
+      method: "POST", json: { approve_all_verified: true }
+    });
+    toast("Approved " + res.approved + " pages", "success");
+    viewScrapeJob(currentScrapeJobId);
+  } catch (e) { toast("Approve failed: " + e.message); }
+}
+
+async function deliverApproved() {
+  try {
+    const res = await scraperApi("/api/v1/jobs/" + currentScrapeJobId + "/deliver", { method: "POST" });
+    toast("Delivered " + res.delivered + " pages" + (res.failed ? ", " + res.failed + " failed (retry to resend)" : ""), res.failed ? "error" : "success");
+    viewScrapeJob(currentScrapeJobId);
+  } catch (e) { toast("Deliver failed: " + e.message); }
+}
+
+async function deleteScrapeJob(id) {
+  if (!confirm("Delete this scrape job and all its data?")) return;
+  try {
+    await scraperApi("/api/v1/jobs/" + id, { method: "DELETE" });
+    toast("Job deleted", "success");
+    loadScraperJobs();
+  } catch (e) { toast("Delete failed: " + e.message); }
+}
+
+/* ── Chat ── */
+let sessionTotalCost = 0;
+let sessionQueryCount = 0;
+
+// DeepSeek v3.2 via OpenRouter pricing (USD per token)
+const LLM_PRICING = {
+  "deepseek/deepseek-v3.2-20251201": { input: 0.14e-6, output: 0.28e-6 },
+  "deepseek/deepseek-v3.2": { input: 0.14e-6, output: 0.28e-6 },
+  "openai/gpt-4.1-nano-2025-04-14": { input: 0.1e-6, output: 0.4e-6 },
+  "default": { input: 0.5e-6, output: 1.5e-6 },
+};
+const USD_TO_INR = 85;
+
+function calcCostINR(tokenUsage, model) {
+  if (!tokenUsage) return 0;
+  const p = LLM_PRICING[model] || LLM_PRICING["default"];
+  const usd = (tokenUsage.prompt_tokens || 0) * p.input + (tokenUsage.completion_tokens || 0) * p.output;
+  return usd * USD_TO_INR;
+}
+
+function updateSessionCostBar() {
+  let bar = $("sessionCostBar");
+  if (!bar) {
+    bar = document.createElement("div");
+    bar.id = "sessionCostBar";
+    bar.style.cssText = "padding:4px 20px;background:var(--surface2);border-bottom:1px solid var(--border);font-size:12px;color:var(--text-muted);display:flex;gap:16px;";
+    const chatPanel = $("chatMessages").parentElement;
+    chatPanel.insertBefore(bar, $("chatMessages"));
+  }
+  bar.innerHTML = `<span>Session: ${sessionQueryCount} queries</span><span>Total cost: ₹${sessionTotalCost.toFixed(4)}</span>`;
+}
+
+function chatCorpusChanged() {
+  const corpusId = $("chatCorpus").value;
+  const corpus = corpora.find(c => c.id === corpusId);
+  if (corpus) {
+    $("chatInput").placeholder = "Ask about " + corpus.name + "...";
+  }
+}
+
+function clearChat() {
+  $("chatMessages").innerHTML = '<div class="empty"><h3>Chat with your data</h3><p>Select a corpus, enter its API key, and start asking questions.</p></div>';
+  sessionTotalCost = 0;
+  sessionQueryCount = 0;
+  const bar = $("sessionCostBar");
+  if (bar) bar.remove();
+}
+
+function addChatMsg(role, text, meta) {
+  // Remove empty state
+  const empty = $("chatMessages").querySelector(".empty");
+  if (empty) empty.remove();
+
+  const div = document.createElement("div");
+  div.className = "msg " + role;
+  const av = role === "user" ? "You" : "AI";
+  const rn = role === "user" ? "You" : "Callobuzz AI";
+
+  let metaHtml = "";
+  if (meta) {
+    const parts = [];
+    if (meta.model_used) parts.push("Model: " + meta.model_used);
+    if (meta.latency_ms) parts.push((meta.latency_ms / 1000).toFixed(1) + "s");
+    if (meta.confidence !== undefined) parts.push((meta.confidence * 100).toFixed(0) + "% confidence");
+    if (meta.token_usage) {
+      const t = meta.token_usage;
+      parts.push((t.total_tokens || 0) + " tokens");
+      const cost = calcCostINR(t, meta.model_used);
+      parts.push("₹" + cost.toFixed(4));
+    }
+    if (parts.length) metaHtml = '<div class="meta">' + parts.map(p => "<span>" + esc(p) + "</span>").join("") + "</div>";
+  }
+
+  let citeHtml = "";
+  if (meta && meta.citations && meta.citations.length) {
+    citeHtml = '<div class="citations-wrap"><details><summary>' + meta.citations.length + ' source(s)</summary>' +
+      meta.citations.map(c => {
+        const src = c.file_name || c.chunk_id || "unknown";
+        const pg = c.page ? " (p." + c.page + ")" : "";
+        const sc = c.score ? " [" + (c.score * 100).toFixed(0) + "%]" : "";
+        const sn = c.text_snippet ? '<div class="snip">' + esc(c.text_snippet.substring(0, 200)) + "</div>" : "";
+        return '<div class="cite"><div class="src">' + esc(src) + pg + sc + "</div>" + sn + "</div>";
+      }).join("") + "</details></div>";
+  }
+
+  div.innerHTML = `<div class="avatar">${av.substring(0,2)}</div><div class="content"><div class="role">${rn}</div><div class="text">${esc(text)}</div>${citeHtml}${metaHtml}</div>`;
+  $("chatMessages").appendChild(div);
+  $("chatMessages").scrollTop = $("chatMessages").scrollHeight;
+}
+
+function addChatLoading() {
+  const empty = $("chatMessages").querySelector(".empty");
+  if (empty) empty.remove();
+  const div = document.createElement("div");
+  div.className = "msg assistant";
+  div.id = "chatLoading";
+  div.innerHTML = '<div class="avatar">AI</div><div class="content"><div class="role">Callobuzz AI</div><div class="loading-dots"><span></span><span></span><span></span></div></div>';
+  $("chatMessages").appendChild(div);
+  $("chatMessages").scrollTop = $("chatMessages").scrollHeight;
+}
+
+async function sendChat() {
+  if (chatLoading) return;
+  const query = $("chatInput").value.trim();
+  if (!query) return;
+  const apiKey = $("chatApiKey").value.trim();
+  const corpusId = $("chatCorpus").value;
+  if (!apiKey) { toast("Enter the corpus API key"); return; }
+
+  $("chatInput").value = "";
+  $("chatInput").style.height = "auto";
+  chatLoading = true;
+
+  addChatMsg("user", query);
+  addChatLoading();
+
+  const body = { query };
+  if (corpusId) body.corpus_id = corpusId;
+
+  try {
+    const res = await fetch(ragUrl + "/api/v1/query", {
+      method: "POST",
+      headers: { "Content-Type": "application/json", "X-API-Key": apiKey },
+      body: JSON.stringify(body),
+    });
+    const el = $("chatLoading");
+    if (el) el.remove();
+
+    if (!res.ok) {
+      const err = await res.json().catch(() => ({ detail: res.statusText }));
+      addChatMsg("assistant", "Error: " + (err.detail || res.statusText));
+    } else {
+      const data = await res.json();
+      const msgCost = calcCostINR(data.token_usage, data.model_used);
+      sessionTotalCost += msgCost;
+      sessionQueryCount++;
+      addChatMsg("assistant", data.answer, {
+        model_used: data.model_used,
+        latency_ms: data.latency_ms,
+        confidence: data.confidence,
+        citations: data.citations,
+        token_usage: data.token_usage,
+      });
+      updateSessionCostBar();
+    }
+  } catch (e) {
+    const el = $("chatLoading");
+    if (el) el.remove();
+    addChatMsg("assistant", "Network error: " + e.message);
+  }
+  chatLoading = false;
+  $("chatInput").focus();
+}
+
+/* ── Auto-load saved settings and reconnect ── */
+applyGeneratedDefaults();
+loadSettings();
+if ($("adminKey").value.trim()) { connectAll(); }
+</script>
+</body>
+</html>

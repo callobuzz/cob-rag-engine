@@ -1,0 +1,20 @@
+{% extends "base.html" %}
+{% import "macros.html" as m with context %}
+{#- Each section after the hero is preceded by the page assistant's narrator bubble. On a wide
+    screen the bubble sits in a sticky column beside the section; on a phone it is an inline
+    bubble above it. A section that renders nothing (a video that was deleted) takes its bubble
+    with it. `pricing_teaser` is LP3's and places its own bubble. -#}
+{% block main %}
+{% for s in sections %}
+{% set html %}{% include "sections/" ~ s.type ~ ".html" %}{% endset %}
+{% set line = ui.journey_narrator if s.type == "whatsapp_journey" and not env.whatsapp_on_sale else s.narrator %}
+{% if html|trim and line and s.type not in ("hero", "pricing_teaser") %}
+<div class="beat" data-beat>
+{{ m.narrator(s, line) }}
+{{ html }}
+</div>
+{% else %}
+{{ html }}
+{% endif %}
+{% endfor %}
+{% endblock %}

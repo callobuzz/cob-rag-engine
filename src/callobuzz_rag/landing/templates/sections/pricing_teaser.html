@@ -1,0 +1,27 @@
+{% import "macros.html" as m with context %}
+{% if c.pricing.enabled and pricing_view %}
+{% set cards = pricing_teaser_cards(s) %}
+<section class="section pricing-teaser" data-reveal data-section="pricing_teaser" id="{{ s.id }}">
+  <div class="wrap">
+    {{ m.narrator(s) }}
+    {{ m.head(s) }}
+    {% if cards %}
+    <ul class="plan-cards teaser-cards plan-cards-{{ cards|length }}">
+      {% for card in cards %}
+      {% set variant = card.variant_default() %}
+      <li class="plan-card{% if card.highlight %} is-highlight{% endif %}">
+        <h3 class="plan-name">{{ card.name }}</h3>
+        <p class="plan-price"><span class="plan-amount">{{ variant.amount_text }}</span>{% if variant.unit_text %} <span class="plan-unit">{{ variant.unit_text }}</span>{% endif %}{% if variant.gst_tag %} <span class="plan-gst">{{ variant.gst_tag }}</span>{% endif %}</p>
+        {% if variant.fee_incl_text %}<p class="plan-incl">{{ variant.fee_incl_text }}</p>{% endif %}
+        {% if card.who_for %}<p class="plan-for">{{ card.who_for }}</p>{% endif %}
+      </li>
+      {% endfor %}
+    </ul>
+    {% else %}
+    <p class="lead">{{ pricing_view.contact_text }}</p>
+    {% endif %}
+    {% if s.note %}<p class="muted">{{ s.note|t }}</p>{% endif %}
+    <p><a class="btn btn-ghost" href="{{ link('pricing') }}">{{ ui.see_all_plans }}</a></p>
+  </div>
+</section>
+{% endif %}

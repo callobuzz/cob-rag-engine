@@ -1,0 +1,13 @@
+{% extends "_base.txt" %}
+{% block content %}
+Hi {{ name }},
+
+Someone tried to sign up for {{ branding.product_name }} with this e-mail address, but you already have an account. If it was you, sign in instead:
+
+{{ login_url }}
+
+Forgot your password? Reset it here:
+{{ reset_url }}
+
+If it was not you, you can ignore this e-mail; nothing has changed.
+{% endblock %}
